@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Звільнення з ВС за сімейними обставинами — Консультант</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:        #1497D7;
+      --accent-dark:   #0d7eb5;
+      --accent-deeper: #0a6fa0;
+      --accent-light:  #e8f5fb;
+      --accent-mid:    #9dd4ef;
+      --bg:            #f5f5f7;      /* Apple gray */
+      --bg-section:    #ffffff;
+      --bg-card:       #ffffff;
+      --bg-dark:       #1a1e2e;
+      --text:          #1d1d1f;      /* Apple dark */
+      --text-2:        #3d3d3f;
+      --text-muted:    #6e6e73;      /* Apple muted */
+      --border:        rgba(0,0,0,0.10);
+      --border-light:  rgba(0,0,0,0.06);
+      --radius-lg:     20px;
+      --radius:        14px;
+      --radius-sm:     10px;
+      --shadow-sm:     0 1px 3px rgba(0,0,0,0.07), 0 4px 12px rgba(0,0,0,0.05);
+      --shadow:        0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
+      --shadow-lg:     0 4px 16px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.08);
+      --shadow-accent: 0 4px 20px rgba(20,151,215,0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ══ HEADER ══ */
+    .header {
+      position: sticky; top: 0; z-index: 200;
+      background: var(--bg-dark);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.07);
+      transform: translateZ(0);
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      padding: 0 28px; height: 64px;
+      display: flex; align-items: center; gap: 36px;
+    }
+    .logo {
+      display: flex; align-items: center; flex-shrink: 0;
+    }
+    .logo img, .logo-svg { height: 42px; width: auto; display: block; }
+    .header-nav { display: flex; align-items: center; gap: 2px; flex: 1; }
+    .header-nav a {
+      padding: 7px 14px; border-radius: 8px;
+      font-size: 14px; font-weight: 500;
+      color: rgba(255,255,255,0.65); transition: all 0.18s;
+    }
+    .header-nav a:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-ghost {
+      padding: 8px 18px; border-radius: 9px;
+      font-size: 14px; font-weight: 500;
+      color: rgba(255,255,255,0.65); background: none;
+      border: 1px solid rgba(255,255,255,0.18); cursor: pointer;
+      transition: all 0.18s; font-family: inherit;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+    .btn-accent {
+      padding: 9px 20px; border-radius: 9px;
+      background: var(--accent); color: #fff;
+      font-size: 14px; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: all 0.18s; font-family: inherit;
+      box-shadow: var(--shadow-accent);
+    }
+    .btn-accent:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+    /* ══ BREADCRUMBS ══ */
+    .breadcrumbs {
+      max-width: 1200px; margin: 0 auto;
+      padding: 18px 28px 0;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; color: var(--text-muted);
+    }
+    .breadcrumbs a { color: var(--text-muted); transition: color 0.15s; }
+    .breadcrumbs a:hover { color: var(--accent); }
+    .breadcrumbs .sep { color: rgba(0,0,0,0.2); }
+
+    /* ══ HERO ══ */
+    .hero {
+      padding: 48px 28px 56px;
+      background: linear-gradient(160deg, #f5f5f7 0%, #eef6fb 40%, #f5f5f7 100%);
+    }
+    .hero-inner { max-width: 1200px; margin: 0 auto; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent-light); border: 1px solid var(--accent-mid);
+      color: var(--accent); padding: 6px 16px; border-radius: 20px;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 22px;
+    }
+    .hero-eyebrow .pulse {
+      width: 7px; height: 7px; background: var(--accent); border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(20,151,215,0.5); }
+      50% { box-shadow: 0 0 0 5px rgba(20,151,215,0); }
+    }
+    .hero-title {
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 900; line-height: 1.18;
+      color: var(--text); letter-spacing: -1.5px;
+      max-width: 820px; margin-bottom: 28px;
+    }
+    .hero-title mark {
+      background: none;
+      color: var(--accent);
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 0;
+    }
+    .meta-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 7px 15px; border-radius: 9px;
+      font-size: 13px; font-weight: 500; color: var(--text-muted);
+      backdrop-filter: blur(8px);
+    }
+    .meta-pill.blue { color: var(--accent); background: var(--accent-light); border-color: var(--accent-mid); }
+    .meta-pill .star { color: #f59e0b; }
+
+    /* ══ DIVIDER ══ */
+    .section-divider {
+      max-width: 1200px; margin: 0 auto 0;
+      height: 1px; background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+    }
+
+    /* ══ CHAT THREAD SECTION ══ */
+    .thread-section {
+      padding: 56px 28px;
+      background: var(--bg);
+    }
+    .thread-inner {
+      max-width: 1200px; margin: 0 auto;
+    }
+    .thread-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 32px;
+      align-items: start;
+    }
+    .thread-col { min-width: 0; }
+    .thread-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 84px; }
+    .section-label {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 36px;
+    }
+    .section-label-text {
+      font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px;
+    }
+    .section-label-count {
+      background: var(--accent); color: #fff;
+      font-size: 13px; font-weight: 700;
+      padding: 4px 13px; border-radius: 20px;
+    }
+
+    /* Question bubble */
+    .question-bubble {
+      background: var(--accent);
+      border-radius: 20px 20px 4px 20px;
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 32px rgba(20,151,215,0.22);
+      position: relative;
+    }
+    .question-bubble::before {
+      content: "?";
+      position: absolute; top: -14px; left: -14px;
+      width: 40px; height: 40px;
+      background: #fff; border: 3px solid var(--accent);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 18px; font-weight: 900;
+      color: var(--accent); line-height: 40px; text-align: center;
+    }
+    .question-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: rgba(255,255,255,0.65); margin-bottom: 10px;
+    }
+    .question-text {
+      font-size: clamp(17px, 2vw, 22px);
+      font-weight: 700; color: #fff;
+      line-height: 1.45; letter-spacing: -0.3px;
+    }
+    .question-meta {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 20px; padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    .q-meta-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500;
+    }
+    .q-meta-item .star-white { color: #fbbf24; }
+
+    /* Answer items */
+    .answer-item {
+      display: flex; gap: 22px; margin-bottom: 32px;
+      align-items: flex-start; animation: fadeUp 0.4s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .answer-item:nth-child(2) { animation-delay: 0.05s; }
+    .answer-item:nth-child(3) { animation-delay: 0.10s; }
+    .answer-item:nth-child(4) { animation-delay: 0.15s; }
+    .answer-item:nth-child(5) { animation-delay: 0.20s; }
+    .answer-item:nth-child(6) { animation-delay: 0.25s; }
+
+    .answer-avatar-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; width: 90px; }
+    .answer-avatar {
+      width: 86px; height: 86px; border-radius: 50%;
+      object-fit: cover; border: 3px solid rgba(255,255,255,0.95);
+      box-shadow: var(--shadow-sm), 0 4px 16px rgba(20,151,215,0.18);
+    }
+    .avatar-placeholder {
+      width: 86px; height: 86px; border-radius: 50%;
+      background: linear-gradient(135deg, #e8f5fb, #b3ddf0);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; box-shadow: var(--shadow-sm), 0 4px 16px rgba(20,151,215,0.18);
+      border: 3px solid rgba(255,255,255,0.95);
+      flex-shrink: 0;
+    }
+    .answer-line {
+      width: 1px; flex: 1; min-height: 20px;
+      background: linear-gradient(to bottom, var(--border), transparent);
+    }
+
+    .answer-content { flex: 1; min-width: 0; }
+    .answer-header-row {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px; flex-wrap: wrap;
+    }
+    .answer-author-name {
+      font-size: 14px; font-weight: 700; color: var(--text);
+    }
+    .answer-author-name a:hover { color: var(--accent); }
+    .answer-author-role {
+      font-size: 12px; color: var(--text-muted); font-weight: 500;
+    }
+    .answer-author-loc {
+      font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 3px;
+    }
+    .answer-dot { color: rgba(0,0,0,0.15); }
+    .answer-time { font-size: 12px; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+    .premium-tag {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: linear-gradient(135deg, #1497D7, #0a6fa0);
+      color: #fff; padding: 2px 10px; border-radius: 12px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
+    }
+
+    .answer-bubble {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 4px 18px 18px 18px;
+      padding: 20px 24px;
+      font-size: 15px; line-height: 1.78;
+      color: var(--text-2);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .answer-bubble:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+    .answer-bubble.premium-bubble {
+      border-color: var(--accent-mid);
+      background: linear-gradient(135deg, #fff 0%, #f0f9ff 100%);
+      box-shadow: 0 2px 12px rgba(20,151,215,0.1), 0 8px 24px rgba(20,151,215,0.06);
+    }
+    .answer-bubble strong { color: var(--text); }
+    .answer-action {
+      margin-top: 12px;
+    }
+    .btn-consult {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: var(--accent-light); color: var(--accent);
+      border: 1px solid var(--accent-mid); border-radius: 9px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: all 0.18s; font-family: inherit;
+    }
+    .btn-consult:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* ══ SIMILAR TOPICS ══ */
+    .topics-section {
+      padding: 60px 28px;
+      background: var(--bg-section);
+      border-top: 1px solid var(--border-light);
+    }
+    .topics-inner { max-width: 1200px; margin: 0 auto; }
+    .topics-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .topics-title { font-size: 26px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+    .topics-link { font-size: 14px; font-weight: 600; color: var(--accent); transition: opacity 0.18s; }
+    .topics-link:hover { opacity: 0.75; }
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .topic-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.22s;
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column;
+    }
+    .topic-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: rgba(20,151,215,0.25); }
+    .topic-card-img {
+      height: 140px;
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #1a2035 0%, #1d3a5a 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .topic-card-img .topic-icon {
+      width: 52px; height: 52px;
+      background: rgba(20,151,215,0.25);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .topic-card-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(26,32,53,0.6) 0%, transparent 60%);
+    }
+    .topic-card-body {
+      padding: 18px 20px;
+      flex: 1; display: flex; flex-direction: column; gap: 10px;
+    }
+    .topic-cat {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .topic-cat::before {
+      content: ''; width: 14px; height: 2px; background: var(--accent); border-radius: 2px;
+    }
+    .topic-card-title {
+      font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.35; letter-spacing: -0.3px;
+    }
+    .topic-card-arrow {
+      margin-top: auto;
+      font-size: 13px; font-weight: 600; color: var(--accent);
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    /* ══ BOTTOM BLOCKS (sidebar version) ══ */
+    .block-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .block-card-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 17px; font-weight: 700; color: var(--text);
+      margin-bottom: 22px;
+    }
+    .block-icon { font-size: 22px; }
+
+    .trust-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .trust-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 14px; color: var(--text-2); line-height: 1.5;
+    }
+    .check-dot {
+      width: 22px; height: 22px; background: var(--accent); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .check-dot svg { width: 11px; height: 11px; fill: #fff; }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .stat-cell {
+      background: var(--bg); border-radius: 12px; padding: 18px;
+      text-align: center; border: 1px solid var(--border-light);
+    }
+    .stat-num { font-size: 26px; font-weight: 900; color: var(--accent); letter-spacing: -1px; line-height: 1; margin-bottom: 5px; }
+    .stat-lbl { font-size: 12px; color: var(--text-muted); font-weight: 500; line-height: 1.3; }
+
+    .call-block {
+      background: linear-gradient(140deg, var(--accent) 0%, var(--accent-deeper) 100%);
+      border: none; color: #fff;
+    }
+    .call-block .block-card-title { color: #fff; }
+    .call-num { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .call-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 22px; }
+    .btn-call-white {
+      display: block; width: 100%; text-align: center;
+      padding: 13px; background: rgba(255,255,255,0.18);
+      color: #fff; border: 1.5px solid rgba(255,255,255,0.35);
+      border-radius: 10px; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-call-white:hover { background: rgba(255,255,255,0.28); }
+    .call-phone-icon { font-size: 36px; margin-bottom: 14px; }
+
+    /* ══ CTA ══ */
+    .cta-section {
+      padding: 72px 28px;
+      background: var(--bg-section);
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+    }
+    .cta-inner { max-width: 700px; margin: 0 auto; }
+    .cta-tag {
+      display: inline-block; background: var(--accent-light);
+      color: var(--accent); font-size: 12px; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 22px;
+    }
+    .cta-title {
+      font-size: clamp(26px, 4vw, 42px); font-weight: 900;
+      color: var(--text); letter-spacing: -1px; line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .cta-sub {
+      font-size: 17px; color: var(--text-muted); line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+    .btn-cta-main {
+      padding: 15px 34px; background: var(--accent); color: #fff;
+      border-radius: 12px; font-size: 16px; font-weight: 700;
+      border: none; cursor: pointer; transition: all 0.2s;
+      box-shadow: var(--shadow-accent); font-family: inherit;
+    }
+    .btn-cta-main:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(20,151,215,0.35); }
+    .btn-cta-sec {
+      padding: 15px 34px; background: none; color: var(--text);
+      border: 1.5px solid var(--border); border-radius: 12px;
+      font-size: 16px; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; font-family: inherit;
+    }
+    .btn-cta-sec:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ══ MAP SECTION ══ */
+    .map-section {
+      position: relative; height: 520px; overflow: hidden;
+      background: #1a1e2e;
+    }
+    .map-iframe {
+      width: 100%; height: 100%; border: none; display: block;
+      filter: grayscale(1) brightness(0.42) contrast(1.1);
+      pointer-events: none;
+    }
+    .map-card {
+      position: absolute; top: 50%; right: 60px;
+      transform: translateY(-50%);
+      width: 360px;
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    }
+    .map-card-img {
+      height: 160px; overflow: hidden; position: relative;
+      background: #1a1e2e;
+    }
+    .map-card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .map-card-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(26,30,46,0.65) 0%, transparent 60%);
+      display: flex; align-items: flex-end; padding: 18px 20px;
+    }
+    .map-card-logo-wrap {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .map-card-body { padding: 24px 24px 20px; }
+    .map-card-title { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 20px; letter-spacing: -0.3px; }
+    .map-contact-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 16px;
+    }
+    .map-contact-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent-light); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .map-contact-icon svg { width: 18px; height: 18px; fill: var(--accent); }
+    .map-contact-text { flex: 1; }
+    .map-contact-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 2px; }
+    .map-contact-value { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; }
+    .map-contact-value a { color: var(--accent); }
+    .map-contact-value a:hover { text-decoration: underline; }
+    .btn-map-call {
+      display: block; width: 100%; text-align: center;
+      padding: 14px; background: var(--accent); color: #fff;
+      border: none; border-radius: 12px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      margin-top: 6px; transition: all 0.2s; font-family: inherit;
+      box-shadow: var(--shadow-accent);
+    }
+    .btn-map-call:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+    /* ══ OFFICES SECTION ══ */
+    .offices-section {
+      background: var(--bg-dark);
+      padding: 60px 0 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .offices-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 28px 56px;
+      display: grid;
+      grid-template-columns: 260px 1fr 220px 180px;
+      gap: 48px;
+      align-items: start;
+    }
+    .offices-brand { }
+    .offices-logo-wrap { margin-bottom: 28px; }
+    .offices-legal-links { list-style: none; display: flex; flex-direction: column; gap: 0; margin-bottom: 32px; }
+    .offices-legal-links li a {
+      display: block; padding: 8px 0 8px 14px;
+      font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7);
+      border-left: 2px solid var(--accent);
+      margin-bottom: 3px;
+      transition: color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .offices-legal-links li a:hover { color: #fff; border-color: #fff; }
+    .offices-social-desc {
+      font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.6; margin-bottom: 14px;
+    }
+    .offices-social { display: flex; gap: 10px; }
+    .osoc {
+      width: 44px; height: 44px; border-radius: 11px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      box-shadow: 0 3px 12px rgba(20,151,215,0.3);
+    }
+    .osoc svg { width: 20px; height: 20px; fill: #fff; }
+    .osoc:hover { transform: translateY(-3px) scale(1.08); box-shadow: 0 8px 22px rgba(20,151,215,0.5); }
+
+    /* World map */
+    .offices-map-col {
+      display: flex; align-items: center; justify-content: center;
+    }
+    #worldMapSvg {
+      width: 100%;
+      cursor: default;
+      overflow: visible;
+    }
+    #worldMapSvg .map-dot {
+      fill: rgba(255,255,255,0.22);
+      transform-box: fill-box;
+      transform-origin: center center;
+      transition: transform 0.35s ease, fill 0.35s ease;
+    }
+    #worldMapSvg:hover .map-dot {
+      transform: scale(1.9);
+      fill: rgba(255,255,255,0.38);
+    }
+    #worldMapSvg .pin-marker {
+      filter: drop-shadow(0 3px 8px rgba(20,151,215,0.7));
+    }
+
+    .offices-col-title {
+      font-size: 15px; font-weight: 800; color: #fff;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .offices-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .offices-list li {
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex; align-items: center; gap: 10px;
+      transition: padding-left 0.18s;
+      cursor: default;
+    }
+    .offices-list li:hover { padding-left: 4px; }
+    .offices-list li:last-child { border-bottom: none; }
+    .offices-list .pin-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(20,151,215,0.2);
+    }
+    .offices-list span { font-size: 14px; color: rgba(255,255,255,0.75); font-weight: 500; }
+
+    .offices-nav-links { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .offices-nav-links li a {
+      display: block; padding: 9px 0;
+      font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.15s;
+    }
+    .offices-nav-links li:last-child a { border-bottom: none; }
+    .offices-nav-links li a:hover { color: #fff; }
+
+    .offices-bottom {
+      background: rgba(0,0,0,0.3);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 18px 28px;
+    }
+    .offices-bottom-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .offices-copy { font-size: 13px; color: rgba(255,255,255,0.28); }
+    .offices-payments { display: flex; align-items: center; gap: 12px; }
+    .pay-badge {
+      height: 26px; padding: 4px 12px; border-radius: 6px;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.6); letter-spacing: 0.3px;
+    }
+    .pay-badge.visa { font-style: italic; font-size: 14px; letter-spacing: 1px; }
+    .pay-badge.mc { gap: 3px; }
+    .mc-circle { width: 14px; height: 14px; border-radius: 50%; }
+    .mc-r { background: #eb001b; }
+    .mc-o { background: #f79e1b; margin-left: -5px; }
+
+    @media (max-width: 960px) {
+      .offices-inner { grid-template-columns: 1fr 1fr; }
+      .offices-map-col { display: none; }
+      .map-card { right: 20px; width: 300px; }
+    }
+    @media (max-width: 700px) {
+      .offices-inner { grid-template-columns: 1fr; }
+      .map-card { position: static; transform: none; width: 100%; border-radius: 0; box-shadow: none; margin: 0; }
+      .map-section { height: auto; }
+      .map-iframe { height: 300px; }
+    }
+
+    /* ══ FOOTER ══ */
+    .footer {
+      background: var(--bg-dark); padding: 56px 28px 28px;
+    }
+    .footer-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 260px 1fr 1fr 1fr; gap: 48px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .footer-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: 17px; color: #fff; margin-bottom: 14px;
+    }
+    .footer-logo-mark {
+      width: 32px; height: 32px; background: var(--accent);
+      border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    }
+    .footer-logo-mark svg { width: 16px; height: 16px; fill: #fff; }
+    .footer-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.7; margin-bottom: 22px; }
+    .footer-social { display: flex; gap: 8px; }
+    .fsoc {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.5); font-size: 15px; transition: all 0.18s;
+    }
+    .fsoc:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .footer-col-title { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 18px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-size: 14px; color: rgba(255,255,255,0.6); transition: color 0.15s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom {
+      max-width: 1200px; margin: 28px auto 0;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; color: rgba(255,255,255,0.3);
+    }
+
+    /* ══ CHAT OVERLAY ══ */
+    .chat-overlay {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .chat-overlay.visible { opacity: 1; pointer-events: all; }
+
+    /* ══ FLOATING CHAT WIDGET ══ */
+    .chat-widget {
+      position: fixed; bottom: 28px; right: 28px; z-index: 1000;
+      width: min(640px, calc(50vw - 36px));
+      background: #fff;
+      border-radius: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.30), 0 6px 24px rgba(0,0,0,0.12);
+      overflow: hidden;
+      opacity: 0; transform: scale(0.82) translateY(32px);
+      transform-origin: bottom right;
+      transition: opacity 0.42s cubic-bezier(0.34,1.56,0.64,1),
+                  transform 0.42s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+    .chat-widget.visible {
+      opacity: 1; transform: scale(1) translateY(0); pointer-events: all;
+    }
+    .chat-widget-header {
+      background: linear-gradient(135deg, var(--accent) 0%, #0a6fa0 100%);
+      padding: 24px 28px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .chat-agent-avatar {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 2.5px solid rgba(255,255,255,0.45);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; flex-shrink: 0;
+    }
+    .chat-agent-info { flex: 1; }
+    .chat-agent-name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .chat-agent-status {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; color: rgba(255,255,255,0.85);
+    }
+    .online-dot {
+      width: 7px; height: 7px; background: #4ade80; border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+    .chat-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      cursor: pointer; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.18s; flex-shrink: 0;
+    }
+    .chat-close:hover { background: rgba(255,255,255,0.30); }
+
+    .chat-messages {
+      padding: 24px 24px 14px; height: 460px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 16px;
+      background: #f8fafc;
+    }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 4px; }
+
+    .chat-msg { display: flex; flex-direction: column; gap: 4px; }
+    .chat-msg.bot { align-items: flex-start; }
+    .chat-msg.user { align-items: flex-end; }
+
+    .chat-bubble {
+      padding: 15px 20px; border-radius: 4px 18px 18px 18px;
+      font-size: 16px; line-height: 1.65; max-width: 88%;
+      animation: bubbleIn 0.25s ease;
+    }
+    @keyframes bubbleIn {
+      from { opacity: 0; transform: scale(0.92) translateY(6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .chat-msg.bot .chat-bubble {
+      background: #fff; color: var(--text);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      border-radius: 4px 14px 14px 14px;
+    }
+    .chat-msg.user .chat-bubble {
+      background: var(--accent); color: #fff;
+      border-radius: 14px 14px 4px 14px;
+    }
+    .chat-msg-time { font-size: 11px; color: var(--text-muted); }
+
+    /* Typing indicator */
+    .typing-indicator { display: none; align-items: flex-start; gap: 0; }
+    .typing-indicator.show { display: flex; }
+    .typing-bubble {
+      background: #fff; border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 4px 14px 14px 14px;
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .typing-dot {
+      width: 7px; height: 7px; background: var(--accent);
+      border-radius: 50%; opacity: 0.4;
+      animation: typing 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%,60%,100% { opacity: 0.4; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-4px); }
+    }
+
+    .chat-input-area {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 18px; border-top: 1px solid rgba(0,0,0,0.07);
+      background: #fff;
+    }
+    .chat-input {
+      flex: 1; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px;
+      padding: 12px 16px; font-size: 15px; font-family: inherit;
+      color: var(--text); outline: none; transition: border-color 0.18s;
+      background: #f8fafc;
+    }
+    .chat-input:focus { border-color: var(--accent); background: #fff; }
+    .chat-input::placeholder { color: var(--text-muted); }
+    .chat-send {
+      width: 44px; height: 44px; background: var(--accent); color: #fff;
+      border: none; border-radius: 12px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.18s; flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(20,151,215,0.35);
+    }
+    .chat-send:hover { background: var(--accent-dark); transform: scale(1.08); }
+    .chat-send svg { width: 18px; height: 18px; fill: #fff; }
+
+    /* Chat bubble button */
+    .chat-launcher {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      width: 58px; height: 58px;
+      background: var(--accent); color: #fff;
+      border-radius: 50%; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 20px rgba(20,151,215,0.4);
+      transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      opacity: 0; transform: scale(0); pointer-events: none;
+    }
+    .chat-launcher.visible {
+      opacity: 1; transform: scale(1); pointer-events: all;
+    }
+    .chat-launcher:hover { transform: scale(1.1); }
+    .chat-launcher-badge {
+      position: absolute; top: 0; right: 0;
+      width: 20px; height: 20px; background: #ef4444; color: #fff;
+      border-radius: 50%; font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #fff;
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 1060px) {
+      .thread-layout { grid-template-columns: 1fr; }
+      .thread-sidebar { position: static; flex-direction: row; flex-wrap: wrap; }
+      .thread-sidebar .block-card { flex: 1; min-width: 240px; }
+    }
+    @media (max-width: 960px) {
+      .topics-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .header-nav, .header-actions .btn-ghost { display: none; }
+      .hero-title { font-size: 26px; letter-spacing: -0.5px; }
+      .topics-grid { grid-template-columns: 1fr; }
+      .thread-sidebar { flex-direction: column; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .answer-item { gap: 12px; }
+      .answer-bubble { padding: 16px 18px; }
+      .chat-widget { width: calc(100vw - 24px); right: 12px; bottom: 12px; border-radius: 20px; }
+      .chat-messages { height: 340px; }
+      .chat-launcher { right: 12px; bottom: 12px; }
+      .question-bubble { padding: 22px 24px; }
+      .question-bubble::before { display: none; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .cta-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="header">
+  <div class="header-inner">
+    <a href="https://consultant.net.ua/" class="logo">
+      <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 122" fill="none">
+        <g clip-path="url(#lc1)">
+          <path d="M122.88 20.39L98.65 1.42L87.27 16.63H29.85C13.92 16.63 1 29.55 1 45.48V79.69C1 91.99 13.99 103.78 19.53 106.63L43.1 120.26L51.06 108.54H108.64C124.57 108.54 137.49 95.62 137.49 79.69V45.48C137.49 34.73 132.87 29.83 122.88 20.39Z" fill="white" stroke="#2B2B2B" stroke-width="2" stroke-miterlimit="10"/>
+          <path d="M117.37 31.15L98.8 16.24L89.85 27.9L33.45 27.2C21.13 27.05 11.01 36.91 10.86 49.24L10.53 75.7C10.41 85.21 20.34 94.46 24.61 96.72L42.71 107.49L48.98 98.5L105.51 99.2C117.83 99.35 127.95 89.49 128.1 77.16L128.43 50.7C128.53 42.38 125.01 38.55 117.37 31.15Z" fill="#2B2B2B"/>
+          <path d="M36.07 71.27C40.58 71.27 44.23 67.62 44.23 63.11C44.23 58.6 40.58 54.95 36.07 54.95C31.56 54.95 27.91 58.6 27.91 63.11C27.91 67.62 31.56 71.27 36.07 71.27Z" fill="#0095D4"/>
+          <path d="M69.43 70.76C73.94 70.76 77.59 67.11 77.59 62.6C77.59 58.09 73.94 54.44 69.43 54.44C64.92 54.44 61.27 58.09 61.27 62.6C61.27 67.11 64.92 70.76 69.43 70.76Z" fill="#0095D4"/>
+          <path d="M102.43 70.76C106.94 70.76 110.59 67.11 110.59 62.6C110.59 58.09 106.94 54.44 102.43 54.44C97.92 54.44 94.27 58.09 94.27 62.6C94.27 67.11 97.92 70.76 102.43 70.76Z" fill="#0095D4"/>
+          <path d="M171.49 43.03L190.74 62.28H182.99L166.49 45.78H157.75V62.28H152.25V23.78H157.75V40.28H166.49L182.99 23.78H190.74L171.49 43.03Z" fill="white"/>
+          <path d="M231.44 51.27C231.44 57.32 226.49 62.27 220.44 62.27H203.94C197.84 62.27 192.94 57.38 192.94 51.27V34.77C192.94 28.72 197.89 23.77 203.94 23.77H220.44C226.27 23.77 231.44 28.77 231.44 34.77V51.27ZM225.94 34.77C225.94 31.75 223.47 29.27 220.44 29.27H203.94C200.92 29.27 198.44 31.74 198.44 34.77V51.27C198.44 54.3 200.91 56.77 203.94 56.77H220.44C223.46 56.77 225.94 54.3 225.94 51.27V34.77Z" fill="white"/>
+          <path d="M241.9 40.28H269.4V23.78H274.9V62.27H269.4V45.77H241.9V62.27H236.4V23.78H241.9V40.28Z" fill="white"/>
+          <path d="M307.34 23.78C313.22 23.78 318.17 28.67 318.34 34.78H312.84C312.84 31.76 310.37 29.28 307.34 29.28H290.84C287.82 29.28 285.34 31.75 285.34 34.78V51.28C285.34 54.31 287.81 56.78 290.84 56.78H307.34C310.36 56.78 312.84 54.31 312.84 51.28H318.34C318.34 57.11 313.5 62.28 307.34 62.28H290.84C284.96 62.28 279.84 57.5 279.84 51.28V34.78C279.84 28.84 284.68 23.95 290.84 23.78H307.34Z" fill="white"/>
+          <path d="M349.69 56.77C352.71 56.77 355.19 54.3 355.19 51.27V45.77H333.19C327.31 45.77 322.19 40.99 322.19 34.77V23.77H327.69V34.77C327.69 37.79 330.16 40.27 333.19 40.27H355.19V23.78H360.69V51.28C360.69 57.11 355.85 62.28 349.69 62.28H334.29C328.3 62.28 323.46 57.5 323.29 51.28H328.79C328.79 54.31 331.26 56.78 334.29 56.78H349.69V56.77Z" fill="white"/>
+          <path d="M404.69 23.78V62.27H399.19V29.28H377.19C374.17 29.28 371.69 31.75 371.69 34.78V62.28H366.19V34.78C366.19 28.84 371.03 23.95 377.19 23.78H404.69Z" fill="white"/>
+          <path d="M448.69 51.27C448.69 57.1 443.85 62.27 437.69 62.27H410.19V23.78H415.69V37.53H437.69C443.57 37.53 448.52 42.42 448.69 48.53V51.28V51.27ZM443.19 48.52C443.19 45.5 440.72 43.02 437.69 43.02H415.69V56.77H437.69C440.71 56.77 443.19 54.3 443.19 51.27V48.52Z" fill="white"/>
+          <path d="M472.34 29.28V62.27H466.84V29.28H450.34V23.78H488.84V29.28H472.34Z" fill="white"/>
+          <path d="M530.09 62.27H524.59V51.27H497.09V62.27H491.59V34.77C491.59 28.94 496.43 23.77 502.59 23.77H519.09C524.97 23.77 529.92 28.66 530.09 34.77V62.27ZM502.59 29.27C499.57 29.27 497.09 31.74 497.09 34.77V45.77H524.59V34.77C524.59 31.75 522.12 29.27 519.09 29.27H502.59Z" fill="white"/>
+          <path d="M541.09 40.28H568.59V23.78H574.09V62.27H568.59V45.77H541.09V62.27H535.59V23.78H541.09V40.28Z" fill="white"/>
+          <path d="M598.84 29.28V62.27H593.34V29.28H576.84V23.78H615.34V29.28H598.84Z" fill="white"/>
+        </g>
+        <defs><clipPath id="lc1"><rect width="615.34" height="121.6" fill="white"/></clipPath></defs>
+      </svg>
+    </a>
+    <nav class="header-nav">
+      <a href="https://consultant.net.ua/otsinka-konsultantiv">Консультанти</a>
+      <a href="https://consultant.net.ua/services">Послуги</a>
+      <a href="https://consultant.net.ua/statti">Матеріали</a>
+      <a href="https://consultant.net.ua/documents">Документи</a>
+      <a href="https://consultant.net.ua/o-nas">Про нас</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn-ghost">Увійти</button>
+      <a href="tel:+380730044470" class="btn-accent">Зателефонувати</a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ BREADCRUMBS ═══════════ -->
+<div class="breadcrumbs">
+  <a href="https://consultant.net.ua/">Головна</a>
+  <span class="sep">›</span>
+  <a href="https://consultant.net.ua/statti">Матеріали</a>
+  <span class="sep">›</span>
+  <span style="color:var(--text-muted)">Звільнення з ВС за сімейними обставинами</span>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="pulse"></span>
+      Відповіді юристів · Онлайн консультація
+    </div>
+    <h1 class="hero-title">
+      Звільнення з військової служби<br>
+      за <mark>сімейними обставинами</mark>
+    </h1>
+    <div class="hero-meta">
+      <div class="meta-pill blue">⏱ 5 хвилин читання</div>
+      <div class="meta-pill">👁 18 переглядів</div>
+      <div class="meta-pill"><span class="star">★★★★★</span>&nbsp; Рейтинг 5.0</div>
+      <div class="meta-pill">📅 23 квітня 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CHAT THREAD ═══════════ -->
+<section class="thread-section">
+  <div class="thread-inner">
+  <div class="thread-layout">
+  <div class="thread-col">
+
+    <div class="section-label">
+      <span class="section-label-text">Обговорення</span>
+      <span class="section-label-count">5 відповідей</span>
+    </div>
+
+    <!-- BIG QUESTION BUBBLE -->
+    <div class="question-bubble">
+      <div class="question-label">Запитання від користувача</div>
+      <div class="question-text">
+        Зараз займаюсь звільненням з військової служби за сімейними обставинами, загинув брат, але мене хочуть відправити на фронт — як цьому запобігти?
+      </div>
+      <div class="question-meta">
+        <div class="q-meta-item">📅 Опубліковано: 23.04.2026</div>
+        <div class="q-meta-item"><span class="star-white">★★★★★</span>&nbsp; Рейтинг: 5</div>
+        <div class="q-meta-item">👁 18 переглядів</div>
+      </div>
+    </div>
+
+    <!-- ─── Answer 1 ─── -->
+    <div class="answer-item">
+      <div class="answer-avatar-col">
+        <img class="answer-avatar" src="https://consultant.net.ua/storage/media/1385/conversions/1685535621-big_avatar_optimized.jpg" alt="GPT Chat"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="avatar-placeholder" style="display:none">🤖</div>
+        <div class="answer-line"></div>
+      </div>
+      <div class="answer-content">
+        <div class="answer-header-row">
+          <span class="answer-author-name"><a href="https://consultant.net.ua/consultant/848">GPT Chat</a></span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-role">Штучний інтелект</span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-loc">📍 Київ</span>
+          <span class="answer-time">16 квіт. 2026, 01:11</span>
+        </div>
+        <div class="answer-bubble">
+          Для запобігання відправки на фронт ви можете звернутися до військового комісаріату і подати документи на звільнення з військової служби за сімейними обставинами. Необхідно надати підтвердження загибелі брата та документальні докази сімейних обставин. Також, рекомендую звернутися за юридичною консультацією, щоб знайти найбільш ефективний спосіб захисту своїх прав у даній ситуації.
+        </div>
+        <div class="answer-action">
+          <a href="https://consultant.net.ua/consultant/848" class="btn-consult">Написати консультанту →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Answer 2 ─── -->
+    <div class="answer-item">
+      <div class="answer-avatar-col">
+        <div class="avatar-placeholder">🤖</div>
+        <div class="answer-line"></div>
+      </div>
+      <div class="answer-content">
+        <div class="answer-header-row">
+          <span class="answer-author-name"><a href="https://consultant.net.ua/consultant/2287">Assistant Grok AI</a></span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-role">Штучний інтелект</span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-loc">📍 Київ</span>
+          <span class="answer-time">16 квіт. 2026, 01:11</span>
+        </div>
+        <div class="answer-bubble">
+          З юридичної точки зору, якщо ви вже ініціювали звільнення за сімейними обставинами через загибель брата, вам слід негайно звернутися до військового прокурора або адвоката, спеціалізованого на військовому праві. Згідно з чинним законодавством України, під час розгляду заяви про звільнення вас не можуть відправляти на фронт без вашої згоди, якщо є підстави для звільнення.<br><br>
+          Подайте офіційну скаргу до вищого командування або до Міністерства оборони, посилаючись на <strong>статтю 26 Закону України «Про військовий обов'язок і військову службу»</strong> (підстава — смерть близького родича). Якщо ситуація критична, зверніться до суду для оскарження наказу. Документуйте всі дії та комунікації для доказів.
+        </div>
+        <div class="answer-action">
+          <a href="https://consultant.net.ua/consultant/2287" class="btn-consult">Написати консультанту →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Answer 3 ─── -->
+    <div class="answer-item">
+      <div class="answer-avatar-col">
+        <img class="answer-avatar" src="https://consultant.net.ua/storage/media/991/conversions/9GjdkUm6cK84SkA96uknXqkhN1mF7pnnSLikgHQk-big_avatar_optimized.png" alt="Лілія Денисенко"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="avatar-placeholder" style="display:none">⚖️</div>
+        <div class="answer-line"></div>
+      </div>
+      <div class="answer-content">
+        <div class="answer-header-row">
+          <span class="answer-author-name"><a href="https://consultant.net.ua/consultant/1513">Лілія Денисенко</a></span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-role">Адвокат</span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-loc">📍 Полтава</span>
+          <span class="answer-time">16 квіт. 2026, 08:32</span>
+        </div>
+        <div class="answer-bubble">
+          У вашій ситуації головне — зафіксувати підставу для звільнення і зупинити відправку на фронт до розгляду.<br><br>
+          <strong>Що робити негайно:</strong><br><br>
+          <strong>1.</strong> Подайте рапорт на ім'я командира — про звільнення за сімейними обставинами (загибель брата) та окремо просіть не направляти вас у бойові підрозділи до прийняття рішення. Додайте: свідоцтво про смерть брата; документи, що підтверджують загибель під час служби; документи про родинний зв'язок.<br><br>
+          <strong>2.</strong> Подайте рапорт офіційно через канцелярію або з відміткою про прийняття.<br><br>
+          <strong>3.</strong> Якщо «тиснуть» — пишете рапорт про неможливість виконання наказу до розгляду документів.<br><br>
+          <strong>4.</strong> Якщо ігнорують — скарга до вищого командування, звернення до ВСП, підключайте адвоката.<br><br>
+          Сам факт поданого рапорту і документів — це вже підстава не поспішати з вашою відправкою, і це часто спрацьовує на практиці.
+        </div>
+        <div class="answer-action">
+          <a href="https://consultant.net.ua/consultant/1513" class="btn-consult">Написати консультанту →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Answer 4 ─── -->
+    <div class="answer-item">
+      <div class="answer-avatar-col">
+        <img class="answer-avatar" src="https://consultant.net.ua/storage/media/535/conversions/YVa57hRWuVYUzz4yDD3YnAxvQJep1SVWzJVEfYFU-big_avatar_optimized.jpg" alt="Мамай Ірина"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="avatar-placeholder" style="display:none">⚖️</div>
+        <div class="answer-line"></div>
+      </div>
+      <div class="answer-content">
+        <div class="answer-header-row">
+          <span class="answer-author-name"><a href="https://consultant.net.ua/consultant/291">Мамай Ірина</a></span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-role">Адвокат</span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-loc">📍 Рівне</span>
+          <span class="answer-time">16 квіт. 2026, 16:11</span>
+        </div>
+        <div class="answer-bubble">
+          Не дуже зрозуміло що значить «займаюся звільненням» — написали рапорт чи збираєте документи? Є конкретний перелік документів для такого рапорту. Їх небагато.<br><br>
+          Відправити вас можуть навіть після реєстрації вашого рапорту. Поки ви служите — ви маєте виконувати команди. На жаль, ніде не написано, що особа, яка має підставу на звільнення, не залучається до виконання службових обов'язків.<br><br>
+          Рапорт розглядати мають <strong>два тижні</strong>. Однак затягують до місяця і більше. Щоб впливати на строк — можна після подачі рапорту написати адвокатський запит для контролю.
+        </div>
+        <div class="answer-action">
+          <a href="https://consultant.net.ua/consultant/291" class="btn-consult">Написати консультанту →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Answer 5 (PREMIUM) ─── -->
+    <div class="answer-item">
+      <div class="answer-avatar-col">
+        <img class="answer-avatar" src="https://consultant.net.ua/storage/media/8502/conversions/KNktTdp5Oln7PmQ73lcTOBrhc6olttw4-big_avatar_optimized.png" alt="Боревич Марія"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="avatar-placeholder" style="display:none">⚖️</div>
+      </div>
+      <div class="answer-content">
+        <div class="answer-header-row">
+          <span class="answer-author-name"><a href="https://consultant.net.ua/consultant/444">Боревич Марія</a></span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-role">Юрист</span>
+          <span class="answer-dot">·</span>
+          <span class="answer-author-loc">📍 Київ</span>
+          <span class="premium-tag">⭐ PREMIUM</span>
+          <span class="answer-time">20 квіт. 2026, 10:06</span>
+        </div>
+        <div class="answer-bubble premium-bubble">
+          Поки наказ про звільнення не підписаний, особа залишається військовослужбовцем і зобов'язана виконувати накази командира, включаючи бойові завдання.<br><br>
+          Рапорт обов'язково подавати у двох екземплярах або через <strong>Армію+</strong>, щоб мати доказ (номер) реєстрації. Однак, якщо ігнорують поданий рапорт і документи, які підтверджують право на звільнення, це може бути оскаржено — звертатися можна до вищого командування, Військової служби правопорядку або адвоката.
+        </div>
+        <div class="answer-action">
+          <a href="https://consultant.net.ua/consultant/444" class="btn-consult">Написати консультанту →</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /thread-col -->
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="thread-sidebar">
+
+    <!-- Trust -->
+    <div class="block-card">
+      <div class="block-card-title"><span class="block-icon">🛡️</span> Чому обирають нас</div>
+      <ul class="trust-list">
+        <li>
+          <div class="check-dot"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+          Гарантуємо результат або повертаємо кошти
+        </li>
+        <li>
+          <div class="check-dot"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+          Працюємо офіційно по договору
+        </li>
+        <li>
+          <div class="check-dot"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+          Юридичні консультації 24/7
+        </li>
+        <li>
+          <div class="check-dot"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+          Понад 10 000 задоволених клієнтів
+        </li>
+        <li>
+          <div class="check-dot"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+          Досвідчені адвокати та юристи
+        </li>
+      </ul>
+    </div>
+
+    <!-- Stats -->
+    <div class="block-card">
+      <div class="block-card-title"><span class="block-icon">📊</span> Ми в цифрах</div>
+      <div class="stats-grid">
+        <div class="stat-cell">
+          <div class="stat-num">10K+</div>
+          <div class="stat-lbl">Задоволених клієнтів</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">500+</div>
+          <div class="stat-lbl">Юристів та адвокатів</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">24/7</div>
+          <div class="stat-lbl">Консультації цілодобово</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-num">98%</div>
+          <div class="stat-lbl">Позитивних відгуків</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call -->
+    <div class="block-card call-block">
+      <div class="call-phone-icon">📞</div>
+      <div class="block-card-title">Зателефонуйте нам</div>
+      <div class="call-num">+380 73 004 44 70</div>
+      <div class="call-sub">Цілодобово, 7 днів на тиждень</div>
+      <button class="btn-call-white">Зателефонувати зараз</button>
+    </div>
+
+  </aside>
+
+  </div><!-- /thread-layout -->
+  </div><!-- /thread-inner -->
+</section>
+
+<!-- ═══════════ SIMILAR TOPICS ═══════════ -->
+<section class="topics-section">
+  <div class="topics-inner">
+    <div class="topics-header">
+      <h2 class="topics-title">Схожі теми</h2>
+      <a href="https://consultant.net.ua/services" class="topics-link">Всі послуги →</a>
+    </div>
+    <div class="topics-grid">
+
+      <a href="https://consultant.net.ua/services" class="topic-card">
+        <div class="topic-card-img">
+          <div class="topic-icon">⚖️</div>
+        </div>
+        <div class="topic-card-body">
+          <span class="topic-cat">Юридична послуга</span>
+          <div class="topic-card-title">Правовий аналіз ситуації</div>
+          <div class="topic-card-arrow">Дізнатись більше →</div>
+        </div>
+      </a>
+
+      <a href="https://consultant.net.ua/services" class="topic-card">
+        <div class="topic-card-img" style="background: linear-gradient(135deg, #1a2d40 0%, #1d4060 100%)">
+          <div class="topic-icon">📝</div>
+        </div>
+        <div class="topic-card-body">
+          <span class="topic-cat">Юридична послуга</span>
+          <div class="topic-card-title">Написання адвокатського запиту</div>
+          <div class="topic-card-arrow">Дізнатись більше →</div>
+        </div>
+      </a>
+
+      <a href="https://consultant.net.ua/services" class="topic-card">
+        <div class="topic-card-img" style="background: linear-gradient(135deg, #1a2040 0%, #1d2d60 100%)">
+          <div class="topic-icon">🏆</div>
+        </div>
+        <div class="topic-card-body">
+          <span class="topic-cat">Преміум послуга</span>
+          <div class="topic-card-title">Правовий аналіз ситуації PREMIUM</div>
+          <div class="topic-card-arrow">Дізнатись більше →</div>
+        </div>
+      </a>
+
+      <a href="https://consultant.net.ua/services" class="topic-card">
+        <div class="topic-card-img" style="background: linear-gradient(135deg, #201a35 0%, #2d1d5a 100%)">
+          <div class="topic-icon">💎</div>
+        </div>
+        <div class="topic-card-body">
+          <span class="topic-cat">VIP послуга</span>
+          <div class="topic-card-title">Правовий аналіз ситуації VIP</div>
+          <div class="topic-card-arrow">Дізнатись більше →</div>
+        </div>
+      </a>
+
+      <a href="https://consultant.net.ua/services" class="topic-card">
+        <div class="topic-card-img" style="background: linear-gradient(135deg, #201e1a 0%, #40341d 100%)">
+          <div class="topic-icon">📋</div>
+        </div>
+        <div class="topic-card-body">
+          <span class="topic-cat">Юридична послуга</span>
+          <div class="topic-card-title">Правовий висновок</div>
+          <div class="topic-card-arrow">Дізнатись більше →</div>
+        </div>
+      </a>
+
+      <a href="https://consultant.net.ua/services" class="topic-card">
+        <div class="topic-card-img" style="background: linear-gradient(135deg, #1a1e35 0%, #1d3540 100%)">
+          <div class="topic-icon">🏦</div>
+        </div>
+        <div class="topic-card-body">
+          <span class="topic-cat">Фінансова послуга</span>
+          <div class="topic-card-title">Розблокування рахунку боржника</div>
+          <div class="topic-card-arrow">Дізнатись більше →</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ MAP ═══════════ -->
+<section class="map-section">
+  <iframe class="map-iframe"
+    src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d80000!2d30.52!3d50.45!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1suk!2sua!4v1700000000000!5m2!1suk!2sua"
+    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+
+  <div class="map-card">
+    <!-- card header with dark photo-like bg + logo -->
+    <div class="map-card-img" style="background: linear-gradient(160deg,#0d0f1a 0%,#1a2540 60%,#0a1a30 100%); display:flex; align-items:center; justify-content:center; flex-direction:column; gap:10px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 122" fill="none" style="height:44px;width:auto;">
+        <g clip-path="url(#mc1)">
+          <path d="M122.88 20.39L98.65 1.42L87.27 16.63H29.85C13.92 16.63 1 29.55 1 45.48V79.69C1 91.99 13.99 103.78 19.53 106.63L43.1 120.26L51.06 108.54H108.64C124.57 108.54 137.49 95.62 137.49 79.69V45.48C137.49 34.73 132.87 29.83 122.88 20.39Z" fill="white" stroke="#2B2B2B" stroke-width="2" stroke-miterlimit="10"/>
+          <path d="M117.37 31.15L98.8 16.24L89.85 27.9L33.45 27.2C21.13 27.05 11.01 36.91 10.86 49.24L10.53 75.7C10.41 85.21 20.34 94.46 24.61 96.72L42.71 107.49L48.98 98.5L105.51 99.2C117.83 99.35 127.95 89.49 128.1 77.16L128.43 50.7C128.53 42.38 125.01 38.55 117.37 31.15Z" fill="#2B2B2B"/>
+          <path d="M36.07 71.27C40.58 71.27 44.23 67.62 44.23 63.11C44.23 58.6 40.58 54.95 36.07 54.95C31.56 54.95 27.91 58.6 27.91 63.11C27.91 67.62 31.56 71.27 36.07 71.27Z" fill="#0095D4"/>
+          <path d="M69.43 70.76C73.94 70.76 77.59 67.11 77.59 62.6C77.59 58.09 73.94 54.44 69.43 54.44C64.92 54.44 61.27 58.09 61.27 62.6C61.27 67.11 64.92 70.76 69.43 70.76Z" fill="#0095D4"/>
+          <path d="M102.43 70.76C106.94 70.76 110.59 67.11 110.59 62.6C110.59 58.09 106.94 54.44 102.43 54.44C97.92 54.44 94.27 58.09 94.27 62.6C94.27 67.11 97.92 70.76 102.43 70.76Z" fill="#0095D4"/>
+          <path d="M171.49 43.03L190.74 62.28H182.99L166.49 45.78H157.75V62.28H152.25V23.78H157.75V40.28H166.49L182.99 23.78H190.74L171.49 43.03Z" fill="white"/>
+          <path d="M231.44 51.27C231.44 57.32 226.49 62.27 220.44 62.27H203.94C197.84 62.27 192.94 57.38 192.94 51.27V34.77C192.94 28.72 197.89 23.77 203.94 23.77H220.44C226.27 23.77 231.44 28.77 231.44 34.77V51.27ZM225.94 34.77C225.94 31.75 223.47 29.27 220.44 29.27H203.94C200.92 29.27 198.44 31.74 198.44 34.77V51.27C198.44 54.3 200.91 56.77 203.94 56.77H220.44C223.46 56.77 225.94 54.3 225.94 51.27V34.77Z" fill="white"/>
+          <path d="M241.9 40.28H269.4V23.78H274.9V62.27H269.4V45.77H241.9V62.27H236.4V23.78H241.9V40.28Z" fill="white"/>
+          <path d="M307.34 23.78C313.22 23.78 318.17 28.67 318.34 34.78H312.84C312.84 31.76 310.37 29.28 307.34 29.28H290.84C287.82 29.28 285.34 31.75 285.34 34.78V51.28C285.34 54.31 287.81 56.78 290.84 56.78H307.34C310.36 56.78 312.84 54.31 312.84 51.28H318.34C318.34 57.11 313.5 62.28 307.34 62.28H290.84C284.96 62.28 279.84 57.5 279.84 51.28V34.78C279.84 28.84 284.68 23.95 290.84 23.78H307.34Z" fill="white"/>
+          <path d="M349.69 56.77C352.71 56.77 355.19 54.3 355.19 51.27V45.77H333.19C327.31 45.77 322.19 40.99 322.19 34.77V23.77H327.69V34.77C327.69 37.79 330.16 40.27 333.19 40.27H355.19V23.78H360.69V51.28C360.69 57.11 355.85 62.28 349.69 62.28H334.29C328.3 62.28 323.46 57.5 323.29 51.28H328.79C328.79 54.31 331.26 56.78 334.29 56.78H349.69V56.77Z" fill="white"/>
+          <path d="M404.69 23.78V62.27H399.19V29.28H377.19C374.17 29.28 371.69 31.75 371.69 34.78V62.28H366.19V34.78C366.19 28.84 371.03 23.95 377.19 23.78H404.69Z" fill="white"/>
+          <path d="M448.69 51.27C448.69 57.1 443.85 62.27 437.69 62.27H410.19V23.78H415.69V37.53H437.69C443.57 37.53 448.52 42.42 448.69 48.53V51.28V51.27ZM443.19 48.52C443.19 45.5 440.72 43.02 437.69 43.02H415.69V56.77H437.69C440.71 56.77 443.19 54.3 443.19 51.27V48.52Z" fill="white"/>
+          <path d="M472.34 29.28V62.27H466.84V29.28H450.34V23.78H488.84V29.28H472.34Z" fill="white"/>
+        </g>
+        <defs><clipPath id="mc1"><rect width="615.34" height="121.6" fill="white"/></clipPath></defs>
+      </svg>
+      <span style="font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;font-weight:600;">Юридичний маркетплейс</span>
+    </div>
+
+    <div class="map-card-body">
+      <div class="map-card-title">Адміністрація порталу</div>
+
+      <div class="map-contact-row">
+        <div class="map-contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>
+        <div class="map-contact-text">
+          <div class="map-contact-label">Адреса</div>
+          <div class="map-contact-value">Україна, м. Київ, 01601,<br>вул. Мечникова 2, пов. 16</div>
+        </div>
+      </div>
+
+      <div class="map-contact-row">
+        <div class="map-contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <div class="map-contact-text">
+          <div class="map-contact-label">Пошта</div>
+          <div class="map-contact-value"><a href="mailto:support@consultant.net.ua">support@consultant.net.ua</a></div>
+        </div>
+      </div>
+
+      <div class="map-contact-row">
+        <div class="map-contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        </div>
+        <div class="map-contact-text">
+          <div class="map-contact-label">Телефон</div>
+          <div class="map-contact-value"><a href="tel:+380730044470">380730044470</a></div>
+        </div>
+      </div>
+
+      <a href="tel:+380730044470" class="btn-map-call">Отримати дзвінок</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ OFFICES ═══════════ -->
+<section class="offices-section">
+  <div class="offices-inner">
+
+    <!-- Brand col -->
+    <div class="offices-brand">
+      <div class="offices-logo-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 122" fill="none" style="height:40px;width:auto;display:block;max-width:100%;">
+          <g clip-path="url(#of1)">
+            <path d="M122.88 20.39L98.65 1.42L87.27 16.63H29.85C13.92 16.63 1 29.55 1 45.48V79.69C1 91.99 13.99 103.78 19.53 106.63L43.1 120.26L51.06 108.54H108.64C124.57 108.54 137.49 95.62 137.49 79.69V45.48C137.49 34.73 132.87 29.83 122.88 20.39Z" fill="white" stroke="#2B2B2B" stroke-width="2" stroke-miterlimit="10"/>
+            <path d="M117.37 31.15L98.8 16.24L89.85 27.9L33.45 27.2C21.13 27.05 11.01 36.91 10.86 49.24L10.53 75.7C10.41 85.21 20.34 94.46 24.61 96.72L42.71 107.49L48.98 98.5L105.51 99.2C117.83 99.35 127.95 89.49 128.1 77.16L128.43 50.7C128.53 42.38 125.01 38.55 117.37 31.15Z" fill="#2B2B2B"/>
+            <path d="M36.07 71.27C40.58 71.27 44.23 67.62 44.23 63.11C44.23 58.6 40.58 54.95 36.07 54.95C31.56 54.95 27.91 58.6 27.91 63.11C27.91 67.62 31.56 71.27 36.07 71.27Z" fill="#0095D4"/>
+            <path d="M69.43 70.76C73.94 70.76 77.59 67.11 77.59 62.6C77.59 58.09 73.94 54.44 69.43 54.44C64.92 54.44 61.27 58.09 61.27 62.6C61.27 67.11 64.92 70.76 69.43 70.76Z" fill="#0095D4"/>
+            <path d="M102.43 70.76C106.94 70.76 110.59 67.11 110.59 62.6C110.59 58.09 106.94 54.44 102.43 54.44C97.92 54.44 94.27 58.09 94.27 62.6C94.27 67.11 97.92 70.76 102.43 70.76Z" fill="#0095D4"/>
+            <path d="M171.49 43.03L190.74 62.28H182.99L166.49 45.78H157.75V62.28H152.25V23.78H157.75V40.28H166.49L182.99 23.78H190.74L171.49 43.03Z" fill="white"/>
+            <path d="M231.44 51.27C231.44 57.32 226.49 62.27 220.44 62.27H203.94C197.84 62.27 192.94 57.38 192.94 51.27V34.77C192.94 28.72 197.89 23.77 203.94 23.77H220.44C226.27 23.77 231.44 28.77 231.44 34.77V51.27ZM225.94 34.77C225.94 31.75 223.47 29.27 220.44 29.27H203.94C200.92 29.27 198.44 31.74 198.44 34.77V51.27C198.44 54.3 200.91 56.77 203.94 56.77H220.44C223.46 56.77 225.94 54.3 225.94 51.27V34.77Z" fill="white"/>
+            <path d="M241.9 40.28H269.4V23.78H274.9V62.27H269.4V45.77H241.9V62.27H236.4V23.78H241.9V40.28Z" fill="white"/>
+            <path d="M307.34 23.78C313.22 23.78 318.17 28.67 318.34 34.78H312.84C312.84 31.76 310.37 29.28 307.34 29.28H290.84C287.82 29.28 285.34 31.75 285.34 34.78V51.28C285.34 54.31 287.81 56.78 290.84 56.78H307.34C310.36 56.78 312.84 54.31 312.84 51.28H318.34C318.34 57.11 313.5 62.28 307.34 62.28H290.84C284.96 62.28 279.84 57.5 279.84 51.28V34.78C279.84 28.84 284.68 23.95 290.84 23.78H307.34Z" fill="white"/>
+            <path d="M349.69 56.77C352.71 56.77 355.19 54.3 355.19 51.27V45.77H333.19C327.31 45.77 322.19 40.99 322.19 34.77V23.77H327.69V34.77C327.69 37.79 330.16 40.27 333.19 40.27H355.19V23.78H360.69V51.28C360.69 57.11 355.85 62.28 349.69 62.28H334.29C328.3 62.28 323.46 57.5 323.29 51.28H328.79C328.79 54.31 331.26 56.78 334.29 56.78H349.69V56.77Z" fill="white"/>
+            <path d="M404.69 23.78V62.27H399.19V29.28H377.19C374.17 29.28 371.69 31.75 371.69 34.78V62.28H366.19V34.78C366.19 28.84 371.03 23.95 377.19 23.78H404.69Z" fill="white"/>
+            <path d="M448.69 51.27C448.69 57.1 443.85 62.27 437.69 62.27H410.19V23.78H415.69V37.53H437.69C443.57 37.53 448.52 42.42 448.69 48.53V51.28ZM443.19 48.52C443.19 45.5 440.72 43.02 437.69 43.02H415.69V56.77H437.69C440.71 56.77 443.19 54.3 443.19 51.27V48.52Z" fill="white"/>
+            <path d="M472.34 29.28V62.27H466.84V29.28H450.34V23.78H488.84V29.28H472.34Z" fill="white"/>
+            <path d="M530.09 62.27H524.59V51.27H497.09V62.27H491.59V34.77C491.59 28.94 496.43 23.77 502.59 23.77H519.09C524.97 23.77 529.92 28.66 530.09 34.77V62.27ZM502.59 29.27C499.57 29.27 497.09 31.74 497.09 34.77V45.77H524.59V34.77C524.59 31.75 522.12 29.27 519.09 29.27H502.59Z" fill="white"/>
+            <path d="M541.09 40.28H568.59V23.78H574.09V62.27H568.59V45.77H541.09V62.27H535.59V23.78H541.09V40.28Z" fill="white"/>
+            <path d="M598.84 29.28V62.27H593.34V29.28H576.84V23.78H615.34V29.28H598.84Z" fill="white"/>
+          </g>
+          <defs><clipPath id="of1"><rect width="615.34" height="122" fill="white"/></clipPath></defs>
+        </svg>
+      </div>
+      <ul class="offices-legal-links">
+        <li><a href="#">Публічна угода з Користувачем</a></li>
+        <li><a href="#">Публічна угода з Консультантом</a></li>
+        <li><a href="#">Правила користування веб-сайтом</a></li>
+        <li><a href="#">Повідомлення про кукі</a></li>
+        <li><a href="#">Положення про реалізацію послуг диллерською мережею</a></li>
+      </ul>
+      <div class="offices-social-desc">Підписникам у наших соціальних мережах сервіс оплачує 3 консультації в мобільному застосунку КОНСУЛЬТАНТ</div>
+      <div class="offices-social">
+        <!-- Telegram -->
+        <a href="https://t.me/consultant_marketplace" class="osoc" title="Telegram">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.869 4.326-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.829.941z"/></svg>
+        </a>
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/consultant_law" class="osoc" title="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/consultant.net.ua" class="osoc" title="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://www.youtube.com/@consultant_law" class="osoc" title="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- World map col — dots generated by JS -->
+    <div class="offices-map-col">
+      <svg id="worldMapSvg" viewBox="0 0 880 480" xmlns="http://www.w3.org/2000/svg">
+        <g id="dotsGroup"></g>
+        <!-- Pins: tip = exact geo coord (equirectangular W=880 H=480), head 22px above tip -->
+
+        <!-- London: 51.5°N, 0°W → x=440, y=103 -->
+        <g class="pin-marker">
+          <circle cx="440" cy="81" r="20" fill="#1497D7" fill-opacity="0.18"/>
+          <circle cx="440" cy="81" r="11" fill="#1497D7"/>
+          <polygon points="433,89 447,89 440,103" fill="#1497D7"/>
+          <circle cx="440" cy="81" r="5" fill="white" fill-opacity="0.9"/>
+        </g>
+
+        <!-- Lublin: 51.2°N, 22.6°E → x=495, y=104 -->
+        <g class="pin-marker">
+          <circle cx="495" cy="82" r="20" fill="#1497D7" fill-opacity="0.18"/>
+          <circle cx="495" cy="82" r="11" fill="#1497D7"/>
+          <polygon points="488,90 502,90 495,104" fill="#1497D7"/>
+          <circle cx="495" cy="82" r="5" fill="white" fill-opacity="0.9"/>
+        </g>
+
+        <!-- Kyiv: 50.4°N, 30.5°E → x=515, y=107 -->
+        <g class="pin-marker">
+          <circle cx="515" cy="85" r="20" fill="#1497D7" fill-opacity="0.18"/>
+          <circle cx="515" cy="85" r="11" fill="#1497D7"/>
+          <polygon points="508,93 522,93 515,107" fill="#1497D7"/>
+          <circle cx="515" cy="85" r="5" fill="white" fill-opacity="0.9"/>
+        </g>
+
+        <!-- Austin TX: 30.3°N, 97.7°W → x=201, y=160 -->
+        <g class="pin-marker">
+          <circle cx="201" cy="138" r="20" fill="#1497D7" fill-opacity="0.18"/>
+          <circle cx="201" cy="138" r="11" fill="#1497D7"/>
+          <polygon points="194,146 208,146 201,160" fill="#1497D7"/>
+          <circle cx="201" cy="138" r="5" fill="white" fill-opacity="0.9"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Offices list -->
+    <div>
+      <div class="offices-col-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
+        Офіси
+      </div>
+      <ul class="offices-list">
+        <li><span class="pin-dot"></span><span>Польща, Люблін</span></li>
+        <li><span class="pin-dot"></span><span>Україна, Київ</span></li>
+        <li><span class="pin-dot"></span><span>Англія, Лондон</span></li>
+        <li><span class="pin-dot"></span><span>США, Остін</span></li>
+      </ul>
+    </div>
+
+    <!-- Nav links -->
+    <div>
+      <ul class="offices-nav-links">
+        <li><a href="https://consultant.net.ua/otsinka-konsultantiv">Консультанти</a></li>
+        <li><a href="#">Блог</a></li>
+        <li><a href="https://consultant.net.ua/services">Послуги</a></li>
+        <li><a href="https://consultant.net.ua/documents">Документи</a></li>
+        <li><a href="#">Вакансії</a></li>
+        <li><a href="https://consultant.net.ua/o-nas">Про нас</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-tag">Безкоштовна консультація</div>
+    <h2 class="cta-title">Потрібна персональна<br>юридична допомога?</h2>
+    <p class="cta-sub">Наші досвідчені адвокати та юристи готові допомогти у будь-якій правовій ситуації.</p>
+    <div class="cta-btns">
+      <button class="btn-cta-main" onclick="openChat()">💬 Написати в чат</button>
+      <a href="tel:+380730044470" class="btn-cta-sec">📞 Зателефонувати</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <a href="https://consultant.net.ua/" class="footer-logo">
+        <svg style="height:38px;width:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 616 122" fill="none">
+          <g clip-path="url(#lf1)">
+            <path d="M122.88 20.39L98.65 1.42L87.27 16.63H29.85C13.92 16.63 1 29.55 1 45.48V79.69C1 91.99 13.99 103.78 19.53 106.63L43.1 120.26L51.06 108.54H108.64C124.57 108.54 137.49 95.62 137.49 79.69V45.48C137.49 34.73 132.87 29.83 122.88 20.39Z" fill="white" stroke="#2B2B2B" stroke-width="2" stroke-miterlimit="10"/>
+            <path d="M117.37 31.15L98.8 16.24L89.85 27.9L33.45 27.2C21.13 27.05 11.01 36.91 10.86 49.24L10.53 75.7C10.41 85.21 20.34 94.46 24.61 96.72L42.71 107.49L48.98 98.5L105.51 99.2C117.83 99.35 127.95 89.49 128.1 77.16L128.43 50.7C128.53 42.38 125.01 38.55 117.37 31.15Z" fill="#2B2B2B"/>
+            <path d="M36.07 71.27C40.58 71.27 44.23 67.62 44.23 63.11C44.23 58.6 40.58 54.95 36.07 54.95C31.56 54.95 27.91 58.6 27.91 63.11C27.91 67.62 31.56 71.27 36.07 71.27Z" fill="#0095D4"/>
+            <path d="M69.43 70.76C73.94 70.76 77.59 67.11 77.59 62.6C77.59 58.09 73.94 54.44 69.43 54.44C64.92 54.44 61.27 58.09 61.27 62.6C61.27 67.11 64.92 70.76 69.43 70.76Z" fill="#0095D4"/>
+            <path d="M102.43 70.76C106.94 70.76 110.59 67.11 110.59 62.6C110.59 58.09 106.94 54.44 102.43 54.44C97.92 54.44 94.27 58.09 94.27 62.6C94.27 67.11 97.92 70.76 102.43 70.76Z" fill="#0095D4"/>
+            <path d="M171.49 43.03L190.74 62.28H182.99L166.49 45.78H157.75V62.28H152.25V23.78H157.75V40.28H166.49L182.99 23.78H190.74L171.49 43.03Z" fill="white"/>
+            <path d="M231.44 51.27C231.44 57.32 226.49 62.27 220.44 62.27H203.94C197.84 62.27 192.94 57.38 192.94 51.27V34.77C192.94 28.72 197.89 23.77 203.94 23.77H220.44C226.27 23.77 231.44 28.77 231.44 34.77V51.27ZM225.94 34.77C225.94 31.75 223.47 29.27 220.44 29.27H203.94C200.92 29.27 198.44 31.74 198.44 34.77V51.27C198.44 54.3 200.91 56.77 203.94 56.77H220.44C223.46 56.77 225.94 54.3 225.94 51.27V34.77Z" fill="white"/>
+            <path d="M241.9 40.28H269.4V23.78H274.9V62.27H269.4V45.77H241.9V62.27H236.4V23.78H241.9V40.28Z" fill="white"/>
+            <path d="M307.34 23.78C313.22 23.78 318.17 28.67 318.34 34.78H312.84C312.84 31.76 310.37 29.28 307.34 29.28H290.84C287.82 29.28 285.34 31.75 285.34 34.78V51.28C285.34 54.31 287.81 56.78 290.84 56.78H307.34C310.36 56.78 312.84 54.31 312.84 51.28H318.34C318.34 57.11 313.5 62.28 307.34 62.28H290.84C284.96 62.28 279.84 57.5 279.84 51.28V34.78C279.84 28.84 284.68 23.95 290.84 23.78H307.34Z" fill="white"/>
+            <path d="M349.69 56.77C352.71 56.77 355.19 54.3 355.19 51.27V45.77H333.19C327.31 45.77 322.19 40.99 322.19 34.77V23.77H327.69V34.77C327.69 37.79 330.16 40.27 333.19 40.27H355.19V23.78H360.69V51.28C360.69 57.11 355.85 62.28 349.69 62.28H334.29C328.3 62.28 323.46 57.5 323.29 51.28H328.79C328.79 54.31 331.26 56.78 334.29 56.78H349.69V56.77Z" fill="white"/>
+            <path d="M404.69 23.78V62.27H399.19V29.28H377.19C374.17 29.28 371.69 31.75 371.69 34.78V62.28H366.19V34.78C366.19 28.84 371.03 23.95 377.19 23.78H404.69Z" fill="white"/>
+            <path d="M448.69 51.27C448.69 57.1 443.85 62.27 437.69 62.27H410.19V23.78H415.69V37.53H437.69C443.57 37.53 448.52 42.42 448.69 48.53V51.28ZM443.19 48.52C443.19 45.5 440.72 43.02 437.69 43.02H415.69V56.77H437.69C440.71 56.77 443.19 54.3 443.19 51.27V48.52Z" fill="white"/>
+            <path d="M472.34 29.28V62.27H466.84V29.28H450.34V23.78H488.84V29.28H472.34Z" fill="white"/>
+            <path d="M530.09 62.27H524.59V51.27H497.09V62.27H491.59V34.77C491.59 28.94 496.43 23.77 502.59 23.77H519.09C524.97 23.77 529.92 28.66 530.09 34.77V62.27ZM502.59 29.27C499.57 29.27 497.09 31.74 497.09 34.77V45.77H524.59V34.77C524.59 31.75 522.12 29.27 519.09 29.27H502.59Z" fill="white"/>
+            <path d="M541.09 40.28H568.59V23.78H574.09V62.27H568.59V45.77H541.09V62.27H535.59V23.78H541.09V40.28Z" fill="white"/>
+            <path d="M598.84 29.28V62.27H593.34V29.28H576.84V23.78H615.34V29.28H598.84Z" fill="white"/>
+          </g>
+          <defs><clipPath id="lf1"><rect width="615.34" height="121.6" fill="white"/></clipPath></defs>
+        </svg>
+      </a>
+      <p class="footer-desc">Платформа юридичних консультацій. Досвідчені юристи та адвокати для захисту ваших прав.</p>
+      <div class="footer-social">
+        <a href="https://t.me/consultant_marketplace" class="fsoc">✈</a>
+        <a href="https://www.instagram.com/consultant_law" class="fsoc">📷</a>
+        <a href="https://www.facebook.com/consultant.net.ua" class="fsoc">f</a>
+        <a href="https://www.youtube.com/@consultant_law" class="fsoc">▶</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Послуги</div>
+      <ul class="footer-links">
+        <li><a href="https://consultant.net.ua/services">Всі послуги</a></li>
+        <li><a href="https://consultant.net.ua/otsinka-konsultantiv">Знайти консультанта</a></li>
+        <li><a href="https://consultant.net.ua/documents">Документи</a></li>
+        <li><a href="https://consultant.net.ua/statti">Статті та поради</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Компанія</div>
+      <ul class="footer-links">
+        <li><a href="https://consultant.net.ua/o-nas">Про нас</a></li>
+        <li><a href="https://consultant.net.ua/vakansiyi">Вакансії</a></li>
+        <li><a href="https://consultant.net.ua/otsinka-konsultantiv">Рейтинг юристів</a></li>
+        <li><a href="https://g.co/kgs/iwAvb8g" target="_blank">Відгуки Google</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Контакти</div>
+      <ul class="footer-links">
+        <li><a href="tel:+380730044470">+380 73 004 44 70</a></li>
+        <li><a href="https://t.me/consultant_marketplace">Telegram</a></li>
+        <li><a href="#">Конфіденційність</a></li>
+        <li><a href="#">Умови використання</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2018 – 2026 Консультант. Всі права захищені.</span>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="pay-badge">Dia City</div>
+      <div class="pay-badge visa">VISA</div>
+      <div class="pay-badge mc">
+        <span class="mc-circle mc-r"></span>
+        <span class="mc-circle mc-o"></span>
+        &nbsp;Mastercard
+      </div>
+    </div>
+    <span>consultant.net.ua</span>
+  </div>
+</footer>
+
+<!-- ═══════════ CHAT OVERLAY ═══════════ -->
+<div class="chat-overlay" id="chatOverlay" onclick="closeChat()"></div>
+
+<!-- ═══════════ FLOATING CHAT WIDGET ═══════════ -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-widget-header">
+    <div class="chat-agent-avatar">👨‍💼</div>
+    <div class="chat-agent-info">
+      <div class="chat-agent-name">Олександр — менеджер</div>
+      <div class="chat-agent-status"><span class="online-dot"></span> Онлайн · відповідаємо одразу</div>
+    </div>
+    <button class="chat-close" onclick="closeChat()" aria-label="Закрити">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">
+      <div class="chat-bubble">
+        Привіт! 👋 Ми вже вирішили цю проблему у інших — допоможемо і тобі.<br><br>
+        Скажи, у тебе така ж проблема або інша?
+      </div>
+      <div class="chat-msg-time">зараз</div>
+    </div>
+  </div>
+
+  <div class="typing-indicator" id="typingIndicator">
+    <div class="typing-bubble">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  </div>
+
+  <div class="chat-input-area">
+    <input class="chat-input" id="chatInput" type="text"
+      placeholder="Напишіть повідомлення..."
+      onkeydown="if(event.key==='Enter') sendChatMessage()">
+    <button class="chat-send" onclick="sendChatMessage()" aria-label="Надіслати">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Bubble launcher -->
+<button class="chat-launcher" id="chatLauncher" onclick="openChat()" aria-label="Відкрити чат">
+  💬
+  <span class="chat-launcher-badge">1</span>
+</button>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+  /* ── WORLD MAP DOT GENERATOR (canvas polygon) ── */
+  (function() {
+    const svg = document.getElementById('worldMapSvg');
+    if (!svg) return;
+    const W = 880, H = 480;
+    const spacing = 6, R_MAX = 2.6, R_MIN = 0.55;
+    const ns = 'http://www.w3.org/2000/svg';
+    const group = document.getElementById('dotsGroup');
+    /* Globe depth: dots shrink toward the edges like a sphere */
+    const cx = W / 2, cy = H / 2;
+    const maxDist = Math.sqrt(cx * cx + cy * cy);
+    function dotRadius(x, y) {
+      const d = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+      const t = Math.max(0, 1 - d / maxDist);          // 1 at centre → 0 at corner
+      return R_MIN + (R_MAX - R_MIN) * Math.pow(t, 0.55);
+    }
+
+    /* Offscreen canvas — draw continent polygons, then sample pixels */
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+
+    const px = lon => ((lon + 180) / 360) * W;
+    const py = lat => ((90 - lat) / 180) * H;
+
+    function poly(pts) {
+      ctx.beginPath();
+      ctx.moveTo(px(pts[0][0]), py(pts[0][1]));
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(px(pts[i][0]), py(pts[i][1]));
+      ctx.closePath(); ctx.fill();
+    }
+
+    /* ── NORTH AMERICA ── */
+    poly([[-168,72],[-141,68],[-130,58],[-124,48],[-124,37],[-117,32],[-108,22],
+          [-96,16],[-83,10],[-77,9],[-76,18],[-72,18],[-68,20],[-62,24],
+          [-60,46],[-67,47],[-70,44],[-72,41],[-76,35],[-80,26],[-82,25],
+          [-88,30],[-90,30],[-97,26],[-105,21],[-116,29],[-118,34],[-122,37],
+          [-124,48],[-129,54],[-135,58],[-140,59],[-148,60],[-162,60],[-168,60]]);
+    /* Alaska */
+    poly([[-168,60],[-162,60],[-148,60],[-140,59],[-135,58],[-130,54],[-130,58],
+          [-140,68],[-148,72],[-162,70],[-168,66]]);
+    /* Canada arctic islands */
+    poly([[-80,74],[-68,78],[-60,80],[-50,80],[-40,78],[-30,78],[-28,74],[-62,70],[-80,70]]);
+    /* Greenland */
+    poly([[-58,84],[-20,84],[-16,76],[-18,70],[-26,66],[-42,62],[-52,62],[-56,66],[-58,76]]);
+    /* Iceland */
+    poly([[-24,66],[-14,64],[-13,63],[-24,63]]);
+
+    /* ── CENTRAL AMERICA ── */
+    poly([[-83,10],[-77,9],[-77,18],[-84,16],[-86,13],[-90,13],[-92,16],[-86,16],[-83,10]]);
+    /* Cuba */
+    poly([[-84,22],[-74,20],[-74,22],[-80,24],[-84,22]]);
+
+    /* ── SOUTH AMERICA ── */
+    poly([[-80,12],[-77,8],[-70,12],[-60,5],[-50,0],[-36,-4],[-36,-10],
+          [-40,-20],[-45,-24],[-48,-28],[-52,-34],[-58,-38],[-65,-43],
+          [-68,-48],[-72,-52],[-74,-56],[-68,-56],[-64,-50],[-58,-40],
+          [-52,-34],[-50,-30],[-46,-24],[-40,-16],[-38,-10],[-38,-4],
+          [-42,0],[-50,2],[-60,5],[-66,0],[-72,-2],[-76,0],[-80,4]]);
+
+    /* ── EUROPE ── */
+    poly([[-10,36],[-6,36],[-2,36],[4,44],[8,48],[10,55],[12,56],[16,56],
+          [20,56],[24,57],[28,60],[28,64],[24,66],[18,68],[18,70],[22,72],
+          [28,72],[30,70],[30,64],[32,62],[34,58],[36,56],[32,54],[28,54],
+          [26,50],[24,46],[28,42],[30,40],[28,38],[24,38],[22,38],[18,40],
+          [16,40],[12,38],[10,38],[6,36],[2,36],[-2,36],[-6,40],[-8,42],[-10,40]]);
+    /* Great Britain */
+    poly([[-5,50],[-2,50],[0,51],[2,52],[0,52],[-1,54],[-3,56],[-5,58],[-3,58],
+          [0,58],[0,56],[-2,56],[-2,52],[-1,50],[-5,50]]);
+    /* Ireland */
+    poly([[-10,52],[-6,52],[-6,54],[-8,55],[-10,54]]);
+    /* Scandinavia */
+    poly([[4,58],[8,56],[10,56],[12,56],[14,56],[16,56],[20,56],[24,57],[28,60],
+          [26,62],[24,66],[22,68],[18,70],[14,66],[14,60],[10,58],[6,58],[4,58]]);
+    poly([[28,64],[30,68],[28,72],[22,72],[18,70],[22,68],[24,66],[28,64]]);
+
+    /* ── AFRICA ── */
+    poly([[-18,38],[-4,36],[10,38],[22,38],[32,30],[36,22],[44,12],[52,12],
+          [44,0],[40,-4],[36,-18],[34,-26],[28,-34],[24,-34],[18,-34],
+          [14,-24],[10,-10],[8,2],[2,6],[-4,5],[-14,10],[-16,16],[-8,28],
+          [-6,34],[-10,36],[-18,36]]);
+    /* Madagascar */
+    poly([[44,-12],[50,-14],[52,-18],[50,-26],[44,-26],[43,-18]]);
+
+    /* ── MIDDLE EAST / ARABIAN PENINSULA ── */
+    poly([[34,38],[38,36],[42,38],[46,38],[52,30],[58,22],[60,20],[52,12],
+          [44,12],[36,22],[32,30],[34,36]]);
+    poly([[56,24],[60,22],[62,24],[60,26],[56,24]]); /* Oman */
+
+    /* ── RUSSIA + CENTRAL ASIA ── */
+    poly([[28,54],[36,56],[42,56],[48,60],[54,60],[60,62],[70,66],[80,70],
+          [90,70],[100,68],[110,70],[120,68],[130,62],[138,56],[140,50],
+          [130,42],[130,38],[120,34],[116,30],[100,28],[90,28],[82,26],
+          [72,24],[66,24],[60,24],[56,26],[52,30],[46,38],[42,38],[38,36],
+          [36,56],[32,54],[28,54]]);
+    poly([[30,68],[42,70],[50,70],[60,72],[80,74],[100,72],[120,70],[140,68],
+          [150,62],[160,64],[170,62],[180,66],[178,72],[160,74],[140,74],
+          [120,72],[100,74],[80,74],[60,72],[42,70],[30,70]]);
+    /* Siberia north coast extras */
+    poly([[100,72],[110,76],[120,76],[120,72],[110,70],[100,72]]);
+    poly([[130,72],[140,76],[150,74],[140,70],[130,70],[130,72]]);
+
+    /* ── INDIAN SUBCONTINENT ── */
+    poly([[72,24],[80,28],[88,26],[92,22],[88,18],[86,14],[80,8],[76,8],[70,22],[72,24]]);
+    poly([[80,8],[82,10],[80,10]]); /* Sri Lanka */
+
+    /* ── EAST / SOUTHEAST ASIA ── */
+    poly([[98,28],[102,22],[104,12],[100,2],[102,0],[106,4],[108,10],[112,18],
+          [116,22],[120,28],[116,28],[110,22],[104,22],[98,28]]);
+    /* Malay Peninsula */
+    poly([[100,6],[104,2],[106,2],[104,-2],[102,-2],[100,2],[100,6]]);
+    /* Sumatra */
+    poly([[96,6],[104,4],[106,0],[104,-4],[100,-4],[96,0],[94,4]]);
+    /* Java */
+    poly([[106,-6],[108,-6],[112,-6],[116,-8],[108,-8],[106,-6]]);
+    /* Borneo */
+    poly([[108,-2],[116,2],[118,4],[120,2],[118,-2],[112,-4],[108,-4],[108,-2]]);
+    /* Sulawesi */
+    poly([[120,2],[124,2],[126,-2],[122,-4],[120,-2],[118,0],[120,2]]);
+    /* New Guinea */
+    poly([[132,-4],[140,-4],[146,-6],[148,-8],[140,-8],[134,-6],[132,-4]]);
+
+    /* ── AUSTRALIA ── */
+    poly([[114,-22],[122,-18],[130,-14],[138,-12],[142,-10],[148,-12],
+          [154,-24],[154,-38],[146,-38],[136,-36],[130,-32],[118,-30],[114,-26]]);
+    poly([[144,-38],[152,-40],[148,-44],[144,-38]]); /* Tasmania */
+
+    /* ── JAPAN ── */
+    poly([[130,32],[132,34],[136,36],[138,40],[142,44],[142,42],[140,40],
+          [136,36],[132,32],[130,32]]);
+    poly([[140,42],[146,44],[146,42],[142,44]]); /* Hokkaido */
+
+    /* ── PHILIPPINES ── */
+    poly([[116,20],[122,18],[124,12],[122,8],[118,8],[116,12],[116,20]]);
+
+    /* ── NEW ZEALAND ── */
+    poly([[166,-34],[170,-36],[172,-38],[174,-42],[170,-44],[166,-44],[166,-38]]);
+    poly([[174,-40],[178,-38],[176,-44],[172,-44],[174,-40]]);
+
+    /* ── Sample canvas and build SVG circles ── */
+    const img = ctx.getImageData(0, 0, W, H).data;
+    const frag = document.createDocumentFragment();
+    for (let y = spacing / 2; y < H; y += spacing) {
+      for (let x = spacing / 2; x < W; x += spacing) {
+        const ix = (Math.round(y) * W + Math.round(x)) * 4;
+        if (img[ix + 3] > 64) {
+          const c = document.createElementNS(ns, 'circle');
+          c.setAttribute('cx', x.toFixed(1));
+          c.setAttribute('cy', y.toFixed(1));
+          c.setAttribute('r', dotRadius(x, y).toFixed(2));
+          c.classList.add('map-dot');
+          frag.appendChild(c);
+        }
+      }
+    }
+    group.appendChild(frag);
+  })();
+
+  let chatOpen = false;
+  let reopenTimer = null;
+
+  const widget   = document.getElementById('chatWidget');
+  const launcher = document.getElementById('chatLauncher');
+  const overlay  = document.getElementById('chatOverlay');
+  const msgs     = document.getElementById('chatMessages');
+  const typing   = document.getElementById('typingIndicator');
+  const input    = document.getElementById('chatInput');
+
+  // Show chat after 3 seconds
+  setTimeout(() => { openChat(); }, 3000);
+
+  function openChat() {
+    chatOpen = true;
+    widget.classList.add('visible');
+    overlay.classList.add('visible');
+    launcher.classList.remove('visible');
+    if (reopenTimer) { clearTimeout(reopenTimer); reopenTimer = null; }
+    const badge = launcher.querySelector('.chat-launcher-badge');
+    if (badge) badge.style.display = 'none';
+  }
+
+  function closeChat() {
+    chatOpen = false;
+    widget.classList.remove('visible');
+    overlay.classList.remove('visible');
+    launcher.classList.add('visible');
+    reopenTimer = setTimeout(() => {
+      if (!chatOpen) openChat();
+    }, 30000);
+  }
+
+  const autoReplies = [
+    "Зрозумів! Ця ситуація досить поширена — наші адвокати вже допомогли десяткам людей з подібним питанням. Залиш свій номер телефону, і ми зателефонуємо вам протягом кількох хвилин 📞",
+    "Добре, дякую за інформацію! Виходячи з того, що ви описали — рекомендую негайно подати рапорт з доданими документами. Можемо допомогти скласти правильно. Як вам зручніше зв'язатись?",
+    "Розумію, ситуація серйозна. Наш спеціаліст з військового права може проконсультувати вас прямо зараз. Введіть будь ласка ваш номер телефону, або натисніть тут: +380 73 004 44 70 📱",
+    "Це дуже важливе питання. Ми спеціалізуємось саме на таких випадках. Дозвольте з'єднати вас з нашим адвокатом, який вирішить ситуацію максимально швидко ✅",
+  ];
+  let replyIndex = 0;
+
+  function addMessage(text, who) {
+    const div = document.createElement('div');
+    div.className = `chat-msg ${who}`;
+    const now = new Date();
+    const t = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    div.innerHTML = `<div class="chat-bubble">${text}</div><div class="chat-msg-time">${t}</div>`;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    typing.classList.add('show');
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function hideTyping() {
+    typing.classList.remove('show');
+  }
+
+  function sendChatMessage() {
+    const val = input.value.trim();
+    if (!val) return;
+    input.value = '';
+    addMessage(val, 'user');
+
+    // Show typing
+    showTyping();
+    const delay = 1000 + Math.random() * 1000; // 1–2s
+    setTimeout(() => {
+      hideTyping();
+      const reply = autoReplies[replyIndex % autoReplies.length];
+      replyIndex++;
+      addMessage(reply, 'bot');
+    }, delay);
+  }
+</script>
+
+</body>
+</html>

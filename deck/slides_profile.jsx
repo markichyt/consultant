@@ -71,10 +71,10 @@ function ProfileGenMock() {
     return () => clearTimeout(id);
   }, [phase]);
 
-  const name = useTyped('Олег', phase === 1, 90);
-  const surname = useTyped('Лістунов', phase === 2, 70);
+  const name = useTyped('Oleg', phase === 1, 90);
+  const surname = useTyped('Listunov', phase === 2, 70);
   const phone = useTyped('+1 (617) 555-0148', phase === 3, 45);
-  const email = useTyped('oleg.lystunov@consultantlm.com', phase === 4, 30);
+  const email = useTyped('oleg.listunov@consultantlm.com', phase === 4, 30);
 
   const photoUp = phase >= 5;
   const cvUp = phase >= 6;
@@ -128,7 +128,7 @@ function ProfileGenMock() {
             {/* photo */}
             <div ref={photoRef} style={{ borderRadius: 10, border: `1.5px dashed ${photoUp ? PR.blue : PR.line}`, background: photoUp ? '#eef9ff' : PR.bg, padding: 10, display: 'flex', alignItems: 'center', gap: 9, transition: 'all .3s' }}>
               {photoUp ? (
-                <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#1397d6,#0a6fa0)', color: '#fff', display: 'grid', placeItems: 'center', fontWeight: 800, fontSize: 12, flexShrink: 0 }}>ОЛ</div>
+                <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg,#1397d6,#0a6fa0)', color: '#fff', display: 'grid', placeItems: 'center', fontWeight: 800, fontSize: 12, flexShrink: 0 }}>OL</div>
               ) : (
                 <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#e2e8ee', display: 'grid', placeItems: 'center', flexShrink: 0 }}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa6b0" strokeWidth="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
@@ -168,7 +168,7 @@ function ProfileGenMock() {
           <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#febc2e' }}></span>
           <span style={{ width: 11, height: 11, borderRadius: '50%', background: '#28c840' }}></span>
           <div style={{ marginLeft: 14, flex: 1, height: 26, borderRadius: 7, background: 'rgba(255,255,255,.06)', display: 'flex', alignItems: 'center', gap: 7, padding: '0 12px' }}>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, color: 'rgba(255,255,255,.45)' }}>consultantlm.com/consultant/oleg-lystunov</span>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11.5, color: 'rgba(255,255,255,.45)' }}>consultantlm.com/consultant/oleg-listunov</span>
           </div>
         </div>
 
@@ -269,7 +269,7 @@ function GeneratedProfile() {
 
 function SlideProfile() {
   return (
-    <window.Frame n="02 / 03">
+    <window.Frame n="04 / 11">
       <div className="stage-reveal">
         <Eyebrow>Онбординг · AI-генерація профілю</Eyebrow>
         <h2 className="mt-5 font-display font-extrabold tracking-tight leading-[1.04] max-w-5xl" style={{ fontSize: 42 }}>

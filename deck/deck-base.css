@@ -1,0 +1,73 @@
+/* Shared base styles for the CONSULTANT deck (single-slide pages) */
+html, body { margin: 0; padding: 0; overflow: hidden; height: 100%;
+  background: radial-gradient(120% 80% at 50% -10%, #13202B 0%, #0A1118 45%, #05080c 100%); }
+* { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body { font-family: 'Inter', sans-serif; }
+
+/* ---- glass + glow ---- */
+.glass {
+  background: linear-gradient(160deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018));
+  border: 1px solid rgba(255,255,255,0.09);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 30px 60px -30px rgba(0,0,0,0.7);
+  backdrop-filter: blur(14px);
+}
+.glass-soft {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.glow-neon  { box-shadow: 0 0 0 1px rgba(19,151,214,0.35), 0 0 40px -8px rgba(19,151,214,0.55); }
+.glow-em    { box-shadow: 0 0 0 1px rgba(44,182,125,0.35), 0 0 40px -8px rgba(44,182,125,0.45); }
+.text-glow-neon { text-shadow: 0 0 28px rgba(19,151,214,0.55); }
+
+.hairline { border-color: rgba(255,255,255,0.08); }
+
+/* striped placeholder */
+.striped {
+  background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.04) 0 10px, rgba(255,255,255,0.015) 10px 20px);
+}
+
+/* scrollbars hidden inside mockups */
+.no-sb::-webkit-scrollbar { display: none; }
+.no-sb { scrollbar-width: none; }
+
+/* ---- reveal stagger ---- */
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slidein { from { opacity: 0; transform: translateX(40px) scale(0.99); } to { opacity: 1; transform: translateX(0) scale(1); } }
+.slide-enter { animation: slidein .55s cubic-bezier(.22,.61,.36,1) both; }
+.stage-reveal > * { opacity: 0; animation: rise .62s cubic-bezier(.22,.61,.36,1) forwards; }
+.stage-reveal > *:nth-child(1){animation-delay:.05s}
+.stage-reveal > *:nth-child(2){animation-delay:.13s}
+.stage-reveal > *:nth-child(3){animation-delay:.21s}
+.stage-reveal > *:nth-child(4){animation-delay:.29s}
+.stage-reveal > *:nth-child(5){animation-delay:.37s}
+.stage-reveal > *:nth-child(6){animation-delay:.45s}
+.stage-reveal > *:nth-child(7){animation-delay:.53s}
+.stage-reveal > *:nth-child(8){animation-delay:.61s}
+.stage-reveal > *:nth-child(9){animation-delay:.69s}
+.stage-reveal > *:nth-child(10){animation-delay:.77s}
+
+@keyframes spinslow { to { transform: rotate(360deg); } }
+@keyframes pulseGlow { 0%,100%{opacity:.4} 50%{opacity:1} }
+@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes dash { to { stroke-dashoffset: -1000; } }
+@keyframes ripple { from { transform: scale(.5); opacity: .9; } to { transform: scale(1.6); opacity: 0; } }
+@keyframes scanmove { 0% { transform: translateY(0); } 100% { transform: translateY(150px); } }
+@keyframes caretblink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes profilescroll { 0%,14% { transform: translateY(0); } 100% { transform: translateY(-66%); } }
+
+[data-lucide] { stroke-width: 1.75; }
+
+/* boot splash */
+#boot { position: fixed; inset: 0; display: grid; place-items: center; z-index: 5; }
+#boot .bw { text-align: center; }
+#boot .logo { display: inline-grid; place-items: center; height: 60px; width: 60px; border-radius: 16px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 0 40px -8px rgba(19,151,214,0.6);
+  color: #56C2F0; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 26px; }
+#boot .name { margin-top: 22px; font-family: 'Outfit', sans-serif; font-weight: 800; letter-spacing: -0.01em;
+  color: #fff; font-size: 22px; }
+#boot .name span { color: #1397D6; }
+#boot .sub { margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.34em; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+#boot .ring { margin: 28px auto 0; height: 30px; width: 30px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.12); border-top-color: #1397D6; animation: spinslow 0.9s linear infinite; }

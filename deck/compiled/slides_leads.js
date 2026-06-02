@@ -880,7 +880,7 @@ function CabinetBuyMock() {
 function SlideLeads() {
   const roles = [['Маркетолог', '$2 200'], ['Таргетолог / PPC', '$1 500'], ['SMM-менеджер', '$1 100'], ['Рекламний бюджет', '$1 200']];
   return /*#__PURE__*/React.createElement(window.Frame, {
-    n: "03 / 03"
+    n: "05 / 11"
   }, /*#__PURE__*/React.createElement("div", {
     className: "stage-reveal"
   }, /*#__PURE__*/React.createElement(Eyebrow, null, "\u041A\u0430\u0431\u0456\u043D\u0435\u0442 \u0430\u0434\u0432\u043E\u043A\u0430\u0442\u0430 \u2014 \u041C\u0430\u0440\u043A\u0435\u0442\u043F\u043B\u0435\u0439\u0441 \u043B\u0456\u0434\u0456\u0432"), /*#__PURE__*/React.createElement("h2", {

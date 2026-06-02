@@ -293,7 +293,7 @@ function SlideLeads() {
     ['Рекламний бюджет', '$1 200'],
   ];
   return (
-    <window.Frame n="03 / 03">
+    <window.Frame n="05 / 11">
       <div className="stage-reveal">
         <Eyebrow>Кабінет адвоката — Маркетплейс лідів</Eyebrow>
         <h2 className="mt-5 font-display font-extrabold tracking-tight leading-[1.04] max-w-5xl" style={{ fontSize: 44 }}>

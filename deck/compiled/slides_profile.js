@@ -175,10 +175,10 @@ function ProfileGenMock() {
     const id = setTimeout(() => setPhase(p => (p + 1) % 10), dur[phase]);
     return () => clearTimeout(id);
   }, [phase]);
-  const name = useTyped('Олег', phase === 1, 90);
-  const surname = useTyped('Лістунов', phase === 2, 70);
+  const name = useTyped('Oleg', phase === 1, 90);
+  const surname = useTyped('Listunov', phase === 2, 70);
   const phone = useTyped('+1 (617) 555-0148', phase === 3, 45);
-  const email = useTyped('oleg.lystunov@consultantlm.com', phase === 4, 30);
+  const email = useTyped('oleg.listunov@consultantlm.com', phase === 4, 30);
   const photoUp = phase >= 5;
   const cvUp = phase >= 6;
   const processing = phase === 8;
@@ -372,7 +372,7 @@ function ProfileGenMock() {
       fontSize: 12,
       flexShrink: 0
     }
-  }, "\u041E\u041B") : /*#__PURE__*/React.createElement("div", {
+  }, "OL") : /*#__PURE__*/React.createElement("div", {
     style: {
       width: 32,
       height: 32,
@@ -534,7 +534,7 @@ function ProfileGenMock() {
       fontSize: 11.5,
       color: 'rgba(255,255,255,.45)'
     }
-  }, "consultantlm.com/consultant/oleg-lystunov"))), /*#__PURE__*/React.createElement("div", {
+  }, "consultantlm.com/consultant/oleg-listunov"))), /*#__PURE__*/React.createElement("div", {
     style: {
       position: 'relative',
       height: 518
@@ -866,7 +866,7 @@ function GeneratedProfile() {
 }
 function SlideProfile() {
   return /*#__PURE__*/React.createElement(window.Frame, {
-    n: "02 / 03"
+    n: "04 / 11"
   }, /*#__PURE__*/React.createElement("div", {
     className: "stage-reveal"
   }, /*#__PURE__*/React.createElement(Eyebrow, null, "\u041E\u043D\u0431\u043E\u0440\u0434\u0438\u043D\u0433 \xB7 AI-\u0433\u0435\u043D\u0435\u0440\u0430\u0446\u0456\u044F \u043F\u0440\u043E\u0444\u0456\u043B\u044E"), /*#__PURE__*/React.createElement("h2", {

@@ -161,6 +161,8 @@ function Deck() {
   const slides = (window.SLIDES || []).slice().sort((a, b) => (a.order || 0) - (b.order || 0));
   const total = slides.length;
   const [index, setIndex] = useState(() => {
+    const m = (location.hash || '').match(/s(\d+)/i);
+    if (m) return Math.max(0, Math.min(total - 1, parseInt(m[1], 10) - 1));
     const saved = parseInt(localStorage.getItem(STORE_KEY) || '0', 10);
     return isNaN(saved) ? 0 : Math.max(0, Math.min(total - 1, saved));
   });

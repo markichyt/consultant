@@ -256,7 +256,8 @@ function Chip({
   const map = {
     default: 'text-white/70',
     neon: 'text-neonlt',
-    em: 'text-emerald'
+    em: 'text-emerald',
+    amber: 'text-amber'
   };
   return /*#__PURE__*/React.createElement("span", {
     className: `inline-flex items-center gap-2 rounded-full glass-soft px-4 py-2 text-[14px] font-medium ${map[tone]}`

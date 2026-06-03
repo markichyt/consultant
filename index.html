@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CONSULTANT — Investor Deck</title>
+<title>ConsultantLM — Live Demo</title>
 <meta name="theme-color" content="#0A1118" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -201,37 +201,35 @@
 </head>
 <body>
 
-<!-- Mobile block screen (hidden on desktop via JS) -->
 <div class="mobile-block" id="mobile-block" style="display: none;">
   <div class="logo-mark">C<span style="color:#1397D6">.</span></div>
-  <div class="brand">CONSULT<span>·</span>UA</div>
-  <h1>Презентація оптимізована для планшета та комп'ютера</h1>
-  <p>Цей інвестиційний дек містить інтерактивні AI-демо та анімації, які потребують більшого екрана для коректного відображення.</p>
+  <div class="brand">CONSULTANT<span>·</span>LM</div>
+  <h1>Best viewed on a tablet or computer</h1>
+  <p>This deck contains interactive video demos that need a larger screen to display correctly.</p>
   <div class="pill">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
     </svg>
-    Відкрийте на планшеті або комп'ютері
+    Open on tablet or laptop
   </div>
-  <div class="footer">© CONSULTANT · 2026 · Confidential</div>
+  <div class="footer">© ConsultantLM · 2026 · Confidential</div>
 </div>
 
-<!-- Desktop deck (will be revealed only on desktop) -->
 <div id="desktop-deck" style="display: none;">
-  <div class="rail"><div class="fill" id="fill" style="width: 9.09%"></div></div>
-  <div class="counter"><b id="cur">01</b> / <span id="total">11</span></div>
+  <div class="rail"><div class="fill" id="fill" style="width: 20%"></div></div>
+  <div class="counter"><b id="cur">01</b> / <span id="total">05</span></div>
 
-  <button class="nav prev" id="prev" aria-label="Попередній слайд">
+  <button class="nav prev" id="prev" aria-label="Previous slide">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <button class="nav next" id="next" aria-label="Наступний слайд">
+  <button class="nav next" id="next" aria-label="Next slide">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
   </button>
 
   <div class="dots" id="dots"></div>
 
   <div class="hint">
-    <kbd>←</kbd><kbd>→</kbd> &nbsp;стрілки · <kbd>Space</kbd> вперед · трекпад / свайп
+    <kbd>←</kbd><kbd>→</kbd> &nbsp;arrows · <kbd>Space</kbd> next · trackpad / swipe
   </div>
 
   <div class="stage" id="stage"></div>
@@ -241,11 +239,6 @@
 (function () {
   'use strict';
 
-  // ───────────────────────────────────────────────
-  // Mobile detection — phones only (tablets allowed)
-  // Two checks cover both portrait phones (narrow) and landscape phones (short).
-  // iPad portrait (744–1024 wide) and tablet landscape stay above both thresholds.
-  // ───────────────────────────────────────────────
   function isMobile() {
     return window.innerWidth < 700 || window.innerHeight < 500;
   }
@@ -253,25 +246,15 @@
   var mobileBlock = document.getElementById('mobile-block');
   var desktopDeck = document.getElementById('desktop-deck');
 
-  // ───────────────────────────────────────────────
-  // Slide registry
-  // ───────────────────────────────────────────────
   var SLIDES = [
-    { src: 'index1.html',  title: 'Intro' },
-    { src: 'index2.html',  title: 'Проблема ринку' },
-    { src: 'index3.html',  title: 'Рішення: 3 продукти' },
-    { src: 'index4.html',  title: 'AI-генерація профілю' },
-    { src: 'index5.html',  title: 'Кабінет лідів' },
-    { src: 'index6.html',  title: 'AI відео-аватар' },
-    { src: 'index7.html',  title: 'AI-контент: SEO-трафік' },
-    { src: 'index8.html',  title: 'Консультації' },
-    { src: 'index9.html',  title: 'Безпрограшна воронка' },
-    { src: 'index10.html', title: 'Бізнес-модель та ринок' },
-    { src: 'index11.html', title: 'Команда та раунд' },
+    { src: 'slide1.html', title: 'Welcome' },
+    { src: 'slide2.html', title: 'Lawyer Cabinet' },
+    { src: 'slide3.html', title: 'Internal Sales CRM' },
+    { src: 'slide4.html', title: 'AI Content Factory' },
+    { src: 'slide5.html', title: 'Mobile Apps' },
   ];
   var N = SLIDES.length;
 
-  // ── DOM ──
   var stage = document.getElementById('stage');
   var fill = document.getElementById('fill');
   var curEl = document.getElementById('cur');
@@ -282,7 +265,6 @@
 
   totalEl.textContent = String(N).padStart(2, '0');
 
-  // Build slide containers + dots
   var slideEls = [];
   for (var i = 0; i < N; i++) {
     (function (i) {
@@ -294,7 +276,7 @@
 
       var b = document.createElement('button');
       b.className = 'dot';
-      b.setAttribute('aria-label', 'Слайд ' + (i + 1) + ': ' + SLIDES[i].title);
+      b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' + SLIDES[i].title);
       b.title = (i + 1) + '. ' + SLIDES[i].title;
       b.addEventListener('click', function () { go(i); });
       dotsEl.appendChild(b);
@@ -302,13 +284,40 @@
   }
   var dotEls = Array.prototype.slice.call(dotsEl.children);
 
-  // ───────────────────────────────────────────────
-  // State
-  // ───────────────────────────────────────────────
   var current = 0;
   var loaded = {};
 
-  // Lazy-load each iframe + inject wheel/keyboard relay
+  function getVideos(idx) {
+    var slot = slideEls[idx];
+    if (!slot) return [];
+    var f = slot.querySelector('iframe');
+    if (!f) return [];
+    try {
+      var vids = f.contentDocument && f.contentDocument.querySelectorAll('video');
+      return vids ? Array.prototype.slice.call(vids) : [];
+    } catch (e) { return []; }
+  }
+
+  function pauseAllVideosExcept(idx) {
+    Object.keys(loaded).forEach(function (k) {
+      var i = parseInt(k, 10);
+      if (i === idx) return;
+      getVideos(i).forEach(function (v) {
+        try { v.pause(); v.currentTime = 0; } catch (e) {}
+      });
+    });
+  }
+
+  function playVideosOn(idx) {
+    getVideos(idx).forEach(function (v) {
+      try {
+        v.muted = true;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { /* autoplay blocked — controls still work */ });
+      } catch (e) {}
+    });
+  }
+
   function mountIframe(idx) {
     if (loaded[idx]) return;
     var slot = slideEls[idx];
@@ -318,20 +327,26 @@
     f.src = SLIDES[idx].src;
     f.addEventListener('load', function () {
       slot.classList.remove('is-empty');
-      // Relay wheel + keyboard events from iframe to parent
       try {
         var cw = f.contentWindow;
         cw.addEventListener('wheel', handleWheel, { passive: true });
         cw.addEventListener('keydown', handleKeydown);
         cw.addEventListener('touchstart', handleTouchStart, { passive: true });
         cw.addEventListener('touchend', handleTouchEnd, { passive: true });
-      } catch (e) { /* same-origin, should never fail; defensive */ }
+      } catch (e) {}
+      // If a neighbor mounted late, pause its videos; only current plays.
+      if (idx !== current) {
+        getVideos(idx).forEach(function (v) {
+          try { v.pause(); v.currentTime = 0; } catch (e) {}
+        });
+      } else {
+        playVideosOn(idx);
+      }
     });
     slot.appendChild(f);
     loaded[idx] = true;
   }
 
-  // Mount current + neighbors (±1) for instant flip
   function ensureNeighbors() {
     mountIframe(current);
     if (current > 0) mountIframe(current - 1);
@@ -358,7 +373,7 @@
     if (history.replaceState) {
       history.replaceState(null, '', '#' + (current + 1));
     }
-    document.title = String(current + 1).padStart(2, '0') + ' · ' + SLIDES[current].title + ' — CONSULTANT Deck';
+    document.title = String(current + 1).padStart(2, '0') + ' · ' + SLIDES[current].title + ' — ConsultantLM Demo';
   }
 
   function go(idx, opts) {
@@ -370,25 +385,24 @@
     ensureNeighbors();
     applyTransform(opts.animated !== false);
     updateUI();
+    pauseAllVideosExcept(current);
+    playVideosOn(current);
   }
 
   function next() { go(current + 1); }
   function prev() { go(current - 1); }
 
-  // ───────────────────────────────────────────────
-  // Trackpad / mouse wheel — horizontal swipe
-  // ───────────────────────────────────────────────
+  // ── Trackpad / mouse wheel — horizontal swipe ──
   var wheelAccum = 0;
   var wheelLock = false;
   var wheelResetTimer = null;
-  var WHEEL_THRESHOLD = 60;   // px of horizontal swipe before firing
-  var WHEEL_COOLDOWN = 650;   // ms of lock after firing
+  var WHEEL_THRESHOLD = 60;
+  var WHEEL_COOLDOWN = 650;
 
   function handleWheel(e) {
     if (wheelLock) return;
     var dx = e.deltaX || 0;
     var dy = e.deltaY || 0;
-    // Only treat as nav if horizontal dominates vertical
     if (Math.abs(dx) < 8) return;
     if (Math.abs(dx) < Math.abs(dy) * 0.85) return;
 
@@ -405,9 +419,6 @@
   }
   window.addEventListener('wheel', handleWheel, { passive: true });
 
-  // ───────────────────────────────────────────────
-  // Keyboard
-  // ───────────────────────────────────────────────
   function handleKeydown(e) {
     var tag = (e.target && e.target.tagName) || '';
     if (tag === 'INPUT' || tag === 'TEXTAREA') return;
@@ -430,9 +441,6 @@
   }
   document.addEventListener('keydown', handleKeydown);
 
-  // ───────────────────────────────────────────────
-  // Touch swipe (also fired from iframe via injected listeners)
-  // ───────────────────────────────────────────────
   var touch = null;
   function handleTouchStart(e) {
     if (e.touches.length !== 1) return;
@@ -452,13 +460,9 @@
   document.addEventListener('touchstart', handleTouchStart, { passive: true });
   document.addEventListener('touchend', handleTouchEnd, { passive: true });
 
-  // Click navigation
   prevBtn.addEventListener('click', prev);
   nextBtn.addEventListener('click', next);
 
-  // ───────────────────────────────────────────────
-  // Hashchange + resize
-  // ───────────────────────────────────────────────
   function hashIdx() {
     var m = (location.hash || '').match(/#?(\d+)/);
     if (!m) return 0;
@@ -468,10 +472,7 @@
     return n;
   }
 
-  // ───────────────────────────────────────────────
-  // Mode switching (mobile-block ⇄ desktop-deck) — dynamic on resize,
-  // no page reload, no lost state.
-  // ───────────────────────────────────────────────
+  // ── Mode switching (mobile ⇄ desktop), no reload ──
   var deckInitialized = false;
 
   function applyMode() {
@@ -482,14 +483,12 @@
     if (mobile) return;
 
     if (!deckInitialized) {
-      // First desktop entry — boot the deck (lazy iframe load + sync UI)
       current = hashIdx();
       ensureNeighbors();
       applyTransform(false);
       updateUI();
       deckInitialized = true;
     } else {
-      // Already booted — display:none -> block may need transform reset
       applyTransform(false);
     }
   }
@@ -508,7 +507,6 @@
     resizeTimer = setTimeout(applyMode, 100);
   });
 
-  // Expose for debugging
   window.deck = { go: go, next: next, prev: prev, current: function () { return current; } };
 })();
 </script>

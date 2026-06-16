@@ -340,6 +340,11 @@
 #leadCard{ display:none !important; }
 #qaMcta{ display:none !important; }
 .call-trigger{ display:none !important; }
+/* prevent horizontal overflow on mobile (off-canvas site menu / long elements) */
+html, body{ overflow-x:hidden !important; max-width:100% !important; }
+/* AI logo avatars: show full logo on white, not edge-cropped */
+.qa-answer:not(.qa-answer--pro) .qa-answer__photo,
+.qa-avatars img:nth-child(1), .qa-avatars img:nth-child(2){ object-fit:contain !important; background:#fff !important; }
 
 .pchat__panel,.pchat__cta{ font-family:var(--font-family),sans-serif; box-sizing:border-box; }
 .pchat__panel *{ box-sizing:border-box; }
@@ -625,7 +630,7 @@
                     </a>
                 </li>
                                                 <li class="breadcrumbs__item">
-                    <span>I was arrested because of an error in a police database. I spent several hours in custody despite not committing any crime. I want to know whether I can seek compensation.</span>
+                    <span>Wrongful arrest &mdash; compensation</span>
                 </li>
                         </ul>
 
@@ -636,8 +641,8 @@
                         <p class="qa-lead">&ldquo;I was held in custody for several hours because of an error in a police database, even though I committed no crime.&rdquo; Below, verified specialists answer this exact question &mdash; and you can ask yours for free.</p>
                         <a href="#qa-answers" class="qa-answered">
                             <span class="qa-avatars">
-                                <img src="../assets/default_ava.png" alt="" width="42" height="42" loading="lazy">
-                                <img src="../assets/Olti4J6yEXpjLla0EGGwN9ohiXjyYQRYKVstDlL4-big_avatar_optimized.jpg" alt="" width="42" height="42" loading="lazy">
+                                <img src="../assets/ai-grok-icon.png" alt="" width="42" height="42" loading="lazy">
+                                <img src="../assets/ai-gpt-icon.png" alt="" width="42" height="42" loading="lazy">
                                 <img src="../assets/tnBOoZCKF5Rl4bYrqmZ1DoVE2V82vjCGtUGXT2NP-big_avatar_optimized.png" alt="" width="42" height="42" loading="lazy">
                                 <img src="../assets/7Z638O5s2lGcfhF4dlM7q0CicFUo7ep6m6NN02o9-big_avatar_optimized.png" alt="" width="42" height="42" loading="lazy">
                             </span>
@@ -1018,7 +1023,7 @@
 
                     <article class="qa-answer">
                         <div class="qa-answer__aside">
-                            <img class="qa-answer__photo" src="../assets/default_ava.png" alt="Assistant Grok AI" width="64" height="64" loading="lazy">
+                            <img class="qa-answer__photo" src="../assets/ai-grok-icon.png" alt="Assistant Grok AI" width="64" height="64" loading="lazy">
                             <span class="qa-answer__rating"><svg class="qa-star" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 2 3 6.5 7 .7-5.2 4.8L18.2 21 12 17.3 5.8 21l1.4-7L2 9.2l7-.7z"/></svg> 6.95</span>
                         </div>
                         <div class="qa-answer__main">
@@ -1033,7 +1038,7 @@
 
                     <article class="qa-answer">
                         <div class="qa-answer__aside">
-                            <img class="qa-answer__photo" src="../assets/Olti4J6yEXpjLla0EGGwN9ohiXjyYQRYKVstDlL4-big_avatar_optimized.jpg" alt="GPT Chat" width="64" height="64" loading="lazy">
+                            <img class="qa-answer__photo" src="../assets/ai-gpt-icon.png" alt="GPT Chat" width="64" height="64" loading="lazy">
                             <span class="qa-answer__rating"><svg class="qa-star" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 2 3 6.5 7 .7-5.2 4.8L18.2 21 12 17.3 5.8 21l1.4-7L2 9.2l7-.7z"/></svg> 79.0</span>
                         </div>
                         <div class="qa-answer__main">

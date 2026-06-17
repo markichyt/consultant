@@ -43,7 +43,11 @@ h1{font-family:var(--font2);font-weight:400;font-size:clamp(26px,5vw,52px);line-
 .card:hover .card__go{color:#fff}
 .note{margin-top:36px;font-size:13px;color:var(--muted);line-height:1.6}
 .note code{color:#9fd4ef}
-@media (max-width:680px){ .grid{grid-template-columns:1fr} }
+.card--feat{grid-column:1 / -1;flex-direction:row}
+.card--feat .card__shot{aspect-ratio:auto;width:46%;min-height:230px;border-bottom:0;border-right:1px solid var(--line)}
+.card--feat .card__body{justify-content:center}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#0a0a0a;background:#f5b50a;border-radius:999px;padding:5px 11px;margin-bottom:4px}
+@media (max-width:680px){ .grid{grid-template-columns:1fr} .card--feat{flex-direction:column} .card--feat .card__shot{width:100%;min-height:0;aspect-ratio:16/10;border-right:0;border-bottom:1px solid var(--line)} }
 </style>
 </head>
 <body>
@@ -59,6 +63,16 @@ h1{font-family:var(--font2);font-weight:400;font-size:clamp(26px,5vw,52px);line-
       <b>візуальний стиль</b> подачі. Усі виконані в єдиному фірмовому стилі. Оберіть той, що подобається найбільше.</p>
 
     <div class="grid">
+      <a class="card card--feat" href="./v5/">
+        <div class="card__shot"><span class="card__num">★</span><img src="./thumbs/v5.png" alt="Версія за фідбеком клієнта" loading="lazy"></div>
+        <div class="card__body">
+          <span class="badge">За фідбеком клієнта · для SEO</span>
+          <span class="card__name">Базований на оригіналі (ч/б) + усі правки</span>
+          <span class="card__desc">Збережено стилістику сайту й рідні картки юристів, чорно‑біла палітра. Додано: оцінка+поділитись під кожною відповіддю, коментарі, платні форми (від $10) + підписка, форма створення питання з вибором типу/спеціалізації/локації, чат «7–12 експертів онлайн». <b>На сторінці закріплена панель «Питання для SEO‑спеціаліста»</b> — саме її відкривати сеошнику.</span>
+          <span class="card__go">Відкрити (надіслати сеошнику) →</span>
+        </div>
+      </a>
+
       <a class="card" href="./classic/">
         <div class="card__shot"><span class="card__num">1</span><img src="./thumbs/classic.png" alt="Класичний варіант" loading="lazy"></div>
         <div class="card__body">

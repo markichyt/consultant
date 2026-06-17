@@ -104,13 +104,11 @@
 }
 .blue-btn{ background:#1b1b1b !important; color:#fff !important; }
 .blue-btn:hover{ background:#000 !important; }
-.text-card{ border-top-color:rgba(0,0,0,.12) !important; }
 .balance-card-hover .btn-arrow{ background:#1b1b1b !important; }
 .breadcrumbs__item a{ color:#5a6b73 !important; }
-.text-inner__top-label.blue, .text-inner__top-label.blue svg{ color:#1b1b1b !important; }
-.app-reminder, .call-trigger, .transparent-social{ display:none !important; }
+.app-reminder, .call-trigger, .transparent-social, .cookies{ display:none !important; }
 html, body{ overflow-x:hidden !important; max-width:100% !important; }
-/* ---- HERO: compact the original full-screen hero into a normal band (kills the black void) ---- */
+/* ---- HERO: compact the original full-screen hero into a tidy dark band ---- */
 .main-hero{ min-height:auto !important; }
 .main-hero .main-hero__bg{ opacity:.24 !important; }
 .main-hero .main-hero__inner{ min-height:auto !important; height:auto !important; gap:16px !important;
@@ -118,721 +116,567 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
 .main-hero .main-top__title{ font-size:clamp(22px,3vw,38px) !important; line-height:1.18 !important; max-width:760px; }
 .main-hero .main-top__subtitle{ font-size:15px !important; }
 .main-hero .breadcrumbs__item a, .main-hero .breadcrumbs__item span{ color:rgba(255,255,255,.62) !important; }
-/* drop the site cookie-consent popup (irrelevant to the SEO review, and its Accept btn stayed blue) */
-.cookies{ display:none !important; }
-/* shared bits for injected blocks */
-.cf-section{ max-width:1500px; margin:0 auto; padding:0 clamp(10px,1.95vw,30px); }
-.cf-wrap{ margin:34px auto; }
-.cf-chips{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 6px; }
-.cf-chip{ display:inline-flex; align-items:center; gap:6px; font-family:"Avenir Next Cyr",sans-serif;
-  font-size:13px; font-weight:600; color:#1b1b1b; background:#f0f2f4; border:1px solid #e2e5e8;
-  border-radius:999px; padding:6px 12px; }
-.cf-chip b{ color:#687b83; font-weight:600; }
-.cf-note{ font-family:"Avenir Next Cyr",sans-serif; font-size:12px; color:#9aa0a6; margin-top:4px; }
 </style>
-<style>
-.cf-rs {
-  --cf-ink: #1b1b1b;
-  --cf-gray: #687b83;
-  --cf-border: #e6e8eb;
-  --cf-surface: #f6f8fa;
-  --cf-accent: #1b1b1b;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px 18px;
-  padding: 9px 14px;
-  margin-top: 10px;
-  border: 1px solid var(--cf-border);
-  border-radius: 8px;
-  background: #fff;
-  font-family: "Avenir Next Cyr", sans-serif;
-  color: var(--cf-ink);
-  font-size: 13px;
-  line-height: 1.2;
-}
-.cf-rs *, .cf-rs *::before, .cf-rs *::after { box-sizing: border-box; }
+<style id="cf-design">
+/* =====================================================================
+   CALM CARDS — Consultant Legal Q&A
+   Inlined AFTER main.css. Black / white / gray only.
+   One amber (#f4b740) reserved for the internal-note flag.
+   Brand blue (#1397d6 / --cl-c / --cl-f / --br-c) is overridden out of
+   every selector below. Native .balance-card internals are NOT touched.
+   Scope prefix: .text-section ... so we stay local and beat brand rules.
+   ===================================================================== */
 
-.cf-rs__rate,
-.cf-rs__share {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
+/* ---- Local tokens (b/w/gray only) ------------------------------------ */
+.text-section{
+  --ink:#1b1b1b;          /* near-black text  (brand --cl-d) */
+  --ink-soft:#3a3a3a;
+  --muted:#6b7177;        /* gray text        (brand --cl-h-ish) */
+  --faint:#9aa0a4;
+  --line:#e6e6e4;         /* hairline border */
+  --line-2:#d8d8d5;       /* stronger border */
+  --paper:#ffffff;        /* card surface */
+  --page:#f6f6f5;         /* page wash behind cards */
+  --well:#f2f2f1;         /* neutral well for native lawyer card */
+  --r:3px;                /* brand-native small radius */
+  --amber:#f4b740;        /* ONLY for internal-note flag */
+  --shadow:0 1px 2px rgba(17,17,17,.04), 0 6px 18px rgba(17,17,17,.05);
 }
 
-.cf-rs__label {
-  color: var(--cf-gray);
-  font-weight: 500;
-  letter-spacing: .1px;
-  white-space: nowrap;
+/* Kill the decorative photographic bg — Calm Cards wants a quiet wash.
+   (We keep the element, just neutralize it to gray.) */
+.text-section .text-section__background.bg-image{
+  opacity:1 !important;
 }
-.cf-rs__colon { color: var(--cf-gray); }
-
-/* Stars */
-.cf-rs__stars {
-  display: inline-flex;
-  align-items: center;
-  gap: 1px;
+.text-section .text-section__background.bg-image img,
+.text-section .text-section__background.bg-image source{
+  filter:grayscale(1) contrast(.9) brightness(1.08) !important;
+  opacity:.05 !important;
 }
-.cf-rs__star {
-  display: inline-flex;
-  padding: 2px;
-  margin: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  color: var(--cf-border);
-  border-radius: 4px;
-  transition: transform .12s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.cf-rs__star svg {
-  width: 17px;
-  height: 17px;
-  display: block;
-  fill: #fff;
-  stroke: #c3c8ce;
-  stroke-width: 1.1px;
-  stroke-linejoin: round;
-  transition: fill .12s ease, stroke .12s ease;
-}
-.cf-rs__star.is-on svg {
-  fill: var(--cf-ink);
-  stroke: var(--cf-ink);
-}
-.cf-rs__star:active { transform: scale(.9); }
-.cf-rs__star:focus-visible {
-  outline: 2px solid var(--cf-accent);
-  outline-offset: 1px;
+.text-section{
+  background:var(--page) !important;
 }
 
-.cf-rs__count {
-  color: var(--cf-gray);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  margin-left: 1px;
+/* =====================================================================
+   1) TWO-COLUMN GRID  — .container becomes the grid
+   ===================================================================== */
+.text-section .container{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:34px;
+  align-items:start;
+  position:relative;
+}
+/* hairline gutter so columns never read as overlapping */
+.text-section .container::before{
+  content:"";
+  position:absolute;
+  top:8px; bottom:8px;
+  left:calc(100% - 360px - 17px);
+  width:1px;
+  background:linear-gradient(180deg,transparent,var(--line) 12%,var(--line) 88%,transparent);
+  pointer-events:none;
 }
 
-/* Share icons */
-.cf-rs__icons {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+/* LEFT column resets — neutralize brand float/width quirks */
+.text-section .text-inner{
+  min-width:0;
+  width:100% !important;
+  max-width:none !important;
+  float:none !important;
+  display:block;
 }
-.cf-rs__ico {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 1px solid var(--cf-border);
-  border-radius: 50%;
-  background: var(--cf-surface);
-  color: var(--cf-gray);
-  cursor: pointer;
-  transition: background .14s ease, color .14s ease, border-color .14s ease, transform .12s ease;
-  -webkit-tap-highlight-color: transparent;
-}
-.cf-rs__ico svg {
-  width: 15px;
-  height: 15px;
-  display: block;
-  fill: currentColor;
-}
-.cf-rs__ico:hover {
-  background: var(--cf-ink);
-  border-color: var(--cf-ink);
-  color: #fff;
-}
-.cf-rs__ico:active { transform: scale(.92); }
-.cf-rs__ico:focus-visible {
-  outline: 2px solid var(--cf-accent);
-  outline-offset: 1px;
+.text-section .text-inner > *{ float:none; }
+
+/* =====================================================================
+   2) QUESTION HEADER  (.wrapper__article-tags / .text-inner__top)
+   ===================================================================== */
+.text-section .wrapper__article-tags{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:26px 28px 24px;
+  box-shadow:var(--shadow);
+  margin-bottom:22px;
 }
 
-/* Copied tooltip */
-.cf-rs__copied {
-  position: absolute;
-  bottom: calc(100% + 6px);
-  left: 50%;
-  transform: translateX(-50%) translateY(3px);
-  background: var(--cf-ink);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .2px;
-  padding: 3px 7px;
-  border-radius: 5px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .15s ease, transform .15s ease;
-}
-.cf-rs__copied::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: var(--cf-ink);
-}
-.cf-rs__ico.is-copied .cf-rs__copied {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-.cf-rs__ico.is-copied {
-  background: var(--cf-ink);
-  border-color: var(--cf-ink);
-  color: #fff;
-}
-
-@media (max-width: 600px) {
-  .cf-rs {
-    gap: 10px 14px;
-    padding: 10px 12px;
-  }
-  .cf-rs__rate,
-  .cf-rs__share {
-    flex: 1 1 auto;
-  }
-  .cf-rs__share { justify-content: flex-start; }
-  .cf-rs__star svg { width: 19px; height: 19px; }
-  .cf-rs__ico { width: 30px; height: 30px; }
-}
-@media (max-width: 380px) {
-  .cf-rs__label--share { display: none; }
-}
-</style>
-<style>.cf-comments{font-family:"Avenir Next Cyr",sans-serif;color:#1b1b1b;max-width:760px;margin:0 auto;padding:24px;background:#ffffff;border:1px solid #e6e8eb;border-radius:10px;box-shadow:0 2px 10px rgba(27,27,27,.05);box-sizing:border-box}.cf-comments *{box-sizing:border-box}.cf-comments__head{display:flex;align-items:center;gap:10px;padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid #e6e8eb}.cf-comments__title{font-family:"Bicubik",sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:20px;line-height:1;margin:0;font-weight:700}.cf-comments__count{color:#687b83;font-weight:400}.cf-comments__dot{width:7px;height:7px;border-radius:50%;background:#1b1b1b;display:inline-block}.cf-comments__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px}.cf-comment{display:flex;gap:14px;align-items:flex-start}.cf-comment__avatar{flex:0 0 auto;width:42px;height:42px;border-radius:50%;background:var(--cf-av,#1b1b1b);color:#fff;font-family:"Bicubik",sans-serif;font-size:13px;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;text-transform:uppercase}.cf-comment__body{flex:1 1 auto;min-width:0}.cf-comment__meta{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:5px}.cf-comment__name{font-weight:600;font-size:15px;color:#1b1b1b}.cf-comment__time{font-size:12.5px;color:#687b83}.cf-comment__text{margin:0;font-size:14.5px;line-height:1.6;color:#2a2a2a}.cf-comment__actions{display:flex;align-items:center;gap:18px;margin-top:9px}.cf-comment__act{appearance:none;background:none;border:none;padding:0;cursor:pointer;font-family:inherit;font-size:13px;color:#687b83;display:inline-flex;align-items:center;gap:5px;transition:color .15s ease}.cf-comment__act:hover{color:#1b1b1b}.cf-comment__reply{font-weight:600}.cf-comment__heart{font-size:14px;line-height:1}.cf-comment__n{color:#9aa7ad}.cf-comment__act:hover .cf-comment__n{color:#687b83}.cf-comments__form{margin-top:26px;padding-top:22px;border-top:1px solid #e6e8eb}.cf-comments__formtitle{font-family:"Bicubik",sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:14px;margin:0 0 14px;font-weight:700}.cf-field{width:100%;font-family:inherit;font-size:14.5px;color:#1b1b1b;background:#fff;border:1px solid #e6e8eb;border-radius:8px;padding:11px 13px;transition:border-color .15s ease,box-shadow .15s ease}.cf-field::placeholder{color:#9aa7ad}.cf-field:focus{outline:none;border-color:#1b1b1b;box-shadow:0 0 0 3px rgba(27,27,27,.06)}.cf-field--area{resize:vertical;min-height:92px;line-height:1.55;display:block}.cf-comments__row{display:flex;gap:12px;margin-top:12px;align-items:stretch}.cf-field--name{flex:1 1 auto}.cf-btn{flex:0 0 auto;appearance:none;cursor:pointer;font-family:"Avenir Next Cyr",sans-serif;font-size:14px;font-weight:600;color:#fff;background:#1b1b1b;border:1px solid #1b1b1b;border-radius:7px;padding:0 22px;min-height:44px;transition:background .15s ease,transform .05s ease}.cf-btn:hover{background:#000}.cf-btn:active{transform:translateY(1px)}.cf-btn:focus-visible{outline:2px solid #1b1b1b;outline-offset:2px}.cf-comments__note{margin:12px 0 0;font-size:12px;color:#9aa7ad}@media (max-width:600px){.cf-comments{padding:18px;border-radius:8px}.cf-comments__title{font-size:18px}.cf-comment{gap:11px}.cf-comment__avatar{width:38px;height:38px;font-size:12px}.cf-comment__text{font-size:14px}.cf-comments__row{flex-direction:column}.cf-btn{width:100%;padding:0 16px}}</style>
-<style>
-.cf-paid-forms{
-  --cf-ink:#1b1b1b;
-  --cf-gray:#687b83;
-  --cf-border:#e6e8eb;
-  --cf-surface:#f6f8fa;
-  --cf-accent:#1b1b1b;
-  font-family:"Avenir Next Cyr",sans-serif;
-  color:var(--cf-ink);
-  max-width:460px;
-  margin:0 auto;
-  padding:24px 16px;
-  box-sizing:border-box;
-  -webkit-font-smoothing:antialiased;
-  line-height:1.45;
-}
-.cf-paid-forms *,
-.cf-paid-forms *::before,
-.cf-paid-forms *::after{box-sizing:border-box;}
-
-.cf-stack{display:flex;flex-direction:column;gap:18px;}
-
-.cf-card{
-  background:#fff;
-  border:1px solid var(--cf-border);
-  border-radius:10px;
-  padding:22px 20px;
-  box-shadow:0 1px 2px rgba(27,27,27,.04),0 6px 20px rgba(27,27,27,.06);
-}
-
-.cf-card-head{margin-bottom:16px;}
-.cf-dot{
-  display:inline-block;
-  width:7px;height:7px;
-  border-radius:50%;
-  background:var(--cf-accent);
-  margin-bottom:12px;
-}
-.cf-headline{
-  font-family:"Bicubik",sans-serif;
-  text-transform:uppercase;
-  letter-spacing:.02em;
-  font-size:17px;
-  line-height:1.2;
-  font-weight:600;
-  margin:0 0 6px;
-  color:var(--cf-ink);
-}
-.cf-sub{
-  margin:0;
-  font-size:13.5px;
-  color:var(--cf-gray);
-}
-
-.cf-price-row{
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  padding:12px 14px;
-  background:var(--cf-surface);
-  border:1px solid var(--cf-border);
-  border-radius:8px;
-  margin-bottom:18px;
-}
-.cf-price-label{
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  color:var(--cf-gray);
-}
-.cf-price{
-  font-family:"Bicubik",sans-serif;
-  font-size:22px;
-  font-weight:600;
-  color:var(--cf-ink);
-  letter-spacing:.01em;
-}
-.cf-price-pre{
-  font-family:"Avenir Next Cyr",sans-serif;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  color:var(--cf-gray);
-  margin-right:2px;
-}
-.cf-price-per{
-  font-family:"Avenir Next Cyr",sans-serif;
-  font-size:12px;
-  color:var(--cf-gray);
-  font-weight:500;
-}
-
-.cf-form{display:flex;flex-direction:column;gap:14px;}
-.cf-field{display:flex;flex-direction:column;gap:6px;}
-.cf-label{
-  font-size:12px;
-  font-weight:600;
-  color:var(--cf-ink);
-}
-.cf-input{
-  width:100%;
-  font-family:inherit;
-  font-size:14px;
-  color:var(--cf-ink);
-  background:#fff;
-  border:1px solid var(--cf-border);
-  border-radius:7px;
-  padding:10px 12px;
-  outline:none;
-  transition:border-color .15s ease,box-shadow .15s ease;
-}
-.cf-input::placeholder{color:#9aa7ad;}
-.cf-input:focus{
-  border-color:var(--cf-ink);
-  box-shadow:0 0 0 3px rgba(27,27,27,.07);
-}
-.cf-textarea{resize:vertical;min-height:64px;line-height:1.4;}
-
-.cf-btn{
-  display:inline-flex;
+/* H1 / kicker injected via ::before on the top row container */
+.text-section .text-inner__top{
+  display:flex !important;
+  flex-wrap:wrap;
   align-items:center;
-  justify-content:center;
+  gap:10px;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  background:none !important;
+}
+.text-section .text-inner__top::before{
+  content:"QUESTION · CRIMINAL LAW";
+  font-family:"Bicubik",sans-serif;
+  font-size:11px;
+  letter-spacing:.14em;
+  color:var(--muted);
   width:100%;
-  font-family:inherit;
-  font-size:14px;
-  font-weight:600;
-  border:1px solid transparent;
-  border-radius:7px;
-  padding:12px 16px;
-  cursor:pointer;
-  transition:background-color .15s ease,transform .05s ease;
+  display:block;
+  margin-bottom:4px;
 }
-.cf-btn-primary{
-  background:var(--cf-ink);
-  color:#fff;
-}
-.cf-btn-primary:hover{background:#000;}
-.cf-btn-primary:active{transform:translateY(1px);}
 
-.cf-note{
-  display:flex;
+/* The meta chips (reading time / views / rate / date) -> b/w chips */
+.text-section .text-inner__top-label,
+.text-section .about-vacancy__tag{
+  display:inline-flex !important;
   align-items:center;
   gap:7px;
-  margin:2px 0 0;
-  font-size:12px;
-  color:var(--cf-gray);
+  background:#f4f4f3 !important;
+  border:1px solid var(--line) !important;
+  border-radius:var(--r) !important;
+  color:var(--ink-soft) !important;
+  font-family:"Avenir Next Cyr",sans-serif !important;
+  font-size:12.5px !important;
+  font-weight:600 !important;
+  line-height:1 !important;
+  padding:7px 11px !important;
+  margin:0 !important;
 }
-.cf-check{
-  width:14px;height:14px;
-  border:1px solid var(--cf-border);
-  border-radius:50%;
-  position:relative;
-  flex:0 0 auto;
-  background:#fff;
+.text-section .text-inner__top-label.blue,
+.text-section .text-inner__top-label.gray,
+.text-section .about-vacancy__tag--dark{
+  background:#f4f4f3 !important;
+  color:var(--ink-soft) !important;
+  border-color:var(--line) !important;
 }
-.cf-check::after{
-  content:"";
-  position:absolute;
-  left:4px;top:1.5px;
-  width:3px;height:7px;
-  border:solid var(--cf-ink);
-  border-width:0 1.5px 1.5px 0;
-  transform:rotate(45deg);
+.text-section .text-inner__top-label svg,
+.text-section .about-vacancy__tag svg,
+.text-section .about-vacancy__tag img{
+  width:15px !important; height:15px !important;
+  fill:var(--muted) !important; stroke:var(--muted) !important;
+  filter:grayscale(1);
 }
+.text-section .about-vacancy__tag span{ color:var(--ink-soft) !important; }
 
-.cf-card-foot{
-  margin-top:16px;
-  padding-top:14px;
-  border-top:1px solid var(--cf-border);
-}
-.cf-textlink{
-  background:none;
-  border:none;
-  padding:0;
-  font-family:inherit;
-  font-size:13px;
-  font-weight:600;
-  color:var(--cf-ink);
-  cursor:pointer;
-  border-bottom:2px solid var(--cf-accent);
-  padding-bottom:1px;
-  transition:opacity .15s ease;
-}
-.cf-textlink:hover{opacity:.65;}
+/* Native star-rating widget recolored b/w (gold stars -> ink) */
+.text-section .rating .rating__active{ filter:grayscale(1) brightness(.25) !important; }
+.text-section .rating .rating__value,
+.text-section .text-inner__top-label.blue{ color:var(--ink) !important; }
 
-.cf-perks{
-  list-style:none;
-  margin:0 0 18px;
-  padding:0;
-  display:flex;
-  flex-direction:column;
-  gap:9px;
+/* The question prose block */
+.text-section .wrapper__article-content{
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
 }
-.cf-perks li{
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  font-size:13.5px;
-  color:var(--cf-ink);
+.text-section .wrapper__article-content p{
+  font-family:"Avenir Next Cyr",sans-serif !important;
+  font-size:17px !important;
+  line-height:1.62 !important;
+  color:var(--ink-soft) !important;
+  margin:0 !important;
 }
-.cf-tick{
-  width:15px;height:15px;
-  flex:0 0 auto;
-  margin-top:1px;
-  border-radius:50%;
-  background:var(--cf-surface);
-  border:1px solid var(--cf-border);
-  position:relative;
-}
-.cf-tick::after{
-  content:"";
-  position:absolute;
-  left:4.5px;top:2px;
-  width:3px;height:7px;
-  border:solid var(--cf-ink);
-  border-width:0 1.5px 1.5px 0;
-  transform:rotate(45deg);
-}
-
-.cf-demo{
-  text-align:center;
-  margin:18px 0 0;
-  font-size:11px;
-  letter-spacing:.04em;
+/* The H1 itself: render the first run big via a helper class the build adds,
+   but also style any <h1> the page injects here. */
+.text-section .wrapper__article-content h1,
+.text-section .qa-h1{
+  font-family:"Bicubik",sans-serif !important;
+  font-size:clamp(24px,3vw,34px) !important;
+  line-height:1.12 !important;
+  letter-spacing:.005em;
+  color:var(--ink) !important;
   text-transform:uppercase;
-  color:var(--cf-gray);
+  margin:0 0 14px !important;
+  font-weight:400 !important;
 }
 
-@media (max-width:600px){
-  .cf-paid-forms{padding:16px 12px;}
-  .cf-card{padding:18px 16px;}
-  .cf-headline{font-size:16px;}
-  .cf-price{font-size:20px;}
+/* =====================================================================
+   3) ANSWER CARDS  (.text-card)  — was a blue-bordered flex row
+   ===================================================================== */
+.text-section .text-card{
+  display:block !important;          /* kill brand flex row */
+  border:1px solid var(--line) !important;
+  border-top:1px solid var(--line) !important;   /* kill blue top border */
+  border-radius:var(--r) !important;
+  background:var(--paper) !important;
+  box-shadow:var(--shadow);
+  padding:26px 28px 18px !important;
+  margin:0 0 20px !important;        /* kill brand clamp margin */
+  width:100% !important;
 }
-</style>
-<style>
-.cf-ask {
-  --cf-ink: #1b1b1b;
-  --cf-gray: #687b83;
-  --cf-line: #e6e8eb;
-  --cf-surf: #f6f8fa;
-  --cf-accent: #1b1b1b;
-  box-sizing: border-box;
-  font-family: "Avenir Next Cyr", sans-serif;
-  color: var(--cf-ink);
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 20px;
-  -webkit-font-smoothing: antialiased;
-}
-.cf-ask *, .cf-ask *::before, .cf-ask *::after { box-sizing: border-box; }
+.text-section .text-card:hover{ border-color:var(--line-2) !important; }
 
-.cf-ask-card {
-  background: #fff;
-  border: 1px solid var(--cf-line);
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(27,27,27,.04), 0 12px 32px rgba(27,27,27,.06);
-  padding: 28px;
-}
-
-.cf-ask-head { margin-bottom: 22px; }
-.cf-ask-dot {
-  display: inline-block;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--cf-accent);
-  margin-bottom: 12px;
-}
-.cf-ask-title {
-  font-family: "Bicubik", sans-serif;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  font-size: 26px;
-  line-height: 1.1;
-  margin: 0 0 8px;
-  color: var(--cf-ink);
-}
-.cf-ask-sub {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--cf-gray);
-  max-width: 52ch;
+/* per-answer eyebrow (ANSWER 01 · VERIFIED) injected via counter */
+.text-section .text-inner{ counter-reset:ans; }
+.text-section .text-card{ counter-increment:ans; }
+.text-section .text-card::before{
+  content:"ANSWER 0" counter(ans);
+  display:inline-block;
+  font-family:"Bicubik",sans-serif;
+  font-size:11px;
+  letter-spacing:.13em;
+  color:var(--muted);
+  padding-bottom:4px;
+  margin-bottom:14px;
+  border-bottom:1px solid var(--line);
+  width:100%;
 }
 
-.cf-ask-form { display: flex; flex-direction: column; gap: 18px; }
-.cf-field { display: flex; flex-direction: column; gap: 7px; }
-.cf-label {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-  color: var(--cf-ink);
+/* the answer text */
+.text-section .text-card .card-answer{
+  display:block !important;
+  width:100% !important;
+  min-width:0 !important;
+  font-family:"Avenir Next Cyr",sans-serif !important;
+  font-size:16px !important;
+  line-height:1.66 !important;
+  color:var(--ink-soft) !important;
+  margin:0 0 18px !important;
+}
+.text-section .text-card .card-answer span:first-child{   /* the timestamp */
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:var(--faint) !important;
+  letter-spacing:.02em;
+  margin-bottom:8px;
 }
 
-.cf-textarea, .cf-input, .cf-select {
-  width: 100%;
-  font-family: inherit;
-  font-size: 15px;
-  color: var(--cf-ink);
-  background: #fff;
-  border: 1px solid var(--cf-line);
-  border-radius: 8px;
-  padding: 12px 14px;
-  transition: border-color .15s ease, box-shadow .15s ease;
-  outline: none;
+/* ---- Native lawyer card: DO NOT restyle internals; only frame it ----- */
+/* Neutralize the brand float + huge margins so it sits in a calm well.   */
+.text-section .text-card .balance-card{
+  float:none !important;
+  margin:0 !important;
+  max-width:none !important;
+  min-width:0 !important;
+  width:100% !important;
 }
-.cf-textarea {
-  resize: vertical;
-  min-height: 118px;
-  line-height: 1.55;
+/* wrap the native card in a neutral well via a wrapper the build adds:
+   <div class="qa-lawyer">  …native .balance-card…  </div>            */
+.text-section .text-card .qa-lawyer{
+  background:var(--well);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  padding:14px;
+  margin:0 0 16px;
 }
-.cf-textarea::placeholder, .cf-input::placeholder { color: #a7b2b8; }
+.text-section .text-card .qa-lawyer::before{
+  content:"ANSWERED BY";
+  display:block;
+  font-family:"Bicubik",sans-serif;
+  font-size:10px;
+  letter-spacing:.14em;
+  color:var(--faint);
+  margin-bottom:10px;
+}
+/* keep native card to a sane width inside the well */
+.text-section .text-card .qa-lawyer .balance-card{
+  max-width:360px !important;
+}
+.text-section .text-card::after{ content:""; display:block; clear:both; }
 
-.cf-textarea:focus, .cf-input:focus, .cf-select:focus {
-  border-color: var(--cf-ink);
-  box-shadow: 0 0 0 3px rgba(27,27,27,.08);
+/* ---- per-answer footer bar : rate · share · comment ------------------ */
+.text-section .qa-cardbar{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:18px;
+  margin-top:6px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+}
+.text-section .qa-rate{ display:inline-flex; align-items:center; gap:8px; }
+.text-section .qa-rate__label{
+  font-family:"Bicubik",sans-serif; font-size:10px; letter-spacing:.12em;
+  color:var(--muted); text-transform:uppercase;
+}
+.text-section .qa-stars{ display:inline-flex; gap:2px; }
+.text-section .qa-star{
+  width:18px; height:18px; padding:0; border:0; background:none;
+  cursor:pointer; color:var(--line-2); line-height:0; display:inline-flex;
+}
+.text-section .qa-star svg{ width:18px; height:18px; fill:currentColor; }
+.text-section .qa-star.is-on,
+.text-section .qa-star:hover,
+.text-section .qa-star:hover ~ .qa-star{ color:var(--ink); }   /* fill left, dim right handled in JS too */
+.text-section .qa-stars:hover .qa-star{ color:var(--ink); }
+.text-section .qa-count{ font-size:12px; color:var(--faint); margin-left:2px; }
+
+.text-section .qa-cardbar__sep{ flex:1; }
+.text-section .qa-act{
+  display:inline-flex; align-items:center; gap:7px;
+  background:none; border:0; padding:6px 4px; cursor:pointer;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:600;
+  color:var(--muted); border-radius:var(--r);
+}
+.text-section .qa-act:hover{ color:var(--ink); }
+.text-section .qa-act svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.7; }
+
+/* =====================================================================
+   4) SHARE ROW  (.share-list)  — recolor b/w
+   ===================================================================== */
+.text-section .share-list{
+  align-items:center; gap:14px !important;
+  margin:24px 0 8px !important;
+  padding-top:18px; border-top:1px solid var(--line);
+}
+.text-section .share-list::before{
+  color:var(--muted) !important;
+  font-family:"Bicubik",sans-serif !important;
+  font-size:11px !important; letter-spacing:.13em; text-transform:uppercase;
+  width:auto !important; margin-right:4px;
+}
+.text-section .share-list img{
+  width:34px !important; height:34px !important;
+  filter:grayscale(1) contrast(.85) brightness(.4) !important;
+  opacity:.7; transition:opacity .2s;
+}
+.text-section .share-list a:hover img{ opacity:1; }
+.text-section .share-list .notification{
+  background:var(--ink) !important; color:#fff !important; border-radius:var(--r) !important;
 }
 
-.cf-hint {
-  align-self: flex-end;
-  font-size: 12px;
-  color: var(--cf-gray);
+/* =====================================================================
+   5) COMMENTS  (appended to .text-inner)  — b/w
+   ===================================================================== */
+.text-section .qa-comments{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r);
+  box-shadow:var(--shadow);
+  padding:24px 28px;
+  margin-top:22px;
+}
+.text-section .qa-comments__head{
+  display:flex; align-items:baseline; gap:10px; margin-bottom:18px;
+  padding-bottom:14px; border-bottom:1px solid var(--line);
+}
+.text-section .qa-comments__title{
+  font-family:"Bicubik",sans-serif; font-size:14px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink); margin:0;
+}
+.text-section .qa-comments__count{ font-size:13px; color:var(--faint); }
+.text-section .qa-comment{ display:flex; gap:13px; padding:16px 0; border-bottom:1px solid var(--line); }
+.text-section .qa-comment:last-of-type{ border-bottom:0; }
+.text-section .qa-avatar{
+  flex:0 0 38px; width:38px; height:38px; border-radius:var(--r);
+  background:#ececea; color:var(--muted); display:grid; place-items:center;
+  font-family:"Bicubik",sans-serif; font-size:13px;
+}
+.text-section .qa-comment__body{ min-width:0; }
+.text-section .qa-comment__meta{ display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+.text-section .qa-comment__name{ font-weight:700; font-size:14px; color:var(--ink); }
+.text-section .qa-comment__date{ font-size:12px; color:var(--faint); }
+.text-section .qa-comment__text{ font-size:14.5px; line-height:1.6; color:var(--ink-soft); margin:0; }
+.text-section .qa-comment__reply{
+  background:none; border:0; padding:6px 0 0; cursor:pointer;
+  font-size:12.5px; font-weight:600; color:var(--muted);
+}
+.text-section .qa-comment__reply:hover{ color:var(--ink); }
+
+.text-section .qa-addcomment{ margin-top:18px; padding-top:18px; border-top:1px solid var(--line); }
+.text-section .qa-addcomment__label{
+  font-family:"Bicubik",sans-serif; font-size:11px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted); display:block; margin-bottom:8px;
+}
+.text-section .qa-addcomment textarea{
+  width:100%; min-height:84px; resize:vertical;
+  border:1px solid var(--line-2); border-radius:var(--r); background:#fcfcfc;
+  padding:12px 14px; font-family:"Avenir Next Cyr",sans-serif; font-size:14.5px;
+  color:var(--ink); line-height:1.55;
+}
+.text-section .qa-addcomment textarea:focus{ outline:none; border-color:var(--ink); background:#fff; }
+.text-section .qa-addcomment__foot{ display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+.text-section .qa-addcomment__hint{ font-size:12px; color:var(--faint); }
+
+/* =====================================================================
+   SHARED BUTTONS  (b/w)
+   ===================================================================== */
+.text-section .qa-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:13px 16px; cursor:pointer;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:14.5px; font-weight:700;
+  border-radius:var(--r); border:1px solid var(--ink); letter-spacing:.005em;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.text-section .qa-btn--primary{ background:var(--ink); color:#fff; }
+.text-section .qa-btn--primary:hover{ background:#000; border-color:#000; }
+.text-section .qa-btn--ghost{ background:#fff; color:var(--ink); }
+.text-section .qa-btn--ghost:hover{ background:#f3f3f2; }
+.text-section .qa-btn--sm{ width:auto; padding:10px 16px; font-size:13.5px; }
+.text-section .qa-btn b{ font-weight:700; }
+.text-section .qa-btn small{ font-weight:600; opacity:.7; font-size:12px; }
+
+/* =====================================================================
+   6) RIGHT STICKY ASIDE  (.qa-aside)  — chat (top) + ask-form (below)
+      ONE continuous panel, hairline-divided. position:sticky, no overlay.
+   ===================================================================== */
+.text-section .qa-aside{
+  position:sticky;
+  top:90px;
+  align-self:start;
+  display:flex; flex-direction:column;
+  background:var(--paper);
+  border:1px solid var(--line-2);
+  border-radius:var(--r);
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
-.cf-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+/* segmented switch (chat / write) — stacked panel with a tidy toggle */
+.text-section .qa-aside__switch{
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:4px; padding:8px; background:#f4f4f3; border-bottom:1px solid var(--line);
 }
+.text-section .qa-tab{
+  border:0; background:none; cursor:pointer; padding:9px 8px;
+  font-family:"Bicubik",sans-serif; font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); border-radius:var(--r);
+}
+.text-section .qa-tab.is-active{ background:#fff; color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.06); }
 
-.cf-select-wrap { position: relative; }
-.cf-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 38px;
-  cursor: pointer;
-}
-.cf-caret {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  width: 8px; height: 8px;
-  margin-top: -6px;
-  border-right: 2px solid var(--cf-gray);
-  border-bottom: 2px solid var(--cf-gray);
-  transform: rotate(45deg);
-  pointer-events: none;
-}
+.text-section .qa-pane{ display:none; }
+.text-section .qa-pane.is-active{ display:block; }
 
-.cf-preview {
-  background: var(--cf-surf);
-  border: 1px solid var(--cf-line);
-  border-radius: 8px;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* ---- CHAT --------------------------------------------------------- */
+.text-section .qa-chat__head{
+  display:flex; align-items:center; gap:9px;
+  padding:14px 16px; border-bottom:1px solid var(--line);
 }
-.cf-preview-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--cf-gray);
+.text-section .qa-presence{ position:relative; width:9px; height:9px; flex:0 0 9px; }
+.text-section .qa-presence::before{
+  content:""; position:absolute; inset:0; border-radius:50%;
+  background:#2e2e2e; box-shadow:0 0 0 0 rgba(46,46,46,.4); animation:qaPulse 2.4s infinite;
 }
-.cf-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.cf-chip {
-  display: inline-flex;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--cf-ink);
-  background: #fff;
-  border: 1px solid var(--cf-line);
-  border-radius: 999px;
-  padding: 6px 13px;
-  position: relative;
-}
-.cf-chip::before {
-  content: "";
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--cf-ink);
-  margin-right: 8px;
-}
-.cf-chip--empty {
-  color: #a7b2b8;
-  font-weight: 500;
-  background: transparent;
-  border-style: dashed;
-}
-.cf-chip--empty::before { display: none; }
+@keyframes qaPulse{ 0%{box-shadow:0 0 0 0 rgba(46,46,46,.35)} 70%{box-shadow:0 0 0 7px rgba(46,46,46,0)} 100%{box-shadow:0 0 0 0 rgba(46,46,46,0)} }
+.text-section .qa-chat__title{ font-weight:700; font-size:13.5px; color:var(--ink); }
+.text-section .qa-chat__sub{ font-size:12px; color:var(--muted); }
 
-.cf-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 2px;
+.text-section .qa-chat__log{
+  display:flex; flex-direction:column; gap:10px;
+  padding:16px; max-height:300px; overflow-y:auto;
+  background:linear-gradient(#fff,#fafafa);
 }
-.cf-btn {
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 600;
-  color: #fff;
-  background: var(--cf-ink);
-  border: 1px solid var(--cf-ink);
-  border-radius: 8px;
-  padding: 13px 26px;
-  cursor: pointer;
-  transition: transform .12s ease, opacity .15s ease, background .15s ease;
-}
-.cf-btn:hover { opacity: .9; }
-.cf-btn:active { transform: translateY(1px); }
-.cf-btn--done {
-  background: #2f7d32;
-  border-color: #2f7d32;
-}
-.cf-note {
-  font-size: 13px;
-  color: var(--cf-gray);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.cf-star { color: var(--cf-accent); font-size: 13px; line-height: 1; }
+.text-section .qa-msg{ max-width:82%; padding:9px 12px; border-radius:var(--r); font-size:13.5px; line-height:1.45; }
+.text-section .qa-msg--bot{ align-self:flex-start; background:#f1f1f0; color:var(--ink-soft); border:1px solid var(--line); }
+.text-section .qa-msg--user{ align-self:flex-end; background:var(--ink); color:#fff; }
+.text-section .qa-msg--sys{ align-self:center; font-size:11.5px; color:var(--faint); background:none; }
+.text-section .qa-typing{ align-self:flex-start; display:inline-flex; gap:4px; padding:11px 12px; background:#f1f1f0; border:1px solid var(--line); border-radius:var(--r); }
+.text-section .qa-typing span{ width:5px; height:5px; border-radius:50%; background:var(--faint); animation:qaDot 1.1s infinite; }
+.text-section .qa-typing span:nth-child(2){ animation-delay:.16s } .text-section .qa-typing span:nth-child(3){ animation-delay:.32s }
+@keyframes qaDot{ 0%,60%,100%{opacity:.3;transform:translateY(0)} 30%{opacity:1;transform:translateY(-2px)} }
 
-@media (max-width: 600px) {
-  .cf-ask { padding: 12px; }
-  .cf-ask-card { padding: 20px 16px; }
-  .cf-ask-title { font-size: 22px; }
-  .cf-grid { grid-template-columns: 1fr; gap: 14px; }
-  .cf-actions { gap: 12px; }
-  .cf-btn { width: 100%; text-align: center; }
-  .cf-note { width: 100%; }
+/* upsell block inside chat */
+.text-section .qa-upsell{ display:flex; flex-direction:column; gap:8px; padding:0 16px 14px; }
+.text-section .qa-upsell .qa-btn{ font-size:13.5px; padding:11px 14px; }
+.text-section .qa-applink{
+  display:flex; align-items:center; gap:9px; margin:0 16px 14px; padding:11px 13px;
+  border:1px solid var(--line-2); border-radius:var(--r); text-decoration:none; color:var(--ink);
 }
-</style>
-<style id="cf-seo-css">
-.cf-seo{ position:fixed; left:18px; bottom:18px; z-index:2100000;
-  width:min(340px,calc(100vw - 36px)); font-family:"Avenir Next Cyr",sans-serif; }
-.cf-seo__tab{ list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px;
-  padding:11px 13px; background:#1b1b1b; color:#fff; border-radius:8px; font-size:13px; font-weight:600;
-  box-shadow:0 14px 34px rgba(0,0,0,.28); user-select:none; }
-.cf-seo__tab::-webkit-details-marker{ display:none; }
-.cf-seo__tab svg{ flex:0 0 auto; }
-.cf-seo__count{ display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px;
-  padding:0 6px; font-size:12px; font-weight:700; background:#f4b740; color:#1b1b1b; border-radius:999px; }
-.cf-seo__hint{ margin-left:auto; font-size:10px; font-weight:700; letter-spacing:.05em;
-  text-transform:uppercase; color:rgba(255,255,255,.6); }
-.cf-seo[open] .cf-seo__hint{ display:none; }
-.cf-seo[open] .cf-seo__tab{ border-radius:8px 8px 0 0; }
-.cf-seo__panel{ max-height:calc(100vh - 132px); overflow:auto; background:#fff7e3;
-  border:1px solid #f0dca6; border-top:0; border-left:3px solid #f4b740; border-radius:0 0 10px 10px;
-  padding:13px 14px 14px; box-shadow:0 22px 56px rgba(0,0,0,.26); }
-.cf-seo__intro{ margin:0 0 11px; font-size:12.5px; line-height:1.5; color:#687b83; }
-.cf-seo__list{ margin:0; padding:0; list-style:none; counter-reset:s; display:flex; flex-direction:column; gap:8px; }
-.cf-seo__list li{ counter-increment:s; position:relative; padding:10px 12px 10px 36px; background:#fff;
-  border:1px solid #e6e8eb; border-radius:8px; font-size:12.5px; line-height:1.5; color:#1b1b1b; }
-.cf-seo__list li::before{ content:counter(s); position:absolute; left:9px; top:10px; width:20px; height:20px;
-  display:flex; align-items:center; justify-content:center; font-family:"Bicubik",sans-serif; font-size:11px;
-  background:#fff7e3; border:1px solid #f0dca6; border-radius:5px; }
-.cf-seo__tag{ display:inline-block; margin-right:5px; padding:2px 7px; font-size:10px; letter-spacing:.04em;
-  text-transform:uppercase; color:#687b83; background:#f6f8fa; border:1px solid #e6e8eb; border-radius:999px; vertical-align:1px; }
-@media (max-width:991px){ .cf-seo{ left:8px; bottom:74px; width:min(320px,calc(100vw - 16px)); } }
-</style>
+.text-section .qa-applink svg{ width:18px; height:18px; stroke:var(--ink); fill:none; }
+.text-section .qa-applink b{ font-size:13.5px; } .text-section .qa-applink span{ display:block; font-size:12px; color:var(--muted); }
 
-<style id="cf-chat-css">
-.cfc *{ box-sizing:border-box; }
-.cfc__panel{ position:fixed; z-index:2000000; right:max(24px,calc(50vw - 750px)); top:104px;
-  width:372px; height:min(620px,calc(100vh - 128px)); display:flex; flex-direction:column;
-  background:#fff; border:1px solid #e6e8eb; border-radius:10px; overflow:hidden;
-  box-shadow:0 24px 60px rgba(20,40,60,.22); font-family:"Avenir Next Cyr",sans-serif;
-  transition:opacity .24s, transform .26s cubic-bezier(.22,.61,.36,1); }
-.cfc__panel[hidden]{ display:none; }
-.cfc__panel.is-out{ opacity:0; transform:translateY(16px) scale(.97); pointer-events:none; }
-.cfc__head{ display:flex; align-items:center; gap:10px; padding:12px 14px; background:#1b1b1b; color:#fff; }
-.cfc__ava{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,.7); background:#333; }
-.cfc__id{ display:flex; flex-direction:column; line-height:1.25; }
-.cfc__id strong{ font-size:15px; }
-.cfc__id span{ display:flex; align-items:center; gap:6px; font-size:12px; color:rgba(255,255,255,.85); }
-.cfc__dot{ width:8px; height:8px; border-radius:50%; background:#3ddc84; display:inline-block; }
-.cfc__close{ margin-left:auto; width:32px; height:32px; border:0; border-radius:50%; background:rgba(255,255,255,.92);
-  color:#4a5a63; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-.cfc__body{ flex:1; overflow-y:auto; padding:14px; background:#f5f6f7; display:flex; flex-direction:column; gap:10px; }
-.cfm{ display:flex; max-width:88%; }
-.cfm--bot{ align-self:flex-start; } .cfm--user{ align-self:flex-end; }
-.cfm__b{ padding:10px 13px; border-radius:10px; font-size:14px; line-height:1.45; word-break:break-word; }
-.cfm--bot .cfm__b{ background:#fff; border:1px solid #e6e8eb; color:#1b2a31; }
-.cfm--user .cfm__b{ background:#1b1b1b; color:#fff; }
-.cfm--typing i{ display:inline-block; width:6px; height:6px; margin:0 1px; border-radius:50%; background:#b3c0c7; animation:cfb 1s infinite; }
-.cfm--typing i:nth-child(2){animation-delay:.15s} .cfm--typing i:nth-child(3){animation-delay:.3s}
-@keyframes cfb{0%,70%,100%{opacity:.3}35%{opacity:1}}
-.cfc__sell{ background:#fff; border:1px solid #e6e8eb; border-radius:10px; padding:14px; align-self:stretch; }
-.cfc__sell h4{ margin:0 0 4px; font-size:15px; }
-.cfc__sell p{ margin:0 0 10px; font-size:13px; color:#687b83; }
-.cfc__sell .cfc__btn{ width:100%; margin-bottom:8px; }
-.cfc__btn{ display:flex; align-items:center; justify-content:center; gap:6px; border:0; cursor:pointer;
-  background:#1b1b1b; color:#fff; font-weight:700; font-size:14px; padding:12px 16px; border-radius:8px; font-family:inherit; }
-.cfc__btn--ghost{ background:#fff; color:#1b1b1b; border:1px solid #cfd3d7; }
-.cfc__form{ display:flex; gap:8px; padding:10px 12px; border-top:1px solid #e6e8eb; background:#fff; }
-.cfc__form input{ flex:1; min-width:0; height:44px; border:1.5px solid #e6e8eb; border-radius:8px; padding:0 12px; font-size:14px; font-family:inherit; }
-.cfc__form input:focus{ outline:none; border-color:#1b1b1b; }
-.cfc__form button{ width:44px; height:44px; border:0; background:#1b1b1b; color:#fff; border-radius:8px; cursor:pointer; }
-.cfc__cta{ position:fixed; z-index:2000000; left:0; right:0; bottom:0; display:flex; align-items:center; gap:14px;
-  width:100%; padding:14px 110px 14px 24px; border:0; cursor:pointer; text-align:left; color:#fff;
-  background:linear-gradient(90deg,#111,#2a2a2a 80%); box-shadow:0 -6px 24px rgba(0,0,0,.22);
-  animation:cfpulse 2.2s ease-in-out infinite; transition:opacity .24s, transform .3s; }
-.cfc__cta[hidden]{ display:none; }
-.cfc__cta.is-out{ opacity:0; transform:translateY(105%); animation:none; }
-.cfc__cta-t{ flex:1; font-size:17px; font-weight:700; }
-.cfc__cta-t b{ text-decoration:underline; }
-.cfc__cta-ph{ position:absolute; right:24px; bottom:7px; width:74px; height:74px; border-radius:50%; object-fit:cover; border:3px solid #fff; }
-@keyframes cfpulse{0%,100%{box-shadow:0 -6px 24px rgba(0,0,0,.22),0 0 0 0 rgba(255,255,255,0)}50%{box-shadow:0 -6px 24px rgba(0,0,0,.22),0 -2px 34px 6px rgba(255,255,255,.18)}}
+.text-section .qa-chat__input{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--line); }
+.text-section .qa-chat__input input{
+  flex:1; min-width:0; border:1px solid var(--line-2); border-radius:var(--r); background:#fcfcfc;
+  padding:10px 12px; font-family:"Avenir Next Cyr",sans-serif; font-size:13.5px; color:var(--ink);
+}
+.text-section .qa-chat__input input:focus{ outline:none; border-color:var(--ink); background:#fff; }
+.text-section .qa-send{
+  flex:0 0 auto; border:0; cursor:pointer; background:var(--ink); color:#fff;
+  border-radius:var(--r); padding:0 13px; display:grid; place-items:center;
+}
+.text-section .qa-send svg{ width:17px; height:17px; fill:#fff; }
+
+/* ---- ASK IN WRITING (form) --------------------------------------- */
+.text-section .qa-ask{ padding:16px; }
+.text-section .qa-ask__lead{ font-size:12.5px; color:var(--muted); margin:0 0 14px; line-height:1.5; }
+.text-section .qa-field{ display:block; margin-bottom:12px; }
+.text-section .qa-field > span{
+  display:block; font-family:"Bicubik",sans-serif; font-size:10px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:6px;
+}
+.text-section .qa-ask textarea,
+.text-section .qa-ask select{
+  width:100%; border:1px solid var(--line-2); border-radius:var(--r); background:#fcfcfc;
+  padding:11px 12px; font-family:"Avenir Next Cyr",sans-serif; font-size:14px; color:var(--ink);
+  -webkit-appearance:none; appearance:none;
+}
+.text-section .qa-ask textarea{ min-height:78px; resize:vertical; line-height:1.5; }
+.text-section .qa-ask textarea:focus,
+.text-section .qa-ask select:focus{ outline:none; border-color:var(--ink); background:#fff; }
+.text-section .qa-select{ position:relative; }
+.text-section .qa-select::after{
+  content:""; position:absolute; right:13px; top:50%; width:8px; height:8px;
+  border-right:1.6px solid var(--muted); border-bottom:1.6px solid var(--muted);
+  transform:translateY(-65%) rotate(45deg); pointer-events:none;
+}
+.text-section .qa-ask__actions{ margin-top:14px; display:flex; flex-direction:column; gap:9px; }
+.text-section .qa-price{ font-size:11.5px; color:var(--faint); text-align:center; margin:4px 0 0; }
+
+/* aside footer = home of the discreet internal-note (collapsed) */
+.text-section .qa-aside__foot{ border-top:1px solid var(--line); background:#fafafa; }
+
+/* =====================================================================
+   7) INTERNAL SEO NOTE  — thin, muted, collapsed <details>, amber flag.
+      Top bar variant lives at top of .text-section; also reusable in foot.
+   ===================================================================== */
+.text-section .qa-seo{
+  background:#fbfbfa; border:1px solid var(--line); border-radius:var(--r);
+  margin:0 0 18px; font-size:13px; color:var(--muted);
+}
+.text-section .container > .qa-seo{ grid-column:1 / -1; }   /* full-width top bar */
+.text-section .qa-seo summary{
+  list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px;
+  padding:10px 16px; font-family:"Avenir Next Cyr",sans-serif; font-weight:600; color:var(--ink-soft);
+}
+.text-section .qa-seo summary::-webkit-details-marker{ display:none; }
+.text-section .qa-seo__flag{
+  flex:0 0 auto; width:9px; height:9px; border-radius:2px; background:var(--amber);
+}
+.text-section .qa-seo__kicker{
+  font-family:"Bicubik",sans-serif; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--faint); margin-left:auto;
+}
+.text-section .qa-seo[open] summary{ border-bottom:1px solid var(--line); }
+.text-section .qa-seo ol{ margin:0; padding:12px 18px 14px 34px; display:grid; gap:8px; }
+.text-section .qa-seo li{ line-height:1.5; }
+.text-section .qa-seo li b{ color:var(--ink-soft); }
+
+/* =====================================================================
+   8) RESPONSIVE  — single column < 992px, aside inline (no overlay/bar)
+   ===================================================================== */
 @media (max-width:991px){
-  .cfc__panel{ right:0; left:0; top:0; width:auto; height:100%; height:100dvh; border-radius:0; border:0; }
-  .cfc__cta{ padding:12px 90px 12px 18px; } .cfc__cta-t{ font-size:15px; } .cfc__cta-ph{ width:58px; height:58px; right:16px; bottom:6px; }
+  .text-section .container{
+    display:block !important;
+  }
+  .text-section .container::before{ display:none; }
+  /* aside appears inline, right under the question header, before answers */
+  .text-section .qa-aside{
+    position:static !important;
+    margin:0 0 22px;
+  }
+  .text-section .qa-chat__log{ max-height:240px; }
+  /* DOM order: build injects .qa-aside right after .wrapper__article-tags on
+     mobile (or we reorder with order:* if it stays a flex parent). */
 }
+@media (max-width:575px){
+  .text-section .wrapper__article-tags{ padding:20px; }
+  .text-section .text-card{ padding:20px 18px 14px !important; }
+  .text-section .qa-comments{ padding:20px 18px; }
+  .text-section .qa-cardbar{ gap:12px; }
+  .text-section .qa-act span{ display:none; }   /* icon-only actions on tiny screens */
+}
+</style>
+<style id="cf-extra">
+.text-section .qa-qmeta{ width:100%; display:flex; flex-wrap:wrap; gap:8px; margin:0 0 4px; }
+.text-section .qa-qmeta__k{ font-family:"Bicubik",sans-serif; font-size:10px; letter-spacing:.13em;
+  text-transform:uppercase; color:#9aa0a4; align-self:center; margin-right:2px; }
+.text-section .qa-qchip{ display:inline-flex; align-items:center; gap:6px; background:#fff;
+  border:1px solid #e6e6e4; border-radius:3px; padding:6px 11px; font-family:"Avenir Next Cyr",sans-serif;
+  font-size:12.5px; font-weight:600; color:#3a3a3a; }
+.text-section .qa-qchip b{ color:#6b7177; font-weight:600; }
+.text-section .qa-star:focus-visible{ outline:2px solid #1b1b1b; outline-offset:2px; border-radius:2px; }
+.text-section .qa-act.is-copied{ color:#1b1b1b; }
+/* keep [hidden] truly hidden — design's display:flex on .qa-upsell/.qa-applink would otherwise defeat it */
+.text-section [hidden]{ display:none !important; }
 </style>
 
 </head>
@@ -1392,165 +1236,6 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
             </div>
         </section>
 
-        
-<section class="cf-section cf-wrap" id="cf-ask"><section class="cf-ask" aria-labelledby="cf-ask-title">
-  <div class="cf-ask-card">
-    <header class="cf-ask-head">
-      <span class="cf-ask-dot" aria-hidden="true"></span>
-      <h2 class="cf-ask-title" id="cf-ask-title">Ask your question</h2>
-      <p class="cf-ask-sub">Describe your situation and choose who should help. A verified specialist will answer.</p>
-    </header>
-
-    <form class="cf-ask-form" id="cf-ask-form" autocomplete="off">
-      <label class="cf-field">
-        <span class="cf-label">Your question</span>
-        <textarea class="cf-textarea" id="cf-q" rows="5" maxlength="1200"
-          placeholder="e.g. I'm on a work visa in Texas and my employer changed my role. What are my options to stay compliant?"></textarea>
-        <span class="cf-hint"><span id="cf-count">0</span> / 1200</span>
-      </label>
-
-      <div class="cf-grid">
-        <label class="cf-field">
-          <span class="cf-label">Specialist type</span>
-          <div class="cf-select-wrap">
-            <select class="cf-select" id="cf-type">
-              <option value="" selected>Choose…</option>
-              <option value="Lawyer">Lawyer</option>
-              <option value="Attorney">Attorney</option>
-              <option value="Accountant">Accountant</option>
-              <option value="Not sure">Not sure</option>
-            </select>
-            <span class="cf-caret" aria-hidden="true"></span>
-          </div>
-        </label>
-
-        <label class="cf-field">
-          <span class="cf-label">Specialization</span>
-          <div class="cf-select-wrap">
-            <select class="cf-select" id="cf-spec">
-              <option value="" selected>Choose…</option>
-              <option value="Migration">Migration</option>
-              <option value="Family">Family</option>
-              <option value="Criminal">Criminal</option>
-              <option value="Business">Business</option>
-              <option value="Not sure">Not sure</option>
-            </select>
-            <span class="cf-caret" aria-hidden="true"></span>
-          </div>
-        </label>
-
-        <label class="cf-field">
-          <span class="cf-label">Where help is needed</span>
-          <div class="cf-select-wrap">
-            <select class="cf-select" id="cf-loc">
-              <option value="city">City</option>
-              <option value="state">State</option>
-              <option value="notsure">Not sure</option>
-            </select>
-            <span class="cf-caret" aria-hidden="true"></span>
-          </div>
-        </label>
-
-        <label class="cf-field cf-field--loc" id="cf-loc-field">
-          <span class="cf-label" id="cf-loc-label">City</span>
-          <input class="cf-input" id="cf-loc-text" type="text" placeholder="e.g. Houston" />
-        </label>
-      </div>
-
-      <div class="cf-preview" aria-live="polite">
-        <span class="cf-preview-label">Preview</span>
-        <div class="cf-chips" id="cf-chips">
-          <span class="cf-chip cf-chip--empty" id="cf-empty">Your tags will appear here</span>
-        </div>
-      </div>
-
-      <div class="cf-actions">
-        <button class="cf-btn" type="submit">Publish question</button>
-        <span class="cf-note"><span class="cf-star" aria-hidden="true">★</span> Free to ask · answers from verified pros</span>
-      </div>
-    </form>
-  </div>
-
-  <script>
-  (function () {
-    var root = document.getElementById('cf-ask-form');
-    if (!root) return;
-    var q = root.querySelector('#cf-q');
-    var count = root.querySelector('#cf-count');
-    var type = root.querySelector('#cf-type');
-    var spec = root.querySelector('#cf-spec');
-    var loc = root.querySelector('#cf-loc');
-    var locField = root.querySelector('#cf-loc-field');
-    var locLabel = root.querySelector('#cf-loc-label');
-    var locText = root.querySelector('#cf-loc-text');
-    var chips = root.querySelector('#cf-chips');
-
-    function makeChip(text) {
-      var el = document.createElement('span');
-      el.className = 'cf-chip';
-      el.textContent = text;
-      return el;
-    }
-
-    function syncLoc() {
-      var mode = loc.value;
-      if (mode === 'notsure') {
-        locField.style.display = 'none';
-      } else {
-        locField.style.display = '';
-        locLabel.textContent = mode === 'state' ? 'State' : 'City';
-        locText.placeholder = mode === 'state' ? 'e.g. Texas' : 'e.g. Houston';
-      }
-      render();
-    }
-
-    function render() {
-      var tags = [];
-      if (spec.value) tags.push(spec.value);
-
-      var mode = loc.value;
-      if (mode === 'notsure') {
-        tags.push('USA / Anywhere');
-      } else {
-        var v = locText.value.trim();
-        if (v) tags.push('USA / ' + v);
-      }
-
-      if (type.value) tags.push(type.value);
-
-      chips.innerHTML = '';
-      if (!tags.length) {
-        var e = document.createElement('span');
-        e.className = 'cf-chip cf-chip--empty';
-        e.textContent = 'Your tags will appear here';
-        chips.appendChild(e);
-        return;
-      }
-      tags.forEach(function (t) { chips.appendChild(makeChip(t)); });
-    }
-
-    q.addEventListener('input', function () { count.textContent = q.value.length; });
-    type.addEventListener('change', render);
-    spec.addEventListener('change', render);
-    loc.addEventListener('change', syncLoc);
-    locText.addEventListener('input', render);
-
-    root.addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      var btn = root.querySelector('.cf-btn');
-      btn.classList.add('cf-btn--done');
-      btn.textContent = 'Question published ✓';
-      setTimeout(function () {
-        btn.classList.remove('cf-btn--done');
-        btn.textContent = 'Publish question';
-      }, 1800);
-    });
-
-    syncLoc();
-    render();
-  })();
-  </script>
-</section></section>
         <section class="text-section">
             <div class="text-section__background bg-image">
                 <picture>
@@ -1559,9 +1244,11 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
                 </picture>
             </div>
             <div class="container">
+<div class="qa-main">
+
                 <div class="text-inner consultant_articles-position">
                     <div class="wrapper__article-tags">
-                        <div class="text-inner__top text-inner__top-articles text-inner__top-video consultant_articles-position">
+                        <div class="text-inner__top text-inner__top-articles text-inner__top-video consultant_articles-position"><div class="qa-qmeta"><span class="qa-qmeta__k">Asked for</span><span class="qa-qchip"><b>Type:</b>&nbsp;Lawyer</span><span class="qa-qchip"><b>Specialization:</b>&nbsp;Criminal</span><span class="qa-qchip"><b>Location:</b>&nbsp;USA, Texas</span></div>
                             <span class="text-inner__top-label blue">
                                 <svg width="24" height="24">
                                     <use href="#marker-time"></use>
@@ -1618,15 +1305,14 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
                     </div>
 
                     
-                                            <div class="cf-section"><div class="cf-chips"><span class="cf-chip"><b>Type:</b> Lawyer</span><span class="cf-chip"><b>Area:</b> Criminal</span><span class="cf-chip"><b>Location:</b> USA / Texas</span></div><div class="cf-note">Selected by the asker when publishing the question (helps lawyers filter relevant leads).</div></div>
-<div class="text-card">
+                                            <div class="text-card">
                             <p class="card-answer">
                                 <span>
                                     07.06.2026 23:36:51
                                 </span>
                                 Whether compensation can be sought for wrongful arrest due to a police database error depends on the specific laws of the jurisdiction involved. In many legal systems, claims may arise under torts such as false imprisonment if the arrest lacked probable cause or resulted from negligence, potentially allowing recovery for damages like loss of liberty. However, outcomes vary widely based on factors including the nature of the error, applicable immunity doctrines for law enforcement, and statutory provisions for compensation in cases of wrongful detention. Consulting a qualified local attorney is essential to evaluate the merits of any potential claim based on the full facts.
                             </p>
-                            <div class="balance-card start ">
+                            <div class="qa-lawyer"><div class="balance-card start ">
     <div class="balance-card__about">
         <span class="balance-card__status">BASE (basic)</span>
         <span class="balance-card__rating">
@@ -1667,8 +1353,8 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
             </div>
         </div>
     </a>
-</div>
-                        </div>
+</div></div>
+                        <div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(37)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></div>
                                             <div class="text-card">
                             <p class="card-answer">
                                 <span>
@@ -1676,7 +1362,7 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
                                 </span>
                                 Yes, you may have a case for seeking compensation for wrongful arrest. If you can prove that the arrest was unlawful and that you suffered damages as a result, you may be entitled to compensation. It’s advisable to consult with an attorney who specializes in civil rights or personal injury to discuss the specifics of your situation and the applicable laws in your jurisdiction.
                             </p>
-                            <div class="balance-card start ">
+                            <div class="qa-lawyer"><div class="balance-card start ">
     <div class="balance-card__about">
         <span class="balance-card__status">BASE (basic)</span>
         <span class="balance-card__rating">
@@ -1717,8 +1403,8 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
             </div>
         </div>
     </a>
-</div>
-                        </div>
+</div></div>
+                        <div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(28)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></div>
                                             <div class="text-card">
                             <p class="card-answer">
                                 <span>
@@ -1735,7 +1421,7 @@ Whether the arrest was based on a facially valid warrant or record.
 
 If officers reasonably relied on information that appeared accurate at the time, they may have certain legal protections. However, liability can arise when agencies fail to correct known errors, maintain records negligently, or continue detaining someone after discovering the mistake.
                             </p>
-                            <div class="balance-card pro ">
+                            <div class="qa-lawyer"><div class="balance-card pro ">
 
     <picture class="balance-card__bg">
         <source type="image/webp" srcset="https://consultantlm.com/storage/media/79/conversions/kiI0EzzCbR2OFmPH0vGK6QBwpE1UeE7R-webp.webp">
@@ -1783,8 +1469,8 @@ If officers reasonably relied on information that appeared accurate at the time,
             </div>
         </div>
     </a>
-</div>
-                        </div>
+</div></div>
+                        <div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(19)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></div>
                                             <div class="text-card">
                             <p class="card-answer">
                                 <span>
@@ -1808,7 +1494,7 @@ Civil rights violations under federal or state law
 
 The amount of time you spent in custody can be relevant, but the strongest claims often depend on proving that the government or another entity acted unreasonably, not merely that a mistake occurred.
                             </p>
-                            <div class="balance-card pro ">
+                            <div class="qa-lawyer"><div class="balance-card pro ">
 
     <picture class="balance-card__bg">
         <source type="image/webp" srcset="https://consultantlm.com/storage/media/78/conversions/7mG8se62e1hUnm4qMc8oGqm17jCjKBTm-webp.webp">
@@ -1856,149 +1542,10 @@ The amount of time you spent in custody can be relevant, but the strongest claim
             </div>
         </div>
     </a>
-</div>
-                        </div>
+</div></div>
+                        <div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(12)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></div>
                                     </div>
-                
-<section class="cf-section cf-wrap" id="cf-paid"><section class="cf-paid-forms" aria-label="Ask a lawyer or subscribe">
-  <div class="cf-stack">
-
-    <!-- CARD A -->
-    <article class="cf-card">
-      <header class="cf-card-head">
-        <span class="cf-dot" aria-hidden="true"></span>
-        <h2 class="cf-headline">Ask a verified lawyer</h2>
-        <p class="cf-sub">Get a written answer from a licensed attorney</p>
-      </header>
-
-      <div class="cf-price-row">
-        <span class="cf-price-label">Price</span>
-        <span class="cf-price"><span class="cf-price-pre">from</span> $10</span>
-      </div>
-
-      <form class="cf-form" onsubmit="return false">
-        <label class="cf-field">
-          <span class="cf-label">Your question</span>
-          <textarea class="cf-input cf-textarea" rows="3" placeholder="Describe your legal question in a few sentences..."></textarea>
-        </label>
-
-        <label class="cf-field">
-          <span class="cf-label">Email or phone</span>
-          <input class="cf-input" type="text" inputmode="email" placeholder="you@example.com or +1 555 000 0000" />
-        </label>
-
-        <button type="submit" class="cf-btn cf-btn-primary">Pay & ask — $10</button>
-        <p class="cf-note">
-          <span class="cf-check" aria-hidden="true"></span>
-          Answer delivered in the app
-        </p>
-      </form>
-
-      <div class="cf-card-foot">
-        <button type="button" class="cf-textlink">Contact a lawyer directly →</button>
-      </div>
-    </article>
-
-    <!-- CARD B -->
-    <article class="cf-card">
-      <header class="cf-card-head">
-        <span class="cf-dot" aria-hidden="true"></span>
-        <h2 class="cf-headline">Subscribe to the Consultant app</h2>
-        <p class="cf-sub">Unlimited questions + all answers in the app</p>
-      </header>
-
-      <div class="cf-price-row">
-        <span class="cf-price-label">Plan</span>
-        <span class="cf-price">$29 <span class="cf-price-per">/ month</span></span>
-      </div>
-
-      <ul class="cf-perks">
-        <li><span class="cf-tick" aria-hidden="true"></span>Unlimited questions to verified lawyers</li>
-        <li><span class="cf-tick" aria-hidden="true"></span>All answers stored in the app</li>
-        <li><span class="cf-tick" aria-hidden="true"></span>Priority response queue</li>
-      </ul>
-
-      <button type="button" class="cf-btn cf-btn-primary">Subscribe & pay</button>
-      <p class="cf-note">
-        <span class="cf-check" aria-hidden="true"></span>
-        Cancel anytime
-      </p>
-    </article>
-
-  </div>
-
-  <p class="cf-demo">Demo only — no real payment is processed.</p>
-</section></section>
-<section class="cf-section cf-wrap" id="cf-comments"><section class="cf-comments" id="comments" aria-labelledby="cf-comments-title">
-  <header class="cf-comments__head">
-    <h2 class="cf-comments__title" id="cf-comments-title">Comments <span class="cf-comments__count">(3)</span></h2>
-    <span class="cf-comments__dot" aria-hidden="true"></span>
-  </header>
-
-  <ul class="cf-comments__list">
-    <li class="cf-comment">
-      <div class="cf-comment__avatar" style="--cf-av:#1b1b1b" aria-hidden="true">MR</div>
-      <div class="cf-comment__body">
-        <div class="cf-comment__meta">
-          <span class="cf-comment__name">Marcus Reed</span>
-          <span class="cf-comment__time">2 days ago</span>
-        </div>
-        <p class="cf-comment__text">This breakdown finally made sense of my situation. I was held overnight on a wrongful-arrest mix-up and had no idea the officer needed probable cause to detain me. Knowing I can request the arrest report and file a complaint is a huge relief. Going to speak with a civil-rights attorney this week.</p>
-        <div class="cf-comment__actions">
-          <button type="button" class="cf-comment__act cf-comment__reply">Reply</button>
-          <button type="button" class="cf-comment__act cf-comment__like" aria-label="Like this comment">
-            <span class="cf-comment__heart" aria-hidden="true">♡</span> like <span class="cf-comment__n">(12)</span>
-          </button>
-        </div>
-      </div>
-    </li>
-
-    <li class="cf-comment">
-      <div class="cf-comment__avatar" style="--cf-av:#687b83" aria-hidden="true">DT</div>
-      <div class="cf-comment__body">
-        <div class="cf-comment__meta">
-          <span class="cf-comment__name">Dana Tovar</span>
-          <span class="cf-comment__time">5 days ago</span>
-        </div>
-        <p class="cf-comment__text">Helpful answer. One thing worth adding for anyone reading: document everything as soon as you're released. Write down badge numbers, the time you were stopped, and any witnesses. When I challenged my false arrest, those notes were what my lawyer leaned on most when we built the case.</p>
-        <div class="cf-comment__actions">
-          <button type="button" class="cf-comment__act cf-comment__reply">Reply</button>
-          <button type="button" class="cf-comment__act cf-comment__like" aria-label="Like this comment">
-            <span class="cf-comment__heart" aria-hidden="true">♡</span> like <span class="cf-comment__n">(7)</span>
-          </button>
-        </div>
-      </div>
-    </li>
-
-    <li class="cf-comment">
-      <div class="cf-comment__avatar" style="--cf-av:#39474d" aria-hidden="true">PL</div>
-      <div class="cf-comment__body">
-        <div class="cf-comment__meta">
-          <span class="cf-comment__name">Priya Lamar</span>
-          <span class="cf-comment__time">1 week ago</span>
-        </div>
-        <p class="cf-comment__text">Does anyone know if a free consultation is enough to get started, or do I need a retainer right away? My brother was detained without being read his rights and we're not sure where to find affordable legal help. Any pointers on what to ask in that first call would be appreciated.</p>
-        <div class="cf-comment__actions">
-          <button type="button" class="cf-comment__act cf-comment__reply">Reply</button>
-          <button type="button" class="cf-comment__act cf-comment__like" aria-label="Like this comment">
-            <span class="cf-comment__heart" aria-hidden="true">♡</span> like <span class="cf-comment__n">(4)</span>
-          </button>
-        </div>
-      </div>
-    </li>
-  </ul>
-
-  <form class="cf-comments__form" onsubmit="return false" aria-label="Add a comment">
-    <h3 class="cf-comments__formtitle">Add a comment</h3>
-    <textarea class="cf-field cf-field--area" rows="4" placeholder="Share your experience or ask about wrongful-arrest legal help..."></textarea>
-    <div class="cf-comments__row">
-      <input class="cf-field cf-field--name" type="text" placeholder="Your name" aria-label="Your name">
-      <button type="submit" class="cf-btn">Post comment</button>
-    </div>
-    <p class="cf-comments__note">Demo only — comments are not submitted to a server.</p>
-  </form>
-</section></section>
-<ul class="share-list content-hero__share" data-title="Share:">
+                <ul class="share-list content-hero__share" data-title="Share:">
     <li class="share-list__item">
         <a data-buffer="" href="https://consultantlm.com/statti/wrongful-arrest-1758" class="js-social-button js-share-clip" aria-label="copylink">
             <img src="../assets/share.svg" alt="icon" width="32" height="32">
@@ -2026,7 +1573,186 @@ The amount of time you spent in custody can be relevant, but the strongest claim
         </a>
     </li>
 </ul>
+<section class="qa-comments" id="qa-comments" aria-label="Comments">
+  <div class="qa-comments__head">
+    <h2 class="qa-comments__title">Comments</h2>
+    <span class="qa-comments__count">3 discussions</span>
+  </div>
+  <div class="qa-comment">
+    <div class="qa-avatar">JM</div>
+    <div class="qa-comment__body">
+      <div class="qa-comment__meta"><span class="qa-comment__name">James M.</span><span class="qa-comment__date">2 days ago</span></div>
+      <p class="qa-comment__text">Went through something similar after a wrongful database flag. The key was documenting every hour in custody and the officers' badge numbers — it made the compensation claim far stronger.</p>
+      <button type="button" class="qa-comment__reply">Reply</button>
+    </div>
+  </div>
+  <div class="qa-comment">
+    <div class="qa-avatar">DR</div>
+    <div class="qa-comment__body">
+      <div class="qa-comment__meta"><span class="qa-comment__name">Diana R.</span><span class="qa-comment__date">4 days ago</span></div>
+      <p class="qa-comment__text">Does the statute of limitations for false-imprisonment claims differ by state? The answers above mention Texas — would love a lawyer to confirm the filing window.</p>
+      <button type="button" class="qa-comment__reply">Reply</button>
+    </div>
+  </div>
+  <div class="qa-comment">
+    <div class="qa-avatar">AK</div>
+    <div class="qa-comment__body">
+      <div class="qa-comment__meta"><span class="qa-comment__name">Andre K.</span><span class="qa-comment__date">1 week ago</span></div>
+      <p class="qa-comment__text">Helpful thread. Worth adding: a written apology or internal report from the department can also be requested and used as evidence.</p>
+      <button type="button" class="qa-comment__reply">Reply</button>
+    </div>
+  </div>
+  <div class="qa-addcomment">
+    <label class="qa-addcomment__label" for="qa-newcomment">Add a comment</label>
+    <textarea id="qa-newcomment" placeholder="Share your experience or ask a follow-up…"></textarea>
+    <div class="qa-addcomment__foot">
+      <span class="qa-addcomment__hint">Be respectful — comments are moderated.</span>
+      <button type="button" class="qa-btn qa-btn--primary qa-btn--sm">Post comment</button>
+    </div>
+  </div>
+</section>
+
             </div>
+<aside class="qa-aside" aria-label="Ask a verified lawyer">
+
+  <div class="qa-aside__switch" role="tablist">
+    <button type="button" class="qa-tab is-active" role="tab" aria-selected="true" data-pane="chat">Live chat</button>
+    <button type="button" class="qa-tab" role="tab" aria-selected="false" data-pane="ask">Ask in writing</button>
+  </div>
+
+  <!-- ===================== PANE: LIVE CHAT ===================== -->
+  <div class="qa-pane is-active" data-pane="chat">
+    <div class="qa-chat__head">
+      <span class="qa-presence" aria-hidden="true"></span>
+      <div>
+        <div class="qa-chat__title">Verified experts online</div>
+        <div class="qa-chat__sub">7–12 lawyers available now</div>
+      </div>
+    </div>
+
+    <div class="qa-chat__log" id="qaLog" aria-live="polite">
+      <div class="qa-msg qa-msg--sys">Today</div>
+      <div class="qa-msg qa-msg--bot">Hi! I can connect you with a verified lawyer for your case. What happened?</div>
+    </div>
+
+    <!-- upsell block (revealed by script after 3 user messages) -->
+    <div class="qa-upsell" id="qaUpsell" hidden>
+      <button type="button" class="qa-btn qa-btn--primary" id="qaPay">Pay &amp; ask — $10</button>
+      <button type="button" class="qa-btn qa-btn--ghost" id="qaSub">Subscribe to the app (unlimited)</button>
+    </div>
+
+    <!-- app-download link (revealed after "pay") -->
+    <a class="qa-applink" id="qaApp" href="#app" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span><b>Open the Consultant app</b>Your answer is waiting — download &amp; sign in</span>
+    </a>
+
+    <form class="qa-chat__input" id="qaForm">
+      <input type="text" id="qaInput" placeholder="Type your message…" autocomplete="off" aria-label="Message" />
+      <button type="submit" class="qa-send" aria-label="Send">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg>
+      </button>
+    </form>
+  </div>
+
+  <!-- ===================== PANE: ASK IN WRITING ===================== -->
+  <div class="qa-pane" data-pane="ask">
+    <div class="qa-ask">
+      <p class="qa-ask__lead">Describe your situation. A verified lawyer replies in the app.</p>
+      <form onsubmit="return false">
+        <label class="qa-field">
+          <span>Your question</span>
+          <textarea placeholder="e.g. I was held in custody due to a database error — can I claim compensation?"></textarea>
+        </label>
+
+        <label class="qa-field qa-select">
+          <span>Specialist type</span>
+          <select>
+            <option>Lawyer</option><option>Attorney</option>
+            <option>Paralegal</option><option>Not sure</option>
+          </select>
+        </label>
+
+        <label class="qa-field qa-select">
+          <span>Specialization</span>
+          <select>
+            <option>Criminal</option><option>Civil rights</option>
+            <option>Compensation / Tort</option><option>Migration</option>
+            <option>Family</option><option>Not sure</option>
+          </select>
+        </label>
+
+        <label class="qa-field qa-select">
+          <span>Area &amp; city</span>
+          <select>
+            <option>USA — Texas</option><option>USA — California</option>
+            <option>USA — Ohio</option><option>USA — Other state</option>
+            <option>Not sure</option>
+          </select>
+        </label>
+
+        <div class="qa-ask__actions">
+          <button type="submit" class="qa-btn qa-btn--primary">Ask a verified lawyer — from&nbsp;$10</button>
+          <button type="button" class="qa-btn qa-btn--ghost">Subscribe to the app (unlimited)</button>
+        </div>
+        <p class="qa-price">Demo only — no real payment is processed.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER: discreet internal SEO note ============ -->
+  <div class="qa-aside__foot">
+    <details class="qa-seo">
+      <summary>
+        <span class="qa-seo__flag" aria-hidden="true"></span>
+        Internal SEO review
+        <span class="qa-seo__kicker">Not page content</span>
+      </summary>
+      <ol>
+        <li><b>Answer length:</b> recommended min/max words per lawyer answer for ranking?</li>
+        <li><b>Comments:</b> do user comments meaningfully expand the semantic core / dwell time?</li>
+        <li><b>Per-answer rating + share:</b> confirmed positive for CTR and rich-result eligibility?</li>
+        <li><b>H1 length:</b> ideal character range for the Bicubik question heading?</li>
+        <li><b>Scripted chat intake:</b> any indexing/UX concern with the hand-scripted (non-AI) flow?</li>
+      </ol>
+    </details>
+  </div>
+</aside>
+
+<!-- =====================================================================
+     Minimal behavior (the build inlines this once near the aside).
+     Tab switch + scripted chat: greet -> after 3 user msgs upsell ->
+     pay reveals app link.  No external deps.
+     ===================================================================== -->
+<script>
+(function(){
+  var aside=document.querySelector('.qa-aside'); if(!aside||aside.dataset.init)return; aside.dataset.init='1';
+  /* tabs */
+  aside.querySelectorAll('.qa-tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      aside.querySelectorAll('.qa-tab').forEach(function(x){x.classList.remove('is-active');x.setAttribute('aria-selected','false');});
+      aside.querySelectorAll('.qa-pane').forEach(function(p){p.classList.remove('is-active');});
+      t.classList.add('is-active'); t.setAttribute('aria-selected','true');
+      aside.querySelector('.qa-pane[data-pane="'+t.dataset.pane+'"]').classList.add('is-active');
+    });
+  });
+  /* scripted chat */
+  var log=aside.querySelector('#qaLog'), form=aside.querySelector('#qaForm'),
+      input=aside.querySelector('#qaInput'), upsell=aside.querySelector('#qaUpsell'),
+      app=aside.querySelector('#qaApp'); var userTurns=0, upsold=false;
+  function add(text,who){ var d=document.createElement('div'); d.className='qa-msg qa-msg--'+who; d.textContent=text; log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
+  function typing(cb){ var t=document.createElement('div'); t.className='qa-typing'; t.innerHTML='<span></span><span></span><span></span>'; log.appendChild(t); log.scrollTop=log.scrollHeight; setTimeout(function(){ t.remove(); cb(); },800); }
+  var botLines=['Got it — a few details help us match the right lawyer.','Understood. This may qualify for a compensation claim.','Thanks. To get a verified written answer, continue below.'];
+  form.addEventListener('submit',function(e){ e.preventDefault(); var v=input.value.trim(); if(!v)return; add(v,'user'); input.value=''; userTurns++;
+    if(userTurns>=3 && !upsold){ upsold=true; typing(function(){ add('You’ve shared enough for a precise answer. A verified lawyer can reply now.','bot'); upsell.hidden=false; log.scrollTop=log.scrollHeight; }); }
+    else { typing(function(){ add(botLines[Math.min(userTurns-1,botLines.length-1)],'bot'); }); }
+  });
+  function pay(){ upsell.hidden=true; typing(function(){ add('Payment received. Your lawyer is preparing the answer.','bot'); app.hidden=false; log.scrollTop=log.scrollHeight; }); }
+  aside.querySelector('#qaPay').addEventListener('click',pay);
+  aside.querySelector('#qaSub').addEventListener('click',pay);
+})();
+</script>
+</div>
         </section>
 
         <section class="article-section">
@@ -3135,171 +2861,38 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
   <path class="cls-1" d="M24,2.5A21.5,21.5,0,1,1,2.5,24,21.51,21.51,0,0,1,24,2.5Z" id="path6" style="stroke:#d40000"/>
   <path class="cls-1" d="M25.79,13.41a3.27,3.27,0,0,1,.31-1.21C27.19,9.66,31,5.91,33.87,4.91l0-.08c-13.47,0-20.6,8.35-20.6,19.17A10.75,10.75,0,1,0,25.79,13.41Z" id="path8" style="stroke:#d40000"/>
 </symbol></svg>
-<template id="cf-rs-tmpl"><div class="cf-rs" role="contentinfo" aria-label="Answer feedback and sharing">
-  <div class="cf-rs__rate">
-    <span class="cf-rs__label">Rate this answer</span>
-    <div class="cf-rs__stars" role="radiogroup" aria-label="Rate from 1 to 5 stars">
-      <button type="button" class="cf-rs__star" data-val="1" role="radio" aria-checked="false" aria-label="1 star">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.21l-4.95 2.6.95-5.5-4-3.9 5.53-.8z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__star" data-val="2" role="radio" aria-checked="false" aria-label="2 stars">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.21l-4.95 2.6.95-5.5-4-3.9 5.53-.8z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__star" data-val="3" role="radio" aria-checked="false" aria-label="3 stars">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.21l-4.95 2.6.95-5.5-4-3.9 5.53-.8z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__star" data-val="4" role="radio" aria-checked="false" aria-label="4 stars">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.21l-4.95 2.6.95-5.5-4-3.9 5.53-.8z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__star" data-val="5" role="radio" aria-checked="false" aria-label="5 stars">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 1.6l2.47 5.01 5.53.8-4 3.9.94 5.5L10 14.21l-4.95 2.6.95-5.5-4-3.9 5.53-.8z"/></svg>
-      </button>
-    </div>
-    <span class="cf-rs__count" data-count>(12)</span>
-  </div>
-
-  <div class="cf-rs__share">
-    <span class="cf-rs__label cf-rs__label--share">Share<span class="cf-rs__colon">:</span></span>
-    <div class="cf-rs__icons">
-      <button type="button" class="cf-rs__ico" data-share="copy" aria-label="Copy link" title="Copy link">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 13.5a3.5 3.5 0 0 0 5 0l2.5-2.5a3.5 3.5 0 0 0-5-5l-1 1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 10.5a3.5 3.5 0 0 0-5 0L7 13a3.5 3.5 0 0 0 5 5l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="cf-rs__copied" aria-hidden="true">Copied</span>
-      </button>
-      <button type="button" class="cf-rs__ico" data-share="facebook" aria-label="Share on Facebook" title="Facebook">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7h2.3l.4-2.7h-2.7V9.5c0-.8.3-1.3 1.4-1.3h1.4V5.8c-.25-.03-1.1-.1-2.1-.1-2.08 0-3.5 1.27-3.5 3.6v2H8.4V14h2.3v7z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__ico" data-share="x" aria-label="Share on X" title="X">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.95 5.5h2.3l-5.02 5.74L20.5 18.5h-4.62l-3.62-4.73-4.14 4.73H5.81l5.37-6.14L5 5.5h4.74l3.27 4.32zm-.8 11.62h1.27L9.1 6.8H7.74z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__ico" data-share="telegram" aria-label="Share on Telegram" title="Telegram">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 5.2L3.9 11.5c-1 .38-1 1.78.03 2.05l3.96 1.23 1.5 4.7c.2.55.86.7 1.27.27l2.2-2.16 4 2.95c.5.36 1.2.1 1.34-.5l2.6-12.3c.18-.83-.62-1.5-1.4-1.21zM8.9 14.1l8-4.9c.15-.1.3.1.18.21l-6.5 6c-.23.2-.38.5-.43.8l-.22 1.6z"/></svg>
-      </button>
-      <button type="button" class="cf-rs__ico" data-share="linkedin" aria-label="Share on LinkedIn" title="LinkedIn">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 9.5H4.7V19h2.5zM5.95 5.3a1.45 1.45 0 1 0 0 2.9 1.45 1.45 0 0 0 0-2.9zM19.3 19v-5.2c0-2.78-1.48-4.07-3.46-4.07-1.6 0-2.31.88-2.71 1.5V9.5H10.6c.03.7 0 9.5 0 9.5h2.53v-5.3c0-.23.02-.46.08-.62.18-.46.6-.93 1.3-.93.92 0 1.28.7 1.28 1.71V19z"/></svg>
-      </button>
-    </div>
-  </div>
-
-  
-</div></template>
-<details class="cf-seo" id="cf-seo">
-  <summary class="cf-seo__tab">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"></path><path d="M15 4v5h5"></path><path d="M8 13h7M8 16.5h5"></path></svg>
-    Questions for the SEO specialist
-    <span class="cf-seo__count">5</span>
-    <span class="cf-seo__hint">internal · open</span>
-  </summary>
-  <div class="cf-seo__panel">
-    <p class="cf-seo__intro">For internal review — <b>not page content</b>. Open questions to resolve with the SEO specialist before publishing.</p>
-    <ol class="cf-seo__list">
-      <li><span class="cf-seo__tag">Content</span> Answer length per lawyer — what min / max word count is ideal for SEO? Should we let lawyers write longer, more detailed answers?</li>
-      <li><span class="cf-seo__tag">Engagement</span> Comments under answers — do they help expand the semantic core and dwell time? Worth enabling (with moderation)?</li>
-      <li><span class="cf-seo__tag">CTR</span> Per-answer rating + social share — confirm these help clickability / CTR and SEO.</li>
-      <li><span class="cf-seo__tag">On-page</span> H1 heading length — recommended min / max characters? (Design supports both.)</li>
-      <li><span class="cf-seo__tag">UX flow</span> The &ldquo;quiz&rdquo; / chat is a hand-scripted intake (not AI, not auto-generated) — any SEO concern?</li>
-    </ol>
-  </div>
-</details>
-
-<div id="cfc" class="cfc">
-  <button class="cfc__cta" id="cfcCta" type="button" hidden>
-    <span class="cfc__cta-t">👋 <b>7–12 experts online now</b> — ask your question</span>
-    <img class="cfc__cta-ph" src="../assets/call_trigger.png" alt="">
-  </button>
-  <div class="cfc__panel" id="cfcPanel" hidden>
-    <div class="cfc__head">
-      <img class="cfc__ava" src="../assets/call_trigger.png" alt="">
-      <span class="cfc__id"><strong>Consultant · Live help</strong><span><i class="cfc__dot"></i>7–12 experts online · ready to help</span></span>
-      <button class="cfc__close" id="cfcClose" type="button" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M2 2l10 10M12 2L2 12"/></svg></button>
-    </div>
-    <div class="cfc__body" id="cfcBody"></div>
-    <form class="cfc__form" id="cfcForm" autocomplete="off">
-      <input type="text" id="cfcInput" placeholder="Describe your situation..." aria-label="Message">
-      <button type="submit" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a1 1 0 0 0-1.4 1.02l1.32 6.6a1 1 0 0 0 .8.78l8.18 1.4-8.18 1.4a1 1 0 0 0-.8.78L2 19.38a1 1 0 0 0 1.4 1.02z"/></svg></button>
-    </form>
-  </div>
-</div>
 
 <script>
 (function(){
-  var root=document.getElementById('cfc'); if(!root) return;
-  var panel=document.getElementById('cfcPanel'),body=document.getElementById('cfcBody'),
-      form=document.getElementById('cfcForm'),input=document.getElementById('cfcInput'),
-      closeB=document.getElementById('cfcClose'),cta=document.getElementById('cfcCta');
-  var mq=window.matchMedia('(max-width:991px)');
-  var userMsgs=0, paid=false, opened=false, manual=false, sold=false;
-  function esc(s){var d=document.createElement('div');d.textContent=String(s);return d.innerHTML;}
-  function down(){body.scrollTop=body.scrollHeight;}
-  function add(t,who){var e=document.createElement('div');e.className='cfm cfm--'+who;e.innerHTML='<span class="cfm__b">'+esc(t)+'</span>';body.appendChild(e);down();}
-  function typing(cb,ms){var t=document.createElement('div');t.className='cfm cfm--bot cfm--typing';t.innerHTML='<span class="cfm__b"><i></i><i></i><i></i></span>';body.appendChild(t);down();setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);cb();},ms);}
-  function bot(t){add(t,'bot');}
-  function greet(){
-    typing(function(){ bot("Hi! 👋 7–12 verified experts are online right now and ready to help.");
-      typing(function(){ bot("Describe your situation in a couple of sentences — we'll match you with the right specialist."); },1300); },1500);
+  /* --- keep the action panel a real grid column on desktop, inline under the
+         question header on mobile (physical DOM move, not CSS order) --- */
+  var aside=document.querySelector('.text-section .qa-aside');
+  var container=document.querySelector('.text-section .container');
+  var anchor=document.querySelector('.text-section .wrapper__article-tags');
+  if(aside&&container){
+    var mq=window.matchMedia('(max-width:991px)');
+    function place(){
+      if(mq.matches){ if(anchor && anchor.nextElementSibling!==aside) anchor.parentNode.insertBefore(aside, anchor.nextElementSibling); }
+      else { if(container.lastElementChild!==aside) container.appendChild(aside); }
+    }
+    place();
+    if(mq.addEventListener) mq.addEventListener('change',place); else if(mq.addListener) mq.addListener(place);
   }
-  function sell(){
-    sold=true;
-    var w=document.createElement('div'); w.className='cfc__sell';
-    w.innerHTML='<h4>Get a written answer from a verified lawyer</h4>'+
-      '<p>One question — from <b>$10</b>. Or subscribe to the app for unlimited questions.</p>'+
-      '<button class="cfc__btn" data-act="pay">Pay &amp; ask — $10</button>'+
-      '<button class="cfc__btn cfc__btn--ghost" data-act="sub">Subscribe to the app</button>';
-    body.appendChild(w); down();
-    w.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ startPay(b.getAttribute('data-act')); }); });
-  }
-  function startPay(kind){
-    add(kind==='sub'?"I'd like to subscribe":"I'd like to pay $10 and ask",'user');
-    typing(function(){ bot("Great. Enter your phone number and we'll set up payment."); input.placeholder="+1 (555) 000-0000"; },900);
-    root.dataset.stage='phone'; root.dataset.kind=kind;
-  }
-  function finishPay(){
-    paid=true;
-    typing(function(){
-      bot("✅ Payment received. Your question is assigned to a verified lawyer.");
-      typing(function(){ var e=document.createElement('div'); e.className='cfm cfm--bot';
-        e.innerHTML='<span class="cfm__b">Your answers are now in the <b>Consultant app</b> — download it to read them:<br><a href="#" style="color:#1b1b1b;font-weight:700;text-decoration:underline">Open in the app →</a></span>';
-        body.appendChild(e); down(); },1200);
-    },900);
-  }
-  function onUser(text){
-    text=(text||'').trim(); if(!text) return; add(text,'user');
-    if(root.dataset.stage==='phone'){ var d=text.replace(/[^\d+]/g,''); if(d.replace(/\D/g,'').length<7){ typing(function(){bot("Please enter a valid phone, e.g. +1 (555) 123-4567.");},800); return;} root.dataset.stage=''; finishPay(); return; }
-    if(paid){ typing(function(){bot("Got it — I'll pass that to your lawyer.");},700); return; }
-    userMsgs++;
-    if(userMsgs>=3 && !sold){ typing(function(){ bot("Thanks — a verified lawyer can give you a full written answer on this."); sell(); },1000); return; }
-    var replies=["Understood. Could you add a bit more detail?","Got it. Anything else about what happened?","Thanks. When did this take place?"];
-    typing(function(){ bot(replies[(userMsgs-1)%replies.length]); }, 1000);
-  }
-  var opd=false;
-  function show(el,y){el.hidden=!y;}
-  function openPanel(){root.classList.add('is-open');panel.hidden=false;cta.hidden=true;if(!opened){opened=true;greet();}setTimeout(function(){try{input.focus();}catch(e){}},160);}
-  function collapse(){root.classList.remove('is-open');panel.hidden=true;cta.hidden=false;}
-  function pastQ(){ var a=document.querySelector('.article-section')||document.querySelector('.get-service'); return a?a.getBoundingClientRect().top<160:false; }
-  function onScroll(){ if(mq.matches||manual) return; if(pastQ()){ if(!panel.hidden) collapse(); } else { if(panel.hidden) openPanel(); } }
-  form.addEventListener('submit',function(e){e.preventDefault();var v=input.value;input.value='';onUser(v);});
-  closeB.addEventListener('click',function(){manual=true;collapse();});
-  cta.addEventListener('click',function(){manual=true;openPanel();});
-  window.addEventListener('scroll',onScroll,{passive:true});
-  if(mq.matches){ collapse(); } else { openPanel(); }
-})();
-</script>
-
-<script>
-(function(){
-  function group(el){ return el.closest('.cf-rs'); }
-  function paint(starsWrap, n){ starsWrap.querySelectorAll('.cf-rs__star').forEach(function(s,i){ s.classList.toggle('is-on', i<n); }); }
-  function rated(starsWrap){ return parseInt(starsWrap.getAttribute('data-rated')||'0',10); }
-  document.addEventListener('mouseover', function(e){ var s=e.target.closest('.cf-rs__star'); if(s){ paint(s.closest('.cf-rs__stars'), +s.getAttribute('data-val')); } });
-  document.addEventListener('mouseout', function(e){ var w=e.target.closest('.cf-rs__stars'); if(w){ paint(w, rated(w)); } });
-  document.addEventListener('click', function(e){
-    var s=e.target.closest('.cf-rs__star');
-    if(s){ var w=s.closest('.cf-rs__stars'); var v=+s.getAttribute('data-val'); w.setAttribute('data-rated',v); paint(w,v);
-      var c=group(s).querySelector('[data-count]'); if(c && !group(s).dataset.voted){ group(s).dataset.voted='1'; c.textContent='('+(parseInt((c.textContent||'(12)').replace(/\D/g,''),10)+1)+')'; } return; }
-    var cp=e.target.closest('.cf-rs__ico[data-share="copy"]'); if(cp){ cp.classList.add('is-copied'); setTimeout(function(){cp.classList.remove('is-copied');},1400); }
+  /* --- per-answer rating (accessible) + share/comment --- */
+  function stars(of){ return of.parentNode.querySelectorAll('.qa-star'); }
+  function paint(group,n){ group.querySelectorAll('.qa-star').forEach(function(s,i){ s.classList.toggle('is-on', i<n); s.setAttribute('aria-checked', (i+1)===n?'true':'false'); }); }
+  document.addEventListener('mouseover',function(e){ var s=e.target.closest&&e.target.closest('.qa-star'); if(!s)return; var g=s.closest('.qa-stars'); paint(g,+s.dataset.v); });
+  document.addEventListener('mouseout',function(e){ var g=e.target.closest&&e.target.closest('.qa-stars'); if(!g)return; paint(g, +(g.dataset.rated||0)); });
+  document.addEventListener('click',function(e){
+    var s=e.target.closest&&e.target.closest('.qa-star');
+    if(s){ var g=s.closest('.qa-stars'); g.dataset.rated=s.dataset.v; paint(g,+s.dataset.v);
+      var bar=g.closest('.qa-cardbar'), c=bar&&bar.querySelector('[data-count]');
+      if(c&&!bar.dataset.voted){ bar.dataset.voted='1'; c.textContent='('+(parseInt((c.textContent||'(0)').replace(/\D/g,''),10)+1)+')'; }
+      return; }
+    var act=e.target.closest&&e.target.closest('.qa-act'); if(!act)return;
+    if(act.dataset.act==='comment'){ var t=document.getElementById('qa-newcomment'); if(t){ t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(function(){t.focus();},350); } }
+    else if(act.dataset.act==='share'){ var sp=act.querySelector('span'); if(sp){ var o=sp.textContent; act.classList.add('is-copied'); sp.textContent='Link copied'; setTimeout(function(){ sp.textContent=o; act.classList.remove('is-copied'); },1400); } }
   });
-  // inject a rating+share bar after every native answer card
-  var tmpl=document.getElementById('cf-rs-tmpl');
-  if(tmpl){ document.querySelectorAll('.text-card').forEach(function(card){ card.insertAdjacentHTML('afterend', tmpl.innerHTML); }); }
 })();
 </script>
 

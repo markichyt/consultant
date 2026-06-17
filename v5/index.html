@@ -690,11 +690,11 @@ main{ overflow-x:clip !important; }
 .text-section [hidden]{ display:none !important; }
 
 /* ===== layout tweaks (client feedback) ===================================== */
-/* live chat is a FLOATING widget (#10); the written ask-form moved to its own
-   full-width CTA section after the comments -> the article content is single-column. */
-.text-section .container{ display:block !important; max-width:1120px !important; margin:0 auto !important; }
-.text-section .container::before{ display:none !important; }
-.text-section .qa-main{ display:block; }
+/* two-column restored: content left, LIVE CHAT docked in the right column and
+   following the scroll. The written ask-form lives in the full-width CTA section below. */
+.text-section .qa-aside{ position:sticky !important; top:calc(var(--header-height,80px) + 16px) !important;
+  align-self:start; max-height:calc(100vh - var(--header-height,80px) - 28px); }
+@media (max-width:991px){ .text-section .qa-aside{ position:static !important; max-height:none; } }
 /* (1) each answer is ONE block: lawyer card (left) + answer text fills the right,
        instead of stacked text + a half-empty "ANSWERED BY" well */
 .text-section .text-card{ display:grid !important; grid-template-columns:360px minmax(0,1fr);
@@ -1688,6 +1688,30 @@ If officers reasonably relied on information that appeared accurate at the time,
 </section>
 
             </div>
+
+<aside class="qa-aside" aria-label="Live chat with a verified lawyer">
+  <div class="qa-chat__head">
+    <span class="qa-presence" aria-hidden="true"></span>
+    <div><div class="qa-chat__title">Verified experts online</div><div class="qa-chat__sub">7&#8211;12 lawyers available now</div></div>
+  </div>
+  <div class="qa-chat__log" id="qaLog" aria-live="polite">
+    <div class="qa-msg qa-msg--sys">Today</div>
+    <div class="qa-msg qa-msg--bot">Hi! I can connect you with a verified lawyer for your case. What happened?</div>
+  </div>
+  <div class="qa-upsell" id="qaUpsell" hidden>
+    <button type="button" class="qa-btn qa-btn--primary" id="qaPay">Pay &amp; ask &#8212; $10</button>
+    <button type="button" class="qa-btn qa-btn--ghost" id="qaSub">Subscribe to the app (unlimited)</button>
+  </div>
+  <a class="qa-applink" id="qaApp" href="#app" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <span><b>Open the Consultant app</b>Your answer is waiting &#8212; download &amp; sign in</span>
+  </a>
+  <form class="qa-chat__input" id="qaForm" autocomplete="off">
+    <input type="text" id="qaInput" placeholder="Type your message&#8230;" aria-label="Message">
+    <button type="submit" class="qa-send" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg></button>
+  </form>
+</aside>
+
 </div>
         </section>
 
@@ -2861,7 +2885,7 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
     var con=e.target.closest&&e.target.closest('.qa-contact');
     if(con){ var card=con.closest('.text-card'), nmEl=card&&card.querySelector('.balance-card__name');
       var nm=nmEl?nmEl.textContent.trim():'this lawyer';
-      if(window.fchatOpen) window.fchatOpen("I'd like to contact "+nm+" about my case.");
+      if(window.qaChatFocus) window.qaChatFocus("I'd like to contact "+nm+" about my case.");
       return; }
     var act=e.target.closest&&e.target.closest('.qa-act'); if(!act)return;
     if(act.dataset.act==='comment'){ var t=document.getElementById('qa-newcomment'); if(t){ t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(function(){t.focus();},350); } }
@@ -2870,104 +2894,27 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 })();
 </script>
 
-<style id="fchat-css">
-#fchat,#fchat *{box-sizing:border-box;}
-#fchat{font-family:"Avenir Next Cyr",-apple-system,Segoe UI,Roboto,sans-serif;}
-#fchat [hidden]{display:none !important;}   /* keep upsell/app-link hidden until triggered */
-.fchat__cta{position:fixed;right:22px;bottom:22px;z-index:2147483600;display:flex;align-items:center;gap:9px;
-  padding:13px 19px 13px 16px;background:#1b1b1b;color:#fff;border:0;border-radius:999px;cursor:pointer;
-  font-size:14px;font-weight:700;box-shadow:0 14px 36px rgba(0,0,0,.34);transition:transform .18s;}
-.fchat__cta:hover{transform:translateY(-2px);}
-.fchat__cta[hidden]{display:none;}
-.fdot{width:9px;height:9px;border-radius:50%;background:#3ddc84;flex:0 0 9px;box-shadow:0 0 0 0 rgba(61,220,132,.5);animation:fcp 2s infinite;}
-@keyframes fcp{70%{box-shadow:0 0 0 8px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
-.fchat__panel{position:fixed;right:22px;bottom:22px;z-index:2147483601;width:372px;max-width:calc(100vw - 28px);
-  height:560px;max-height:calc(100vh - 40px);display:flex;flex-direction:column;background:#fff;border:1px solid #d8d8d5;
-  border-radius:10px;overflow:hidden;box-shadow:0 26px 64px rgba(0,0,0,.32);}
-.fchat__panel[hidden]{display:none;}
-.fchat__head{display:flex;align-items:center;gap:10px;padding:13px 15px;background:#1b1b1b;color:#fff;}
-.fchat__head b{font-size:14px;display:block;}.fchat__head em{font-style:normal;font-size:12px;color:rgba(255,255,255,.8);}
-.fchat__close{margin-left:auto;width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;cursor:pointer;font-size:17px;line-height:1;}
-.fchat__log{flex:1;overflow-y:auto;padding:15px;background:#fafafa;display:flex;flex-direction:column;gap:10px;}
-.fmsg{max-width:84%;padding:9px 12px;border-radius:8px;font-size:13.5px;line-height:1.45;word-break:break-word;}
-.fmsg--bot{align-self:flex-start;background:#f1f1f0;border:1px solid #e6e6e4;color:#3a3a3a;}
-.fmsg--user{align-self:flex-end;background:#1b1b1b;color:#fff;}
-.fmsg--sys{align-self:center;font-size:11.5px;color:#9aa0a4;}
-.ftyping{align-self:flex-start;display:inline-flex;gap:4px;padding:11px 12px;background:#f1f1f0;border:1px solid #e6e6e4;border-radius:8px;}
-.ftyping i{width:5px;height:5px;border-radius:50%;background:#9aa0a4;animation:fcd 1.1s infinite;}
-.ftyping i:nth-child(2){animation-delay:.16s}.ftyping i:nth-child(3){animation-delay:.32s}
-@keyframes fcd{0%,60%,100%{opacity:.3}30%{opacity:1}}
-.fsell{display:flex;flex-direction:column;gap:8px;padding:0 15px 14px;}
-.fbtn{display:block;width:100%;padding:11px 14px;border-radius:3px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;border:1px solid #1b1b1b;}
-.fbtn--p{background:#1b1b1b;color:#fff;}.fbtn--p:hover{background:#000;}
-.fbtn--g{background:#fff;color:#1b1b1b;}.fbtn--g:hover{background:#f3f3f2;}
-.fapp{display:flex;align-items:center;gap:9px;margin:0 15px 14px;padding:11px 13px;border:1px solid #d8d8d5;border-radius:3px;text-decoration:none;color:#1b1b1b;font-size:13px;line-height:1.4;}
-.fapp b{font-weight:700;display:block;}
-.fchat__form{display:flex;gap:8px;padding:11px 13px;border-top:1px solid #e6e6e4;background:#fff;}
-.fchat__form input{flex:1;min-width:0;border:1px solid #d8d8d5;border-radius:3px;padding:10px 12px;font-family:inherit;font-size:13.5px;}
-.fchat__form input:focus{outline:none;border-color:#1b1b1b;}
-.fchat__form button{flex:0 0 auto;border:0;background:#1b1b1b;color:#fff;border-radius:3px;padding:0 14px;cursor:pointer;}
-@media(max-width:600px){
-  .fchat__panel{right:8px;left:8px;bottom:8px;width:auto;max-width:none;height:78vh;}
-  .fchat__cta{right:12px;bottom:12px;}
-}
-</style>
-<div id="fchat">
-  <button class="fchat__cta" id="fcCta" type="button"><span class="fdot"></span> 7&#8211;12 experts online &#8212; ask now</button>
-  <div class="fchat__panel" id="fcPanel" hidden>
-    <div class="fchat__head"><span class="fdot"></span><div><b>Verified experts online</b><em>7&#8211;12 lawyers available now</em></div>
-      <button class="fchat__close" id="fcClose" type="button" aria-label="Close">&times;</button></div>
-    <div class="fchat__log" id="fcLog">
-      <div class="fmsg fmsg--sys">Today</div>
-      <div class="fmsg fmsg--bot">Hi! I can connect you with a verified lawyer for your case. What happened?</div>
-    </div>
-    <div class="fsell" id="fcSell" hidden>
-      <button class="fbtn fbtn--p" id="fcPay" type="button">Pay &amp; ask &#8212; $10</button>
-      <button class="fbtn fbtn--g" id="fcSub" type="button">Subscribe to the app (unlimited)</button>
-    </div>
-    <a class="fapp" id="fcApp" href="#app" hidden><span><b>Open the Consultant app &#8594;</b>your answer is waiting</span></a>
-    <form class="fchat__form" id="fcForm" autocomplete="off">
-      <input type="text" id="fcInput" placeholder="Type your message&#8230;" aria-label="Message">
-      <button type="submit" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg></button>
-    </form>
-  </div>
-</div>
 <script>
 (function(){
-  var cta=document.getElementById('fcCta'),panel=document.getElementById('fcPanel'),log=document.getElementById('fcLog'),
-      form=document.getElementById('fcForm'),input=document.getElementById('fcInput'),closeB=document.getElementById('fcClose'),
-      sell=document.getElementById('fcSell'),app=document.getElementById('fcApp');
-  if(!cta||!panel) return;
-  var turns=0,sold=false,paid=false,manualClose=false;
+  var aside=document.querySelector('.text-section .qa-aside'); if(!aside) return;
+  var log=aside.querySelector('#qaLog'),form=aside.querySelector('#qaForm'),input=aside.querySelector('#qaInput'),
+      upsell=aside.querySelector('#qaUpsell'),app=aside.querySelector('#qaApp');
+  if(!log||!form||!input) return;
+  var turns=0,sold=false,paid=false;
   function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-  function add(t,who){var e=document.createElement('div');e.className='fmsg fmsg--'+who;e.innerHTML=esc(t);log.appendChild(e);log.scrollTop=log.scrollHeight;}
-  function typing(cb){var t=document.createElement('div');t.className='ftyping';t.innerHTML='<i></i><i></i><i></i>';log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(function(){t.remove();cb();},850);}
-  function open(){panel.hidden=false;cta.hidden=true;setTimeout(function(){try{input.focus();}catch(e){}},120);}
-  function collapse(){panel.hidden=true;cta.hidden=false;}
-  window.fchatOpen=function(prefill){manualClose=false;open();if(prefill){input.value=prefill;}};
-  cta.addEventListener('click',function(){manualClose=false;open();});
-  closeB.addEventListener('click',function(){manualClose=true;collapse();});
-  var lines=['Got it — a few details help match the right lawyer.','Understood. This may qualify for a compensation claim.','Thanks. To get a verified written answer, continue below.'];
+  function add(t,who){var e=document.createElement('div');e.className='qa-msg qa-msg--'+who;e.innerHTML=esc(t);log.appendChild(e);log.scrollTop=log.scrollHeight;}
+  function typing(cb){var t=document.createElement('div');t.className='qa-typing';t.innerHTML='<span></span><span></span><span></span>';log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(function(){t.remove();cb();},800);}
+  var lines=['Got it — a few details help us match the right lawyer.','Understood. This may qualify for a compensation claim.','Thanks. To get a verified written answer, continue below.'];
   form.addEventListener('submit',function(e){e.preventDefault();var v=input.value.trim();if(!v)return;add(v,'user');input.value='';
     if(paid){typing(function(){add('Got it — I will pass that to your lawyer.','bot');});return;}
     turns++;
-    if(turns>=3&&!sold){sold=true;typing(function(){add('You’ve shared enough for a precise answer. A verified lawyer can reply now.','bot');sell.hidden=false;log.scrollTop=log.scrollHeight;});}
+    if(turns>=3&&!sold){sold=true;typing(function(){add('You’ve shared enough for a precise answer. A verified lawyer can reply now.','bot');if(upsell)upsell.hidden=false;log.scrollTop=log.scrollHeight;});}
     else{typing(function(){add(lines[Math.min(turns-1,lines.length-1)],'bot');});}
   });
-  function pay(){sell.hidden=true;paid=true;typing(function(){add('Payment received. Your lawyer is preparing the answer.','bot');app.hidden=false;log.scrollTop=log.scrollHeight;});}
-  document.getElementById('fcPay').addEventListener('click',pay);
-  document.getElementById('fcSub').addEventListener('click',pay);
-  /* #10: open when the answers come into view, collapse when scrolled past them */
-  var sec=document.querySelector('.text-section');
-  function onScroll(){
-    if(manualClose||!sec) return;
-    var r=sec.getBoundingClientRect(), vh=window.innerHeight||800;
-    var inView = r.top < vh*0.55 && r.bottom > vh*0.2;
-    if(inView){ if(panel.hidden) open(); } else { if(!panel.hidden) collapse(); }
-  }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll);
-  collapse();
+  function pay(){if(upsell)upsell.hidden=true;paid=true;typing(function(){add('Payment received. Your lawyer is preparing the answer.','bot');if(app)app.hidden=false;log.scrollTop=log.scrollHeight;});}
+  var pb=aside.querySelector('#qaPay'),sb=aside.querySelector('#qaSub');
+  if(pb)pb.addEventListener('click',pay); if(sb)sb.addEventListener('click',pay);
+  window.qaChatFocus=function(prefill){ aside.scrollIntoView({behavior:'smooth',block:'center'}); if(prefill){input.value=prefill;} setTimeout(function(){try{input.focus();}catch(e){}},420); };
 })();
 </script>
 

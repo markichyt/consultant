@@ -107,7 +107,13 @@
 .balance-card-hover .btn-arrow{ background:#1b1b1b !important; }
 .breadcrumbs__item a{ color:#5a6b73 !important; }
 .app-reminder, .call-trigger, .transparent-social, .cookies{ display:none !important; }
-html, body{ overflow-x:hidden !important; max-width:100% !important; }
+/* The native CSS puts overflow-x:hidden on BOTH body and main — that creates a scroll
+   container and KILLS position:sticky for the action panel (it stopped following the user).
+   overflow-x:clip clips horizontal overflow WITHOUT creating a scroll container, so the
+   panel can stick again while horizontal scroll stays prevented. */
+html{ max-width:100% !important; }
+body{ overflow-x:clip !important; max-width:100% !important; }
+main{ overflow-x:clip !important; }
 /* ---- HERO: compact the original full-screen hero into a tidy dark band ---- */
 .main-hero{ min-height:auto !important; }
 .main-hero .main-hero__bg{ opacity:.24 !important; }
@@ -679,8 +685,9 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
 .text-section [hidden]{ display:none !important; }
 
 /* ===== layout tweaks (client feedback) ===================================== */
-/* (2) action panel scrolls WITH the page — not pinned/sticky */
-.text-section .qa-aside{ position:static !important; }
+/* (2) action panel FOLLOWS the user while scrolling (sticky), clearing the header */
+.text-section .qa-aside{ position:sticky !important; top:calc(var(--header-height,80px) + 16px) !important;
+  align-self:start; max-height:calc(100vh - var(--header-height,80px) - 28px); overflow:auto; }
 /* (1) each answer is ONE block: lawyer card (left) + answer text fills the right,
        instead of stacked text + a half-empty "ANSWERED BY" well */
 .text-section .text-card{ display:grid !important; grid-template-columns:360px minmax(0,1fr);

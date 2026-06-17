@@ -677,6 +677,25 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
 .text-section .qa-act.is-copied{ color:#1b1b1b; }
 /* keep [hidden] truly hidden — design's display:flex on .qa-upsell/.qa-applink would otherwise defeat it */
 .text-section [hidden]{ display:none !important; }
+
+/* ===== layout tweaks (client feedback) ===================================== */
+/* (2) action panel scrolls WITH the page — not pinned/sticky */
+.text-section .qa-aside{ position:static !important; }
+/* (1) each answer is ONE block: lawyer card (left) + answer text fills the right,
+       instead of stacked text + a half-empty "ANSWERED BY" well */
+.text-section .text-card{ display:grid !important; grid-template-columns:360px minmax(0,1fr);
+  column-gap:30px; align-items:start; }
+.text-section .text-card::before{ grid-column:1 / -1; }                 /* ANSWER 0n eyebrow */
+.text-section .text-card .qa-lawyer{ grid-column:1; grid-row:2; margin:0 !important;
+  background:none !important; border:0 !important; padding:0 !important; }
+.text-section .text-card .qa-lawyer .balance-card{ max-width:none !important; }
+.text-section .text-card .card-answer{ grid-column:2; grid-row:2; margin:0 !important; }
+.text-section .text-card .qa-cardbar{ grid-column:1 / -1; grid-row:3; margin-top:20px; }
+@media (max-width:991px){
+  .text-section .text-card{ display:block !important; }
+  .text-section .text-card .card-answer{ margin:0 0 16px !important; }
+  .text-section .text-card .qa-lawyer{ margin:0 !important; }
+}
 </style>
 
 </head>

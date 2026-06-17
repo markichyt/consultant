@@ -110,11 +110,16 @@
 .text-inner__top-label.blue, .text-inner__top-label.blue svg{ color:#1b1b1b !important; }
 .app-reminder, .call-trigger, .transparent-social{ display:none !important; }
 html, body{ overflow-x:hidden !important; max-width:100% !important; }
-/* SEO-review panel -> always-visible floating block (bottom-left, away from the chat) */
-.cf-seo-panel{ position:fixed !important; left:18px; bottom:18px; z-index:2100000 !important;
-  width:min(360px,calc(100vw - 36px)) !important; max-height:calc(100vh - 112px); overflow:auto;
-  box-shadow:0 22px 56px rgba(0,0,0,.32) !important; margin:0 !important; }
-@media (max-width:991px){ .cf-seo-panel{ left:8px; right:8px; bottom:74px; width:auto !important; max-height:60vh; } }
+/* ---- HERO: compact the original full-screen hero into a normal band (kills the black void) ---- */
+.main-hero{ min-height:auto !important; }
+.main-hero .main-hero__bg{ opacity:.24 !important; }
+.main-hero .main-hero__inner{ min-height:auto !important; height:auto !important; gap:16px !important;
+  padding-top:calc(var(--header-height,72px) + 18px) !important; padding-bottom:30px !important; }
+.main-hero .main-top__title{ font-size:clamp(22px,3vw,38px) !important; line-height:1.18 !important; max-width:760px; }
+.main-hero .main-top__subtitle{ font-size:15px !important; }
+.main-hero .breadcrumbs__item a, .main-hero .breadcrumbs__item span{ color:rgba(255,255,255,.62) !important; }
+/* drop the site cookie-consent popup (irrelevant to the SEO review, and its Accept btn stayed blue) */
+.cookies{ display:none !important; }
 /* shared bits for injected blocks */
 .cf-section{ max-width:1500px; margin:0 auto; padding:0 clamp(10px,1.95vw,30px); }
 .cf-wrap{ margin:34px auto; }
@@ -748,194 +753,35 @@ html, body{ overflow-x:hidden !important; max-width:100% !important; }
   .cf-note { width: 100%; }
 }
 </style>
-<style>
-.cf-seo-panel {
-  --cf-ink: #1b1b1b;
-  --cf-gray: #687b83;
-  --cf-border: #e6e8eb;
-  --cf-amber: #f4b740;
-  --cf-amber-soft: #fff7e3;
-  --cf-amber-line: #f0dca6;
-  box-sizing: border-box;
-  position: sticky;
-  top: 16px;
-  width: 100%;
-  max-width: 360px;
-  margin-left: auto;
-  font-family: "Avenir Next Cyr", sans-serif;
-  color: var(--cf-ink);
-  background: var(--cf-amber-soft);
-  border: 1px solid var(--cf-amber-line);
-  border-left: 3px solid var(--cf-amber);
-  border-radius: 10px;
-  box-shadow: 0 6px 22px rgba(27, 27, 27, 0.08);
-  overflow: hidden;
-}
-.cf-seo-panel *,
-.cf-seo-panel *::before,
-.cf-seo-panel *::after { box-sizing: border-box; }
-
-.cf-seo-bar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 14px 14px 12px;
-}
-.cf-seo-head {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  min-width: 0;
-}
-.cf-seo-icon {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
-  background: #fff;
-  border: 1px solid var(--cf-amber-line);
-  color: var(--cf-ink);
-}
-.cf-seo-titles { min-width: 0; }
-.cf-seo-title {
-  margin: 1px 0 4px;
-  font-family: "Bicubik", sans-serif;
-  font-size: 13.5px;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--cf-ink);
-}
-.cf-seo-sub {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  line-height: 1.3;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--cf-gray);
-}
-.cf-seo-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--cf-amber);
-  flex: 0 0 auto;
-}
-
-.cf-seo-toggle {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 6px 10px;
-  font-family: "Avenir Next Cyr", sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--cf-ink);
-  border: 1px solid var(--cf-ink);
-  border-radius: 7px;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-}
-.cf-seo-toggle:hover { opacity: 0.86; }
-.cf-seo-chev { transition: transform 0.2s ease; }
-
-.cf-seo-body {
-  padding: 0 14px 14px;
-  border-top: 1px dashed var(--cf-amber-line);
-}
-.cf-seo-intro {
-  margin: 12px 0 12px;
-  font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--cf-gray);
-}
-
-.cf-seo-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: cf-seo;
-}
-.cf-seo-item {
-  counter-increment: cf-seo;
-  position: relative;
-  padding: 11px 12px 11px 38px;
-  background: #fff;
-  border: 1px solid var(--cf-border);
-  border-radius: 8px;
-}
-.cf-seo-item + .cf-seo-item { margin-top: 8px; }
-.cf-seo-item::before {
-  content: counter(cf-seo);
-  position: absolute;
-  left: 10px;
-  top: 11px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Bicubik", sans-serif;
-  font-size: 11px;
-  color: var(--cf-ink);
-  background: var(--cf-amber-soft);
-  border: 1px solid var(--cf-amber-line);
-  border-radius: 5px;
-}
-.cf-seo-q {
-  margin: 0 0 8px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--cf-ink);
-}
-.cf-seo-tag {
-  display: inline-block;
-  margin-right: 6px;
-  padding: 2px 7px;
-  font-size: 10px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--cf-gray);
-  background: #f6f8fa;
-  border: 1px solid var(--cf-border);
-  border-radius: 999px;
-  vertical-align: 1px;
-}
-.cf-seo-note {
-  margin: 0;
-  padding-top: 8px;
-  min-height: 26px;
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: var(--cf-gray);
-  border-top: 1px dashed var(--cf-border);
-}
-
-.cf-seo-panel.cf-is-collapsed .cf-seo-body { display: none; }
-.cf-seo-panel.cf-is-collapsed .cf-seo-chev { transform: rotate(-90deg); }
-
-@media (max-width: 600px) {
-  .cf-seo-panel {
-    position: static;
-    max-width: 100%;
-    margin-left: 0;
-  }
-  .cf-seo-title { font-size: 12.5px; }
-  .cf-seo-toggle-label { display: none; }
-  .cf-seo-toggle { padding: 7px; }
-}
+<style id="cf-seo-css">
+.cf-seo{ position:fixed; left:18px; bottom:18px; z-index:2100000;
+  width:min(340px,calc(100vw - 36px)); font-family:"Avenir Next Cyr",sans-serif; }
+.cf-seo__tab{ list-style:none; cursor:pointer; display:flex; align-items:center; gap:8px;
+  padding:11px 13px; background:#1b1b1b; color:#fff; border-radius:8px; font-size:13px; font-weight:600;
+  box-shadow:0 14px 34px rgba(0,0,0,.28); user-select:none; }
+.cf-seo__tab::-webkit-details-marker{ display:none; }
+.cf-seo__tab svg{ flex:0 0 auto; }
+.cf-seo__count{ display:inline-flex; align-items:center; justify-content:center; min-width:20px; height:20px;
+  padding:0 6px; font-size:12px; font-weight:700; background:#f4b740; color:#1b1b1b; border-radius:999px; }
+.cf-seo__hint{ margin-left:auto; font-size:10px; font-weight:700; letter-spacing:.05em;
+  text-transform:uppercase; color:rgba(255,255,255,.6); }
+.cf-seo[open] .cf-seo__hint{ display:none; }
+.cf-seo[open] .cf-seo__tab{ border-radius:8px 8px 0 0; }
+.cf-seo__panel{ max-height:calc(100vh - 132px); overflow:auto; background:#fff7e3;
+  border:1px solid #f0dca6; border-top:0; border-left:3px solid #f4b740; border-radius:0 0 10px 10px;
+  padding:13px 14px 14px; box-shadow:0 22px 56px rgba(0,0,0,.26); }
+.cf-seo__intro{ margin:0 0 11px; font-size:12.5px; line-height:1.5; color:#687b83; }
+.cf-seo__list{ margin:0; padding:0; list-style:none; counter-reset:s; display:flex; flex-direction:column; gap:8px; }
+.cf-seo__list li{ counter-increment:s; position:relative; padding:10px 12px 10px 36px; background:#fff;
+  border:1px solid #e6e8eb; border-radius:8px; font-size:12.5px; line-height:1.5; color:#1b1b1b; }
+.cf-seo__list li::before{ content:counter(s); position:absolute; left:9px; top:10px; width:20px; height:20px;
+  display:flex; align-items:center; justify-content:center; font-family:"Bicubik",sans-serif; font-size:11px;
+  background:#fff7e3; border:1px solid #f0dca6; border-radius:5px; }
+.cf-seo__tag{ display:inline-block; margin-right:5px; padding:2px 7px; font-size:10px; letter-spacing:.04em;
+  text-transform:uppercase; color:#687b83; background:#f6f8fa; border:1px solid #e6e8eb; border-radius:999px; vertical-align:1px; }
+@media (max-width:991px){ .cf-seo{ left:8px; bottom:74px; width:min(320px,calc(100vw - 16px)); } }
 </style>
+
 <style id="cf-chat-css">
 .cfc *{ box-sizing:border-box; }
 .cfc__panel{ position:fixed; z-index:2000000; right:max(24px,calc(50vw - 750px)); top:104px;
@@ -3335,69 +3181,26 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
   </div>
 
   
-</div></template><aside class="cf-seo-panel" id="seo_panel" aria-label="Internal SEO review notes">
-  <div class="cf-seo-bar">
-    <div class="cf-seo-head">
-      <span class="cf-seo-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 4h12l4 4v12a0 0 0 0 1 0 0H4a0 0 0 0 1 0 0V4z"></path>
-          <path d="M15 4v5h5"></path>
-          <path d="M8 13h7M8 16.5h5"></path>
-        </svg>
-      </span>
-      <div class="cf-seo-titles">
-        <p class="cf-seo-title">Questions for the SEO specialist</p>
-        <p class="cf-seo-sub"><span class="cf-seo-dot" aria-hidden="true"></span> For internal review — not page content</p>
-      </div>
-    </div>
-    <button type="button" class="cf-seo-toggle" id="cf-seo-toggle" aria-expanded="true" aria-controls="cf-seo-body">
-      <span class="cf-seo-toggle-label">Hide</span>
-      <svg class="cf-seo-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
-    </button>
-  </div>
-
-  <div class="cf-seo-body" id="cf-seo-body">
-    <p class="cf-seo-intro">Open questions to resolve before publishing. Leave your notes against each item.</p>
-    <ol class="cf-seo-list">
-      <li class="cf-seo-item">
-        <p class="cf-seo-q"><span class="cf-seo-tag">Content</span> Answer length per lawyer — what min / max word count is allowed or ideal for SEO? Should we let lawyers write longer, more detailed answers?</p>
-        <p class="cf-seo-note">Reviewer note:</p>
-      </li>
-      <li class="cf-seo-item">
-        <p class="cf-seo-q"><span class="cf-seo-tag">Engagement</span> Comments under answers — do they help expand the semantic core and dwell time? Worth enabling (with moderation)?</p>
-        <p class="cf-seo-note">Reviewer note:</p>
-      </li>
-      <li class="cf-seo-item">
-        <p class="cf-seo-q"><span class="cf-seo-tag">CTR</span> Per-answer rating + social share — confirm these help clickability / CTR and SEO.</p>
-        <p class="cf-seo-note">Reviewer note:</p>
-      </li>
-      <li class="cf-seo-item">
-        <p class="cf-seo-q"><span class="cf-seo-tag">On-page</span> H1 heading length — recommended min / max characters? (Design supports both.)</p>
-        <p class="cf-seo-note">Reviewer note:</p>
-      </li>
-      <li class="cf-seo-item">
-        <p class="cf-seo-q"><span class="cf-seo-tag">UX flow</span> The "quiz" / chat is a hand-scripted intake (not AI, not auto-generated) — any SEO concern?</p>
-        <p class="cf-seo-note">Reviewer note:</p>
-      </li>
+</div></template>
+<details class="cf-seo" id="cf-seo">
+  <summary class="cf-seo__tab">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h12l4 4v12H4z"></path><path d="M15 4v5h5"></path><path d="M8 13h7M8 16.5h5"></path></svg>
+    Questions for the SEO specialist
+    <span class="cf-seo__count">5</span>
+    <span class="cf-seo__hint">internal · open</span>
+  </summary>
+  <div class="cf-seo__panel">
+    <p class="cf-seo__intro">For internal review — <b>not page content</b>. Open questions to resolve with the SEO specialist before publishing.</p>
+    <ol class="cf-seo__list">
+      <li><span class="cf-seo__tag">Content</span> Answer length per lawyer — what min / max word count is ideal for SEO? Should we let lawyers write longer, more detailed answers?</li>
+      <li><span class="cf-seo__tag">Engagement</span> Comments under answers — do they help expand the semantic core and dwell time? Worth enabling (with moderation)?</li>
+      <li><span class="cf-seo__tag">CTR</span> Per-answer rating + social share — confirm these help clickability / CTR and SEO.</li>
+      <li><span class="cf-seo__tag">On-page</span> H1 heading length — recommended min / max characters? (Design supports both.)</li>
+      <li><span class="cf-seo__tag">UX flow</span> The &ldquo;quiz&rdquo; / chat is a hand-scripted intake (not AI, not auto-generated) — any SEO concern?</li>
     </ol>
   </div>
+</details>
 
-  <script>
-  (function () {
-    var btn = document.getElementById('cf-seo-toggle');
-    var body = document.getElementById('cf-seo-body');
-    var panel = document.getElementById('seo_panel');
-    if (!btn || !body || !panel) return;
-    var label = btn.querySelector('.cf-seo-toggle-label');
-    btn.addEventListener('click', function () {
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      panel.classList.toggle('cf-is-collapsed', open);
-      if (label) label.textContent = open ? 'Show' : 'Hide';
-    });
-  })();
-  </script>
-</aside>
 <div id="cfc" class="cfc">
   <button class="cfc__cta" id="cfcCta" type="button" hidden>
     <span class="cfc__cta-t">👋 <b>7–12 experts online now</b> — ask your question</span>

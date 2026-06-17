@@ -690,11 +690,11 @@ main{ overflow-x:clip !important; }
 .text-section [hidden]{ display:none !important; }
 
 /* ===== layout tweaks (client feedback) ===================================== */
-/* the live chat is now a FLOATING widget (#10); the right panel is the written
-   "Ask in writing" form and scrolls with the page. */
-.text-section .qa-aside{ position:static !important; align-self:start; }
-.text-section .qa-ask-head{ display:flex; align-items:center; gap:9px; padding:14px 16px; border-bottom:1px solid #e6e6e4; }
-.text-section .qa-ask-head .qa-presence{ position:relative; width:9px; height:9px; flex:0 0 9px; }
+/* live chat is a FLOATING widget (#10); the written ask-form moved to its own
+   full-width CTA section after the comments -> the article content is single-column. */
+.text-section .container{ display:block !important; max-width:1120px !important; margin:0 auto !important; }
+.text-section .container::before{ display:none !important; }
+.text-section .qa-main{ display:block; }
 /* (1) each answer is ONE block: lawyer card (left) + answer text fills the right,
        instead of stacked text + a half-empty "ANSWERED BY" well */
 .text-section .text-card{ display:grid !important; grid-template-columns:360px minmax(0,1fr);
@@ -710,6 +710,47 @@ main{ overflow-x:clip !important; }
   .text-section .text-card .card-answer{ margin:0 0 16px !important; }
   .text-section .text-card .qa-lawyer{ margin:0 !important; }
 }
+
+/* ===== USER CTA: "Ask a verified lawyer" — distinct dark full-width band ===== */
+.qa-cta{ background:#161616; color:#fff; padding:clamp(40px,6vw,76px) 0; }
+.qa-cta__inner{ max-width:1180px; margin:0 auto; padding:0 clamp(16px,4vw,40px);
+  display:grid; grid-template-columns:1fr 430px; gap:clamp(28px,4vw,56px); align-items:center; }
+.qa-cta__eyebrow{ font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#8b9196; margin:0 0 12px; }
+.qa-cta__title{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(28px,4vw,46px); line-height:1.08; text-transform:uppercase; margin:0 0 16px; }
+.qa-cta__lead{ font-size:16px; line-height:1.6; color:#c8ccd0; margin:0 0 20px; max-width:520px; }
+.qa-cta__lead b{ color:#fff; }
+.qa-cta__points{ list-style:none; margin:0 0 18px; padding:0; display:grid; gap:10px; }
+.qa-cta__points li{ position:relative; padding-left:26px; font-size:15px; color:#e6e6e4; }
+.qa-cta__points li::before{ content:"✓"; position:absolute; left:0; top:0; color:#fff; font-weight:700; }
+.qa-cta__trust{ display:flex; align-items:center; gap:8px; font-size:13.5px; color:#8b9196; margin:0; }
+.qa-cta__trust .qa-cta__dot{ width:9px; height:9px; border-radius:50%; background:#3ddc84; }
+.qa-cta__form{ background:#fff; color:#1b1b1b; border-radius:6px; padding:clamp(20px,2.5vw,28px); box-shadow:0 30px 70px rgba(0,0,0,.4); }
+.qa-cta__field{ display:block; margin-bottom:14px; }
+.qa-cta__field > span{ display:block; font-family:"Bicubik",sans-serif; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#6b7177; margin-bottom:6px; }
+.qa-cta__field textarea, .qa-cta__field select{ width:100%; border:1px solid #d8d8d5; border-radius:3px; background:#fcfcfc;
+  padding:11px 12px; font-family:"Avenir Next Cyr",sans-serif; font-size:14px; color:#1b1b1b; -webkit-appearance:none; appearance:none; }
+.qa-cta__field textarea{ min-height:82px; resize:vertical; line-height:1.5; }
+.qa-cta__field textarea:focus, .qa-cta__field select:focus{ outline:none; border-color:#1b1b1b; background:#fff; }
+.qa-cta__row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.qa-cta__sel{ position:relative; }
+.qa-cta__sel::after{ content:""; position:absolute; right:13px; top:34px; width:8px; height:8px; border-right:1.6px solid #6b7177; border-bottom:1.6px solid #6b7177; transform:rotate(45deg); pointer-events:none; }
+.qa-cta__btn{ display:block; width:100%; padding:13px 16px; margin-top:8px; cursor:pointer; font-family:"Avenir Next Cyr",sans-serif; font-size:14.5px; font-weight:700; border-radius:3px; border:1px solid #1b1b1b; }
+.qa-cta__btn--p{ background:#1b1b1b; color:#fff; } .qa-cta__btn--p:hover{ background:#000; }
+.qa-cta__btn--g{ background:#fff; color:#1b1b1b; } .qa-cta__btn--g:hover{ background:#f3f3f2; }
+.qa-cta__note{ font-size:11.5px; color:#9aa0a4; text-align:center; margin:10px 0 0; }
+@media (max-width:860px){ .qa-cta__inner{ grid-template-columns:1fr; } }
+@media (max-width:480px){ .qa-cta__row{ grid-template-columns:1fr; } }
+
+/* ===== discreet internal SEO note (collapsed) — kept separate from the user CTA ===== */
+.text-section .qa-seobar{ max-width:1120px; margin:0 auto 18px; background:#fbfbfa; border:1px solid #e6e6e4; border-radius:3px; font-size:13px; color:#6b7177; }
+.text-section .qa-seobar summary{ list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px; padding:10px 16px; font-family:"Avenir Next Cyr",sans-serif; font-weight:600; color:#3a3a3a; }
+.text-section .qa-seobar summary::-webkit-details-marker{ display:none; }
+.text-section .qa-seobar__flag{ width:9px; height:9px; border-radius:2px; background:#f4b740; flex:0 0 auto; }
+.text-section .qa-seobar em{ font-style:normal; color:#9aa0a4; font-size:11px; letter-spacing:.04em; text-transform:uppercase; margin-left:auto; }
+.text-section .qa-seobar__chev{ color:#9aa0a4; transition:transform .2s; }
+.text-section .qa-seobar[open] .qa-seobar__chev{ transform:rotate(180deg); }
+.text-section .qa-seobar ol{ margin:0; padding:10px 18px 14px 36px; display:grid; gap:8px; }
+.text-section .qa-seobar li{ line-height:1.5; } .text-section .qa-seobar li b{ color:#3a3a3a; }
 </style>
 
 </head>
@@ -1278,6 +1319,7 @@ main{ overflow-x:clip !important; }
             </div>
             <div class="container">
 <div class="qa-main">
+<details class="qa-seobar" id="seo-review"><summary><span class="qa-seobar__flag" aria-hidden="true"></span> Internal SEO review <em>for your SEO specialist &#8212; not page content</em><span class="qa-seobar__chev" aria-hidden="true">&#9662;</span></summary><ol><li><b>Answer length:</b> recommended min/max words per lawyer answer for ranking?</li><li><b>Comments:</b> do user comments meaningfully expand the semantic core / dwell time?</li><li><b>Per-answer rating + share:</b> confirmed positive for CTR and rich-result eligibility?</li><li><b>H1 length:</b> ideal character range for the question heading?</li><li><b>Scripted chat intake:</b> any indexing/UX concern with the hand-scripted (non-AI) flow?</li></ol></details>
 
                 <div class="text-inner consultant_articles-position">
                     <div class="wrapper__article-tags">
@@ -1646,84 +1688,42 @@ If officers reasonably relied on information that appeared accurate at the time,
 </section>
 
             </div>
-<aside class="qa-aside" aria-label="Ask a verified lawyer">
-
-  
-
-  <!-- ===================== PANE: LIVE CHAT ===================== -->
-  <div class="qa-ask-head"><span class="qa-presence" aria-hidden="true"></span><div><div class="qa-chat__title">Ask a verified lawyer</div><div class="qa-chat__sub">Written answer in the app · from $10</div></div></div><div class="qa-pane is-active" data-pane="ask">
-    <div class="qa-ask">
-      <p class="qa-ask__lead">Describe your situation. A verified lawyer replies in the app.</p>
-      <form onsubmit="return false">
-        <label class="qa-field">
-          <span>Your question</span>
-          <textarea placeholder="e.g. I was held in custody due to a database error — can I claim compensation?"></textarea>
-        </label>
-
-        <label class="qa-field qa-select">
-          <span>Specialist type</span>
-          <select>
-            <option>Lawyer</option><option>Attorney</option>
-            <option>Paralegal</option><option>Not sure</option>
-          </select>
-        </label>
-
-        <label class="qa-field qa-select">
-          <span>Specialization</span>
-          <select>
-            <option>Criminal</option><option>Civil rights</option>
-            <option>Compensation / Tort</option><option>Migration</option>
-            <option>Family</option><option>Not sure</option>
-          </select>
-        </label>
-
-        <label class="qa-field qa-select">
-          <span>Area &amp; city</span>
-          <select>
-            <option>USA — Texas</option><option>USA — California</option>
-            <option>USA — Ohio</option><option>USA — Other state</option>
-            <option>Not sure</option>
-          </select>
-        </label>
-
-        <div class="qa-ask__actions">
-          <button type="submit" class="qa-btn qa-btn--primary">Ask a verified lawyer — from&nbsp;$10</button>
-          <button type="button" class="qa-btn qa-btn--ghost">Subscribe to the app (unlimited)</button>
-        </div>
-        <p class="qa-price">Demo only — no real payment is processed.</p>
-      </form>
-    </div>
-  </div>
-
-  <!-- ============ FOOTER: discreet internal SEO note ============ -->
-  <div class="qa-aside__foot">
-    <details class="qa-seo">
-      <summary>
-        <span class="qa-seo__flag" aria-hidden="true"></span>
-        Internal SEO review
-        <span class="qa-seo__kicker">Not page content</span>
-      </summary>
-      <ol>
-        <li><b>Answer length:</b> recommended min/max words per lawyer answer for ranking?</li>
-        <li><b>Comments:</b> do user comments meaningfully expand the semantic core / dwell time?</li>
-        <li><b>Per-answer rating + share:</b> confirmed positive for CTR and rich-result eligibility?</li>
-        <li><b>H1 length:</b> ideal character range for the Bicubik question heading?</li>
-        <li><b>Scripted chat intake:</b> any indexing/UX concern with the hand-scripted (non-AI) flow?</li>
-      </ol>
-    </details>
-  </div>
-</aside>
-
-<!-- =====================================================================
-     Minimal behavior (the build inlines this once near the aside).
-     Tab switch + scripted chat: greet -> after 3 user msgs upsell ->
-     pay reveals app link.  No external deps.
-     ===================================================================== -->
-
 </div>
         </section>
 
-        <section class="article-section">
+        
+<section class="qa-cta" id="ask-lawyer" aria-label="Ask a verified lawyer">
+  <div class="qa-cta__inner">
+    <div class="qa-cta__copy">
+      <p class="qa-cta__eyebrow">Your turn</p>
+      <h2 class="qa-cta__title">Have a similar situation?</h2>
+      <p class="qa-cta__lead">Describe your case and get a written answer from a <b>verified lawyer</b> &#8212; delivered in the app. Pick who should help; pay only when you ask.</p>
+      <ul class="qa-cta__points">
+        <li>Verified lawyers &#8212; not bots</li>
+        <li>Written answer in the app &#8212; from $10</li>
+        <li>Or subscribe for unlimited questions</li>
+      </ul>
+      <p class="qa-cta__trust"><span class="qa-cta__dot"></span> 7&#8211;12 verified experts online now</p>
+    </div>
+    <form class="qa-cta__form" onsubmit="return false">
+      <label class="qa-cta__field"><span>Your question</span>
+        <textarea placeholder="e.g. I was held in custody due to a database error &#8212; can I claim compensation?"></textarea></label>
+      <div class="qa-cta__row">
+        <label class="qa-cta__field qa-cta__sel"><span>Specialist type</span>
+          <select><option>Lawyer</option><option>Attorney</option><option>Paralegal</option><option>Not sure</option></select></label>
+        <label class="qa-cta__field qa-cta__sel"><span>Specialization</span>
+          <select><option>Criminal</option><option>Civil rights</option><option>Compensation / Tort</option><option>Migration</option><option>Family</option><option>Not sure</option></select></label>
+      </div>
+      <label class="qa-cta__field qa-cta__sel"><span>Area &amp; city</span>
+        <select><option>USA &#8212; Texas</option><option>USA &#8212; California</option><option>USA &#8212; Ohio</option><option>USA &#8212; Other state</option><option>Not sure</option></select></label>
+      <button type="submit" class="qa-cta__btn qa-cta__btn--p">Ask a verified lawyer &#8212; from&nbsp;$10</button>
+      <button type="button" class="qa-cta__btn qa-cta__btn--g">Subscribe to the app (unlimited)</button>
+      <p class="qa-cta__note">Demo only &#8212; no real payment is processed.</p>
+    </form>
+  </div>
+</section>
+
+<section class="article-section">
         <div class="article-section_bg bg-image">
     <picture>
         <source type="image/webp" srcset="https://consultantlm.com/site/img/article_section_bg.webp">

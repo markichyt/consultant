@@ -543,17 +543,28 @@ main{ overflow-x:clip !important; }
 
 /* ---- CHAT --------------------------------------------------------- */
 .text-section .qa-chat__head{
-  display:flex; align-items:center; gap:11px;
-  padding:18px 20px; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:11px; position:relative;
+  padding:18px 20px; background:#161616; border-bottom:1px solid var(--line);
 }
 .text-section .qa-presence{ position:relative; width:11px; height:11px; flex:0 0 11px; }
 .text-section .qa-presence::before{
   content:""; position:absolute; inset:0; border-radius:50%;
-  background:#2e2e2e; box-shadow:0 0 0 0 rgba(46,46,46,.4); animation:qaPulse 2.4s infinite;
+  background:#fff; box-shadow:0 0 0 0 rgba(255,255,255,.5); animation:qaPulse 2.2s infinite;
 }
-@keyframes qaPulse{ 0%{box-shadow:0 0 0 0 rgba(46,46,46,.35)} 70%{box-shadow:0 0 0 7px rgba(46,46,46,0)} 100%{box-shadow:0 0 0 0 rgba(46,46,46,0)} }
-.text-section .qa-chat__title{ font-weight:700; font-size:16px; color:var(--ink); }
-.text-section .qa-chat__sub{ font-size:13px; color:var(--muted); }
+@keyframes qaPulse{ 0%{box-shadow:0 0 0 0 rgba(255,255,255,.5)} 70%{box-shadow:0 0 0 8px rgba(255,255,255,0)} 100%{box-shadow:0 0 0 0 rgba(255,255,255,0)} }
+.text-section .qa-chat__title{ font-weight:700; font-size:16px; color:#fff; }
+.text-section .qa-chat__sub{ font-size:13px; color:#c2c2c2; }
+/* LIVE badge — attention cue in the dark chat header */
+.text-section .qa-live{
+  margin-left:auto; display:inline-flex; align-items:center; gap:6px;
+  padding:5px 11px; border-radius:1.25rem; background:rgba(255,255,255,.12);
+  font-family:"Bicubik",sans-serif; font-size:10px; letter-spacing:.14em; color:#fff;
+}
+.text-section .qa-live__dot{
+  width:7px; height:7px; border-radius:50%; background:#ff3b3b;
+  box-shadow:0 0 0 0 rgba(255,59,59,.6); animation:qaLiveDot 1.4s infinite;
+}
+@keyframes qaLiveDot{ 0%{box-shadow:0 0 0 0 rgba(255,59,59,.6)} 70%{box-shadow:0 0 0 6px rgba(255,59,59,0)} 100%{box-shadow:0 0 0 0 rgba(255,59,59,0)} }
 
 .text-section .qa-chat__log{
   display:flex; flex-direction:column; gap:11px;
@@ -1712,6 +1723,7 @@ If officers reasonably relied on information that appeared accurate at the time,
   <div class="qa-chat__head">
     <span class="qa-presence" aria-hidden="true"></span>
     <div><div class="qa-chat__title">Verified experts online</div><div class="qa-chat__sub">7&#8211;12 lawyers available now</div></div>
+    <span class="qa-live"><span class="qa-live__dot" aria-hidden="true"></span>LIVE</span>
   </div>
   <div class="qa-chat__log" id="qaLog" aria-live="polite">
     <div class="qa-msg qa-msg--sys">Today</div>

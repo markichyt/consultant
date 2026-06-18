@@ -751,6 +751,26 @@ main{ overflow-x:clip !important; }
 .text-section .qa-seobar[open] .qa-seobar__chev{ transform:rotate(180deg); }
 .text-section .qa-seobar ol{ margin:0; padding:10px 18px 14px 36px; display:grid; gap:8px; }
 .text-section .qa-seobar li{ line-height:1.5; } .text-section .qa-seobar li b{ color:#3a3a3a; }
+
+/* ===== client feedback: answer cards had too much empty space ==============
+   root cause: brand .text-card sets gap:clamp(18px,6.452vw,100rem) (~93px at 1440);
+   the grid override only set column-gap, so row-gap stayed huge → big hole between
+   "ANSWER 0n" and the content row. Also a dead float-clearfix ::after was a stray
+   grid item. Fix: zero the row-gap, tighten columns, drop the clearfix. */
+.text-section .text-card{
+  row-gap:0 !important;
+  grid-template-columns:320px minmax(0,1fr) !important;
+  column-gap:30px !important;
+  align-content:start !important;
+  padding:20px 24px 16px !important;
+}
+.text-section .text-card::before{ margin-bottom:14px !important; }   /* eyebrow → content */
+.text-section .text-card::after{ display:none !important; }          /* dead clearfix, stray grid cell */
+.text-section .text-card .qa-lawyer{ align-self:start !important; }
+.text-section .text-card .qa-cardbar{ margin-top:18px !important; }
+@media (max-width:991px){
+  .text-section .text-card::after{ display:block !important; }       /* restore clear in stacked layout */
+}
 </style>
 
 </head>

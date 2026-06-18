@@ -168,7 +168,7 @@ main{ overflow-x:clip !important; }
    ===================================================================== */
 .text-section .container{
   display:grid !important;
-  grid-template-columns:minmax(0,1fr) 360px;
+  grid-template-columns:minmax(0,1fr) 440px;
   gap:34px;
   align-items:start;
   position:relative;
@@ -543,24 +543,24 @@ main{ overflow-x:clip !important; }
 
 /* ---- CHAT --------------------------------------------------------- */
 .text-section .qa-chat__head{
-  display:flex; align-items:center; gap:9px;
-  padding:14px 16px; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; gap:11px;
+  padding:18px 20px; border-bottom:1px solid var(--line);
 }
-.text-section .qa-presence{ position:relative; width:9px; height:9px; flex:0 0 9px; }
+.text-section .qa-presence{ position:relative; width:11px; height:11px; flex:0 0 11px; }
 .text-section .qa-presence::before{
   content:""; position:absolute; inset:0; border-radius:50%;
   background:#2e2e2e; box-shadow:0 0 0 0 rgba(46,46,46,.4); animation:qaPulse 2.4s infinite;
 }
 @keyframes qaPulse{ 0%{box-shadow:0 0 0 0 rgba(46,46,46,.35)} 70%{box-shadow:0 0 0 7px rgba(46,46,46,0)} 100%{box-shadow:0 0 0 0 rgba(46,46,46,0)} }
-.text-section .qa-chat__title{ font-weight:700; font-size:13.5px; color:var(--ink); }
-.text-section .qa-chat__sub{ font-size:12px; color:var(--muted); }
+.text-section .qa-chat__title{ font-weight:700; font-size:16px; color:var(--ink); }
+.text-section .qa-chat__sub{ font-size:13px; color:var(--muted); }
 
 .text-section .qa-chat__log{
-  display:flex; flex-direction:column; gap:10px;
-  padding:16px; max-height:300px; overflow-y:auto;
+  display:flex; flex-direction:column; gap:11px;
+  padding:18px; max-height:460px; overflow-y:auto;
   background:linear-gradient(#fff,#fafafa);
 }
-.text-section .qa-msg{ max-width:82%; padding:9px 12px; border-radius:var(--r); font-size:13.5px; line-height:1.45; }
+.text-section .qa-msg{ max-width:82%; padding:11px 14px; border-radius:var(--r); font-size:15px; line-height:1.5; }
 .text-section .qa-msg--bot{ align-self:flex-start; background:#f1f1f0; color:var(--ink-soft); border:1px solid var(--line); }
 .text-section .qa-msg--user{ align-self:flex-end; background:var(--ink); color:#fff; }
 .text-section .qa-msg--sys{ align-self:center; font-size:11.5px; color:var(--faint); background:none; }
@@ -579,17 +579,17 @@ main{ overflow-x:clip !important; }
 .text-section .qa-applink svg{ width:18px; height:18px; stroke:var(--ink); fill:none; }
 .text-section .qa-applink b{ font-size:13.5px; } .text-section .qa-applink span{ display:block; font-size:12px; color:var(--muted); }
 
-.text-section .qa-chat__input{ display:flex; gap:8px; padding:12px 14px; border-top:1px solid var(--line); }
+.text-section .qa-chat__input{ display:flex; gap:9px; padding:14px 16px; border-top:1px solid var(--line); }
 .text-section .qa-chat__input input{
   flex:1; min-width:0; border:1px solid var(--line-2); border-radius:var(--r); background:#fcfcfc;
-  padding:10px 12px; font-family:"Avenir Next Cyr",sans-serif; font-size:13.5px; color:var(--ink);
+  padding:13px 14px; font-family:"Avenir Next Cyr",sans-serif; font-size:15px; color:var(--ink);
 }
 .text-section .qa-chat__input input:focus{ outline:none; border-color:var(--ink); background:#fff; }
 .text-section .qa-send{
   flex:0 0 auto; border:0; cursor:pointer; background:var(--ink); color:#fff;
-  border-radius:var(--r); padding:0 13px; display:grid; place-items:center;
+  border-radius:var(--r); padding:0 16px; display:grid; place-items:center;
 }
-.text-section .qa-send svg{ width:17px; height:17px; fill:#fff; }
+.text-section .qa-send svg{ width:19px; height:19px; fill:#fff; }
 
 /* ---- ASK IN WRITING (form) --------------------------------------- */
 .text-section .qa-ask{ padding:16px; }

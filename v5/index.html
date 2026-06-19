@@ -744,14 +744,21 @@ main{ overflow-x:clip !important; }
 </style>
 
 <style id="cf-modblue">
-.text-section .qa-msg--user{ background:#1397d6 !important; }
+.text-section .qa-msg--user{ background:#2b3138 !important; color:#fff !important; }   /* dark, not blue */
+/* docked chat: DARK header, "hanging" card, minimal blue */
+.text-section .qa-aside{ border:1px solid #d8dbdf !important; border-radius:10px !important; box-shadow:0 18px 44px rgba(20,40,60,.16) !important; overflow:hidden !important; }
+.text-section .qa-chat__head{ background:#15191d !important; color:#fff !important; padding:13px 15px !important; border-bottom:0 !important; }
+.text-section .qa-chat__title{ color:#fff !important; } .text-section .qa-chat__sub{ color:rgba(255,255,255,.82) !important; }
+.text-section .qa-msg--match{ background:#f1f3f5 !important; border:1px solid #e3e6e9 !important; color:#1b1f23 !important; }
+.text-section .qa-msg--match b{ color:#15191d !important; }
+.text-section .qa-qr2 button{ background:#fff; border:1px solid #d8dbdf; color:#3a4248; border-radius:999px; padding:6px 12px; font:inherit; font-size:12.5px; font-weight:600; cursor:pointer; }
 .text-section .qa-btn--primary{ background:#1397d6 !important; border-color:#1397d6 !important; }
 .text-section .qa-btn--primary:hover{ background:#0f7cb3 !important; }
 .text-section .qa-send{ background:#1397d6 !important; }
 .text-section .qa-contact{ background:#1397d6 !important; border-color:#1397d6 !important; }
 .text-section .qa-contact:hover{ background:#0f7cb3 !important; }
 .text-section .qa-star.is-on, .text-section .qa-stars:hover .qa-star{ color:#1397d6 !important; }
-.text-section .qa-presence::before{ background:#1397d6 !important; }
+.text-section .qa-presence::before{ background:#3ddc84 !important; }   /* green online dot, not blue */
 .text-section .qa-qchip b{ color:#1397d6 !important; }
 .text-section .text-card::before{ color:#1397d6 !important; }
 .text-section .qa-cardbar__sep ~ .qa-act:hover, .text-section .qa-act.is-copied{ color:#1397d6 !important; }
@@ -835,8 +842,14 @@ main{ overflow-x:clip !important; }
 /* content FULL-WIDTH, flush left (no centering/thick margins). On desktop the right edge
    is a fixed chat rail (always visible) -> reserve it with body padding-right. */
 .text-section .container::before{ display:none !important; }
+/* DESKTOP: two columns — content left (full width), chat right (hanging sticky panel).
+   Header + the sections below stay full-width. MOBILE: single column + floating chat. */
 .text-section .container{ display:block !important; max-width:none !important; margin:0 !important; }
-@media (min-width:992px){ body{ padding-right:384px !important; } }
+@media (min-width:992px){
+  .text-section .container{ display:grid !important; grid-template-columns:minmax(0,1fr) 360px !important; gap:30px !important; align-items:start; }
+  .text-section .qa-main{ grid-column:1; min-width:0; }
+}
+@media (max-width:991px){ .text-section .qa-aside{ display:none !important; } }
 /* (N2) compact one-line meta instead of the bulky meta box */
 .text-section .wrapper__article-tags{ display:none !important; }
 .sx-meta{ font-family:"Avenir Next Cyr",sans-serif; font-size:13px; color:#6b7177; margin:14px 0 10px; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
@@ -1800,6 +1813,27 @@ If officers reasonably relied on information that appeared accurate at the time,
 </section>
 
             </div>
+
+<aside class="qa-aside" aria-label="Live chat with a verified lawyer">
+  <div class="qa-chat__head">
+    <span class="qa-presence" aria-hidden="true"></span>
+    <div><div class="qa-chat__title">Verified experts online</div><div class="qa-chat__sub">7&#8211;12 lawyers available now</div></div>
+  </div>
+  <div class="qa-chat__log" id="qaLog" aria-live="polite"><div class="qa-msg qa-msg--sys">Today</div></div>
+  <div class="qa-upsell" id="qaUpsell" hidden>
+    <button type="button" class="qa-btn qa-btn--primary" id="qaPay">Pay &amp; ask &#8212; $10</button>
+    <button type="button" class="qa-btn qa-btn--ghost" id="qaSub">Subscribe to the app (unlimited)</button>
+  </div>
+  <a class="qa-applink" id="qaApp" href="#app" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <span><b>Open the Consultant app</b>Your answer is waiting &#8212; download &amp; sign in</span>
+  </a>
+  <form class="qa-chat__input" id="qaForm" autocomplete="off">
+    <input type="text" id="qaInput" placeholder="Type your message&#8230;" aria-label="Message">
+    <button type="submit" class="qa-send" aria-label="Send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg></button>
+  </form>
+</aside>
+
 </div>
         </section>
 
@@ -2947,7 +2981,9 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
     var con=e.target.closest&&e.target.closest('.qa-contact');
     if(con){ var card=con.closest('.text-card'), nmEl=card&&card.querySelector('.balance-card__name');
       var nm=nmEl?nmEl.textContent.trim():'this lawyer';
-      if(window.openChat) window.openChat("I'd like to contact "+nm+" about my case.");
+      var msg="I'd like to contact "+nm+" about my case.";
+      if(window.matchMedia&&window.matchMedia('(min-width:992px)').matches){ if(window.qaChatFocus)window.qaChatFocus(msg); }
+      else if(window.openChat){ window.openChat(msg); }
       return; }
     var act=e.target.closest&&e.target.closest('.qa-act'); if(!act)return;
     if(act.dataset.act==='comment'){ var t=document.getElementById('qa-newcomment'); if(t){ t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(function(){t.focus();},350); } }
@@ -2960,6 +2996,35 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
       btn.addEventListener('click',function(){ var c=p.classList.toggle('clamp'); btn.textContent=c?'Read full answer ↓':'Show less ↑'; });
     } else if(btn){ p.classList.remove('clamp'); }
   });
+})();
+</script>
+
+<script>
+(function(){
+  var aside=document.querySelector('.text-section .qa-aside'); if(!aside) return;
+  var log=aside.querySelector('#qaLog'),form=aside.querySelector('#qaForm'),input=aside.querySelector('#qaInput'),
+      upsell=aside.querySelector('#qaUpsell'),app=aside.querySelector('#qaApp');
+  if(!log||!form||!input) return;
+  var STATE='Texas',turns=0,sold=false,paid=false,contactAsked=false,contactDone=false,started=false;
+  function esc(s){var d=document.createElement('div');d.textContent=String(s);return d.innerHTML;}
+  function add(t,who){var e=document.createElement('div');e.className='qa-msg qa-msg--'+who;e.innerHTML=esc(t);log.appendChild(e);log.scrollTop=log.scrollHeight;}
+  function html(cls,h){var e=document.createElement('div');e.className='qa-msg '+cls;e.innerHTML=h;log.appendChild(e);log.scrollTop=log.scrollHeight;}
+  function typing(cb,ms){var t=document.createElement('div');t.className='qa-typing';t.innerHTML='<span></span><span></span><span></span>';log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(function(){t.remove();cb();},ms||820);}
+  function chips(opts){var w=document.createElement('div');w.className='qa-qr2';opts.forEach(function(o){var b=document.createElement('button');b.textContent=o;b.onclick=function(){w.remove();onUser(o);};w.appendChild(b);});log.appendChild(w);log.scrollTop=log.scrollHeight;}
+  function greet(){ if(started)return; started=true; typing(function(){add('Hi — I can connect you with a verified lawyer for your wrongful arrest question. What happened?','bot');chips(['It just happened','A while ago','I need to file a claim']);},600); }
+  function matched(){typing(function(){html('qa-msg--match','Based on this, I’ve matched you with <b>7 verified lawyers licensed in '+STATE+'</b>. A written answer arrives in the app.');add('Want to ask them now?','bot');if(upsell)upsell.hidden=false;log.scrollTop=log.scrollHeight;},1000);}
+  var acks=['Got it — and roughly how long were you held?','Understood. Was there a written record of the database error?','Thanks — that helps build the claim.'];
+  function onUser(t){t=(t||'').trim();if(!t)return;add(t,'user');
+    if(paid){typing(function(){add('Noted — I’ll pass that to your lawyer.','bot');});return;}
+    if(contactAsked&&!contactDone){contactDone=true;sold=true;matched();return;}
+    turns++;
+    if(turns>=2&&!contactAsked){contactAsked=true;typing(function(){add('Almost there — share your name, phone and email so a verified lawyer can reach you.','bot');});return;}
+    typing(function(){add(acks[Math.min(turns-1,acks.length-1)],'bot');});}
+  function pay(){if(upsell)upsell.hidden=true;paid=true;typing(function(){add('Payment received. Your lawyer is preparing the answer.','bot');if(app)app.hidden=false;log.scrollTop=log.scrollHeight;},900);}
+  form.addEventListener('submit',function(e){e.preventDefault();var v=input.value;input.value='';onUser(v);});
+  var pb=aside.querySelector('#qaPay'),sb=aside.querySelector('#qaSub'); if(pb)pb.addEventListener('click',pay); if(sb)sb.addEventListener('click',pay);
+  window.qaChatFocus=function(prefill){ aside.scrollIntoView({behavior:'smooth',block:'center'}); if(prefill){input.value=prefill;} setTimeout(function(){try{input.focus();}catch(e){}},400); };
+  greet();
 })();
 </script>
 
@@ -3000,13 +3065,8 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 #fc .fc__form input:focus{outline:none;border-color:#1397d6}
 #fc .fc__form button{flex:0 0 auto;border:0;background:#1397d6;color:#fff;border-radius:10px;padding:0 14px;cursor:pointer}
 #fc [hidden]{display:none!important}
-/* DESKTOP: chat is a fixed right rail — always visible, no bubble, no close */
-@media(min-width:992px){
-  #fc .fc__cta{display:none!important}
-  #fc .fc__panel{position:fixed!important;right:0!important;left:auto!important;top:var(--header-height,64px)!important;bottom:0!important;width:384px!important;height:auto!important;max-height:none!important;border-radius:0!important;border-top:0!important;border-bottom:0!important;border-right:0!important}
-  #fc .fc__panel[hidden]{display:flex!important}
-  #fc .fc__head .x{display:none!important}
-}
+/* floating chat is MOBILE-ONLY; on desktop the docked .qa-aside panel is used instead */
+@media(min-width:992px){ #fc{display:none!important} }
 </style>
 <div id="fc">
   <button class="fc__cta" id="fcCta" type="button"><span class="ava">EG</span><span><b>Chat with Eugene, Civil Rights Attorney</b><small><span class="dot"></span> 7&#8211;12 lawyers online now</small></span><svg class="go" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>

@@ -903,6 +903,14 @@ main{ overflow-x:clip !important; }
    them above it — removes ~110px more dead height. Portrait image stays untouched. */
 .text-section .text-card .balance-card__wrapp{ position:absolute !important; top:0 !important; left:0 !important; z-index:3 !important; }
 .text-section .text-card .balance-card__box{ position:absolute !important; top:42px !important; left:0 !important; right:0 !important; z-index:3 !important; }
+/* The native portrait uses width:clamp(200px,23.926vw,352rem) with the page's RESPONSIVE root
+   font-size, so on wide / hi-dpi DESKTOP displays it balloons (mobile is clamped to the 200px
+   floor and stays normal). Pin it to a fixed px width so the card is the same compact size on
+   every display — kills the desktop-only height blow-up. */
+@media (min-width:992px){
+  .text-section .text-card .balance-card__user img{ width:230px !important; height:auto !important; max-height:none !important; }
+  .text-section .text-card .qa-lawyer .balance-card{ max-height:300px !important; overflow:hidden !important; }
+}
 </style>
 
 </head>

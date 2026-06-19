@@ -807,6 +807,43 @@ main{ overflow-x:clip !important; }
 .sx-cta1 .soc{ margin-top:9px; font-size:12.5px; color:#6b7177; } .sx-cta1 .soc b{ color:#1b1b1b; }
 </style>
 
+<style id="sx-tone">
+/* (4) compact "Have a Legal Question?" card (replaces the big form CTA) */
+.sx-askcta{ margin:20px auto; }
+.sx-askcta__box{ background:#eef2f6; border:1px solid #e2e8ee; border-radius:8px; padding:24px 20px; text-align:center; max-width:540px; margin:0 auto; font-family:"Avenir Next Cyr",sans-serif; }
+.sx-askcta__box h3{ font-weight:700; font-size:22px; color:#14457a; margin:0 0 7px; }
+.sx-askcta__box p{ margin:0 0 16px; font-size:15.5px; color:#1b1f23; }
+.sx-askcta__btn{ background:#d9482e; color:#fff; border:0; border-radius:6px; padding:13px 30px; font-family:"Avenir Next Cyr",sans-serif; font-weight:700; font-size:16px; cursor:pointer; }
+.sx-askcta__btn:hover{ background:#c23d24; }
+
+/* (1) LESS BLUE — keep blue only on action buttons / links / chat; neutralize the rest */
+.text-section .qa-qchip b{ color:#3a4248 !important; }            /* chip labels back to dark */
+.text-section .text-card::before{ color:#9aa0a6 !important; }      /* ANSWER 0n eyebrow -> gray */
+.sx-author__r b{ color:#3a4248 !important; }                       /* "Civil Rights Attorney" -> dark */
+.sx-trust .g svg{ color:#9aa0a6 !important; }                      /* trust icons -> gray */
+.sx-how__n{ background:#3a4248 !important; }                       /* step numbers -> dark */
+.sx-faq summary .cv{ color:#9aa0a6 !important; }                   /* faq chevrons -> gray */
+.sx-paa a svg{ color:#9aa0a6 !important; }                         /* paa arrows -> gray */
+
+/* (2) CONTENT LEFT, right side free for the floating chat */
+.text-section .container::before{ display:none !important; }
+@media (min-width:992px){
+  .text-section .container{ display:grid !important; grid-template-columns:minmax(0,720px) 1fr !important; gap:0 !important; align-items:start; }
+  .text-section .qa-main{ grid-column:1; }
+}
+@media (max-width:991px){ .text-section .container{ display:block !important; } }
+
+/* (3) COMPACT answer cards — kill the bulky padding / empty space */
+.text-section .text-card{ padding:14px 16px !important; margin:0 0 12px !important; column-gap:18px !important; grid-template-columns:330px minmax(0,1fr) !important; }
+.text-section .text-card::before{ margin-bottom:9px !important; padding-bottom:6px !important; }
+.text-section .text-card .card-answer{ font-size:14px !important; line-height:1.5 !important; margin:0 !important; }
+.text-section .text-card .qa-cardbar{ margin-top:11px !important; padding-top:9px !important; gap:14px !important; }
+.text-section .qa-lawyer{ margin:0 !important; }
+.text-section .qa-lawyer::before{ margin-bottom:6px !important; }
+.text-section .wrapper__article-tags{ padding:16px 18px !important; }
+.text-section .qa-comments{ padding:16px 18px !important; }
+</style>
+
 </head>
 
 <body class="">
@@ -1745,36 +1782,11 @@ If officers reasonably relied on information that appeared accurate at the time,
         </section>
 
         
-<section class="qa-cta" id="ask-lawyer" aria-label="Ask a verified lawyer">
-  <div class="qa-cta__inner">
-    <div class="qa-cta__copy">
-      <p class="qa-cta__eyebrow">Your turn</p>
-      <h2 class="qa-cta__title">Have a similar situation?</h2>
-      <p class="qa-cta__lead">Describe your case and get a written answer from a <b>verified lawyer</b> &#8212; delivered in the app. Pick who should help; pay only when you ask.</p>
-      <ul class="qa-cta__points">
-        <li>Verified lawyers &#8212; not bots</li>
-        <li>Written answer in the app &#8212; from $10</li>
-        <li>Or subscribe for unlimited questions</li>
-      </ul>
-      <p class="qa-cta__trust"><span class="qa-cta__dot"></span> 7&#8211;12 verified experts online now</p>
-    </div>
-    <form class="qa-cta__form" onsubmit="return false">
-      <label class="qa-cta__field"><span>Your question</span>
-        <textarea placeholder="e.g. I was held in custody due to a database error &#8212; can I claim compensation?"></textarea></label>
-      <div class="qa-cta__row">
-        <label class="qa-cta__field qa-cta__sel"><span>Specialist type</span>
-          <select><option>Lawyer</option><option>Attorney</option><option>Paralegal</option><option>Not sure</option></select></label>
-        <label class="qa-cta__field qa-cta__sel"><span>Specialization</span>
-          <select><option>Criminal</option><option>Civil rights</option><option>Compensation / Tort</option><option>Migration</option><option>Family</option><option>Not sure</option></select></label>
-      </div>
-      <label class="qa-cta__field qa-cta__sel"><span>Area &amp; city</span>
-        <select><option>Texas</option><option>California</option><option>Ohio</option><option>Other state</option><option>Not sure</option></select></label>
-      <button type="submit" class="qa-cta__btn qa-cta__btn--p">Ask a verified lawyer &#8212; from&nbsp;$10</button>
-      <button type="button" class="qa-cta__btn qa-cta__btn--g">Subscribe to the app (unlimited)</button>
-      <p class="qa-cta__note"><b>&#9733; 4.9</b> &middot; 2,400 reviews &middot; Demo only &mdash; no real payment.</p>
-    </form>
-  </div>
-</section>
+<div class="sx-askcta sx-wrap" id="ask-lawyer"><div class="sx-askcta__box">
+  <h3>Have a Legal Question?</h3>
+  <p>Get free answers from experienced lawyers.</p>
+  <button class="sx-askcta__btn" type="button" data-openchat>Ask a Question</button>
+</div></div>
 <section class="sx-how sx-wrap"><h2>How it works</h2><div class="sx-how__row"><div class="sx-how__c"><div class="sx-how__n">1</div><b>Describe your case</b><p>Tell the assistant what happened &mdash; it matches the right verified lawyer for your situation.</p></div><div class="sx-how__c"><div class="sx-how__n">2</div><b>Go back-and-forth</b><p>Ask follow-ups and share details until you have a complete written answer.</p></div><div class="sx-how__c"><div class="sx-how__n">3</div><b>Get your answer in the app</b><p>From $10 per question, or subscribe for unlimited.</p></div></div></section><section class="sx-faq sx-wrap"><h2>Frequently asked</h2><details open><summary>Can I sue the police for wrongful arrest?<svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Often yes &mdash; if the arrest lacked probable cause or violated your civil rights, you may have a claim. Outcomes depend on the facts and your state's law.</div></details><details><summary>How much compensation can I get?<svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">It varies by harm &mdash; time in custody, lost wages, emotional distress &mdash; and any statutory caps in your state.</div></details><details><summary>What is the statute of limitations?<svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Deadlines differ by state and claim type and can be as short as one to two years. Government claims may require an even earlier notice.</div></details><details><summary>Do I need a lawyer?<svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Strongly recommended &mdash; these cases involve immunity doctrines and strict deadlines a local attorney can navigate.</div></details><details><summary>What evidence do I need?<svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></summary><div class="a">Arrest and booking records, release paperwork, badge numbers, proof of time held, and any record of the database error or losses.</div></details></section><section class="sx-paa sx-wrap"><h2>People also asked</h2><ul><li><a href="#">Can I be arrested on a warrant meant for someone else?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li><li><a href="#">How do I file a complaint against a police department in Texas?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li><li><a href="#">Is police immunity a barrier to a wrongful-arrest claim?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li><li><a href="#">What's the difference between false arrest and false imprisonment?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li></ul></section>
 <section class="article-section">
         <div class="article-section_bg bg-image">

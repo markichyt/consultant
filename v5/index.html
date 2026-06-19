@@ -768,8 +768,7 @@ main{ overflow-x:clip !important; }
 .qa-cta__btn--p:hover{ background:#0f7cb3 !important; }
 .qa-cta__btn--g{ background:#fff !important; color:#0f7cb3 !important; border-color:#1397d6 !important; }
 .qa-cta__field > span{ color:#5a6b73 !important; }
-/* chat is a FLOATING widget now -> article content is single-column, centered */
-.text-section .container{ display:block !important; max-width:1120px !important; margin:0 auto !important; }
+/* (container width handled in sx-tone: full-width, flush-left) */
 .text-section .container::before{ display:none !important; }
 </style>
 
@@ -833,13 +832,16 @@ main{ overflow-x:clip !important; }
 .sx-faq summary .cv{ color:#9aa0a6 !important; }                   /* faq chevrons -> gray */
 .sx-paa a svg{ color:#9aa0a6 !important; }                         /* paa arrows -> gray */
 
-/* (2) CONTENT LEFT, right side free for the floating chat */
+/* content FULL-WIDTH, flush left (no centering/thick margins). On desktop the right edge
+   is a fixed chat rail (always visible) -> reserve it with body padding-right. */
 .text-section .container::before{ display:none !important; }
-@media (min-width:992px){
-  .text-section .container{ display:grid !important; grid-template-columns:minmax(0,720px) 1fr !important; gap:0 !important; align-items:start; }
-  .text-section .qa-main{ grid-column:1; }
-}
-@media (max-width:991px){ .text-section .container{ display:block !important; } }
+.text-section .container{ display:block !important; max-width:none !important; margin:0 !important; }
+@media (min-width:992px){ body{ padding-right:384px !important; } }
+/* (N2) compact one-line meta instead of the bulky meta box */
+.text-section .wrapper__article-tags{ display:none !important; }
+.sx-meta{ font-family:"Avenir Next Cyr",sans-serif; font-size:13px; color:#6b7177; margin:14px 0 10px; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.sx-meta svg{ width:15px; height:15px; color:#9aa0a6; flex:0 0 auto; }
+.sx-meta b{ color:#1b1f23; font-weight:600; } .sx-meta a{ color:#1397d6; text-decoration:none; }
 
 /* (3) COMPACT answer cards — kill the bulky padding / empty space */
 .text-section .text-card{ padding:14px 16px !important; margin:0 0 12px !important; column-gap:18px !important; grid-template-columns:330px minmax(0,1fr) !important; }
@@ -850,6 +852,18 @@ main{ overflow-x:clip !important; }
 .text-section .qa-lawyer::before{ margin-bottom:6px !important; }
 .text-section .wrapper__article-tags{ padding:16px 18px !important; }
 .text-section .qa-comments{ padding:16px 18px !important; }
+/* +2 new answers with avatars (compact) */
+.text-section .sx-newans{ background:#fff; border:1px solid #e6e6e4; border-radius:3px; padding:14px 16px; margin:0 0 12px; }
+.text-section .sx-atext{ font-size:14px; line-height:1.5; color:#3a4248; margin:0 0 10px; }
+.text-section .sx-atext::before{ content:"A: "; font-weight:700; color:#3a4248; }
+.text-section .sx-atext.clamp{ display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+.text-section .sx-rm{ background:none; border:0; padding:0; font:inherit; font-size:13px; font-weight:600; color:#1397d6; cursor:pointer; margin:0 0 10px; }
+.text-section .sx-lwc{ display:flex; align-items:center; gap:11px; padding-top:11px; border-top:1px solid #e6e6e4; }
+.text-section .sx-lwava{ width:46px; height:46px; border-radius:50%; object-fit:cover; flex:0 0 46px; background:#e9eef2; }
+.text-section .sx-lwn{ font-weight:700; font-size:14px; color:#1b1f23; display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.text-section .sx-lwm{ font-size:12px; color:#6b7177; margin-top:2px; }
+.text-section .sx-verif2{ display:inline-flex; align-items:center; gap:3px; font-size:10.5px; font-weight:700; color:#0f7cb3; background:#eaf5fc; border:1px solid #bfe2f4; border-radius:999px; padding:1px 7px; }
+.text-section .sx-verif2 svg{ width:11px; height:11px; }
 </style>
 
 </head>
@@ -1418,14 +1432,9 @@ main{ overflow-x:clip !important; }
             </div>
             <div class="container">
 <div class="qa-main">
-
-<div class="sx-askcta sx-wrap"><div class="sx-askcta__box">
-  <div class="sx-askcta__txt"><h3>Have a Legal Question?</h3><p>Get free answers from experienced lawyers.</p></div>
-  <button class="sx-askcta__btn" type="button" data-openchat>Ask a Question</button>
-</div></div>
 <div class="sx-author"><div class="sx-author__ava">EG</div><div><div class="sx-author__n">Eugene Gleginich <span class="sx-verif"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5 5-5.5" stroke="#eaf5fc" stroke-width="2" fill="none" stroke-linecap="round"/></svg> Verified</span></div><div class="sx-author__r"><b>Civil Rights Attorney</b> &middot; Houston, TX &middot; 8 yrs</div><a class="sx-author__lnk" href="#">View profile on Consultant &rarr;</a></div></div><div class="sx-trust"><span class="g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 1.8 3 .2.9 2.9L21 9l-1.3 2.7.6 3-2.7 1.4-1.6 2.5-3-.6-2.7 1.5-2.3-2-3-.6.1-3L1.7 13 3 10.3 2 7.5l2.8-1.3 1.3-2.7 3 .6z"/></svg> <b>847</b> verified attorneys</span><span class="sep">&middot;</span><span class="g">Google <span class="sx-st">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <b>4.9</b></span><span class="sep">&middot;</span><span class="g">Trustpilot <span class="sx-st">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span><span class="sep">&middot;</span><span class="g"><b>120k+</b> people helped</span></div>
                 <div class="text-inner consultant_articles-position">
-                    <div class="wrapper__article-tags">
+                    <div class="sx-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> <b>Houston, TX</b> &middot; asked Jun 14, 2026 &middot; <a href="#">Criminal Law</a> &middot; for Texas</div><div class="wrapper__article-tags">
                         <div class="text-inner__top text-inner__top-articles text-inner__top-video consultant_articles-position"><div class="qa-qmeta"><span class="qa-qmeta__k">Asked for</span><span class="qa-qchip"><b>Type:</b>&nbsp;Lawyer</span><span class="qa-qchip"><b>Specialization:</b>&nbsp;Criminal</span><span class="qa-qchip"><b>Location:</b>&nbsp;Houston, TX</span></div>
                             <span class="text-inner__top-label blue">
                                 <svg width="24" height="24">
@@ -1723,7 +1732,7 @@ If officers reasonably relied on information that appeared accurate at the time,
 </div><button type="button" class="qa-contact" data-act="contact">Contact this lawyer</button></div>
                         <div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(12)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></div>
                                     </div>
-                <ul class="share-list content-hero__share" data-title="Share:">
+                <article class="sx-newans"><p class="sx-atext clamp">Whether you can recover compensation for a wrongful arrest caused by a police-database error depends on the specific facts and the law of your state. In most U.S. jurisdictions a claim can arise under torts such as false imprisonment or false arrest when officers detain you without probable cause, or under federal civil-rights law (42 U.S.C. &sect; 1983) when a constitutional right is violated under color of law. Outcomes vary with the nature of the error, whether the department reasonably relied on the bad data, applicable immunity doctrines, and your state's statutory caps and filing deadlines. Practically, preserve the arrest and booking records, release paperwork, names and badge numbers, proof of time held, and any documentation of lost wages or medical and emotional harm; then have a local attorney evaluate the merits before the statute of limitations runs &mdash; in Texas that window can be as short as two years for some claims.</p><button class="sx-rm" type="button" hidden>Read full answer &#8595;</button><div class="sx-lwc"><img class="sx-lwava" src="https://i.pravatar.cc/96?img=12" alt="" loading="lazy"><div><div class="sx-lwn">Daniel R. Pierce <span class="sx-verif2"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5 5-5.5" stroke="#eaf5fc" stroke-width="2" fill="none" stroke-linecap="round"/></svg> Verified</span></div><div class="sx-lwm">Civil Rights Attorney &middot; Licensed in Texas &middot; Austin, TX</div></div></div><div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(14)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></article><article class="sx-newans"><p class="sx-atext">Preserve every record of the arrest, then ask a local attorney about a false-imprisonment claim before your filing deadline.</p><div class="sx-lwc"><img class="sx-lwava" src="https://i.pravatar.cc/96?img=45" alt="" loading="lazy"><div><div class="sx-lwn">Karen Whitfield <span class="sx-verif2"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5 5-5.5" stroke="#eaf5fc" stroke-width="2" fill="none" stroke-linecap="round"/></svg> Verified</span></div><div class="sx-lwm">Compensation Attorney &middot; Licensed in Texas &middot; Houston, TX</div></div></div><div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" role="radiogroup" aria-label="Rate this answer"><button type="button" class="qa-star" data-v="1" role="radio" aria-checked="false" aria-label="1 star"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="2" role="radio" aria-checked="false" aria-label="2 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="3" role="radio" aria-checked="false" aria-label="3 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="4" role="radio" aria-checked="false" aria-label="4 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button><button type="button" class="qa-star" data-v="5" role="radio" aria-checked="false" aria-label="5 stars"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.7 5.9 6.4.6-4.8 4.3 1.4 6.3-5.7-3.3-5.7 3.3 1.4-6.3-4.8-4.3 6.4-.6z"/></svg></button></span><span class="qa-count" data-count>(9)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></article><ul class="share-list content-hero__share" data-title="Share:">
     <li class="share-list__item">
         <a data-buffer="" href="https://consultantlm.com/statti/wrongful-arrest-1758" class="js-social-button js-share-clip" aria-label="copylink">
             <img src="../assets/share.svg" alt="icon" width="32" height="32">
@@ -2944,6 +2953,13 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
     if(act.dataset.act==='comment'){ var t=document.getElementById('qa-newcomment'); if(t){ t.scrollIntoView({behavior:'smooth',block:'center'}); setTimeout(function(){t.focus();},350); } }
     else if(act.dataset.act==='share'){ var sp=act.querySelector('span'); if(sp){ var o=sp.textContent; act.classList.add('is-copied'); sp.textContent='Link copied'; setTimeout(function(){ sp.textContent=o; act.classList.remove('is-copied'); },1400); } }
   });
+  /* Read-more for long answers (#8) */
+  document.querySelectorAll('.sx-atext.clamp').forEach(function(p){
+    var btn=p.nextElementSibling;
+    if(btn&&p.scrollHeight>p.clientHeight+4){ btn.hidden=false;
+      btn.addEventListener('click',function(){ var c=p.classList.toggle('clamp'); btn.textContent=c?'Read full answer ↓':'Show less ↑'; });
+    } else if(btn){ p.classList.remove('clamp'); }
+  });
 })();
 </script>
 
@@ -2984,6 +3000,13 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 #fc .fc__form input:focus{outline:none;border-color:#1397d6}
 #fc .fc__form button{flex:0 0 auto;border:0;background:#1397d6;color:#fff;border-radius:10px;padding:0 14px;cursor:pointer}
 #fc [hidden]{display:none!important}
+/* DESKTOP: chat is a fixed right rail — always visible, no bubble, no close */
+@media(min-width:992px){
+  #fc .fc__cta{display:none!important}
+  #fc .fc__panel{position:fixed!important;right:0!important;left:auto!important;top:var(--header-height,64px)!important;bottom:0!important;width:384px!important;height:auto!important;max-height:none!important;border-radius:0!important;border-top:0!important;border-bottom:0!important;border-right:0!important}
+  #fc .fc__panel[hidden]{display:flex!important}
+  #fc .fc__head .x{display:none!important}
+}
 </style>
 <div id="fc">
   <button class="fc__cta" id="fcCta" type="button"><span class="ava">EG</span><span><b>Chat with Eugene, Civil Rights Attorney</b><small><span class="dot"></span> 7&#8211;12 lawyers online now</small></span><svg class="go" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -3024,6 +3047,8 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
   document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();open();});});
   form.addEventListener('submit',function(e){e.preventDefault();var v=input.value;input.value='';onUser(v);});
   document.getElementById('fcPay').addEventListener('click',pay);document.getElementById('fcSub').addEventListener('click',pay);
+  /* desktop: open the rail and run the greeting on load (always-on) */
+  if(window.matchMedia&&window.matchMedia('(min-width:992px)').matches){ if(!started){started=true;greet();} }
 })();
 </script>
 

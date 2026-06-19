@@ -896,15 +896,15 @@ main{ overflow-x:clip !important; }
 /* FIX huge whitespace: the native PRO card ballooned to ~820px in our grid, leaving a
    big void next to the short answer. Cap it to its designed compact height and keep the
    portrait absolute so it can't inflate the card; center the answer so any gap is balanced. */
-.text-section .text-card{ align-items:center !important; }
+.text-section .text-card{ align-items:start !important; }
 .text-section .text-card .qa-lawyer{ align-self:start !important; }
-.text-section .text-card .qa-lawyer .balance-card{ height:auto !important; min-height:300px !important; max-height:330px !important; overflow:hidden !important; }
+.text-section .text-card .qa-lawyer .balance-card{ height:auto !important; min-height:190px !important; max-height:215px !important; overflow:hidden !important; }
 .text-section .text-card .qa-lawyer .balance-card__user{ position:absolute !important; height:100% !important; }
+.text-section .text-card .qa-contact{ margin-top:8px !important; padding:9px 14px !important; }
 .text-section .text-card .card-answer,
-.text-section .text-card .sx-answrap{ align-self:center !important; }
+.text-section .text-card .sx-answrap{ align-self:start !important; }
 @media (max-width:991px){
-  .text-section .text-card .qa-lawyer .balance-card{ min-height:0 !important; max-height:300px !important; }
-  .text-section .text-card .card-answer, .text-section .text-card .sx-answrap{ align-self:auto !important; }
+  .text-section .text-card .qa-lawyer .balance-card{ min-height:0 !important; max-height:230px !important; }
 }
 </style>
 

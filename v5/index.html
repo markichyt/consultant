@@ -892,6 +892,20 @@ main{ overflow-x:clip !important; }
   -webkit-mask-image:linear-gradient(to right, transparent 0, #000 44%) !important; mask-image:linear-gradient(to right, transparent 0, #000 44%) !important; }
 /* the docked chat looked too short — give the message area real height */
 .text-section .qa-chat__log{ min-height:380px !important; max-height:520px !important; }
+
+/* FIX huge whitespace: the native PRO card ballooned to ~820px in our grid, leaving a
+   big void next to the short answer. Cap it to its designed compact height and keep the
+   portrait absolute so it can't inflate the card; center the answer so any gap is balanced. */
+.text-section .text-card{ align-items:center !important; }
+.text-section .text-card .qa-lawyer{ align-self:start !important; }
+.text-section .text-card .qa-lawyer .balance-card{ height:auto !important; min-height:300px !important; max-height:330px !important; overflow:hidden !important; }
+.text-section .text-card .qa-lawyer .balance-card__user{ position:absolute !important; height:100% !important; }
+.text-section .text-card .card-answer,
+.text-section .text-card .sx-answrap{ align-self:center !important; }
+@media (max-width:991px){
+  .text-section .text-card .qa-lawyer .balance-card{ min-height:0 !important; max-height:300px !important; }
+  .text-section .text-card .card-answer, .text-section .text-card .sx-answrap{ align-self:auto !important; }
+}
 </style>
 
 </head>

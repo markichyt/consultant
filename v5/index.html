@@ -846,7 +846,7 @@ main{ overflow-x:clip !important; }
    Header + the sections below stay full-width. MOBILE: single column + floating chat. */
 .text-section .container{ display:block !important; max-width:none !important; margin:0 !important; }
 @media (min-width:992px){
-  .text-section .container{ display:grid !important; grid-template-columns:minmax(0,640px) 360px !important; gap:30px !important; align-items:start; justify-content:start; }
+  .text-section .container{ display:grid !important; grid-template-columns:minmax(0,1fr) 360px !important; gap:30px !important; align-items:start; }
   .text-section .qa-main{ grid-column:1; min-width:0; }
 }
 @media (max-width:991px){ .text-section .qa-aside{ display:none !important; } }

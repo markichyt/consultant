@@ -892,6 +892,13 @@ main{ overflow-x:clip !important; }
   -webkit-mask-image:linear-gradient(to right, transparent 0, #000 44%) !important; mask-image:linear-gradient(to right, transparent 0, #000 44%) !important; }
 /* the docked chat looked too short — give the message area real height */
 .text-section .qa-chat__log{ min-height:380px !important; max-height:520px !important; }
+
+/* COMPACT the answer block: the PRO card's flag banner was sitting IN THE FLOW and added
+   ~400px of dead height (card ballooned to 822px). Put it back as an absolute background
+   (its intended role). The card collapses to ~420px; the square lawyer portrait is UNTOUCHED. */
+.text-section .text-card .balance-card__bg{ position:absolute !important; inset:0 !important; }
+.text-section .text-card .balance-card__bg img,
+.text-section .text-card .balance-card__bg source{ position:absolute !important; inset:0 !important; width:100% !important; height:100% !important; object-fit:cover !important; }
 </style>
 
 </head>

@@ -899,6 +899,10 @@ main{ overflow-x:clip !important; }
 .text-section .text-card .balance-card__bg{ position:absolute !important; inset:0 !important; }
 .text-section .text-card .balance-card__bg img,
 .text-section .text-card .balance-card__bg source{ position:absolute !important; inset:0 !important; width:100% !important; height:100% !important; object-fit:cover !important; }
+/* overlay PREMIUM badge + name/role onto the portrait (original design) instead of stacking
+   them above it — removes ~110px more dead height. Portrait image stays untouched. */
+.text-section .text-card .balance-card__wrapp{ position:absolute !important; top:0 !important; left:0 !important; z-index:3 !important; }
+.text-section .text-card .balance-card__box{ position:absolute !important; top:42px !important; left:0 !important; right:0 !important; z-index:3 !important; }
 </style>
 
 </head>

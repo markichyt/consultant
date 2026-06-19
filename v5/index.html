@@ -3101,6 +3101,15 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 #fc [hidden]{display:none!important}
 /* floating chat is MOBILE-ONLY; on desktop the docked .qa-aside panel is used instead */
 @media(min-width:992px){ #fc{display:none!important} }
+/* MOBILE: chat docked INLINE as a block after the first answer (#fc is moved into .qa-main).
+   The bottom pill becomes a "scroll back to the chat" button, shown once it's scrolled past. */
+@media(max-width:991px){
+  #fc .fc__panel.is-inline{ position:static!important; inset:auto!important; top:auto!important; left:auto!important; right:auto!important; bottom:auto!important;
+    width:auto!important; max-width:none!important; height:auto!important; max-height:none!important; margin:4px 0 14px!important;
+    box-shadow:0 8px 24px rgba(20,40,60,.10)!important; border-radius:14px!important; scroll-margin-top:84px; }
+  #fc .fc__panel.is-inline .fc__log{ min-height:200px; max-height:360px; }
+  #fc .fc__panel.is-inline .fc__head .x{ display:none!important; }
+}
 </style>
 <div id="fc">
   <button class="fc__cta" id="fcCta" type="button"><span class="ava">EG</span><span><b>Chat with Eugene, Civil Rights Attorney</b><small><span class="dot"></span> 7&#8211;12 lawyers online now</small></span><svg class="go" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
@@ -3137,12 +3146,29 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
     if(turns>=2&&!contactAsked){contactAsked=true;typing(function(){add('Almost there — share your name, phone and email so a verified lawyer can reach you.','bot');});return;}
     typing(function(){add(acks[Math.min(turns-1,acks.length-1)],'bot');});}
   function pay(){sell.hidden=true;paid=true;typing(function(){add('Payment received. Your lawyer is preparing the answer.','bot');app.hidden=false;log.scrollTop=log.scrollHeight;},900);}
-  cta.addEventListener('click',function(){open();});x.addEventListener('click',close);
-  document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();open();});});
+  x.addEventListener('click',close);
   form.addEventListener('submit',function(e){e.preventDefault();var v=input.value;input.value='';onUser(v);});
   document.getElementById('fcPay').addEventListener('click',pay);document.getElementById('fcSub').addEventListener('click',pay);
-  /* desktop: open the rail and run the greeting on load (always-on) */
-  if(window.matchMedia&&window.matchMedia('(min-width:992px)').matches){ if(!started){started=true;greet();} }
+  var isMobile=!(window.matchMedia&&window.matchMedia('(min-width:992px)').matches);
+  var fc=document.getElementById('fc');
+  function gotoChat(){ panel.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(function(){try{input.focus({preventScroll:true});}catch(e){}},480); }
+  if(isMobile){
+    /* MOBILE: chat lives INLINE after the first answer; the bottom pill scrolls back to it. */
+    var firstAns=document.querySelector('.text-section .qa-main .text-card')||document.querySelector('.text-section .text-card');
+    if(fc&&firstAns&&firstAns.parentNode){ firstAns.parentNode.insertBefore(fc, firstAns.nextElementSibling); }
+    panel.classList.add('is-inline'); panel.removeAttribute('hidden');
+    if(!started){started=true;greet();}
+    cta.hidden=true;
+    cta.addEventListener('click',gotoChat);
+    document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();gotoChat();});});
+    var updatePill=function(){ var r=panel.getBoundingClientRect(); cta.hidden=!(r.bottom<80); };
+    window.addEventListener('scroll',updatePill,{passive:true}); window.addEventListener('resize',updatePill); updatePill();
+  } else {
+    /* DESKTOP: #fc is hidden; the docked .qa-aside rail is used. Keep legacy wiring. */
+    cta.addEventListener('click',function(){open();});
+    document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();open();});});
+    if(!started){started=true;greet();}
+  }
 })();
 </script>
 

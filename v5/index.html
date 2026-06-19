@@ -896,15 +896,24 @@ main{ overflow-x:clip !important; }
 /* FIX huge whitespace: the native PRO card ballooned to ~820px in our grid, leaving a
    big void next to the short answer. Cap it to its designed compact height and keep the
    portrait absolute so it can't inflate the card; center the answer so any gap is balanced. */
-.text-section .text-card{ align-items:start !important; }
-.text-section .text-card .qa-lawyer{ align-self:start !important; }
-.text-section .text-card .qa-lawyer .balance-card{ height:auto !important; min-height:190px !important; max-height:215px !important; overflow:hidden !important; }
+/* The ANSWER (+ rating bar) defines the box height. The lawyer card is positioned
+   ABSOLUTELY so it can never inflate the box; it stretches to match the answer height
+   (portrait crops via overflow). Result: the box hugs its content — no empty gap. */
+.text-section .text-card{ display:block !important; position:relative !important; min-height:182px !important; }
+.text-section .text-card .qa-lawyer{ position:absolute !important; top:14px !important; bottom:14px !important; left:0 !important; width:300px !important; margin:0 !important; display:flex !important; flex-direction:column !important; }
+.text-section .text-card .qa-lawyer .balance-card{ flex:1 1 auto !important; height:auto !important; min-height:0 !important; max-height:none !important; overflow:hidden !important; }
 .text-section .text-card .qa-lawyer .balance-card__user{ position:absolute !important; height:100% !important; }
-.text-section .text-card .qa-contact{ margin-top:8px !important; padding:9px 14px !important; }
+.text-section .text-card .qa-contact{ flex:0 0 auto !important; margin-top:8px !important; padding:9px 14px !important; }
 .text-section .text-card .card-answer,
-.text-section .text-card .sx-answrap{ align-self:start !important; }
+.text-section .text-card .sx-answrap,
+.text-section .text-card .qa-cardbar{ margin-left:330px !important; }
 @media (max-width:991px){
-  .text-section .text-card .qa-lawyer .balance-card{ min-height:0 !important; max-height:230px !important; }
+  .text-section .text-card{ position:static !important; min-height:0 !important; }
+  .text-section .text-card .qa-lawyer{ position:static !important; width:auto !important; display:block !important; }
+  .text-section .text-card .qa-lawyer .balance-card{ flex:none !important; max-height:230px !important; }
+  .text-section .text-card .card-answer,
+  .text-section .text-card .sx-answrap,
+  .text-section .text-card .qa-cardbar{ margin-left:0 !important; }
 }
 </style>
 

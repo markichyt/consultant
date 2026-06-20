@@ -911,6 +911,39 @@ main{ overflow-x:clip !important; }
   .text-section .text-card .balance-card__user img{ width:230px !important; height:auto !important; max-height:none !important; }
   .text-section .text-card .qa-lawyer .balance-card{ max-height:300px !important; overflow:hidden !important; }
 }
+/* ===== MOBILE (<992px): compact lawyer header + reading polish ===== */
+@media (max-width:991px){
+  /* reflow the native PRO card into a compact horizontal header (round avatar + name/meta).
+     Same photo & data, no full flag banner. Desktop is untouched. */
+  .text-section .text-card .qa-lawyer .balance-card{ display:flex !important; flex-direction:row !important; align-items:center !important;
+    justify-content:flex-start !important; flex-wrap:wrap !important; text-align:left !important;
+    gap:6px 12px !important; height:auto !important; min-height:0 !important; max-height:none !important; overflow:visible !important;
+    background:#fff !important; border:1px solid #e6e6e4 !important; border-radius:10px !important; padding:10px 12px !important; box-shadow:none !important; }
+  .text-section .text-card .balance-card__bg,
+  .text-section .text-card .balance-card__label,
+  .text-section .text-card .balance-card__footer,
+  .text-section .text-card .balance-card > a{ display:none !important; }
+  /* portrait -> round avatar */
+  .text-section .text-card .balance-card__user{ position:static !important; order:0; flex:0 0 auto !important; width:54px !important; height:54px !important; margin:0 !important; }
+  .text-section .text-card .balance-card__user picture,
+  .text-section .text-card .balance-card__user img{ position:static !important; width:54px !important; height:54px !important; max-height:none !important;
+    border-radius:50% !important; object-fit:cover !important; object-position:50% 22% !important; display:block !important; }
+  /* name + job + location */
+  .text-section .text-card .balance-card__box{ position:static !important; order:1; flex:1 1 140px !important; top:auto !important; left:auto !important; right:auto !important; min-width:0 !important; text-align:left !important; margin:0 !important; padding:0 !important; }
+  .text-section .text-card .balance-card__name{ font-size:15px !important; color:#1b1f23 !important; line-height:1.2 !important; margin:0 !important; }
+  .text-section .text-card .balance-card__info{ display:flex !important; flex-wrap:nowrap !important; align-items:center; gap:8px !important; margin:2px 0 0 !important; padding:0 !important; white-space:nowrap; }
+  .text-section .text-card .balance-card__job,
+  .text-section .text-card .balance-card__geo{ display:inline-flex !important; align-items:center; gap:3px; font-size:12.5px !important; color:#6b7177 !important; margin:0 !important; white-space:nowrap; }
+  /* PREMIUM + rating on the right */
+  .text-section .text-card .balance-card__wrapp{ position:static !important; order:2; flex:0 0 auto !important; display:flex !important; align-items:center !important; gap:8px !important; top:auto !important; left:auto !important; }
+  .text-section .text-card .balance-card__status{ background:#eaf5fc !important; color:#0f7cb3 !important; border:1px solid #bfe2f4 !important; border-radius:999px !important; padding:2px 8px !important; font-size:10px !important; letter-spacing:.04em; }
+  .text-section .text-card .balance-card__rating{ color:#1b1f23 !important; font-size:13px !important; }
+  /* easier reading */
+  .text-section .text-card .card-answer{ font-size:15px !important; line-height:1.55 !important; }
+  /* trust strip: clean 2-col grid instead of a cramped single wrap */
+  .sx-trust{ display:grid !important; grid-template-columns:1fr 1fr !important; gap:8px 12px !important; justify-items:start !important; }
+  .sx-trust .g{ font-size:12.5px !important; }
+}
 </style>
 
 </head>

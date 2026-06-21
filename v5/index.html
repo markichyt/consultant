@@ -669,6 +669,19 @@ main{ overflow-x:clip !important; }
 .text-section .balance-card__footer,
 .text-section .balance-card__price{ border-radius:var(--r) !important; }
 
+/* The site JS adds body.reminder-open for an app-download bar that is display:none here. That
+   class offsets the fixed header to top:var(--header-height) and over-pads the heroes — so on
+   scroll the header floated with an empty light gap above it. The bar never shows, so neutralize
+   the offsets (need body.reminder-open specificity to beat the native .reminder-open rules). */
+.header,
+body.reminder-open .header{ top:0 !important; }
+body.reminder-open .main-hero__inner,
+body.reminder-open .main-hero__inner:not(.home),
+body.reminder-open .legal-section .main-hero__inner:not(.home),
+body.reminder-open .consultant-hero,
+body.reminder-open .hero-silver,
+body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
+
 </style>
 <style id="cf-extra">
 .text-section .qa-qmeta{ width:100%; display:flex; flex-wrap:wrap; gap:8px; margin:0 0 4px; }

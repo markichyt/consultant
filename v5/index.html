@@ -101,9 +101,15 @@
    container and KILLS position:sticky for the action panel (it stopped following the user).
    overflow-x:clip clips horizontal overflow WITHOUT creating a scroll container, so the
    panel can stick again while horizontal scroll stays prevented. */
-html{ max-width:100% !important; }
+html{ max-width:100% !important; overflow-x:clip !important; }
 body{ overflow-x:clip !important; max-width:100% !important; }
 main{ overflow-x:clip !important; }
+/* iOS FIX: the native off-canvas burger menu is position:fixed + transform:translate(100%)
+   (parked just off the RIGHT edge). position:fixed escapes ancestor overflow-x:clip, so on
+   iOS Safari you can pan/rubber-band the page sideways to it. Take it out of the paint/scroll
+   area while it is closed; .active still slides it back in (the .4s transition holds it visible
+   during slide-out, then it hides). Kills the horizontal scroll without touching menu behavior. */
+.mobile-menu:not(.active){ visibility:hidden !important; }
 /* ---- HERO: compact the original full-screen hero into a tidy dark band ---- */
 .main-hero{ min-height:auto !important; }
 .main-hero .main-hero__bg{ opacity:.42 !important; }
@@ -3141,14 +3147,14 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 
 <style id="fc-css">
 #fc *{box-sizing:border-box} #fc{font-family:"Avenir Next Cyr",sans-serif}
-#fc .fc__cta{position:fixed;left:14px;right:14px;bottom:14px;z-index:90;display:flex;align-items:center;gap:11px;background:#15191d;color:#fff;border:0;border-radius:3px;padding:11px 14px;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.32);text-align:left}
+#fc .fc__cta{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:90;display:flex;align-items:center;gap:11px;background:#15191d;color:#fff;border:0;border-radius:3px;padding:11px 14px;cursor:pointer;box-shadow:0 12px 30px rgba(0,0,0,.32);text-align:left}
 #fc .fc__cta[hidden]{display:none}
 #fc .fc__cta .ava{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);flex:0 0 40px;min-width:0;display:grid;place-items:center;font-weight:700;font-family:"Bicubik",sans-serif;font-size:14px;overflow:hidden}
 #fc .ava img{width:100%;height:100%;min-width:0;object-fit:cover;object-position:center 16%;border-radius:50%;display:block}
 #fc .fc__cta b{font-size:14.5px;font-weight:700;display:block} #fc .fc__cta small{font-size:11.5px;color:rgba(255,255,255,.88);display:flex;align-items:center;gap:5px}
 #fc .dot{width:8px;height:8px;border-radius:50%;background:#7CFFB0;box-shadow:0 0 0 0 rgba(124,255,176,.6);animation:fcp 2s infinite} #fc .fc__cta .go{margin-left:auto;flex:0 0 auto}
 @keyframes fcp{70%{box-shadow:0 0 0 8px rgba(124,255,176,0)}100%{box-shadow:0 0 0 0 rgba(124,255,176,0)}}
-#fc .fc__panel{position:fixed;z-index:91;right:14px;bottom:14px;left:14px;display:flex;flex-direction:column;background:#fff;border:1px solid #d8dbdf;border-radius:3px;overflow:hidden;box-shadow:0 26px 64px rgba(0,0,0,.32);max-height:86vh;height:560px}
+#fc .fc__panel{position:fixed;z-index:91;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));left:14px;display:flex;flex-direction:column;background:#fff;border:1px solid #d8dbdf;border-radius:3px;overflow:hidden;box-shadow:0 26px 64px rgba(0,0,0,.32);max-height:82dvh;height:560px}
 #fc .fc__panel[hidden]{display:none}
 @media(min-width:560px){#fc .fc__panel{left:auto;width:382px}#fc .fc__cta{left:auto;width:332px}}
 #fc .fc__head{position:relative;display:flex;align-items:center;gap:11px;padding:12px 50px 12px 14px;background:#15191d;color:#fff}
@@ -3172,10 +3178,13 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 #fc .sell button{display:block;width:100%;padding:11px 14px;border-radius:3px;font:inherit;font-weight:700;font-size:14px;cursor:pointer;border:1px solid #1397d6}
 #fc .sell .pp{background:#1397d6;color:#fff}#fc .sell .gg{background:#fff;color:#0f7cb3}
 #fc .app{display:flex;align-items:center;gap:9px;margin:0 14px 12px;padding:11px 13px;border:1px solid #bfe2f4;background:#eaf5fc;border-radius:3px;text-decoration:none;color:#1b1f23;font-size:13px}#fc .app b{display:block}
-#fc .fc__form{display:flex;gap:8px;padding:11px 12px;border-top:1px solid #e6e8eb;background:#fff}
-#fc .fc__form input{flex:1;min-width:0;border:1px solid #d8dbdf;border-radius:3px;padding:10px 12px;font:inherit;font-size:13.5px}
+#fc .fc__form{display:flex;align-items:center;gap:8px;padding:10px 12px;border-top:1px solid #e6e8eb;background:#fff}
+#fc .fc__form input{flex:1;min-width:0;height:44px;border:1px solid #d8dbdf;border-radius:3px;padding:0 13px;font:inherit;font-size:14px}
 #fc .fc__form input:focus{outline:none;border-color:#1397d6}
-#fc .fc__form button{flex:0 0 auto;border:0;background:#1397d6;color:#fff;border-radius:3px;padding:0 14px;cursor:pointer}
+/* square send button, icon optically centred (the paper-plane glyph sits low-left, so nudge it) */
+#fc .fc__form button{flex:0 0 44px;width:44px;height:44px;padding:0;border:0;background:#1397d6;color:#fff;border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+#fc .fc__form button:active{background:#0f7cb3}
+#fc .fc__form button svg{display:block;transform:translate(-1px,1px)}
 #fc [hidden]{display:none!important}
 /* floating chat is MOBILE-ONLY; on desktop the docked .qa-aside panel is used instead */
 @media(min-width:992px){ #fc{display:none!important} }

@@ -682,6 +682,9 @@ body.reminder-open .consultant-hero,
 body.reminder-open .hero-silver,
 body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 
+/* mobile: reserve space so the sticky bottom chat bar (#fc CTA) never covers the last content */
+@media(max-width:991px){ body{ padding-bottom:80px !important; } }
+
 </style>
 <style id="cf-extra">
 .text-section .qa-qmeta{ width:100%; display:flex; flex-wrap:wrap; gap:8px; margin:0 0 4px; }
@@ -771,6 +774,11 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .qa-aside{ border:1px solid #d8dbdf !important; border-radius:3px !important; box-shadow:0 18px 44px rgba(20,40,60,.16) !important; overflow:hidden !important; }
 .text-section .qa-chat__head{ background:#15191d !important; color:#fff !important; padding:13px 15px !important; border-bottom:0 !important; }
 .text-section .qa-chat__title{ color:#fff !important; } .text-section .qa-chat__sub{ color:rgba(255,255,255,.82) !important; }
+/* real consultant photo as the desktop chat avatar + green online badge */
+.text-section .qa-chat__ava{ position:relative; width:42px; height:42px; flex:0 0 42px; min-width:0; }
+.text-section .qa-chat__ava img{ width:42px; height:42px; border-radius:50%; object-fit:cover; object-position:center 14%; display:block; background:rgba(255,255,255,.14); }
+.text-section .qa-chat__ava .qa-presence{ position:absolute; right:-1px; bottom:-1px; width:13px; height:13px; flex:none; border:2px solid #15191d; border-radius:50%; }
+.text-section .qa-chat__ava .qa-presence::before{ background:#3ddc84 !important; }
 .text-section .qa-msg--match{ background:#f1f3f5 !important; border:1px solid #e3e6e9 !important; color:#1b1f23 !important; }
 .text-section .qa-msg--match b{ color:#15191d !important; }
 .text-section .qa-qr2 button{ background:#fff; border:1px solid #d8dbdf; color:#3a4248; border-radius:3px; padding:6px 12px; font:inherit; font-size:12.5px; font-weight:600; cursor:pointer; }
@@ -1924,7 +1932,7 @@ If officers reasonably relied on information that appeared accurate at the time,
 
 <aside class="qa-aside" aria-label="Live chat with a verified lawyer">
   <div class="qa-chat__head">
-    <span class="qa-presence" aria-hidden="true"></span>
+    <span class="qa-chat__ava"><img src="../assets/call_trigger.png" alt="Consultant"><span class="qa-presence" aria-hidden="true"></span></span>
     <div><div class="qa-chat__title">Verified experts online</div><div class="qa-chat__sub">7&#8211;12 lawyers available now</div></div>
   </div>
   <div class="qa-chat__log" id="qaLog" aria-live="polite"><div class="qa-msg qa-msg--sys">Today</div></div>
@@ -3135,17 +3143,18 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 #fc *{box-sizing:border-box} #fc{font-family:"Avenir Next Cyr",sans-serif}
 #fc .fc__cta{position:fixed;left:14px;right:14px;bottom:14px;z-index:90;display:flex;align-items:center;gap:11px;background:#1397d6;color:#fff;border:0;border-radius:3px;padding:11px 14px;cursor:pointer;box-shadow:0 12px 30px rgba(19,151,214,.4);text-align:left}
 #fc .fc__cta[hidden]{display:none}
-#fc .fc__cta .ava{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);flex:0 0 40px;display:grid;place-items:center;font-weight:700;font-family:"Bicubik",sans-serif;font-size:14px}
+#fc .fc__cta .ava{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.22);flex:0 0 40px;min-width:0;display:grid;place-items:center;font-weight:700;font-family:"Bicubik",sans-serif;font-size:14px;overflow:hidden}
+#fc .ava img{width:100%;height:100%;min-width:0;object-fit:cover;object-position:center 16%;border-radius:50%;display:block}
 #fc .fc__cta b{font-size:14.5px;font-weight:700;display:block} #fc .fc__cta small{font-size:11.5px;color:rgba(255,255,255,.88);display:flex;align-items:center;gap:5px}
 #fc .dot{width:8px;height:8px;border-radius:50%;background:#7CFFB0;box-shadow:0 0 0 0 rgba(124,255,176,.6);animation:fcp 2s infinite} #fc .fc__cta .go{margin-left:auto;flex:0 0 auto}
 @keyframes fcp{70%{box-shadow:0 0 0 8px rgba(124,255,176,0)}100%{box-shadow:0 0 0 0 rgba(124,255,176,0)}}
 #fc .fc__panel{position:fixed;z-index:91;right:14px;bottom:14px;left:14px;display:flex;flex-direction:column;background:#fff;border:1px solid #d8dbdf;border-radius:3px;overflow:hidden;box-shadow:0 26px 64px rgba(0,0,0,.32);max-height:86vh;height:560px}
 #fc .fc__panel[hidden]{display:none}
 @media(min-width:560px){#fc .fc__panel{left:auto;width:382px}#fc .fc__cta{left:auto;width:332px}}
-#fc .fc__head{display:flex;align-items:center;gap:11px;padding:12px 14px;background:#1397d6;color:#fff}
-#fc .fc__head .ava{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.22);flex:0 0 42px;display:grid;place-items:center;font-weight:700;font-family:"Bicubik",sans-serif}
+#fc .fc__head{position:relative;display:flex;align-items:center;gap:11px;padding:12px 50px 12px 14px;background:#1397d6;color:#fff}
+#fc .fc__head .ava{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.22);flex:0 0 42px;min-width:0;display:grid;place-items:center;font-weight:700;font-family:"Bicubik",sans-serif;overflow:hidden}
 #fc .fc__head b{font-size:14.5px;display:block}#fc .fc__head small{font-size:11.5px;color:rgba(255,255,255,.88);display:flex;align-items:center;gap:5px}
-#fc .fc__head .x{margin-left:auto;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;cursor:pointer;font-size:18px;line-height:1}
+#fc .fc__head .x{position:absolute;top:50%;right:12px;transform:translateY(-50%);width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;cursor:pointer;font-size:19px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center}
 #fc .fc__log{flex:1;overflow-y:auto;padding:14px;background:#f5f7f9;display:flex;flex-direction:column;gap:9px}
 #fc .m{max-width:86%;padding:9px 12px;border-radius:3px;font-size:13.5px;line-height:1.45}
 #fc .m--bot{align-self:flex-start;background:#fff;border:1px solid #e6e8eb;color:#3a4248}
@@ -3170,20 +3179,13 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
 #fc [hidden]{display:none!important}
 /* floating chat is MOBILE-ONLY; on desktop the docked .qa-aside panel is used instead */
 @media(min-width:992px){ #fc{display:none!important} }
-/* MOBILE: chat docked INLINE as a block after the first answer (#fc is moved into .qa-main).
-   The bottom pill becomes a "scroll back to the chat" button, shown once it's scrolled past. */
-@media(max-width:991px){
-  #fc .fc__panel.is-inline{ position:static!important; inset:auto!important; top:auto!important; left:auto!important; right:auto!important; bottom:auto!important;
-    width:auto!important; max-width:none!important; height:auto!important; max-height:none!important; margin:4px 0 14px!important;
-    box-shadow:0 8px 24px rgba(20,40,60,.10)!important; border-radius:3px!important; scroll-margin-top:84px; }
-  #fc .fc__panel.is-inline .fc__log{ min-height:200px; max-height:360px; }
-  #fc .fc__panel.is-inline .fc__head .x{ display:none!important; }
-}
+/* MOBILE: #fc stays a sticky bottom CTA bar (.fc__cta) that opens the chat as a bottom-sheet
+   overlay (.fc__panel, position:fixed) — no inline block in the content flow. */
 </style>
 <div id="fc">
-  <button class="fc__cta" id="fcCta" type="button"><span class="ava">EG</span><span><b>Chat with Eugene, Civil Rights Attorney</b><small><span class="dot"></span> 7&#8211;12 lawyers online now</small></span><svg class="go" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+  <button class="fc__cta" id="fcCta" type="button"><span class="ava"><img src="../assets/call_trigger.png" alt="Consultant"></span><span><b>Chat with Eugene, Civil Rights Attorney</b><small><span class="dot"></span> 7&#8211;12 lawyers online now</small></span><svg class="go" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
   <div class="fc__panel" id="fcPanel" hidden>
-    <div class="fc__head"><span class="ava">EG</span><div><b>Eugene &middot; Civil Rights Attorney</b><small><span class="dot"></span> Verified &middot; 7&#8211;12 online</small></div><button class="x" id="fcX" aria-label="Close">&times;</button></div>
+    <div class="fc__head"><span class="ava"><img src="../assets/call_trigger.png" alt="Consultant"></span><div><b>Eugene &middot; Civil Rights Attorney</b><small><span class="dot"></span> Verified &middot; 7&#8211;12 online</small></div><button class="x" id="fcX" aria-label="Close">&times;</button></div>
     <div class="fc__log" id="fcLog"></div>
     <div class="sell" id="fcSell" hidden><button class="pp" id="fcPay">Pay &amp; ask &#8212; $10</button><button class="gg" id="fcSub">Subscribe (unlimited)</button></div>
     <a class="app" id="fcApp" href="#app" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1397d6" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg><span><b>Open in the Consultant app &rarr;</b>your answer is waiting</span></a>
@@ -3222,16 +3224,10 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
   var fc=document.getElementById('fc');
   function gotoChat(){ panel.scrollIntoView({behavior:'smooth',block:'start'}); setTimeout(function(){try{input.focus({preventScroll:true});}catch(e){}},480); }
   if(isMobile){
-    /* MOBILE: chat lives INLINE after the first answer; the bottom pill scrolls back to it. */
-    var firstAns=document.querySelector('.text-section .qa-main .text-card')||document.querySelector('.text-section .text-card');
-    if(fc&&firstAns&&firstAns.parentNode){ firstAns.parentNode.insertBefore(fc, firstAns.nextElementSibling); }
-    panel.classList.add('is-inline'); panel.removeAttribute('hidden');
-    if(!started){started=true;greet();}
-    cta.hidden=true;
-    cta.addEventListener('click',gotoChat);
-    document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();gotoChat();});});
-    var updatePill=function(){ var r=panel.getBoundingClientRect(); cta.hidden=!(r.bottom<80); };
-    window.addEventListener('scroll',updatePill,{passive:true}); window.addEventListener('resize',updatePill); updatePill();
+    /* MOBILE: #fc is a sticky bottom CTA bar; tapping opens the chat as a bottom-sheet overlay
+       (no inline block in the content flow). */
+    cta.addEventListener('click',function(){open();});
+    document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();open();});});
   } else {
     /* DESKTOP: #fc is hidden; the docked .qa-aside rail is used. Keep legacy wiring. */
     cta.addEventListener('click',function(){open();});

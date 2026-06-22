@@ -1027,6 +1027,21 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .sx-askcta__box{ background:#0f7cb3 !important; border-radius:16px !important; }
 .sx-askcta__btn{ border-radius:999px !important; }
 .text-section .qa-qr2 button,.text-section .qa-contact,.text-section .qa-btn--primary{ border-radius:999px !important; }
+/* LONG ANSWERS (per client screenshot): a long answer must NOT stretch the card down the whole
+   page. Each long answer is collapsed to a short preview with a "Read more" button; tapping it
+   turns the answer into a fixed-height window you scroll INSIDE. Driven by the v2 script below.
+   We hide the native read-more (it only covers one answer and mis-measures on load). */
+.text-section .text-card .sx-rm{ display:none !important; }
+.text-section .text-card .v2wrap{ grid-column:2; grid-row:2; min-width:0; display:flex; flex-direction:column; align-items:flex-start; }
+.text-section .text-card .v2wrap .card-answer{ margin:0 !important; width:100%; }
+.text-section .text-card .card-answer.v2clip{ max-height:150px !important; overflow:hidden !important; -webkit-mask-image:linear-gradient(180deg,#000 58%,transparent 100%); mask-image:linear-gradient(180deg,#000 58%,transparent 100%); }
+.text-section .text-card .card-answer.v2open{ max-height:clamp(280px,46vh,440px) !important; overflow-y:auto !important; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding-right:10px; width:100%; scrollbar-width:thin; scrollbar-color:rgba(19,151,214,.5) transparent; }
+.text-section .text-card .card-answer.v2open::-webkit-scrollbar{ width:8px; }
+.text-section .text-card .card-answer.v2open::-webkit-scrollbar-track{ background:transparent; }
+.text-section .text-card .card-answer.v2open::-webkit-scrollbar-thumb{ background:rgba(19,151,214,.45); border-radius:999px; }
+.text-section .text-card .v2more{ margin-top:9px; background:#1397d6; color:#fff; border:0; border-radius:999px; padding:8px 18px; font:inherit; font-weight:700; font-size:13px; cursor:pointer; }
+.text-section .text-card .v2more:hover{ background:#0f7cb3; }
+@media(max-width:991px){ .text-section .text-card .v2wrap{ grid-column:auto; grid-row:auto; } }
 </style>
 </head>
 
@@ -3281,6 +3296,33 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     document.querySelectorAll('[data-openchat]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();open();});});
     if(!started){started=true;greet();}
   }
+})();
+</script>
+
+
+<script>
+(function(){
+  function init(){
+    document.querySelectorAll('.text-section .text-card').forEach(function(card){
+      var a=card.querySelector('.card-answer'); if(!a||a.__v2) return; a.__v2=1;
+      var nat=card.querySelector('.sx-rm'); if(nat) nat.remove();   /* drop native read-more */
+      a.classList.remove('sx-clip');
+      var w=document.createElement('div'); w.className='v2wrap';
+      a.parentNode.insertBefore(w,a); w.appendChild(a);
+      if(a.scrollHeight>260){                                       /* only genuinely long answers */
+        a.classList.add('v2clip');
+        var b=document.createElement('button'); b.type='button'; b.className='v2more'; b.textContent='Read more ↓';
+        w.appendChild(b);
+        b.addEventListener('click',function(){
+          var open=a.classList.toggle('v2open'); a.classList.toggle('v2clip',!open);
+          b.textContent=open?'Show less ↑':'Read more ↓';
+          if(open) a.scrollTop=0;
+        });
+      }
+    });
+  }
+  if(document.readyState==='complete') requestAnimationFrame(init);
+  else window.addEventListener('load',function(){ requestAnimationFrame(init); });
 })();
 </script>
 

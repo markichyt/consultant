@@ -3172,7 +3172,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
 #fc .fc__head b{font-size:14.5px;display:block}#fc .fc__head small{font-size:11.5px;color:rgba(255,255,255,.88);display:flex;align-items:center;gap:5px}
 #fc .fc__head .x{position:absolute;top:50%;right:12px;transform:translateY(-50%);width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;cursor:pointer;font-size:19px;line-height:1;padding:0;display:flex;align-items:center;justify-content:center}
 #fc .fc__log{flex:1;overflow-y:auto;padding:14px;background:#f5f7f9;display:flex;flex-direction:column;gap:9px;touch-action:pan-y;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-#fc .m{max-width:86%;padding:9px 12px;border-radius:3px;font-size:13.5px;line-height:1.45}
+#fc .m{max-width:86%;padding:9px 12px;border-radius:3px;font-size:13.5px;line-height:1.45;word-break:break-word;overflow-wrap:anywhere}
 #fc .m--bot{align-self:flex-start;background:#fff;border:1px solid #e6e8eb;color:#3a4248}
 #fc .m--user{align-self:flex-end;background:#1397d6;color:#fff}
 #fc .m--sys{align-self:center;font-size:11.5px;color:#9aa0a6}
@@ -3189,7 +3189,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
 #fc .sell .pp{background:#1397d6;color:#fff}#fc .sell .gg{background:#fff;color:#0f7cb3}
 #fc .app{display:flex;align-items:center;gap:9px;margin:0 14px 12px;padding:11px 13px;border:1px solid #bfe2f4;background:#eaf5fc;border-radius:3px;text-decoration:none;color:#1b1f23;font-size:13px}#fc .app b{display:block}
 #fc .fc__form{display:flex;align-items:center;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid #e6e8eb;background:#fff;flex:0 0 auto}
-#fc .fc__form input{flex:1;min-width:0;height:44px;border:1px solid #d8dbdf;border-radius:3px;padding:0 13px;font:inherit;font-size:14px}
+/* font-size MUST be >=16px: iOS Safari auto-zooms the page when a focused input is <16px, which
+   scales the full-screen panel past the screen edge (sent message / send button get clipped). */
+#fc .fc__form input{flex:1;min-width:0;height:44px;border:1px solid #d8dbdf;border-radius:3px;padding:0 13px;font:inherit;font-size:16px}
 #fc .fc__form input:focus{outline:none;border-color:#1397d6}
 /* square send button, icon optically centred (the paper-plane glyph sits low-left, so nudge it) */
 #fc .fc__form button{flex:0 0 44px;width:44px;height:44px;padding:0;border:0;background:#1397d6;color:#fff;border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}

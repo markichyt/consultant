@@ -41,6 +41,9 @@ h1{font-family:var(--font2);font-weight:400;font-size:clamp(26px,5vw,52px);line-
 .card__desc{font-size:14px;line-height:1.5;color:#aeb9bf;flex:1}
 .card__go{margin-top:10px;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:#7ed0ff}
 .card:hover .card__go{color:#fff}
+.group{font-family:var(--font2);font-weight:400;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#7ed0ff;margin:30px 0 14px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.group:first-of-type{margin-top:4px}
+.grid + .group{margin-top:34px}
 .note{margin-top:36px;font-size:13px;color:var(--muted);line-height:1.6}
 .note code{color:#9fd4ef}
 .card--feat{grid-column:1 / -1;flex-direction:row}
@@ -58,42 +61,83 @@ h1{font-family:var(--font2);font-weight:400;font-size:clamp(26px,5vw,52px);line-
       <b>CONSULTANT<small>LEGAL MARKETPLACE</small></b>
     </div>
 
-    <span class="eyebrow">Внутрішній перегляд</span>
-    <h1>Сторінка Q&A та вибір банерів</h1>
-    <p class="sub">Основна сторінка — <b>фінальний варіант (v5)</b> з усіма правками. Окремо можна відкрити
-      сторінку, де <b>обирається дизайн банера‑картки юриста</b> — 10 варіантів верстки × 3 рівні (base / pro / premium).</p>
+    <span class="eyebrow">Внутрішній перегляд · вибір дизайну</span>
+    <h1>Сторінка Q&A — усі варіанти</h1>
+    <p class="sub">Усюди <b>однаковий контент, логіка та структура</b> (база — v5) — відрізняється лише
+      <b>візуальний стиль</b>. Нижче: основна сторінка, світлі скіни, темні версії під ваш сайт і
+      окремо — сторінка <b>вибору банера юриста</b>.</p>
 
+    <h2 class="group">Основна</h2>
     <div class="grid">
       <a class="card card--feat" href="./v5/">
         <div class="card__shot"><span class="card__num">★</span><img src="./thumbs/v5.png" alt="Готова сторінка Q&A" loading="lazy"></div>
         <div class="card__body">
           <span class="badge">Основна сторінка · для SEO</span>
-          <span class="card__name">Сторінка Q&A (v5)</span>
-          <span class="card__desc">Збережено стилістику сайту й рідні картки юристів. Додано: оцінка+поділитись під кожною відповіддю, коментарі, платні форми (від $10) + підписка, форма створення питання з вибором типу/спеціалізації/локації, чат‑консультант «7–12 онлайн». <b>На сторінці закріплена панель «Питання для SEO‑спеціаліста»</b> — саме її відкривати сеошнику.</span>
+          <span class="card__name">v5 — базова (світла)</span>
+          <span class="card__desc">Збережено стилістику сайту й рідні картки юристів. Усі правки: оцінка+поділитись під відповіддю, коментарі, платні форми (від $10) + підписка, форма питання, чат‑консультант. <b>Закріплена панель «Питання для SEO‑спеціаліста».</b></span>
           <span class="card__go">Відкрити сторінку →</span>
         </div>
       </a>
+    </div>
 
-      <a class="card card--feat" href="./dark/">
+    <h2 class="group">Світлі скіни</h2>
+    <div class="grid">
+      <a class="card" href="./classic/">
+        <div class="card__shot"><span class="card__num">1</span><img src="./thumbs/classic.png" alt="Класичний мінімал" loading="lazy"></div>
+        <div class="card__body">
+          <span class="card__name">Класичний — мінімал</span>
+          <span class="card__desc">Білий фон, тонкі волосяні рамки, без тіней. Спокійна, чиста подача.</span>
+          <span class="card__go">Відкрити варіант →</span>
+        </div>
+      </a>
+      <a class="card" href="./v2/">
+        <div class="card__shot"><span class="card__num">2</span><img src="./thumbs/v2.png" alt="Діалог — заокруглений синій" loading="lazy"></div>
+        <div class="card__body">
+          <span class="card__name">Діалог — заокруглений</span>
+          <span class="card__desc">Блакитний фон, заокруглені картки, м’які тіні, фірмовий синій в акцентах.</span>
+          <span class="card__go">Відкрити варіант →</span>
+        </div>
+      </a>
+      <a class="card" href="./v3/">
+        <div class="card__shot"><span class="card__num">3</span><img src="./thumbs/v3.png" alt="Таймлайн — бірюзова рейка" loading="lazy"></div>
+        <div class="card__body">
+          <span class="card__name">Таймлайн — кроки</span>
+          <span class="card__desc">Прохолодний фон і бірюзовий акцент: ліва смуга‑рейка біля кожного блоку.</span>
+          <span class="card__go">Відкрити варіант →</span>
+        </div>
+      </a>
+      <a class="card" href="./v4/">
+        <div class="card__shot"><span class="card__num">4</span><img src="./thumbs/v4.png" alt="Журнальний — айворі + золото" loading="lazy"></div>
+        <div class="card__body">
+          <span class="card__name">Журнальний — преміум</span>
+          <span class="card__desc">Тепле айворі, золоті акценти, верхній кант карток, велика типографіка, імена КАПСОМ.</span>
+          <span class="card__go">Відкрити варіант →</span>
+        </div>
+      </a>
+    </div>
+
+    <h2 class="group">Темні (під стиль вашого сайту)</h2>
+    <div class="grid">
+      <a class="card" href="./dark/">
         <div class="card__shot"><span class="card__num">◐</span><img src="./thumbs/dark.png" alt="Темна версія — під стиль сайту" loading="lazy"></div>
         <div class="card__body">
-          <span class="badge badge--blue">Під стиль сайту</span>
           <span class="card__name">Темна версія</span>
-          <span class="card__desc">Той самий контент і структура, що й v5, але <b>перефарбовано під ваш реальний сайт</b>: темні фони, синій бренд‑акцент, білі дисплейні заголовки (Bicubik), темні картки з тонкими рамками. Щоб сторінка Q&A не вибивалася з решти сайту.</span>
-          <span class="card__go">Відкрити темну версію →</span>
+          <span class="card__desc">Контент і структура v5, перефарбовано під сайт: темні фони, синій бренд‑акцент, білі заголовки Bicubik, темні картки з тонкими рамками.</span>
+          <span class="card__go">Відкрити варіант →</span>
         </div>
       </a>
-
-      <a class="card card--feat" href="./v7/">
+      <a class="card" href="./v7/">
         <div class="card__shot"><span class="card__num">◆</span><img src="./thumbs/v7.png" alt="Темна PRO — глибокий розбір сайту" loading="lazy"></div>
         <div class="card__body">
-          <span class="badge badge--blue">Максимально під сайт</span>
           <span class="card__name">Темна PRO (v7)</span>
-          <span class="card__desc">Глибший розбір вашого сайту: <b>металевий градієнт</b> на заголовку (як «ATTORNEY ABBOTT»), <b>двошарові заголовки секцій</b> (велике «примарне» слово + жирний підзаголовок, як «TOP 10 / PRO consultants»), <b>сині акцент‑смуги</b> перед написами, тонкий синій кант на блоці статистики, гостріші кнопки. Той самий контент і структура v5.</span>
-          <span class="card__go">Відкрити v7 →</span>
+          <span class="card__desc">Глибший розбір: металевий градієнт на заголовку (як «ATTORNEY ABBOTT»), двошарові заголовки секцій (як «TOP 10 / PRO consultants»), сині акцент‑смуги, кант на статистиці, гостріші кнопки.</span>
+          <span class="card__go">Відкрити варіант →</span>
         </div>
       </a>
+    </div>
 
+    <h2 class="group">Банер юриста</h2>
+    <div class="grid">
       <a class="card card--feat" href="./v6/">
         <div class="card__shot"><span class="card__num">B</span><img src="./thumbs/v6.png" alt="Вибір банера юриста" loading="lazy"></div>
         <div class="card__body">
@@ -105,7 +149,7 @@ h1{font-family:var(--font2);font-weight:400;font-size:clamp(26px,5vw,52px);line-
       </a>
     </div>
 
-    <p class="note">Підказка: інші скіни (classic / v2 / v3 / v4) лишаються доступними за прямими адресами, але на цій сторінці залишено лише фінальний варіант.</p>
+    <p class="note">Підказка: ця сторінка вибору не змінює самі варіанти — кожен відкривається окремо у власному стилі. Контент і структура всюди однакові, відрізняється лише оформлення.</p>
   </div>
 </body>
 </html>

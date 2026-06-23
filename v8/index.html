@@ -1069,6 +1069,31 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-legal{ max-width:1500px; margin:20px auto 36px; padding:14px clamp(12px,1.95vw,30px); font-family:"Avenir Next Cyr",sans-serif;
   font-size:12px; line-height:1.55; color:#9aa0a6; border-top:1px solid #ececea; }
 .qn-legal b{ color:#6b7177; }
+/* ===== blocks to match target screenshots 2-4 ===== */
+/* trust strip -> reviews / verified / reply time */
+.text-section .sx-trust .qn-tc{ text-align:center; padding:4px 8px; }
+.text-section .sx-trust .qn-tc b{ display:block; font-size:21px; color:#1b1f23; font-weight:800; line-height:1.1; }
+.text-section .sx-trust .qn-tc .qn-star{ color:#FFD337; }
+.text-section .sx-trust .qn-tc span{ font-size:12.5px; color:#6b7177; }
+/* "Answered by N specialists" dark block */
+.qn-answeredby{ display:flex; align-items:center; gap:13px; margin:14px 0 16px; padding:12px 15px; background:#15191d; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
+.qn-answeredby .qn-ava{ display:flex; flex:0 0 auto; }
+.qn-answeredby .qn-ava span{ width:34px; height:34px; border-radius:50%; margin-left:-9px; background:#2b3138; border:2px solid #15191d; display:grid; place-items:center; font-size:11.5px; font-weight:700; color:#cfd6db; }
+.qn-answeredby .qn-ava span:first-child{ margin-left:0; }
+.qn-answeredby b{ font-size:14.5px; } .qn-answeredby small{ display:block; font-size:12.5px; color:#c4ccd2; margin-top:1px; }
+.qn-answeredby a{ color:#7ed0ff; text-decoration:none; } .qn-answeredby a:hover{ text-decoration:underline; }
+/* "Need help with a similar situation?" dark bar */
+.qn-needhelp{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:18px clamp(0px,1.95vw,30px); padding:18px 22px; background:#15191d; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
+.qn-needhelp b{ font-size:17px; display:block; } .qn-needhelp small{ font-size:13px; color:#c4ccd2; }
+.qn-needhelp button{ margin-left:auto; background:#1397d6; color:#fff; border:0; border-radius:3px; padding:13px 24px; font:inherit; font-weight:700; font-size:14.5px; cursor:pointer; white-space:nowrap; }
+.qn-needhelp button:hover{ background:#0f7cb3; }
+@media(max-width:560px){ .qn-needhelp button{ margin-left:0; width:100%; } }
+/* "THINK YOU HAVE A CLAIM" blue CTA */
+.qn-claim{ max-width:1500px; margin:20px auto; padding:26px clamp(16px,2vw,30px); background:linear-gradient(180deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
+.qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.6vw,30px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 8px; }
+.qn-claim p{ margin:0 0 16px; font-size:15px; } .qn-claim .qn-star{ color:#FFD337; }
+.qn-claim button{ background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:13px 26px; font:inherit; font-weight:700; font-size:15px; cursor:pointer; }
+.qn-claim button:hover{ background:#eef7fc; }
 </style>
 
 </head>
@@ -3414,6 +3439,47 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         rel.innerHTML='<h2>Related questions</h2><ul>'+RELATED.map(function(q){return '<li><a href="#">'+esc(q)+ARROW+'</a></li>';}).join('')+'</ul>';
         anchor.parentNode.insertBefore(rel, anchor);
       }
+    }
+    /* ===== match target screenshots 2-4 ===== */
+    function openChat(){ if(window.openChat) window.openChat(); }
+    /* trust strip -> reviews / verified / reply time */
+    var trust=document.querySelector('.sx-trust');
+    if(trust && !trust.getAttribute('data-qn')){ trust.setAttribute('data-qn','1');
+      trust.style.gridTemplateColumns='repeat(3,1fr)';
+      trust.innerHTML='<div class="qn-tc"><b><span class="qn-star">\u2605</span> 4.9</b><span>2,400 reviews</span></div>'
+        +'<div class="qn-tc"><b>847</b><span>verified attorneys</span></div>'
+        +'<div class="qn-tc"><b>~5 min</b><span>average reply time</span></div>';
+    }
+    /* "Answered by N specialists" block (under the question) */
+    var qb=document.querySelector('.sx-qblock');
+    if(qb && !document.querySelector('.qn-answeredby')){
+      var nms=[].slice.call(document.querySelectorAll('.text-section .text-card .balance-card__name')).map(function(n){return n.textContent.trim();});
+      var n=nms.length||4; var avs=nms.slice(0,4).map(function(nm){ var ini=(nm.match(/\b\w/g)||['?']).slice(0,2).join('').toUpperCase(); return '<span>'+ini+'</span>'; }).join('');
+      var ab=document.createElement('div'); ab.className='qn-answeredby';
+      ab.innerHTML='<span class="qn-ava">'+avs+'</span><span><b>Answered by '+n+' specialists</b>'
+        +'<small>Including 2 verified attorneys \u00b7 <a href="#answers">Read all answers \u2193</a></small></span>';
+      qb.insertAdjacentElement('afterend', ab);
+      var ra=ab.querySelector('a'); if(ra) ra.addEventListener('click',function(e){ e.preventDefault(); var f=document.querySelector('.text-section .text-card'); if(f) f.scrollIntoView({behavior:'smooth',block:'start'}); });
+    }
+    /* "Need help with a similar situation?" dark bar (between answers) */
+    var ac=document.querySelectorAll('.text-section .text-card');
+    if(ac.length && !document.querySelector('.qn-needhelp')){
+      var mid=ac[Math.min(1, ac.length-1)];
+      var nh=document.createElement('div'); nh.className='qn-needhelp';
+      nh.innerHTML='<span><b>Need help with a similar situation?</b><small>Free consultation \u00b7 847 verified attorneys online now.</small></span>'
+        +'<button type="button">Find a wrongful arrest lawyer \u2192</button>';
+      mid.insertAdjacentElement('afterend', nh);
+      nh.querySelector('button').addEventListener('click',openChat);
+    }
+    /* "THINK YOU HAVE A CLAIM" blue CTA (before Related/FAQ) */
+    var anchor2=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
+    if(anchor2 && !document.querySelector('.qn-claim')){
+      var cl=document.createElement('section'); cl.className='qn-claim';
+      cl.innerHTML='<h3>Think you have a wrongful arrest claim?</h3>'
+        +'<p>Get a free case review from a verified attorney. <b><span class="qn-star">\u2605</span> 4.9</b> from 2,400 reviews.</p>'
+        +'<button type="button">Get a free consultation \u2192</button>';
+      anchor2.parentNode.insertBefore(cl, anchor2);
+      cl.querySelector('button').addEventListener('click',openChat);
     }
     /* 4) general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){

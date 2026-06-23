@@ -1041,9 +1041,10 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card .qn-best svg{ width:13px; height:13px; fill:#FFD337; }
 .text-section .text-card.qn-isbest{ box-shadow:0 10px 26px rgba(20,40,60,.10) !important; }
 /* per-answer disclaimer */
-.text-section .text-card .qn-disc{ margin:9px 0 0; font-size:11.5px; line-height:1.5; color:#9aa0a6; font-style:italic; }
-/* long answer: read-more -> scroll window (no card blow-up) */
-.text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; }
+.text-section .text-card .qn-disc{ grid-column:1 / -1; grid-row:4; margin:9px 0 0; font-size:11.5px; line-height:1.5; color:#9aa0a6; font-style:italic; }
+/* long answer: read-more -> scroll window (no card blow-up). Pin the wrapper to the answer's grid slot
+   (col 2, row 2) so it can't auto-misplace into col 1 on cards without a "Best answer" badge. */
+.text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; grid-column:2; grid-row:2; }
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 .text-section .text-card .card-answer.qn-clip{ max-height:160px !important; overflow:hidden !important;
   -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%); mask-image:linear-gradient(180deg,#000 60%,transparent 100%); }

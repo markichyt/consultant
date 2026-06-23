@@ -1213,8 +1213,8 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   padding:11px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
 .qn-callback:hover{ background:#33363b; }
 /* message log — dark */
-.text-section .qa-aside .qa-chat__log{ background:#171819 !important; min-height:300px !important; }
-.text-section .qa-aside .qa-msg{ font-size:13.5px !important; border-radius:3px !important; }
+.text-section .qa-aside .qa-chat__log{ background:#171819 !important; min-height:360px !important; }
+.text-section .qa-aside .qa-msg{ font-size:15px !important; line-height:1.5 !important; padding:11px 13px !important; border-radius:3px !important; }
 .text-section .qa-aside .qa-msg--bot{ background:#2a2c30 !important; color:#e6e7e9 !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--user{ background:#1f9cdf !important; color:#fff !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--sys{ display:none !important; }
@@ -1224,8 +1224,61 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .qa-aside .qa-chat__input{ display:block !important; position:relative; background:#1b1c1f !important;
   border-top:1px solid rgba(255,255,255,.07) !important; padding:12px 14px !important; }
 .text-section .qa-aside .qa-chat__input input{ width:100% !important; background:#fff !important; border:0 !important;
-  border-radius:3px !important; color:#1b1f23 !important; padding:13px 46px 13px 18px !important; font-size:14px !important; }
+  border-radius:3px !important; color:#1b1f23 !important; padding:14px 46px 14px 18px !important; font-size:15px !important; }
 .text-section .qa-aside .qa-chat__input input::placeholder{ color:#9aa0a6 !important; }
+/* "N consultants online now" indicator in the header sub-line (#7) */
+.text-section .qa-aside .qn-online{ color:#3ddc84 !important; font-weight:600; display:inline-flex; align-items:center; gap:5px; }
+.text-section .qa-aside .qn-online i{ width:7px; height:7px; border-radius:50%; background:#3ddc84; box-shadow:0 0 0 0 rgba(61,220,132,.6); animation:qn-onp 2s infinite; }
+@keyframes qn-onp{ 70%{ box-shadow:0 0 0 6px rgba(61,220,132,0);} 100%{ box-shadow:0 0 0 0 rgba(61,220,132,0);} }
+
+/* ===== in-chat offer: choice (subscription vs 1 consultation) -> plans -> card form ===== */
+.qn-offer{ background:#15171a; border-top:1px solid rgba(255,255,255,.08); border-bottom:1px solid rgba(255,255,255,.08);
+  padding:15px 16px; font-family:"Avenir Next Cyr",sans-serif; color:#e6e7e9; max-height:min(440px,48vh); overflow-y:auto;
+  scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.2) transparent; animation:qn-offin .4s ease; }
+.qn-offer[hidden]{ display:none; }
+.qn-offer::-webkit-scrollbar{ width:7px; } .qn-offer::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.18); border-radius:3px; }
+@keyframes qn-offin{ from{ opacity:0; transform:translateY(-10px);} to{ opacity:1; transform:translateY(0);} }
+.qn-offer__h{ font-size:15px; font-weight:800; color:#fff; margin:0 0 3px; }
+.qn-offer__sh{ font-size:12.5px; color:#9da1a7; margin:0 0 13px; }
+.qn-offer__row{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.qn-offer__price{ color:#7cc8f2; font-weight:800; font-size:16px; white-space:nowrap; } .qn-offer__price small{ font-size:11px; color:#9da1a7; font-weight:600; }
+.qn-offer__opt{ display:block; width:100%; text-align:left; border:0; cursor:pointer; border-radius:3px; margin:0 0 10px; font:inherit; }
+.qn-offer__opt--sub{ position:relative; background:linear-gradient(135deg,#13212e,#0f3a55); border:1px solid #1f9cdf; padding:14px; margin-top:6px; }
+.qn-offer__opt--sub:hover{ border-color:#3bb4f2; }
+.qn-offer__tag{ position:absolute; top:-9px; left:13px; background:#1f9cdf; color:#fff; font-size:9.5px; font-weight:800; letter-spacing:.04em; padding:3px 9px; border-radius:3px; }
+.qn-offer__opt b{ color:#fff; font-size:15px; }
+.qn-offer__opt--sub ul{ list-style:none; margin:11px 0 6px; padding:0; }
+.qn-offer__opt--sub li{ display:flex; gap:8px; align-items:flex-start; font-size:12.5px; color:#cdd2d7; margin:0 0 5px; }
+.qn-offer__opt--sub li .qn-ok{ width:14px; height:14px; flex:0 0 14px; margin-top:1px; }
+.qn-offer__go{ display:inline-block; margin-top:7px; color:#7cc8f2; font-size:12.5px; font-weight:700; }
+.qn-offer__opt--one{ background:#202327; border:1px solid #2c2f34; padding:12px 14px; }
+.qn-offer__opt--one:hover{ background:#26292e; }
+.qn-offer__opt--one .qn-offer__price{ color:#cdd2d7; font-size:15px; }
+.qn-offer__opt--one small{ display:block; color:#8a8f96; font-size:11.5px; margin-top:4px; }
+.qn-offer__back{ background:none; border:0; color:#9da1a7; cursor:pointer; font:inherit; font-size:12px; padding:0; margin:0 0 11px; }
+.qn-offer__back:hover{ color:#fff; }
+.qn-plans{ display:flex; flex-direction:column; gap:11px; margin-top:4px; }
+.qn-plan{ position:relative; background:#202327; border:1px solid #2c2f34; border-radius:3px; padding:13px; }
+.qn-plan--best{ border-color:#1f9cdf; background:linear-gradient(135deg,#14222e,#123040); }
+.qn-plan__tag{ position:absolute; top:-9px; right:13px; background:#1f9cdf; color:#fff; font-size:9.5px; font-weight:800; padding:3px 9px; border-radius:3px; }
+.qn-plan__top{ display:flex; align-items:baseline; justify-content:space-between; }
+.qn-plan__name{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.04em; color:#fff; text-transform:uppercase; }
+.qn-plan--best .qn-plan__name{ color:#7cc8f2; }
+.qn-plan__price{ font-size:19px; font-weight:800; color:#fff; } .qn-plan__price span{ font-size:11px; color:#9da1a7; font-weight:600; }
+.qn-plan ul{ list-style:none; margin:9px 0 11px; padding:0; }
+.qn-plan li{ display:flex; gap:7px; align-items:flex-start; font-size:12px; color:#cdd2d7; margin:0 0 4px; }
+.qn-plan li .qn-ok{ width:13px; height:13px; flex:0 0 13px; margin-top:1px; }
+.qn-plan__sel{ width:100%; border:0; border-radius:3px; padding:10px; font:inherit; font-weight:700; font-size:13px; cursor:pointer; background:#2a2c30; color:#fff; }
+.qn-plan__sel:hover{ background:#33363b; } .qn-plan--best .qn-plan__sel{ background:#1f9cdf; } .qn-plan--best .qn-plan__sel:hover{ background:#1789c5; }
+.qn-pay input{ width:100%; background:#fff; border:0; border-radius:3px; padding:12px 13px; font:inherit; font-size:14px; color:#1b1f23; margin:0 0 9px; }
+.qn-pay__r{ display:flex; gap:9px; } .qn-pay__r input{ width:100%; }
+.qn-pay__btn{ width:100%; border:0; border-radius:3px; padding:13px; font:inherit; font-weight:800; font-size:14px; cursor:pointer; background:#1f9cdf; color:#fff; margin-top:3px; }
+.qn-pay__btn:hover{ background:#1789c5; }
+.qn-pay__sec{ font-size:11px; color:#8a8f96; text-align:center; margin:9px 0 0; }
+.qn-offer__done p{ color:#cdd2d7; font-size:13px; margin:4px 0 0; }
+.qn-offer__apps{ display:flex; gap:9px; margin-top:12px; }
+.qn-offer__apps a{ flex:1; text-align:center; background:#2a2c30; color:#fff; border-radius:3px; padding:10px; font-size:12px; font-weight:700; text-decoration:none; }
+.qn-offer__apps a:hover{ background:#33363b; }
 .text-section .qa-aside .qa-send{ position:absolute !important; right:24px; top:50%; transform:translateY(-50%);
   background:transparent !important; padding:0 !important; border-radius:0 !important; }
 .text-section .qa-aside .qa-send svg{ width:22px !important; height:22px !important; fill:#1f9cdf !important; }
@@ -1265,7 +1318,12 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
     width:clamp(420px,48vw,720px) !important; max-height:none !important; height:auto !important; margin:0 !important;
     border-radius:3px 0 0 3px !important; z-index:9991 !important; box-shadow:-34px 0 90px rgba(0,0,0,.34) !important;
     display:flex !important; flex-direction:column !important; animation:qn-slidein .44s cubic-bezier(.2,.8,.2,1); }
-  body.qn-cx--wide .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; max-height:none !important; }
+  body.qn-cx--wide .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; min-height:0 !important; max-height:none !important; }
+  /* keep header / contacts / offer / input from flex-shrinking (else the tall offer clips the header) */
+  body.qn-cx--wide .text-section .qa-aside .qa-chat__head,
+  body.qn-cx--wide .text-section .qa-aside .qn-contacts,
+  body.qn-cx--wide .text-section .qa-aside .qn-offer,
+  body.qn-cx--wide .text-section .qa-aside .qa-chat__input{ flex:0 0 auto !important; }
   body.qn-cx--wide .qn-collapse{ display:flex; }
   /* DOCK: native sticky 360px column (current look) + soft fade-in on collapse */
   body.qn-docking .text-section .qa-aside{ animation:qn-fade .26s ease; }
@@ -2313,7 +2371,7 @@ If officers reasonably relied on information that appeared accurate at the time,
 <aside class="qa-aside" aria-label="Live chat with a consultant">
   <div class="qa-chat__head">
     <span class="qa-chat__ava"><img src="../assets/call_trigger.png" alt="Consultant"><span class="qa-presence" aria-hidden="true"></span></span>
-    <div><div class="qa-chat__title">Kyslychenko Oleksandr</div><div class="qa-chat__sub">Manager</div></div>
+    <div><div class="qa-chat__title">Kyslychenko Oleksandr</div><div class="qa-chat__sub">Manager &middot; <span class="qn-online"><i></i>9 consultants online</span></div></div>
   </div>
   <div class="qa-chat__log" id="qaLog" aria-live="polite"><div class="qa-msg qa-msg--sys">Today</div></div>
   <div class="qa-upsell" id="qaUpsell" hidden>
@@ -3576,7 +3634,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
 <div id="fc">
   <button class="fc__cta" id="fcCta" type="button"><span class="ava"><img src="../assets/call_trigger.png" alt="Consultant"></span><span><b>Chat with Kyslychenko Oleksandr</b><small><span class="dot"></span> 7&#8211;12 lawyers online now</small></span><svg class="go" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
   <div class="fc__panel" id="fcPanel" hidden>
-    <div class="fc__head"><span class="ava"><img src="../assets/call_trigger.png" alt="Consultant"></span><div><b>Kyslychenko Oleksandr</b><small><span class="dot"></span> Manager</small></div><button class="x" id="fcX" aria-label="Close">&times;</button></div>
+    <div class="fc__head"><span class="ava"><img src="../assets/call_trigger.png" alt="Consultant"></span><div><b>Kyslychenko Oleksandr</b><small><span class="dot"></span> Manager &middot; 9 consultants online</small></div><button class="x" id="fcX" aria-label="Close">&times;</button></div>
     <div class="fc__log" id="fcLog"></div>
     <div class="sell" id="fcSell" hidden><button class="pp" id="fcPay">Pay &amp; ask &#8212; $10</button><button class="gg" id="fcSub">Subscribe (unlimited)</button></div>
     <a class="app" id="fcApp" href="#app" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1397d6" stroke-width="1.8"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg><span><b>Open in the Consultant app &rarr;</b>your answer is waiting</span></a>
@@ -3762,6 +3820,80 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       }
     }
 
+    /* soft notification beep (after a user gesture, so browsers allow it) */
+    function chatBeep(){ try{ var C=window.AudioContext||window.webkitAudioContext; if(!C) return; var x=new C();
+      var o=x.createOscillator(), g=x.createGain(); o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(x.destination);
+      g.gain.setValueAtTime(0.0001,x.currentTime); g.gain.exponentialRampToValueAtTime(0.06,x.currentTime+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001,x.currentTime+0.22); o.start(); o.stop(x.currentTime+0.24);
+    }catch(e){} }
+
+    /* in-chat offer: choice (subscription vs 1 consultation) -> 3 plans -> card form (appears on chat progress) */
+    function buildOffer(root){
+      var log=root.querySelector('#qaLog'), form=root.querySelector('#qaForm');
+      if(!log||!form||root.querySelector('.qn-offer')) return;
+      var OK='<svg class="qn-ok" viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+      var PLANS=[
+        {k:'Base',p:'$15',best:false,perks:['3 free consultations','5% off lawyer services','AI assistant 24/7']},
+        {k:'Pro',p:'$50',best:true,perks:['12 free consultations (4\u00d7)','10% off all lawyer services','Personal manager + priority replies']},
+        {k:'Premium',p:'$300',best:false,perks:['Unlimited consultations','20% off all lawyer services','VIP white-glove + TOP specialists']}
+      ];
+      var plansHtml=PLANS.map(function(p){ return '<div class="qn-plan'+(p.best?' qn-plan--best':'')+'">'
+        +(p.best?'<span class="qn-plan__tag">BEST</span>':'')
+        +'<div class="qn-plan__top"><span class="qn-plan__name">'+p.k+'</span><span class="qn-plan__price">'+p.p+'<span>/mo</span></span></div>'
+        +'<ul>'+p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('')+'</ul>'
+        +'<button class="qn-plan__sel" type="button" data-plan="'+p.k+'" data-price="'+p.p+'">Choose '+p.k+'</button></div>'; }).join('');
+      var of=document.createElement('div'); of.className='qn-offer'; of.hidden=true;
+      of.innerHTML=
+        '<div class="qn-offer__step" data-step="choice">'
+        +'<div class="qn-offer__h">Get your written answer from a verified lawyer</div>'
+        +'<div class="qn-offer__sh">Two ways to continue \u2014 most people choose the plan.</div>'
+        +'<button class="qn-offer__opt qn-offer__opt--sub" type="button" data-pick="sub">'
+          +'<span class="qn-offer__tag">BEST VALUE \u00b7 SAVE UP TO 20%</span>'
+          +'<div class="qn-offer__row"><b>Subscription</b><span class="qn-offer__price">from $15<small>/mo</small></span></div>'
+          +'<ul><li>'+OK+'<span>3\u201312 free consultations</span></li>'
+            +'<li>'+OK+'<span>Up to 20% off all lawyer services</span></li>'
+            +'<li>'+OK+'<span>Personal manager &amp; priority replies</span></li></ul>'
+          +'<span class="qn-offer__go">Choose a plan \u2192</span></button>'
+        +'<button class="qn-offer__opt qn-offer__opt--one" type="button" data-pick="one" data-price="$15">'
+          +'<div class="qn-offer__row"><b>Just one consultation</b><span class="qn-offer__price">$15</span></div>'
+          +'<small>One question, one written answer \u2014 no discounts, no manager, no follow-ups.</small></button>'
+        +'</div>'
+        +'<div class="qn-offer__step" data-step="plans" hidden>'
+          +'<button class="qn-offer__back" type="button" data-back="choice">\u2190 Back</button>'
+          +'<div class="qn-offer__h">Choose your plan</div><div class="qn-plans">'+plansHtml+'</div></div>'
+        +'<div class="qn-offer__step" data-step="pay" hidden>'
+          +'<button class="qn-offer__back" type="button" data-back="pay">\u2190 Back</button>'
+          +'<div class="qn-offer__h">Payment <span class="qn-pay__amt"></span></div>'
+          +'<div class="qn-pay"><input class="qn-pay__num" inputmode="numeric" placeholder="Card number" maxlength="19" autocomplete="cc-number">'
+            +'<div class="qn-pay__r"><input placeholder="MM / YY" maxlength="7" autocomplete="cc-exp"><input placeholder="CVC" maxlength="4" inputmode="numeric" autocomplete="cc-csc"></div>'
+            +'<input placeholder="Cardholder name" autocomplete="cc-name">'
+            +'<button class="qn-pay__btn" type="button">Pay <span class="qn-pay__amt2"></span></button>'
+            +'<p class="qn-pay__sec">Secured payment \u00b7 cancel anytime</p></div></div>'
+        +'<div class="qn-offer__step qn-offer__done" data-step="done" hidden>'
+          +'<div class="qn-offer__h">Payment successful</div>'
+          +'<p>Your written answers are waiting in the Consultant app.</p>'
+          +'<div class="qn-offer__apps"><a href="#">App Store</a><a href="#">Google Play</a></div></div>';
+      log.parentNode.insertBefore(of, log);
+
+      var payBack='choice';
+      function step(name){ [].forEach.call(of.querySelectorAll('.qn-offer__step'),function(s){ s.hidden = s.getAttribute('data-step')!==name; }); of.scrollTop=0; }
+      function setAmt(price, sub){ var a=price+(sub?'/mo':''); var e1=of.querySelector('.qn-pay__amt'), e2=of.querySelector('.qn-pay__amt2'); if(e1)e1.textContent=a; if(e2)e2.textContent=a; }
+      of.addEventListener('click', function(e){
+        var t=e.target.closest && e.target.closest('[data-pick],[data-back],[data-plan],.qn-pay__btn'); if(!t) return;
+        if(t.hasAttribute('data-pick')){ if(t.getAttribute('data-pick')==='sub'){ step('plans'); } else { payBack='choice'; setAmt(t.getAttribute('data-price'),false); step('pay'); } }
+        else if(t.hasAttribute('data-back')){ step(t.getAttribute('data-back')==='pay'?payBack:'choice'); }
+        else if(t.hasAttribute('data-plan')){ payBack='plans'; setAmt(t.getAttribute('data-price'),true); step('pay'); }
+        else if(t.classList.contains('qn-pay__btn')){ step('done'); chatBeep(); }
+      });
+
+      var shown=false;
+      function reveal(){ if(shown) return; shown=true; of.hidden=false;
+        var ct=root.querySelector('.qn-contacts'); if(ct) ct.style.display='none';   /* free vertical space during checkout */
+        chatBeep(); }
+      /* capture phase: read the typed text before the base handler clears it */
+      form.addEventListener('submit', function(){ var i=form.querySelector('input'); var v=i?(i.value||'').trim():''; if(v) setTimeout(reveal,1500); }, true);
+    }
+
     /* full-answer modal scroll window (long answers) */
     function answerModal(name, html){
       if(document.querySelector('.qn-amodal')) return;
@@ -3862,6 +3994,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       var qlog=aside.querySelector('#qaLog');
       if(qlog){ var td=qlog.querySelector('.qa-msg--sys'); if(td) td.remove();
         qlog.scrollTop=0; requestAnimationFrame(function(){ qlog.scrollTop=0; }); setTimeout(function(){ qlog.scrollTop=0; },300); }
+      buildOffer(aside);   /* in-chat subscription/consultation offer (appears on first user message) */
 
       /* ----- desktop only: launcher -> auto-wide after 7s -> dock on checkmark ----- */
       if(window.matchMedia && window.matchMedia('(min-width:992px)').matches){

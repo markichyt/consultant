@@ -1027,9 +1027,7 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .qa-cardbar .qa-act.qn-report.is-done{ color:#d9534f; }
 /* Contact lives in the profile now -> hide the inline button on the card */
 .text-section .text-card .qa-contact.qn-hidden{ display:none !important; }
-/* the banner "i" is the affordance to open the profile */
 .text-section .text-card .qn-i{ cursor:pointer; }
-/* profile popover (opened from "i") */
 .text-section .text-card .qn-profile{ margin:10px 0 0; background:#fff; border:1px solid #e3e6e9;
   border-radius:3px; padding:12px 13px; box-shadow:0 10px 26px rgba(20,40,60,.10); }
 .text-section .text-card .qn-profile[hidden]{ display:none; }
@@ -1065,23 +1063,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-related a{ display:flex; align-items:center; gap:10px; padding:13px 15px; font-size:14px; color:#1b1b1b; text-decoration:none; }
 .qn-related a:hover{ background:#f7f9fb; }
 .qn-related a svg{ margin-left:auto; width:16px; height:16px; flex:0 0 16px; color:#1397d6; }
-/* general legal disclaimer at the very bottom */
 .qn-legal{ max-width:1500px; margin:20px auto 36px; padding:14px clamp(12px,1.95vw,30px); font-family:"Avenir Next Cyr",sans-serif;
   font-size:12px; line-height:1.55; color:#9aa0a6; border-top:1px solid #ececea; }
 .qn-legal b{ color:#6b7177; }
-/* ===== blocks to match target screenshots 2-4 ===== */
-/* trust strip -> reviews / verified / reply time */
-.text-section .sx-trust .qn-tc{ text-align:center; padding:4px 8px; }
-.text-section .sx-trust .qn-tc b{ display:block; font-size:21px; color:#1b1f23; font-weight:800; line-height:1.1; }
-.text-section .sx-trust .qn-tc .qn-star{ color:#FFD337; }
-.text-section .sx-trust .qn-tc span{ font-size:12.5px; color:#6b7177; }
-/* "Answered by N specialists" dark block */
-.qn-answeredby{ display:flex; align-items:center; gap:13px; margin:14px 0 16px; padding:12px 15px; background:#15191d; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
-.qn-answeredby .qn-ava{ display:flex; flex:0 0 auto; }
-.qn-answeredby .qn-ava span{ width:34px; height:34px; border-radius:50%; margin-left:-9px; background:#2b3138; border:2px solid #15191d; display:grid; place-items:center; font-size:11.5px; font-weight:700; color:#cfd6db; }
-.qn-answeredby .qn-ava span:first-child{ margin-left:0; }
-.qn-answeredby b{ font-size:14.5px; } .qn-answeredby small{ display:block; font-size:12.5px; color:#c4ccd2; margin-top:1px; }
-.qn-answeredby a{ color:#7ed0ff; text-decoration:none; } .qn-answeredby a:hover{ text-decoration:underline; }
 /* "Need help with a similar situation?" dark bar */
 .qn-needhelp{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:18px clamp(0px,1.95vw,30px); padding:18px 22px; background:#15191d; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
 .qn-needhelp b{ font-size:17px; display:block; } .qn-needhelp small{ font-size:13px; color:#c4ccd2; }
@@ -1094,6 +1078,98 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-claim p{ margin:0 0 16px; font-size:15px; } .qn-claim .qn-star{ color:#FFD337; }
 .qn-claim button{ background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:13px 26px; font:inherit; font-weight:700; font-size:15px; cursor:pointer; }
 .qn-claim button:hover{ background:#eef7fc; }
+
+/* =====================================================================
+   HERO (screenshot 1)  — full-bleed dark band behind the left column,
+   chat overlaps on the right and spills onto the white below.
+   ===================================================================== */
+.main-hero{ display:none !important; }                 /* retire the native hero band */
+#callForm{ display:none !important; }                  /* drop the call form */
+.text-section .qa-main > .sx-qblock,
+.text-section .qa-main > .sx-trust{ display:none !important; }   /* content moved into the hero */
+.text-section{ padding-top:0 !important; }
+.text-section .qa-main{ overflow:visible !important; min-width:0; }
+/* keep the chat clear of the fixed header and aligned with the hero content */
+.text-section .qa-aside{ margin-top:calc(var(--header-height,108px) + 30px) !important; z-index:3; }
+
+.qn-hero{ position:relative; padding:calc(var(--header-height,108px) + 30px) 0 34px; min-width:0;
+  font-family:"Avenir Next Cyr",sans-serif; color:#fff; }
+.qn-hero > *{ position:relative; z-index:1; }
+.qn-hero__band{ position:absolute; top:0; bottom:0; left:0; width:100vw; z-index:0; background:#0a0d11; }
+/* breadcrumbs */
+.qn-bc{ display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-size:13px; color:rgba(255,255,255,.55); margin:0 0 24px; }
+.qn-bc a{ color:rgba(255,255,255,.55); text-decoration:none; } .qn-bc a:hover{ color:#fff; }
+.qn-bc__cur{ color:rgba(255,255,255,.85); }
+/* eyebrow */
+.qn-eyebrow{ display:inline-flex; align-items:center; gap:9px; font-family:"Bicubik",sans-serif; font-size:12px;
+  letter-spacing:.13em; text-transform:uppercase; color:#41b4ed; background:rgba(19,151,214,.12);
+  border:1px solid rgba(19,151,214,.34); border-radius:3px; padding:6px 12px; margin:0 0 20px; }
+.qn-eyebrow i{ width:7px; height:7px; border-radius:50%; background:#1397d6; flex:0 0 7px; }
+/* TITLE (adaptive — JS sets font-size & box min-height) */
+.qn-titlebox{ display:flex; align-items:flex-end; max-width:760px; margin:0 0 18px; }
+.qn-title{ font-family:"Bicubik",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.01em;
+  line-height:1.07; color:#fff; margin:0; width:100%; font-size:52px; overflow-wrap:break-word; }
+/* LEAD / description (adaptive) */
+.qn-leadbox{ max-width:700px; margin:0 0 22px; }
+.qn-lead{ margin:0; line-height:1.55; color:rgba(255,255,255,.80); font-size:16px; overflow-wrap:break-word; }
+/* trust row */
+.qn-trustrow{ display:flex; align-items:center; flex-wrap:wrap; gap:7px 11px; font-size:14px; color:rgba(255,255,255,.66); }
+.qn-trustrow b{ color:#fff; font-weight:700; }
+.qn-trustrow .qn-trustrow__star{ color:#FFD337; font-size:15px; }
+.qn-trustrow em{ color:rgba(255,255,255,.28); font-style:normal; }
+
+/* "Answered by N specialists" banner (screenshot 2 — light gradient card) */
+.qn-answeredby2{ display:flex; align-items:center; gap:20px; margin:0 0 24px; max-width:760px;
+  background:linear-gradient(118deg,#f3f5f7 0%,#e8ebee 52%,#dde1e6 100%);
+  border-radius:10px; padding:22px 26px; box-shadow:0 20px 44px rgba(0,0,0,.30); }
+.qn-answeredby2[hidden]{ display:none; }
+.qn-answeredby2__txt{ min-width:0; }
+.qn-answeredby2__big{ font-family:"Avenir Next Cyr",sans-serif; font-weight:800; color:#13171b;
+  font-size:clamp(21px,2.3vw,29px); line-height:1.08; letter-spacing:-.012em; }
+.qn-answeredby2__sub{ display:block; margin-top:6px; font-size:13px; color:#586068; }
+.qn-answeredby2__sub a{ color:#0f7cb3; text-decoration:none; font-weight:600; }
+.qn-answeredby2__sub a:hover{ text-decoration:underline; }
+.qn-answeredby2__right{ display:flex; align-items:center; gap:15px; margin-left:auto; flex:0 0 auto; }
+.qn-answeredby2__plus{ font-family:"Avenir Next Cyr",sans-serif; font-weight:800; font-size:27px; color:#13171b; }
+.qn-stack{ display:flex; align-items:center; }
+.qn-stack img{ width:56px; height:56px; border-radius:50%; object-fit:cover; object-position:center 26%;
+  border:3px solid #fff; background:linear-gradient(160deg,#eaedf0,#d7dce1); margin-left:-18px; box-shadow:0 3px 8px rgba(0,0,0,.18); }
+.qn-stack img:first-child{ margin-left:0; }
+@media(max-width:600px){
+  .qn-answeredby2{ flex-direction:column; align-items:flex-start; gap:16px; padding:18px 18px; }
+  .qn-answeredby2__right{ margin-left:0; }
+  .qn-stack img{ width:48px; height:48px; }
+}
+/* meta pills (on white, directly below the hero) */
+.qn-meta{ display:flex; flex-wrap:wrap; gap:10px; margin:20px 0 8px; }
+.qn-chip{ display:inline-flex; align-items:center; gap:7px; border:1px solid #e0e3e6; background:#fff; border-radius:3px;
+  padding:8px 12px; font-size:13px; color:#3a4248; font-family:"Avenir Next Cyr",sans-serif; }
+.qn-chip svg{ width:15px; height:15px; color:#1397d6; flex:0 0 15px; }
+.qn-chip .qn-chip__star{ color:#FFD337; }
+.qn-chip b{ color:#1b1f23; font-weight:600; }
+
+/* CHAT: blue header + minimise X (screenshot 1) */
+.text-section .qa-aside .qa-chat__head{ background:#1397d6 !important; color:#fff !important; position:relative; padding-right:46px !important; }
+.text-section .qa-aside .qa-chat__title{ color:#fff !important; font-size:15px !important; font-weight:700; }
+.text-section .qa-aside .qa-chat__sub{ color:rgba(255,255,255,.92) !important; display:flex; align-items:center; gap:6px; }
+.text-section .qa-aside .qa-chat__sub .qn-onl{ width:8px; height:8px; border-radius:50%; background:#27e07a; flex:0 0 8px; box-shadow:0 0 0 0 rgba(39,224,122,.6); animation:qnOnl 2s infinite; }
+@keyframes qnOnl{ 70%{box-shadow:0 0 0 6px rgba(39,224,122,0)} 100%{box-shadow:0 0 0 0 rgba(39,224,122,0)} }
+.text-section .qa-aside .qa-chat__ava .qa-presence::before{ background:#27e07a !important; }
+.qn-chatx{ position:absolute; top:50%; right:13px; transform:translateY(-50%); width:28px; height:28px; border:0;
+  border-radius:50%; background:rgba(255,255,255,.24); color:#fff; cursor:pointer; font-size:17px; line-height:1;
+  display:flex; align-items:center; justify-content:center; padding:0; }
+.qn-chatx:hover{ background:rgba(255,255,255,.38); }
+.text-section .qa-aside.qn-collapsed{ cursor:pointer; }
+.text-section .qa-aside.qn-collapsed .qa-chat__log,
+.text-section .qa-aside.qn-collapsed .qa-chat__input,
+.text-section .qa-aside.qn-collapsed .qa-upsell,
+.text-section .qa-aside.qn-collapsed .qa-applink{ display:none !important; }
+
+/* mobile: hero left column stacks above; chat is the floating one (#fc) */
+@media (max-width:991px){
+  .qn-hero{ padding:calc(var(--header-height,108px) + 22px) 0 26px; }
+  .qn-titlebox{ max-width:none; } .qn-leadbox{ max-width:none; }
+}
 </style>
 
 </head>
@@ -1660,6 +1736,30 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
             </div>
             <div class="container">
 <div class="qa-main">
+<section class="qn-hero" id="qnHero">
+  <span class="qn-hero__band" aria-hidden="true"></span>
+  <nav class="qn-bc" aria-label="Breadcrumb">
+    <a href="https://consultantlm.com/">Consultant</a><span>/</span>
+    <a href="https://consultantlm.com/consultations">Materials of Specialists</a><span>/</span>
+    <span class="qn-bc__cur">Wrongful arrest &ndash; compensation</span>
+  </nav>
+  <span class="qn-eyebrow"><i aria-hidden="true"></i>LEGAL Q&amp;A &middot; CIVIL RIGHTS</span>
+  <div class="qn-titlebox" id="qnTitleBox"><h1 class="qn-title" id="qnTitle">Can I claim compensation for a wrongful arrest?</h1></div>
+  <div class="qn-leadbox" id="qnLeadBox"><p class="qn-lead" id="qnLead">“I was held in custody for several hours because of an error in a police database, even though I committed no crime.” Below, verified specialists answer this exact question — and you can ask yours for free.</p></div>
+  <div class="qn-answeredby2" id="qnAnsweredby" hidden></div>
+  <div class="qn-trustrow">
+    <span class="qn-trustrow__star" aria-hidden="true">&#9733;</span><b>4.9</b><span>2,400 reviews</span>
+    <em>&middot;</em><b>847</b><span>verified attorneys</span>
+    <em>&middot;</em><b>~5 min</b><span>average reply time</span>
+  </div>
+</section>
+<div class="qn-meta">
+  <span class="qn-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg><b>Reading time:</b> 5 min</span>
+  <span class="qn-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>15 views</span>
+  <span class="qn-chip"><span class="qn-chip__star" aria-hidden="true">&#9733;</span><b>5.0</b></span>
+  <span class="qn-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4" stroke-linecap="round"/></svg>Published 14.06.2026</span>
+</div>
+
 <div class="sx-qblock"><span class="sx-qblock__ey">Question</span><h2 class="sx-qblock__q">Can I seek compensation for a wrongful arrest?</h2><p class="sx-qblock__full">I was arrested because of an error in a police database. I spent several hours in custody despite not committing any crime. I want to know whether I can seek compensation.</p></div>
 <div class="sx-trust"><div class="g"><span class="num">847</span><span class="lbl">verified attorneys</span></div><div class="g"><span class="num">4.9<span class="st">&#9733;</span></span><span class="lbl">Google rating</span></div><div class="g"><span class="num">5.0<span class="st">&#9733;</span></span><span class="lbl">Trustpilot</span></div><div class="g"><span class="num">120k+</span><span class="lbl">people helped</span></div></div>
                 <div class="text-inner consultant_articles-position">
@@ -2020,7 +2120,7 @@ If officers reasonably relied on information that appeared accurate at the time,
 <aside class="qa-aside" aria-label="Live chat with a consultant">
   <div class="qa-chat__head">
     <span class="qa-chat__ava"><img src="../assets/call_trigger.png" alt="Consultant"><span class="qa-presence" aria-hidden="true"></span></span>
-    <div><div class="qa-chat__title">Alexander &middot; Consultant</div><div class="qa-chat__sub">Verified &middot; 7&#8211;12 online</div></div>
+    <div><div class="qa-chat__title">Alexander</div><div class="qa-chat__sub"><span class="qn-onl" aria-hidden="true"></span>Online &middot; Personal manager</div></div>
   </div>
   <div class="qa-chat__log" id="qaLog" aria-live="polite"><div class="qa-msg qa-msg--sys">Today</div></div>
   <div class="qa-upsell" id="qaUpsell" hidden>
@@ -3209,7 +3309,7 @@ Inc. is not an "attorney referral service" or a law firm. The information you pr
   function html(cls,h){var e=document.createElement('div');e.className='qa-msg '+cls;e.innerHTML=h;log.appendChild(e);log.scrollTop=log.scrollHeight;}
   function typing(cb,ms){var t=document.createElement('div');t.className='qa-typing';t.innerHTML='<span></span><span></span><span></span>';log.appendChild(t);log.scrollTop=log.scrollHeight;setTimeout(function(){t.remove();cb();},ms||820);}
   function chips(opts){var w=document.createElement('div');w.className='qa-qr2';opts.forEach(function(o){var b=document.createElement('button');b.textContent=o;b.onclick=function(){w.remove();onUser(o);};w.appendChild(b);});log.appendChild(w);log.scrollTop=log.scrollHeight;}
-  function greet(){ if(started)return; started=true; typing(function(){add('Hi — I can connect you with a verified lawyer for your wrongful arrest question. What happened?','bot');chips(['It just happened','A while ago','I need to file a claim']);},600); }
+  function greet(){ if(started)return; started=true; add('Greetings 👋 My name is Alexander, I’m your personal manager — let me help you!','bot'); add('Tell me in a couple of sentences what happened, and I’ll connect you with a verified attorney who can review your wrongful-arrest case — free and confidential.','bot'); chips(['It just happened','A while ago','I need to file a claim']); log.scrollTop=0; }
   function matched(){typing(function(){html('qa-msg--match','Based on this, I’ve matched you with <b>7 verified lawyers licensed in '+STATE+'</b>. A written answer arrives in the app.');add('Want to ask them now?','bot');if(upsell)upsell.hidden=false;log.scrollTop=log.scrollHeight;},1000);}
   var acks=['Got it — and roughly how long were you held?','Understood. Was there a written record of the database error?','Thanks — that helps build the claim.'];
   function onUser(t){t=(t||'').trim();if(!t)return;add(t,'user');
@@ -3363,26 +3463,76 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     var m=(st.getAttribute('style')||'').match(/--rate:\s*([0-9.]+)/); return m?parseFloat(m[1]):0; }
   function isAI(c){ var j=((c.querySelector('.balance-card__job')||{}).textContent||'')+' '+
     ((c.querySelector('.balance-card__name')||{}).textContent||''); return /artificial intelligence|ai assistant|\bgrok\b|\bgpt\b/i.test(j); }
+
+  /* ---------- ADAPTIVE TYPE: fit text to a fixed box on any length ---------- */
+  function fitText(el, min, max, lines, ratio){
+    if(!el) return max;
+    var lo=min, hi=max, best=min;
+    for(var i=0;i<22;i++){
+      var mid=(lo+hi)/2;
+      el.style.fontSize=mid+'px';
+      var fits = el.scrollHeight <= Math.ceil(lines*mid*ratio)+1;
+      if(fits){ best=mid; lo=mid; } else { hi=mid; }
+    }
+    el.style.fontSize=best+'px';
+    return best;
+  }
+  var T_RATIO=1.07, L_RATIO=1.55;     /* must match .qn-title / .qn-lead line-heights */
+  function relayout(){
+    var w=document.documentElement.clientWidth||window.innerWidth;
+    /* 1) full-bleed dark band: pin its left edge to the viewport, span 100vw */
+    var hero=document.getElementById('qnHero'), band=hero&&hero.querySelector('.qn-hero__band');
+    if(hero&&band){ var r=hero.getBoundingClientRect(); band.style.left=(-r.left)+'px'; band.style.width=w+'px'; }
+    /* 2) adaptive title — same box height at every length, font scales to fit */
+    var title=document.getElementById('qnTitle'), tbox=document.getElementById('qnTitleBox');
+    if(title&&tbox){
+      var tLines = w<560?3 : (w<992?3 : 2);
+      var tMax   = w<560?30 : (w<768?38 : (w<1200?46 : 54));
+      var tMin   = w<560?19 : 22;
+      tbox.style.minHeight = Math.round(tLines*tMax*T_RATIO)+'px';
+      fitText(title, tMin, tMax, tLines, T_RATIO);
+    }
+    /* 3) adaptive lead/description */
+    var lead=document.getElementById('qnLead'), lbox=document.getElementById('qnLeadBox');
+    if(lead&&lbox){
+      var lLines = w<560?7 : (w<992?6 : 5);
+      var lMax   = w<560?15 : (w<1200?16 : 17);
+      var lMin   = 12.5;
+      lbox.style.minHeight = Math.round(lLines*lMax*L_RATIO)+'px';
+      fitText(lead, lMin, lMax, lLines, L_RATIO);
+    }
+  }
+
   function init(){
+    /* ?title=…&desc=… overrides so any length can be verified live */
+    try{ var qs=new URLSearchParams(location.search);
+      var qt=qs.get('title'), qd=qs.get('desc');
+      var tEl=document.getElementById('qnTitle'), lEl=document.getElementById('qnLead');
+      if(qt&&tEl) tEl.textContent=qt;
+      if(qd&&lEl) lEl.textContent=qd;
+    }catch(e){}
+
     var cards=[].slice.call(document.querySelectorAll('.text-section .text-card'));
-    if(!cards.length) return;
-    /* 1) BEST ANSWER: top-rated real LAWYER card (not an AI assistant) -> raise to top + badge */
-    var lawyerCards=cards.filter(function(c){ return c.querySelector('.qa-contact') && !isAI(c); });
-    var best=null,br=-1;
-    lawyerCards.forEach(function(c){ var r=rateOf(c); if(r>br){br=r;best=c;} });
-    if(best){
-      var first=document.querySelector('.text-section .text-card');
-      if(first && best!==first && best.parentNode===first.parentNode){ best.parentNode.insertBefore(best,first); }
-      best.classList.add('qn-isbest');
-      if(!best.querySelector('.qn-best')){
-        var badge=document.createElement('span'); badge.className='qn-best'; badge.innerHTML=STAR+' Best answer';
-        best.insertBefore(badge, best.firstChild);   /* full-width ribbon at the top of the card */
+
+    /* ----- BEST ANSWER: top-rated real LAWYER card -> raise to top + badge ----- */
+    if(cards.length){
+      var lawyerCards=cards.filter(function(c){ return c.querySelector('.qa-contact') && !isAI(c); });
+      var best=null,br=-1;
+      lawyerCards.forEach(function(c){ var r=rateOf(c); if(r>br){br=r;best=c;} });
+      if(best){
+        var first=document.querySelector('.text-section .text-card');
+        if(first && best!==first && best.parentNode===first.parentNode){ best.parentNode.insertBefore(best,first); }
+        best.classList.add('qn-isbest');
+        if(!best.querySelector('.qn-best')){
+          var badge=document.createElement('span'); badge.className='qn-best'; badge.innerHTML=STAR+' Best answer';
+          best.insertBefore(badge, best.firstChild);
+        }
       }
     }
-    /* 2) per-card transforms */
+
+    /* ----- per-card transforms (report / profile / disclaimer / read-more) ----- */
     cards.forEach(function(c){
       if(c.__qn) return; c.__qn=1;
-      /* footer: add Report (Share/Comment hidden via CSS) */
       var bar=c.querySelector('.qa-cardbar');
       if(bar && !bar.querySelector('.qn-report')){
         var rep=document.createElement('button'); rep.type='button'; rep.className='qa-act qn-report'; rep.setAttribute('data-act','report');
@@ -3391,7 +3541,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           var o=s.textContent; rep.classList.add('is-done'); s.textContent='Reported'; setTimeout(function(){s.textContent=o;rep.classList.remove('is-done');},1500); });
         bar.appendChild(rep);
       }
-      /* Contact -> profile opened from the banner "i"  (LAWYER cards only; AI answers have no contact) */
       var contact=c.querySelector('.qa-contact');
       if(contact && !contact.classList.contains('qn-hidden') && isAI(c)){ contact.classList.add('qn-hidden'); contact=null; }
       if(contact && !contact.classList.contains('qn-hidden')){
@@ -3403,35 +3552,70 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         prof.innerHTML='<b>'+esc(nm.trim())+'</b><small>'+esc(job.trim())+(geo.trim()?' \u00b7 '+esc(geo.trim()):'')+'</small>';
         var cbtn=contact.cloneNode(true); cbtn.classList.remove('qn-hidden'); prof.appendChild(cbtn);
         var host=c.querySelector('.qa-lawyer')||contact.parentNode||c; host.appendChild(prof);
-        /* find the banner "i" (a <p>i</p> inside the balance-card) */
         var ibtn=null; [].forEach.call(c.querySelectorAll('.balance-card p, .qa-lawyer p'),function(p){ if(p.textContent.trim()==='i') ibtn=p; });
         var iw = ibtn ? (ibtn.parentElement||ibtn) : null;
         if(iw){ iw.classList.add('qn-i'); iw.style.cursor='pointer';
           iw.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); prof.hidden=!prof.hidden; }); }
-        else { /* no "i" found -> show contact under the card so it is never lost */ cbtn.style.display='block'; }
+        else { cbtn.style.display='block'; }
       }
-      /* per-answer disclaimer */
       var ans=c.querySelector('.card-answer');
       if(ans && !c.querySelector('.qn-disc')){
         var d=document.createElement('p'); d.className='qn-disc';
         d.textContent='This answer is general information, not legal advice. ConsultantLM is not a law firm.';
         (c.querySelector('.qa-cardbar')||ans.parentNode).insertAdjacentElement('beforebegin', d);
       }
-      /* long answer: Read more -> scroll window */
       if(ans){
         ans.classList.remove('sx-clip'); var nat=c.querySelector('.sx-rm'); if(nat) nat.remove();
         if(!ans.parentNode.classList.contains('qn-wrap')){
-          var w=document.createElement('div'); w.className='qn-wrap'; ans.parentNode.insertBefore(w,ans); w.appendChild(ans);
+          var wp=document.createElement('div'); wp.className='qn-wrap'; ans.parentNode.insertBefore(wp,ans); wp.appendChild(ans);
           if(ans.scrollHeight>260){
             ans.classList.add('qn-clip');
-            var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read more \u2193'; w.appendChild(b);
+            var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read more \u2193'; wp.appendChild(b);
             b.addEventListener('click',function(){ var open=ans.classList.toggle('qn-open'); ans.classList.toggle('qn-clip',!open);
               b.textContent=open?'Show less \u2191':'Read more \u2193'; if(open) ans.scrollTop=0; });
           }
         }
       }
     });
-    /* 3) Related questions block before the FAQ */
+
+    /* ----- HERO: "Answered by N" banner (screenshot 2: text + "+N" + portraits) ----- */
+    var ab=document.getElementById('qnAnsweredby');
+    if(ab){
+      var names=[].slice.call(document.querySelectorAll('.text-section .text-card .balance-card__name')).map(function(n){return n.textContent.trim();});
+      var total=names.length||cards.length||4;
+      /* real headshots (consultantlm's own "big_avatar" assets); derive the asset
+         path from the chat avatar so it resolves in both preview and deploy */
+      var chatAva=document.querySelector('.text-section .qa-aside .qa-chat__ava img');
+      var base = chatAva ? chatAva.getAttribute('src').replace(/[^/]*$/,'') : '';
+      var shown=[ base+'7Z638O5s2lGcfhF4dlM7q0CicFUo7ep6m6NN02o9-big_avatar_optimized.png',
+                  base+'tnBOoZCKF5Rl4bYrqmZ1DoVE2V82vjCGtUGXT2NP-big_avatar_optimized.png',
+                  (chatAva?chatAva.getAttribute('src'):'') ].filter(Boolean);
+      var plus=Math.max(1, total - 1);   /* "+N more specialists" (mirrors screenshot 2) */
+      var stack=shown.map(function(s){ return '<img src="'+s+'" alt="" decoding="async">'; }).join('');
+      ab.innerHTML=''
+        +'<div class="qn-answeredby2__txt"><div class="qn-answeredby2__big">Answered by '+total+' specialists</div>'
+        +'<span class="qn-answeredby2__sub">Including 2 verified attorneys &middot; <a href="#answers" id="qnReadAll">Read all answers \u2193</a></span></div>'
+        +'<div class="qn-answeredby2__right"><span class="qn-answeredby2__plus">+'+plus+'</span><span class="qn-stack">'+stack+'</span></div>';
+      ab.hidden=false;
+      var ra=document.getElementById('qnReadAll');
+      if(ra) ra.addEventListener('click',function(e){ e.preventDefault(); var f=document.querySelector('.text-section .text-card'); if(f) f.scrollIntoView({behavior:'smooth',block:'start'}); });
+    }
+
+    /* ----- CHAT: minimise X + start the log scrolled to the VERY TOP ----- */
+    var aside=document.querySelector('.text-section .qa-aside');
+    if(aside){
+      var head=aside.querySelector('.qa-chat__head');
+      if(head && !head.querySelector('.qn-chatx')){
+        var x=document.createElement('button'); x.type='button'; x.className='qn-chatx'; x.setAttribute('aria-label','Minimise chat'); x.innerHTML='\u00d7';
+        x.addEventListener('click',function(e){ e.stopPropagation(); aside.classList.toggle('qn-collapsed'); });
+        head.appendChild(x);
+        head.addEventListener('click',function(){ if(aside.classList.contains('qn-collapsed')) aside.classList.remove('qn-collapsed'); });
+      }
+      var qlog=aside.querySelector('#qaLog');
+      if(qlog){ qlog.scrollTop=0; requestAnimationFrame(function(){ qlog.scrollTop=0; }); setTimeout(function(){ qlog.scrollTop=0; },300); }
+    }
+
+    /* ----- Related questions before the FAQ ----- */
     if(!document.querySelector('.qn-related')){
       var anchor=document.querySelector('.sx-faq')||document.querySelector('.sx-paa')||document.querySelector('.qa-comments');
       if(anchor){
@@ -3440,28 +3624,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         anchor.parentNode.insertBefore(rel, anchor);
       }
     }
-    /* ===== match target screenshots 2-4 ===== */
     function openChat(){ if(window.openChat) window.openChat(); }
-    /* trust strip -> reviews / verified / reply time */
-    var trust=document.querySelector('.sx-trust');
-    if(trust && !trust.getAttribute('data-qn')){ trust.setAttribute('data-qn','1');
-      trust.style.gridTemplateColumns='repeat(3,1fr)';
-      trust.innerHTML='<div class="qn-tc"><b><span class="qn-star">\u2605</span> 4.9</b><span>2,400 reviews</span></div>'
-        +'<div class="qn-tc"><b>847</b><span>verified attorneys</span></div>'
-        +'<div class="qn-tc"><b>~5 min</b><span>average reply time</span></div>';
-    }
-    /* "Answered by N specialists" block (under the question) */
-    var qb=document.querySelector('.sx-qblock');
-    if(qb && !document.querySelector('.qn-answeredby')){
-      var nms=[].slice.call(document.querySelectorAll('.text-section .text-card .balance-card__name')).map(function(n){return n.textContent.trim();});
-      var n=nms.length||4; var avs=nms.slice(0,4).map(function(nm){ var ini=(nm.match(/\b\w/g)||['?']).slice(0,2).join('').toUpperCase(); return '<span>'+ini+'</span>'; }).join('');
-      var ab=document.createElement('div'); ab.className='qn-answeredby';
-      ab.innerHTML='<span class="qn-ava">'+avs+'</span><span><b>Answered by '+n+' specialists</b>'
-        +'<small>Including 2 verified attorneys \u00b7 <a href="#answers">Read all answers \u2193</a></small></span>';
-      qb.insertAdjacentElement('afterend', ab);
-      var ra=ab.querySelector('a'); if(ra) ra.addEventListener('click',function(e){ e.preventDefault(); var f=document.querySelector('.text-section .text-card'); if(f) f.scrollIntoView({behavior:'smooth',block:'start'}); });
-    }
-    /* "Need help with a similar situation?" dark bar (between answers) */
+    /* "Need help…" dark bar between answers */
     var ac=document.querySelectorAll('.text-section .text-card');
     if(ac.length && !document.querySelector('.qn-needhelp')){
       var mid=ac[Math.min(1, ac.length-1)];
@@ -3471,7 +3635,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       mid.insertAdjacentElement('afterend', nh);
       nh.querySelector('button').addEventListener('click',openChat);
     }
-    /* "THINK YOU HAVE A CLAIM" blue CTA (before Related/FAQ) */
+    /* blue "THINK YOU HAVE A CLAIM" CTA before Related/FAQ */
     var anchor2=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
     if(anchor2 && !document.querySelector('.qn-claim')){
       var cl=document.createElement('section'); cl.className='qn-claim';
@@ -3481,7 +3645,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       anchor2.parentNode.insertBefore(cl, anchor2);
       cl.querySelector('button').addEventListener('click',openChat);
     }
-    /* 4) general legal disclaimer at the very bottom */
+    /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
       f.innerHTML='<b>Disclaimer.</b> ConsultantLM is not a law firm and does not provide legal services. '+
@@ -3489,6 +3653,12 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         'Consult a licensed attorney in your jurisdiction about your specific situation.';
       var main=document.querySelector('main')||document.body; main.appendChild(f);
     }
+
+    /* ----- adaptive type: run now, on resize, and once web-fonts are ready ----- */
+    relayout();
+    var rt; window.addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(relayout,90); });
+    if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(function(){ relayout(); }); }
+    setTimeout(relayout,250); setTimeout(relayout,900);
   }
   if(document.readyState==='complete') requestAnimationFrame(init);
   else window.addEventListener('load',function(){ requestAnimationFrame(init); });

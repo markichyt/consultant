@@ -1161,9 +1161,10 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .qa-aside .qa-chat__ava .qa-presence::before{ background:#3ddc84 !important; }
 .text-section .qa-aside .qa-chat__title{ color:#fff !important; font-size:16px !important; font-weight:700 !important; line-height:1.2; }
 .text-section .qa-aside .qa-chat__sub{ color:#9da1a7 !important; font-size:13px !important; }
-.qn-chatx{ position:absolute; top:14px; right:14px; width:26px; height:26px; border:0; background:transparent;
-  color:#8a8e94; cursor:pointer; font-size:22px; line-height:1; display:flex; align-items:center; justify-content:center; padding:0; }
-.qn-chatx:hover{ color:#fff; }
+.qn-collapse{ position:absolute; top:13px; right:13px; width:30px; height:30px; border:0; border-radius:50%; z-index:2;
+  background:rgba(255,255,255,.12); color:#cfe9fb; cursor:pointer; display:none; align-items:center; justify-content:center; padding:0; }
+.qn-collapse svg{ width:17px; height:17px; }
+.qn-collapse:hover{ background:rgba(255,255,255,.24); color:#fff; }
 /* contacts: phone pills + messenger row + call me back */
 .qn-contacts{ display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:#1b1c1f;
   border-bottom:1px solid rgba(255,255,255,.07); font-family:"Avenir Next Cyr",sans-serif; }
@@ -1214,12 +1215,41 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .qa-aside .qa-send{ position:absolute !important; right:24px; top:50%; transform:translateY(-50%);
   background:transparent !important; padding:0 !important; border-radius:0 !important; }
 .text-section .qa-aside .qa-send svg{ width:22px !important; height:22px !important; fill:#1f9cdf !important; }
-.text-section .qa-aside.qn-collapsed{ cursor:pointer; }
-.text-section .qa-aside.qn-collapsed .qa-chat__log,
-.text-section .qa-aside.qn-collapsed .qa-chat__input,
-.text-section .qa-aside.qn-collapsed .qn-contacts,
-.text-section .qa-aside.qn-collapsed .qa-upsell,
-.text-section .qa-aside.qn-collapsed .qa-applink{ display:none !important; }
+/* ---- desktop chat experience: launcher -> auto-wide(7s) -> dock(checkmark) ---- */
+.qn-dim{ position:fixed; inset:0; z-index:9990; background:rgba(8,11,15,.10); display:none; }
+.qn-launch{ position:fixed; right:26px; bottom:26px; z-index:9991; display:none; align-items:flex-end; gap:13px;
+  border:0; background:transparent; cursor:pointer; padding:0; font-family:"Avenir Next Cyr",sans-serif; }
+.qn-launch__bubble{ max-width:250px; text-align:left; background:#fff; color:#1b1f23; font-size:13px; line-height:1.42;
+  padding:11px 14px; border-radius:14px 14px 4px 14px; box-shadow:0 16px 38px rgba(20,40,60,.22);
+  opacity:0; transform:translateX(16px) scale(.92); transform-origin:right bottom; margin-bottom:6px;
+  transition:opacity .42s ease, transform .42s cubic-bezier(.2,.85,.25,1); }
+.qn-launch__bubble b{ font-weight:800; display:block; margin-bottom:2px; }
+.qn-launch--show .qn-launch__bubble{ opacity:1; transform:translateX(0) scale(1); }
+.qn-launch__ava{ position:relative; width:62px; height:62px; flex:0 0 62px; border-radius:50%;
+  box-shadow:0 12px 30px rgba(20,40,60,.32); animation:qn-bob 2.6s ease-in-out infinite; }
+.qn-launch__ava img{ width:62px; height:62px; border-radius:50%; object-fit:cover; object-position:center 16%; background:#1b1c1f; display:block; }
+.qn-launch__ava::before{ content:""; position:absolute; inset:-4px; border-radius:50%; border:2px solid rgba(31,156,223,.55); animation:qn-ring 2.2s ease-out infinite; }
+.qn-launch__badge{ position:absolute; top:-2px; right:-2px; min-width:21px; height:21px; border-radius:999px;
+  background:#e6484d; color:#fff; font-size:12px; font-weight:800; display:grid; place-items:center; border:2px solid #fff; padding:0 5px; }
+@keyframes qn-bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-5px);} }
+@keyframes qn-ring{ 0%{ transform:scale(1); opacity:.7;} 100%{ transform:scale(1.34); opacity:0;} }
+@keyframes qn-slidein{ from{ transform:translateX(46px); opacity:.35;} to{ transform:translateX(0); opacity:1;} }
+@media(min-width:992px){
+  body.qn-cx--launch .qn-launch{ display:flex; }
+  body.qn-cx--launch .text-section .qa-aside{ opacity:0 !important; pointer-events:none !important; }
+  /* WIDE: fixed right-pinned overlay (~48vw), faint 10% dim, fills viewport height */
+  body.qn-cx--wide .qn-dim{ display:block; animation:qn-fade .3s ease; }
+  body.qn-cx--wide .text-section .qa-aside{
+    position:fixed !important; right:0 !important; left:auto !important;
+    top:calc(var(--header-height,108px) + 8px) !important; bottom:18px !important;
+    width:clamp(420px,48vw,720px) !important; max-height:none !important; height:auto !important; margin:0 !important;
+    border-radius:16px 0 0 16px !important; z-index:9991 !important; box-shadow:-34px 0 90px rgba(0,0,0,.34) !important;
+    display:flex !important; flex-direction:column !important; animation:qn-slidein .44s cubic-bezier(.2,.8,.2,1); }
+  body.qn-cx--wide .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; max-height:none !important; }
+  body.qn-cx--wide .qn-collapse{ display:flex; }
+  /* DOCK: native sticky 360px column (current look) + soft fade-in on collapse */
+  body.qn-docking .text-section .qa-aside{ animation:qn-fade .26s ease; }
+}
 /* mobile floating chat (#fc) — same dark "manager" widget */
 #fc .fc__panel{ background:#1b1c1f !important; }
 #fc .fc__head{ background:#1b1c1f !important; border-bottom:1px solid rgba(255,255,255,.07); }
@@ -3785,23 +3815,47 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       if(ra) ra.addEventListener('click',function(e){ e.preventDefault(); var f=document.querySelector('.text-section .text-card'); if(f) f.scrollIntoView({behavior:'smooth',block:'start'}); });
     }
 
-    /* ----- CHAT: dark "manager" widget — X, contacts panel, scroll-to-top ----- */
+    /* ----- CHAT: dark "manager" widget — checkmark-collapse, contacts, scroll-to-top ----- */
     var aside=document.querySelector('.text-section .qa-aside');
     if(aside){
       var head=aside.querySelector('.qa-chat__head');
-      if(head && !head.querySelector('.qn-chatx')){
-        var x=document.createElement('button'); x.type='button'; x.className='qn-chatx'; x.setAttribute('aria-label','Minimise chat'); x.innerHTML='\u00d7';
-        x.addEventListener('click',function(e){ e.stopPropagation(); aside.classList.toggle('qn-collapsed'); });
-        head.appendChild(x);
-        head.addEventListener('click',function(){ if(aside.classList.contains('qn-collapsed')) aside.classList.remove('qn-collapsed'); });
+      /* checkmark "minimise" button (shown only in the wide state) */
+      if(head && !head.querySelector('.qn-collapse')){
+        var cbtn=document.createElement('button'); cbtn.type='button'; cbtn.className='qn-collapse';
+        cbtn.setAttribute('aria-label','Minimise chat'); cbtn.innerHTML=IC.check; head.appendChild(cbtn);
       }
-      /* contacts panel: phone pills + messenger row + "Call me back" */
+      /* contacts panel: phone pills + promo button + "Call me back" */
       if(head && !aside.querySelector('.qn-contacts')){
         head.insertAdjacentElement('afterend', mkContacts(aside.querySelector('#qaInput')));
       }
       var qlog=aside.querySelector('#qaLog');
       if(qlog){ var td=qlog.querySelector('.qa-msg--sys'); if(td) td.remove();
         qlog.scrollTop=0; requestAnimationFrame(function(){ qlog.scrollTop=0; }); setTimeout(function(){ qlog.scrollTop=0; },300); }
+
+      /* ----- desktop only: launcher -> auto-wide after 7s -> dock on checkmark ----- */
+      if(window.matchMedia && window.matchMedia('(min-width:992px)').matches){
+        var body=document.body, phase='';
+        function setPhase(p){ phase=p; body.classList.remove('qn-cx--launch','qn-cx--wide','qn-cx--dock'); body.classList.add('qn-cx--'+p); }
+        function toWide(){ if(phase!=='launch') return; clearTimeout(autoT); setPhase('wide');
+          if(qlog){ qlog.scrollTop=0; requestAnimationFrame(function(){ qlog.scrollTop=0; }); } }
+        function toDock(){ if(phase==='dock') return; body.classList.add('qn-docking'); setPhase('dock');
+          setTimeout(function(){ body.classList.remove('qn-docking'); }, 300); }
+        var dim=document.createElement('div'); dim.className='qn-dim'; document.body.appendChild(dim);
+        var cav=aside.querySelector('.qa-chat__ava img'), csrc=cav?cav.getAttribute('src'):'';
+        var lz=document.createElement('button'); lz.type='button'; lz.className='qn-launch'; lz.setAttribute('aria-label','Open chat');
+        lz.innerHTML='<span class="qn-launch__bubble"><b>Kyslychenko Oleksandr</b>'
+          +'Question about your wrongful-arrest claim? I\u2019m here to help \u2014 free.</span>'
+          +'<span class="qn-launch__ava">'+(csrc?'<img src="'+csrc+'" alt="" decoding="async">':'')+'<span class="qn-launch__badge">1</span></span>';
+        document.body.appendChild(lz);
+        body.classList.add('qn-cx'); setPhase('launch');
+        setTimeout(function(){ lz.classList.add('qn-launch--show'); }, 1100);
+        var autoT=setTimeout(toWide, 7000);
+        lz.addEventListener('click', toWide);
+        dim.addEventListener('click', toDock);
+        if(cbtn) cbtn.addEventListener('click', toDock);
+        window.qnDeskOpen=function(){ if(phase==='launch') toWide();
+          else { var i=aside.querySelector('#qaInput'); if(i){ try{i.focus();}catch(e){} } } };
+      }
     }
     /* same contacts panel for the mobile floating chat (#fc) */
     var fcHead=document.querySelector('#fcPanel .fc__head');
@@ -3867,7 +3921,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         track.addEventListener('scroll',qcUpd); setTimeout(qcUpd,80);
       }
     }
-    function openChat(){ if(window.openChat) window.openChat(); }
+    function openChat(){
+      if(window.matchMedia && window.matchMedia('(min-width:992px)').matches && window.qnDeskOpen){ window.qnDeskOpen(); }
+      else if(window.openChat){ window.openChat(); }
+    }
     /* "Need help…" dark bar between answers */
     var ac=document.querySelectorAll('.text-section .text-card');
     if(ac.length && !document.querySelector('.qn-needhelp')){
@@ -3942,6 +3999,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(function(){ relayout(); }); }
     setTimeout(relayout,250); setTimeout(relayout,900);
   }
+  /* hide the docked desktop chat ASAP (before load) so the launcher doesn't flash a stray panel */
+  (function(){ try{ if(document.body && window.matchMedia && window.matchMedia('(min-width:992px)').matches){
+    document.body.classList.add('qn-cx','qn-cx--launch'); } }catch(e){} })();
   if(document.readyState==='complete') requestAnimationFrame(init);
   else window.addEventListener('load',function(){ requestAnimationFrame(init); });
 })();

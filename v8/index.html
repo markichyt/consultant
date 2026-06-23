@@ -1167,20 +1167,36 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 /* contacts: phone pills + messenger row + call me back */
 .qn-contacts{ display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:#1b1c1f;
   border-bottom:1px solid rgba(255,255,255,.07); font-family:"Avenir Next Cyr",sans-serif; }
+/* phones — ADAPTIVE FRAME: 4+ = compact 2-col, 3/2/1 = full-width rows that scale up */
 .qn-phones{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
-.qn-phone{ display:flex; align-items:center; gap:9px; background:#2a2c30; border-radius:9px; padding:7px 10px;
+.qn-phones[data-n="1"],.qn-phones[data-n="2"],.qn-phones[data-n="3"]{ grid-template-columns:1fr; }
+.qn-phone{ display:flex; align-items:center; gap:9px; background:#2a2c30; border-radius:9px; padding:8px 11px;
   color:#fff; text-decoration:none; font-size:12.5px; font-weight:600; letter-spacing:.01em; min-width:0; }
 .qn-phone:hover{ background:#33363b; }
 .qn-phone__i{ width:22px; height:22px; border-radius:50%; flex:0 0 22px; display:grid; place-items:center; }
 .qn-phone__i svg{ width:13px; height:13px; }
 .qn-phone span.qn-phone__n{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
-.qn-msgrow{ display:flex; align-items:center; gap:9px; }
-.qn-soc{ width:38px; height:38px; border-radius:50%; flex:0 0 38px; display:grid; place-items:center; cursor:pointer; border:0; text-decoration:none; }
-.qn-soc svg{ width:21px; height:21px; }
-.qn-soc--fb{ background:#0a7cff; } .qn-soc--viber{ background:#7360f2; } .qn-soc--tg{ background:#28a7e9; } .qn-soc--wa{ background:#25d366; }
-.qn-callback{ margin-left:auto; flex:1 1 auto; min-width:0; background:#1f9cdf; color:#fff; border:0; border-radius:9px;
-  padding:11px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; white-space:nowrap; }
-.qn-callback:hover{ background:#1789c5; }
+/* fewer numbers => bigger pills */
+.qn-phones[data-n="3"] .qn-phone{ padding:11px 14px; font-size:14px; }
+.qn-phones[data-n="3"] .qn-phone__i{ flex:0 0 26px; width:26px; height:26px; }
+.qn-phones[data-n="3"] .qn-phone__i svg{ width:15px; height:15px; }
+.qn-phones[data-n="2"] .qn-phone{ padding:13px 16px; font-size:15.5px; gap:11px; }
+.qn-phones[data-n="2"] .qn-phone__i{ flex:0 0 30px; width:30px; height:30px; }
+.qn-phones[data-n="2"] .qn-phone__i svg{ width:16px; height:16px; }
+.qn-phones[data-n="1"] .qn-phone{ padding:16px 18px; font-size:18px; gap:13px; }
+.qn-phones[data-n="1"] .qn-phone__i{ flex:0 0 34px; width:34px; height:34px; }
+.qn-phones[data-n="1"] .qn-phone__i svg{ width:18px; height:18px; }
+/* messenger icons replaced by a promo button -> 20%-discount modal (meeting) */
+.qn-promo{ display:flex; align-items:center; gap:11px; width:100%; border:0; cursor:pointer; text-align:left;
+  border-radius:9px; padding:12px 14px; color:#fff; font:inherit; background:linear-gradient(120deg,#1b7fc4,#1f9cdf); }
+.qn-promo:hover{ filter:brightness(1.07); }
+.qn-promo__i{ width:34px; height:34px; flex:0 0 34px; border-radius:50%; background:rgba(255,255,255,.18); display:grid; place-items:center; }
+.qn-promo__i svg{ width:19px; height:19px; }
+.qn-promo span{ font-size:13.5px; line-height:1.25; }
+.qn-promo span b{ font-weight:800; }
+.qn-callback{ width:100%; background:#2a2c30; color:#fff; border:0; border-radius:9px;
+  padding:11px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
+.qn-callback:hover{ background:#33363b; }
 /* message log — dark */
 .text-section .qa-aside .qa-chat__log{ background:#171819 !important; min-height:300px !important; }
 .text-section .qa-aside .qa-msg{ font-size:13.5px !important; border-radius:14px !important; }
@@ -1271,6 +1287,32 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-sharepop .qn-sh--copy{ background:#eef1f4; }
 .qn-sharepop .qn-sh--copy.is-copied{ background:#cdEFD9; }
 @media(max-width:560px){ .qn-sharepop{ right:auto; left:0; flex-wrap:wrap; max-width:200px; } }
+
+/* 20%-discount modal (register + download app) */
+.qn-modal{ position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(8,11,15,.62); animation:qn-fade .16s ease; }
+@keyframes qn-fade{ from{opacity:0} to{opacity:1} }
+.qn-modal__card{ width:100%; max-width:382px; background:#fff; border-radius:16px; overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.42); font-family:"Avenir Next Cyr",sans-serif; }
+.qn-modal__top{ position:relative; background:linear-gradient(120deg,#1b6fb3,#1f9cdf); color:#fff; padding:22px 22px 20px; }
+.qn-modal__badge{ display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.18);
+  border-radius:999px; padding:5px 12px; font-size:11.5px; font-weight:800; letter-spacing:.05em; }
+.qn-modal__badge svg{ width:15px; height:15px; }
+.qn-modal__top h3{ font-family:"Bicubik",sans-serif; margin:13px 0 5px; font-size:21px; line-height:1.12; }
+.qn-modal__top p{ margin:0; font-size:13.5px; opacity:.92; }
+.qn-modal__x{ position:absolute; top:12px; right:12px; width:30px; height:30px; border:0; background:rgba(255,255,255,.16);
+  color:#fff; border-radius:50%; font-size:18px; line-height:1; cursor:pointer; display:grid; place-items:center; }
+.qn-modal__x:hover{ background:rgba(255,255,255,.3); }
+.qn-modal__body{ padding:18px 22px 22px; }
+.qn-modal__steps{ list-style:none; margin:0 0 18px; padding:0; display:flex; flex-direction:column; gap:13px; }
+.qn-modal__steps li{ display:flex; gap:11px; align-items:flex-start; font-size:14px; color:#3a4047; line-height:1.42; }
+.qn-modal__ic{ flex:0 0 26px; width:26px; height:26px; border-radius:50%; background:#e7f4fc; color:#1397d6; display:grid; place-items:center; margin-top:1px; }
+.qn-modal__ic svg{ width:15px; height:15px; }
+.qn-modal__steps li b{ font-weight:700; color:#1b1f23; }
+.qn-modal__cta{ width:100%; border:0; cursor:pointer; border-radius:10px; padding:14px; font:inherit;
+  font-weight:800; font-size:15px; color:#fff; background:linear-gradient(120deg,#1b6fb3,#1f9cdf); }
+.qn-modal__cta:hover{ filter:brightness(1.06); }
+.qn-modal__fine{ margin:11px 0 0; font-size:11.5px; color:#9097a0; text-align:center; }
 
 /* mobile: hero left column stacks above; chat is the floating one (#fc) */
 @media (max-width:991px){
@@ -3579,19 +3621,24 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     wa:S('<path d="M12 3a8.9 8.9 0 0 0-7.6 13.5L3 21l4.6-1.4A8.9 8.9 0 1 0 12 3zm-2.4 5c.2 0 .5 0 .6.4l.6 1.5c.1.2 0 .4-.1.5l-.4.5c-.1.1-.1.3 0 .4.5.9 1.3 1.6 2.3 2 .2.1.4 0 .5-.1l.5-.6c.1-.2.3-.2.5-.1l1.4.7c.2.1.3.3.2.6-.2.6-1 1.1-1.6 1.1-1.4.1-3.8-1-5.2-3.3-.5-.8-.8-1.7-.8-2.4 0-.6.3-1.1.6-1.4.1-.2.3-.3.6-.3z"/>'),
     x:S('<path d="M18.2 2.2h2.9l-6.4 7.3 7.5 9.9h-5.9l-4.6-6-5.3 6H3.5l6.8-7.8L2.5 2.2h6l4.2 5.5 5.5-5.5zm-1 14.9h1.6L7.9 3.9H6.1l12.1 13.2z"/>'),
     link:'<svg viewBox="0 0 24 24" fill="none" stroke="#1b1f23" stroke-width="1.9" aria-hidden="true"><path d="M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8" stroke-linecap="round"/></svg>',
-    share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke-linecap="round"/></svg>'
+    share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke-linecap="round"/></svg>',
+    pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19" stroke-linecap="round"/><circle cx="6.5" cy="6.5" r="2.6"/><circle cx="17.5" cy="17.5" r="2.6"/></svg>',
+    check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
   /* build the dark "contacts" panel (phones + messengers + Call me back) */
   function mkContacts(inputEl){
     var phones=[['+17193410795','#2f8fd6',IC.call],['+380730044470','#f3a02e',IC.bubble],
                 ['+380970044470','#2f8fd6',IC.spark],['+380660044470','#e6484d',IC.drop]];
+    /* ?phones=N previews the adaptive 1/2/3/4-number frame */
+    var pn=parseInt((location.search.match(/[?&]phones=(\d+)/)||[])[1],10);
+    if(pn>=1 && pn<=phones.length) phones=phones.slice(0,pn);
     var ph=phones.map(function(p){ return '<a class="qn-phone" href="tel:'+p[0]+'">'
       +'<span class="qn-phone__i" style="background:'+p[1]+'">'+p[2]+'</span><span class="qn-phone__n">'+p[0]+'</span></a>'; }).join('');
-    var socs=[['qn-soc--fb',IC.fb,'Messenger'],['qn-soc--viber',IC.viber,'Viber'],['qn-soc--tg',IC.tg,'Telegram'],['qn-soc--wa',IC.wa,'WhatsApp']];
-    var so=socs.map(function(s){ return '<a class="qn-soc '+s[0]+'" href="#" aria-label="'+s[2]+'">'+s[1]+'</a>'; }).join('');
     var cb=document.createElement('div'); cb.className='qn-contacts';
-    cb.innerHTML='<div class="qn-phones">'+ph+'</div><div class="qn-msgrow">'+so
-      +'<button type="button" class="qn-callback">Call me back</button></div>';
+    cb.innerHTML='<div class="qn-phones" data-n="'+phones.length+'">'+ph+'</div>'
+      +'<button type="button" class="qn-promo" data-promo><span class="qn-promo__i">'+IC.pct+'</span>'
+      +'<span><b>Get 20% off</b> your first consultation</span></button>'
+      +'<button type="button" class="qn-callback">Call me back</button>';
     var btn=cb.querySelector('.qn-callback');
     if(btn) btn.addEventListener('click',function(){ if(inputEl){ try{inputEl.focus();}catch(e){} } });
     return cb;
@@ -3761,6 +3808,34 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     if(fcHead && !document.querySelector('#fcPanel .qn-contacts')){
       fcHead.insertAdjacentElement('afterend', mkContacts(document.getElementById('fcInput')));
     }
+
+    /* ----- promo button -> "Get 20% off" modal (register + download the app) ----- */
+    function discountModal(){
+      if(document.querySelector('.qn-modal')) return;
+      var ov=document.createElement('div'); ov.className='qn-modal';
+      ov.innerHTML='<div class="qn-modal__card" role="dialog" aria-modal="true" aria-label="Get 20% off">'
+        +'<div class="qn-modal__top"><button class="qn-modal__x" type="button" aria-label="Close">\u00d7</button>'
+        +'<span class="qn-modal__badge">'+IC.pct+' SAVE 20%</span>'
+        +'<h3>Get 20% off your first consultation</h3>'
+        +'<p>Unlock your discount in two quick steps.</p></div>'
+        +'<div class="qn-modal__body"><ul class="qn-modal__steps">'
+        +'<li><span class="qn-modal__ic">'+IC.check+'</span><span><b>Create a free account</b> &mdash; it takes less than a minute.</span></li>'
+        +'<li><span class="qn-modal__ic">'+IC.check+'</span><span><b>Download the Consultant app</b> for iOS or Android.</span></li>'
+        +'<li><span class="qn-modal__ic">'+IC.check+'</span><span>Your <b>20% discount</b> is applied automatically to your first paid consultation.</span></li>'
+        +'</ul><button class="qn-modal__cta" type="button">Register &amp; get the app</button>'
+        +'<p class="qn-modal__fine">Valid for new users on the first consultation only.</p></div></div>';
+      document.body.appendChild(ov);
+      function close(){ ov.remove(); document.removeEventListener('keydown',onkey); }
+      function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
+      ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+      ov.querySelector('.qn-modal__x').addEventListener('click',close);
+      ov.querySelector('.qn-modal__cta').addEventListener('click',function(){ close(); openChat(); });
+      document.addEventListener('keydown',onkey);
+    }
+    document.addEventListener('click',function(e){
+      var b=e.target.closest?e.target.closest('[data-promo]'):null;
+      if(b){ e.preventDefault(); discountModal(); }
+    });
 
     /* ----- Related questions: Figma-style cards carousel (57:723) ----- */
     if(!document.querySelector('.qn-qcards')){

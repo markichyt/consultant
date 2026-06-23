@@ -1034,17 +1034,18 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card .qn-profile b{ display:block; font-size:14.5px; color:#1b1f23; }
 .text-section .text-card .qn-profile small{ display:block; font-size:12.5px; color:#6b7177; margin:1px 0 10px; }
 .text-section .text-card .qn-profile .qa-contact{ display:block !important; width:100%; }
-/* best-answer badge */
-.text-section .text-card .qn-best{ grid-column:1 / -1; justify-self:start; display:inline-flex; align-items:center; gap:6px; margin:0 0 12px;
-  background:#fff7df; color:#9a7b14; border:1px solid #f0e2af; border-radius:3px;
-  padding:4px 11px; font-size:12px; font-weight:700; letter-spacing:.02em; }
-.text-section .text-card .qn-best svg{ width:13px; height:13px; fill:#FFD337; }
+/* best-answer: subtle card highlight + a "★ Best answer" mark in the bottom bar (no background, before the rating) */
 .text-section .text-card.qn-isbest{ box-shadow:0 10px 26px rgba(20,40,60,.10) !important; }
-/* per-answer disclaimer */
-.text-section .text-card .qn-disc{ grid-column:1 / -1; grid-row:4; margin:9px 0 0; font-size:11.5px; line-height:1.5; color:#9aa0a6; font-style:italic; }
-/* long answer: read-more -> scroll window (no card blow-up). Pin the wrapper to the answer's grid slot
-   (col 2, row 2) so it can't auto-misplace into col 1 on cards without a "Best answer" badge. */
-.text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; grid-column:2; grid-row:2; }
+.text-section .qa-cardbar .qn-bestmark{ display:inline-flex; align-items:center; gap:6px; margin-right:16px;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:12.5px; font-weight:800; color:#b8860b; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
+.text-section .qa-cardbar .qn-bestmark svg{ width:14px; height:14px; fill:#FFD337; }
+/* clean 2-row card grid: hide the "ANSWER 0N" eyebrow, pin lawyer+answer to row1 and the bar to row2,
+   then nudge the answer down so it lines up with the lawyer card image (not the "ANSWERED BY" label). */
+.text-section .text-card::before{ display:none !important; }
+.text-section .text-card .qa-lawyer{ grid-row:1; }
+.text-section .text-card .qa-cardbar{ grid-row:2; }
+.text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; grid-column:2; grid-row:1; }
+@media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:22px; } }
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 .text-section .text-card .card-answer.qn-clip{ max-height:160px !important; overflow:hidden !important;
   -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%); mask-image:linear-gradient(180deg,#000 60%,transparent 100%); }
@@ -1081,8 +1082,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-related a{ display:flex; align-items:center; gap:10px; padding:13px 15px; font-size:14px; color:#1b1b1b; text-decoration:none; }
 .qn-related a:hover{ background:#f7f9fb; }
 .qn-related a svg{ margin-left:auto; width:16px; height:16px; flex:0 0 16px; color:#1397d6; }
-.qn-legal{ max-width:1500px; margin:24px auto 40px; padding:16px clamp(16px,2vw,30px); font-family:"Avenir Next Cyr",sans-serif;
-  font-size:12.5px; line-height:1.6; color:#6b7177; background:#f6f7f9; border:1px solid #e6e8eb; border-left:3px solid #1397d6; border-radius:3px; }
+.qn-legal{ max-width:1500px; margin:28px auto 44px; padding:20px clamp(18px,2vw,30px); font-family:"Avenir Next Cyr",sans-serif;
+  font-size:13px; line-height:1.62; color:#5a6068; background:#f4f6f8; border:1px solid #e2e6ea; border-left:4px solid #1397d6; border-radius:3px; }
+.qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#1b1f23; margin:0 0 7px; }
 .qn-legal b{ color:#1b1f23; }
 /* "Need help with a similar situation?" dark bar */
 .qn-needhelp{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:18px clamp(0px,1.95vw,30px); padding:18px 22px; background:#15191d; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
@@ -3752,9 +3754,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var first=document.querySelector('.text-section .text-card');
         if(first && best!==first && best.parentNode===first.parentNode){ best.parentNode.insertBefore(best,first); }
         best.classList.add('qn-isbest');
-        if(!best.querySelector('.qn-best')){
-          var badge=document.createElement('span'); badge.className='qn-best'; badge.innerHTML=STAR+' Best answer';
-          best.insertBefore(badge, best.firstChild);
+        var bbar=best.querySelector('.qa-cardbar');
+        if(bbar && !bbar.querySelector('.qn-bestmark')){
+          var bm=document.createElement('span'); bm.className='qn-bestmark'; bm.innerHTML=STAR+' Best answer';
+          bbar.insertBefore(bm, bbar.firstChild);
         }
       }
     }
@@ -3806,11 +3809,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         else { cbtn.style.display='block'; }
       }
       var ans=c.querySelector('.card-answer');
-      if(ans && !c.querySelector('.qn-disc')){
-        var d=document.createElement('p'); d.className='qn-disc';
-        d.textContent='This answer is general information, not legal advice. ConsultantLM is not a law firm.';
-        (c.querySelector('.qa-cardbar')||ans.parentNode).insertAdjacentElement('beforebegin', d);
-      }
       if(ans){
         ans.classList.remove('sx-clip'); var nat=c.querySelector('.sx-rm'); if(nat) nat.remove();
         if(!ans.parentNode.classList.contains('qn-wrap')){
@@ -3992,8 +3990,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
-      f.innerHTML='<b>Disclaimer.</b> ConsultantLM is not a law firm and does not provide legal services. '+
-        'Answers are general information from independent specialists, not legal advice, and do not create an attorney\u2013client relationship. '+
+      f.innerHTML='<h4>Legal disclaimer</h4>ConsultantLM is not a law firm and does not provide legal services. '+
+        'All answers are general information from independent specialists, not legal advice, and do not create an attorney\u2013client relationship. '+
         'Consult a licensed attorney in your jurisdiction about your specific situation.';
       var main=document.querySelector('main')||document.body; main.appendChild(f);
     }

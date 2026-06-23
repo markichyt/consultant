@@ -3664,11 +3664,13 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
   };
   /* build the dark "contacts" panel (phones + messengers + Call me back) */
   function mkContacts(inputEl){
-    var phones=[['+17193410795','#2f8fd6',IC.call],['+380730044470','#f3a02e',IC.bubble],
-                ['+380970044470','#2f8fd6',IC.spark],['+380660044470','#e6484d',IC.drop]];
-    /* ?phones=N previews the adaptive 1/2/3/4-number frame */
+    /* REAL numbers shown by default — backend supplies this list; the frame adapts to its length */
+    var phones=[['+17193410795','#2f8fd6',IC.call]];
+    /* demo pool: ?phones=N (1..4) previews how the frame re-lays-out as numbers are added */
+    var POOL=[['+17193410795','#2f8fd6',IC.call],['+380730044470','#f3a02e',IC.bubble],
+              ['+380970044470','#2f8fd6',IC.spark],['+380660044470','#e6484d',IC.drop]];
     var pn=parseInt((location.search.match(/[?&]phones=(\d+)/)||[])[1],10);
-    if(pn>=1 && pn<=phones.length) phones=phones.slice(0,pn);
+    if(pn>=1 && pn<=POOL.length) phones=POOL.slice(0,pn);
     var ph=phones.map(function(p){ return '<a class="qn-phone" href="tel:'+p[0]+'">'
       +'<span class="qn-phone__i" style="background:'+p[1]+'">'+p[2]+'</span><span class="qn-phone__n">'+p[0]+'</span></a>'; }).join('');
     var cb=document.createElement('div'); cb.className='qn-contacts';

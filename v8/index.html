@@ -1081,7 +1081,7 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 /* unified end-of-article plashka: "THINK YOU HAVE A CLAIM" CTA + merged SHARE row */
 .qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:linear-gradient(135deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
 .qn-claim__main{ flex:1 1 440px; min-width:0; }
-.qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.6vw,30px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 8px; }
+.qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.6vw,30px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 16px; }
 .qn-claim p{ margin:0 0 18px; font-size:15px; color:rgba(255,255,255,.92); } .qn-claim .qn-star{ color:#FFD337; } .qn-claim p b{ color:#fff; font-weight:700; }
 .qn-claim__btn{ background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:14px 28px; font:inherit; font-weight:800; font-size:15.5px; cursor:pointer; box-shadow:0 10px 26px rgba(8,40,60,.18); }
 .qn-claim__btn:hover{ background:#eef7fc; }
@@ -1275,8 +1275,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-poffer__apps{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
 .qn-poffer__apps a{ background:#13171b; color:#fff; border-radius:3px; padding:12px 22px; font-size:13px; font-weight:700; text-decoration:none; }
 .qn-poffer__apps a:hover{ background:#2a2f35; }
-.text-section .qa-aside .qa-send{ position:absolute !important; right:22px; top:50%; transform:translateY(-50%);
-  background:transparent !important; padding:0 !important; border-radius:0 !important; }
+/* align the send arrow to the input field box (not the footer, whose padding is asymmetric 14/28) */
+.text-section .qa-aside .qa-send{ position:absolute !important; right:20px; top:14px !important; bottom:28px !important; transform:none !important;
+  display:grid !important; place-items:center !important; background:transparent !important; padding:0 !important; border-radius:0 !important; }
 .text-section .qa-aside .qa-send svg{ width:22px !important; height:22px !important; fill:#1f9cdf !important; }
 /* ---- desktop chat experience: launcher -> auto-wide(7s) -> dock(checkmark) ---- */
 .qn-dim{ position:fixed; inset:0; z-index:9990; background:rgba(8,11,15,.20); display:none; }
@@ -1339,8 +1340,8 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 #fc .fc__form{ background:#1b1c1f !important; border-top:1px solid rgba(255,255,255,.07) !important; position:relative; display:block !important; padding:14px 14px calc(24px + env(safe-area-inset-bottom)) !important; }
 #fc .fc__form input{ background:#fff !important; border:0 !important; border-radius:3px !important; color:#1b1f23 !important;
   padding:13px 46px 13px 18px !important; width:100% !important; }
-#fc .fc__form button[type="submit"]{ position:absolute !important; right:24px; top:50%; transform:translateY(-50%);
-  background:transparent !important; padding:0 !important; }
+#fc .fc__form button[type="submit"]{ position:absolute !important; right:22px; top:14px; bottom:calc(24px + env(safe-area-inset-bottom)); transform:none;
+  display:grid; place-items:center; background:transparent !important; padding:0 !important; }
 #fc .fc__form button[type="submit"] svg{ fill:#1f9cdf !important; width:22px; height:22px; }
 
 /* =====================================================================
@@ -4152,7 +4153,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var cl=document.createElement('section'); cl.className='qn-claim';
         cl.innerHTML='<div class="qn-claim__main">'
           +'<h3>Think you have a wrongful arrest claim?</h3>'
-          +'<p>Ask your question and get a free case review from a verified attorney. <b><span class="qn-star">\u2605</span> 4.9</b> from 2,400 reviews.</p>'
           +'<button class="qn-claim__btn" type="button">Ask your question \u2014 free \u2192</button></div>'
           +'<div class="qn-claim__share"><span class="qn-claim__shlabel">Or share to unlock</span>'
           +'<div class="qn-claim__shrow">'+row+'</div></div>';

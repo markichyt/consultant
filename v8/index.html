@@ -1045,6 +1045,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card .qa-lawyer{ grid-row:1; }
 .text-section .text-card .qa-cardbar{ grid-row:2; }
 .text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; grid-column:2; grid-row:1; }
+/* sx-gen cards wrap the answer in .sx-answrap (base pins it to row2 -> collides with the cardbar at row2,
+   so the answer drops to the bottom). Pin it to row1 like .qn-wrap and drop the legacy top padding. */
+.text-section .text-card > .sx-answrap{ grid-column:2 !important; grid-row:1 !important; padding-top:0 !important; }
 @media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:22px; } }
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 .text-section .text-card .card-answer.qn-clip{ max-height:160px !important; overflow:hidden !important;

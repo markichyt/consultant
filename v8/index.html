@@ -1516,10 +1516,22 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-um__skip{ display:block; width:100%; background:none; border:0; cursor:pointer; color:#1397d6; font:inherit; font-weight:700; font-size:13.5px; padding:4px 0 0; text-align:center; }
 .qn-um__skip:hover{ text-decoration:underline; }
 
-/* mobile: hero left column stacks above; chat is the floating one (#fc) */
+/* mobile: hero left column stacks above; the chat becomes an INLINE block under the hero (not the fullscreen #fc) */
 @media (max-width:991px){
   .qn-hero{ padding:calc(var(--header-height,108px) + 22px) 0 26px; }
   .qn-titlebox{ max-width:none; } .qn-leadbox{ max-width:none; }
+  /* show the manager chat inline, right under the hero, full-width */
+  .text-section .qa-aside{ display:flex !important; flex-direction:column !important; position:static !important;
+    width:auto !important; max-width:none !important; height:auto !important; max-height:none !important; margin:4px 0 18px !important;
+    opacity:1 !important; pointer-events:auto !important; z-index:auto !important; border-radius:3px !important;
+    scroll-margin-top:calc(var(--header-height,108px) + 10px) !important; }
+  .text-section .qa-aside .qa-chat__log{ min-height:220px !important; max-height:42vh !important; }
+  .text-section .qa-aside .qa-chat__head,
+  .text-section .qa-aside .qn-contacts,
+  .text-section .qa-aside .qa-chat__input{ flex:0 0 auto !important; }
+  .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; }
+  /* the fullscreen mobile panel is retired; the sticky bar just scrolls to the inline chat */
+  #fc .fc__panel{ display:none !important; }
 }
 </style>
 
@@ -3968,7 +3980,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           +'<div class="qn-poffer__h">Payment successful</div><p>Your written answers are waiting in the Consultant app.</p>'
           +'<div class="qn-poffer__apps"><a href="#">App Store</a><a href="#">Google Play</a></div></div>'
         +'</div>';
-      anchor.parentNode.insertBefore(of, anchor);
+      /* desktop: offer in the left content column (chat is on the right). mobile: right under the inline chat. */
+      var mAside=document.querySelector('.text-section .qa-aside');
+      if(mAside && !(window.matchMedia&&window.matchMedia('(min-width:992px)').matches)){ mAside.insertAdjacentElement('afterend', of); }
+      else { anchor.parentNode.insertBefore(of, anchor); }
 
       var payBack='choice';
       function step(name){ [].forEach.call(of.querySelectorAll('.qn-poffer__step'),function(s){ s.hidden=s.getAttribute('data-step')!==name; }); }
@@ -3982,7 +3997,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       });
 
       var shown=false;
-      function reveal(){ if(shown) return; shown=true; of.hidden=false; chatBeep(); }
+      function reveal(){ if(shown) return; shown=true; of.hidden=false; chatBeep();
+        if(!(window.matchMedia&&window.matchMedia('(min-width:992px)').matches)){   /* mobile: bring the offer into view right under the chat */
+          setTimeout(function(){ try{ of.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }, 160); } }
       function hook(f){ if(!f) return; f.addEventListener('submit',function(){ var i=f.querySelector('input'); var v=i?(i.value||'').trim():''; if(v) setTimeout(reveal,1000); }, true); }
       hook(document.querySelector('#qaForm')); hook(document.querySelector('#fcPanel .fc__form'));
     }
@@ -4121,6 +4138,20 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         if(cbtn) cbtn.addEventListener('click', toDock);
         window.qnDeskOpen=function(){ if(phase==='launch') toWide();
           else { var i=aside.querySelector('#qaInput'); if(i){ try{i.focus();}catch(e){} } } };
+      } else {
+        /* ----- MOBILE: the chat is an inline block under the hero; the sticky bar + every CTA just scroll to it ----- */
+        document.body.classList.add('qn-cx','qn-cx--mob');
+        var mPanel=document.getElementById('fcPanel'); if(mPanel) mPanel.hidden=true;
+        function gotoInlineChat(){ try{ aside.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){ try{aside.scrollIntoView();}catch(_){} } }
+        window.openChat=gotoInlineChat; window.qnDeskOpen=gotoInlineChat;   /* override the base fullscreen opener */
+        /* intercept the sticky bar + any [data-openchat] CTA before the base handlers fire, and scroll instead of going fullscreen */
+        document.addEventListener('click',function(e){ var t=e.target.closest&&e.target.closest('#fcCta,[data-openchat]');
+          if(t){ e.preventDefault(); e.stopPropagation(); gotoInlineChat(); } }, true);
+        /* show the sticky bar only while the inline chat is scrolled out of view */
+        var mcta=document.getElementById('fcCta');
+        if(mcta){ mcta.hidden=true;
+          if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ mcta.hidden=es[0].isIntersecting; },{threshold:.12}).observe(aside); }
+          else { window.addEventListener('scroll',function(){ var r=aside.getBoundingClientRect(); mcta.hidden=(r.top<window.innerHeight&&r.bottom>70); },{passive:true}); } }
       }
     }
     /* same contacts panel for the mobile floating chat (#fc) */

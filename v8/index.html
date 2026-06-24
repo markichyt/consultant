@@ -1064,6 +1064,47 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card .qn-more{ margin-top:8px; background:none; border:0; padding:2px 0; color:#6b7177;
   font:inherit; font-weight:700; font-size:13px; letter-spacing:.01em; cursor:pointer; display:inline-flex; align-items:center; gap:5px; }
 .text-section .text-card .qn-more:hover{ color:#1397d6; }
+/* ===== lawyer-card refinements ===== */
+/* long names + locations wrap to 2 lines instead of overflowing (desktop + mobile) */
+.text-section .text-card .balance-card__name,
+.text-section .text-card .balance-card__name b{ white-space:normal !important; overflow-wrap:break-word !important; }
+.text-section .text-card .balance-card__info{ flex-wrap:wrap !important; white-space:normal !important; }
+.text-section .text-card .balance-card__job,
+.text-section .text-card .balance-card__geo{ white-space:normal !important; overflow-wrap:break-word !important; }
+@media(min-width:992px){
+  /* the absolute name box otherwise resolves to a full-width ancestor (so long names never wrap & get clipped
+     by the 360px card). Cap it to the card so a long name wraps to 2 lines + stacks job/geo. */
+  .text-section .text-card .balance-card__box{ right:auto !important; max-width:330px !important; }
+  .text-section .text-card .balance-card__info{ flex-direction:column !important; align-items:flex-start !important; gap:2px !important; }
+}
+/* mobile: standardize every card (pro + base) into one wider, app-style landscape card — photo on the right */
+@media(max-width:991px){
+  .text-section .text-card .qa-lawyer .balance-card{ display:block !important; position:relative !important;
+    min-height:158px !important; max-height:none !important; overflow:hidden !important; border-radius:3px !important;
+    padding:0 !important; background:#15191d !important; }
+  .text-section .text-card .balance-card__bg{ display:none !important; }
+  .text-section .text-card .balance-card__label,
+  .text-section .text-card .balance-card__footer{ display:none !important; }
+  /* photo fills the right ~42% of the card */
+  .text-section .text-card .balance-card__user{ position:absolute !important; top:0 !important; right:0 !important;
+    bottom:0 !important; left:auto !important; width:42% !important; height:auto !important; margin:0 !important; overflow:hidden !important; z-index:1 !important; }
+  .text-section .text-card .balance-card__user picture,
+  .text-section .text-card .balance-card__user img{ width:100% !important; height:100% !important; max-height:none !important;
+    object-fit:cover !important; object-position:center 18% !important; border-radius:0 !important; }
+  .text-section .text-card .balance-card__user::after{ content:"" !important; position:absolute !important; inset:0 !important;
+    background:linear-gradient(90deg,#15191d 0%, rgba(21,25,29,0) 46%) !important; z-index:2 !important; }
+  /* PREMIUM/BASE badge + rating, top-left */
+  .text-section .text-card .balance-card__wrapp{ position:absolute !important; top:15px !important; left:17px !important;
+    right:auto !important; bottom:auto !important; display:flex !important; align-items:center !important; gap:9px !important; z-index:4 !important; }
+  /* name + job + location, left column over the dark area */
+  .text-section .text-card .balance-card__box{ position:absolute !important; top:50px !important; left:17px !important;
+    right:44% !important; bottom:15px !important; display:flex !important; flex-direction:column !important; justify-content:flex-start !important;
+    text-align:left !important; margin:0 !important; padding:0 !important; z-index:4 !important; }
+  .text-section .text-card .balance-card__name{ font-size:16px !important; line-height:1.22 !important; margin:0 0 7px !important; color:#fff !important; }
+  .text-section .text-card .balance-card__info{ display:flex !important; flex-direction:column !important; align-items:flex-start !important; gap:4px !important; margin:0 !important; }
+  .text-section .text-card .balance-card__job,
+  .text-section .text-card .balance-card__geo{ font-size:12.5px !important; color:#c4ccd2 !important; }
+}
 /* Related questions block (Avvo/Justia-style, internal linking) */
 .qn-related{ max-width:1500px; margin:22px auto; padding:0 clamp(10px,1.95vw,30px); font-family:"Avenir Next Cyr",sans-serif; }
 .qn-related h2{ font-family:"Bicubik",sans-serif; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#1b1b1b; margin:0 0 12px; }
@@ -4203,10 +4244,16 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
-      f.innerHTML='<h4>Legal disclaimer</h4>ConsultantLM is not a law firm and does not provide legal services. '+
-        'All answers are general information from independent specialists, not legal advice, and do not create an attorney\u2013client relationship. '+
-        'Consult a licensed attorney in your jurisdiction about your specific situation.';
-      var main=document.querySelector('main')||document.body; main.appendChild(f);
+      f.innerHTML='<h4>Legal disclaimer</h4>ConsultantLM is an online marketplace and is <b>not a law firm</b>; it does not provide legal advice or legal services. '+
+        'The answers above are general information shared by independent specialists, are provided <b>&ldquo;as is&rdquo; without any warranty</b>, '+
+        'and do not constitute legal advice or create an attorney\u2013client relationship. '+
+        'ConsultantLM and the contributing specialists <b>accept no liability</b> for any decision, action or omission made in reliance on this content. '+
+        'Laws differ by jurisdiction and change over time \u2014 always consult a licensed attorney about your specific situation before acting.';
+      /* place the disclaimer right after the last answer card */
+      var allc=document.querySelectorAll('.text-section .text-card');
+      var last=allc.length?allc[allc.length-1]:null;
+      if(last) last.insertAdjacentElement('afterend', f);
+      else { var main=document.querySelector('main')||document.body; main.appendChild(f); }
     }
 
     /* ----- meeting: "Ask a Question" CTA -> "Share & get it free" (поделись→бесплатно) ----- */

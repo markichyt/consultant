@@ -1140,7 +1140,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-claim__sh:hover{ background:rgba(255,255,255,.3); transform:translateY(-1px); }
 .qn-claim__sh svg{ width:21px; height:21px; }
 .qn-claim__sh--copy.is-copied{ background:#3ddc84; color:#08361d; }
-@media(max-width:760px){ .qn-claim{ flex-direction:column; align-items:stretch; } .qn-claim__btn{ width:100%; } .qn-claim__share{ align-items:center; } .qn-claim__shrow{ justify-content:center; } }
+@media(max-width:760px){ .qn-claim{ flex-direction:column; align-items:stretch; justify-content:flex-start; gap:18px; }
+  .qn-claim__main{ flex:0 0 auto !important; }   /* else the 440px flex-basis becomes a 440px HEIGHT in column layout */
+  .qn-claim__btn{ width:100%; } .qn-claim__share{ flex:0 0 auto !important; align-items:center; } .qn-claim__shrow{ justify-content:center; } }
 .share-list.content-hero__share{ display:none !important; }   /* merged into the .qn-claim plashka */
 
 /* =====================================================================

@@ -1039,6 +1039,10 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .qa-cardbar .qn-bestmark{ display:inline-flex; align-items:center; gap:6px; margin-right:16px;
   font-family:"Avenir Next Cyr",sans-serif; font-size:12.5px; font-weight:800; color:#b8860b; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
 .text-section .qa-cardbar .qn-bestmark svg{ width:14px; height:14px; fill:#FFD337; }
+/* answer date shown in the bottom bar instead of the rating */
+.text-section .qa-cardbar .qn-adate{ display:inline-flex; align-items:center; gap:6px; font-family:"Avenir Next Cyr",sans-serif;
+  font-size:12.5px; font-weight:600; color:#9aa0a6; white-space:nowrap; }
+.text-section .qa-cardbar .qn-adate svg{ width:14px; height:14px; flex:0 0 14px; opacity:.8; }
 /* clean 2-row card grid: hide the "ANSWER 0N" eyebrow, pin lawyer+answer to row1 and the bar to row2,
    then nudge the answer down so it lines up with the lawyer card image (not the "ANSWERED BY" label). */
 .text-section .text-card::before{ display:none !important; }
@@ -1133,11 +1137,15 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 /* LEAD / description (adaptive) */
 .qn-leadbox{ max-width:700px; margin:0 0 22px; }
 .qn-lead{ margin:0; line-height:1.55; color:rgba(255,255,255,.80); font-size:16px; overflow-wrap:break-word; }
-/* trust row — single uniform readable line */
-.qn-trustrow{ display:flex; align-items:center; gap:8px; font-family:"Avenir Next Cyr",sans-serif; font-size:15px;
-  font-weight:600; color:rgba(255,255,255,.9); letter-spacing:.01em; }
-.qn-trustrow .qn-trustrow__star{ color:#FFD337; font-size:16px; line-height:1; }
-.qn-trustrow .qn-trustrow__txt{ color:rgba(255,255,255,.9); }
+/* hero meta chips (reading time / views / rate / publication date) — replace the old trust row */
+.qn-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.qn-chip{ display:inline-flex; align-items:center; gap:7px; padding:8px 12px; border-radius:3px;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:700; line-height:1; color:#fff; white-space:nowrap; }
+.qn-chip svg{ width:15px; height:15px; flex:0 0 15px; }
+.qn-chip--blue{ background:#3d97d6; }
+.qn-chip--dark{ background:#20242b; border:1px solid rgba(255,255,255,.08); }
+.qn-chip__stars{ color:#f0a82e; letter-spacing:1px; font-size:13px; }
+@media(max-width:560px){ .qn-chip{ font-size:12.5px; padding:8px 11px; } }
 
 /* "Answered by N specialists" banner (screenshot 2 — light gradient card) */
 .qn-answeredby2{ display:flex; align-items:center; gap:20px; margin:0 0 24px; max-width:760px;
@@ -2019,9 +2027,11 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   <div class="qn-titlebox" id="qnTitleBox"><h1 class="qn-title" id="qnTitle">Can I claim compensation for a wrongful arrest?</h1></div>
   <div class="qn-leadbox" id="qnLeadBox"><p class="qn-lead" id="qnLead">“I was held in custody for several hours because of an error in a police database, even though I committed no crime.” Below, verified specialists answer this exact question — and you can ask yours for free.</p></div>
   <div class="qn-answeredby2" id="qnAnsweredby" hidden></div>
-  <div class="qn-trustrow">
-    <span class="qn-trustrow__star" aria-hidden="true">&#9733;</span>
-    <span class="qn-trustrow__txt">4.9 &middot; 2,400 reviews</span>
+  <div class="qn-chips">
+    <span class="qn-chip qn-chip--blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Reading time: 11 minutes</span>
+    <span class="qn-chip qn-chip--dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>Total views: 2</span>
+    <span class="qn-chip qn-chip--dark">Rate:&nbsp;<span class="qn-chip__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>&nbsp;5</span>
+    <span class="qn-chip qn-chip--blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 9.5h18M8 3v4M16 3v4" stroke-linecap="round"/></svg>Publication date: 23.06.2026</span>
   </div>
 </section>
 
@@ -3917,6 +3927,17 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         rep.addEventListener('click',function(){ var s=rep.querySelector('span'); if(!s||rep.classList.contains('is-done'))return;
           var o=s.textContent; rep.classList.add('is-done'); s.textContent='Reported'; setTimeout(function(){s.textContent=o;rep.classList.remove('is-done');},1500); });
         bar.appendChild(rep);
+      }
+      /* replace the per-card RATE rating with the answer date (DD.MM.YYYY HH:MM:SS) */
+      if(bar && !bar.querySelector('.qn-adate')){
+        var dt=''; var ansEl=c.querySelector('.card-answer');
+        if(ansEl){ var sp=ansEl.querySelectorAll('span'); for(var si=0; si<sp.length; si++){
+          var tx=sp[si].textContent.trim(); if(/^\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2}:\d{2}$/.test(tx)){ dt=tx; break; } } }
+        if(!dt) dt='14.06.2026 12:00:00';
+        var rt=bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';   /* keep in DOM for best-answer rateOf() */
+        var de=document.createElement('span'); de.className='qn-adate';
+        de.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+esc(dt);
+        if(rt) bar.insertBefore(de, rt); else bar.insertBefore(de, bar.firstChild);
       }
       var contact=c.querySelector('.qa-contact');
       if(contact && !contact.classList.contains('qn-hidden') && isAI(c)){ contact.classList.add('qn-hidden'); contact=null; }

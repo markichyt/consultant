@@ -1052,7 +1052,7 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 .text-section .text-card .card-answer.qn-clip{ max-height:160px !important; overflow:hidden !important;
   -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%); mask-image:linear-gradient(180deg,#000 60%,transparent 100%); }
-.text-section .text-card .card-answer.qn-open{ max-height:clamp(300px,48vh,460px) !important; overflow-y:auto !important;
+.text-section .text-card .card-answer.qn-open{ max-height:clamp(220px,32vh,360px) !important; overflow-y:auto !important;
   overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding-right:10px; width:100%;
   scrollbar-width:thin; scrollbar-color:rgba(19,151,214,.5) transparent; }
 .text-section .text-card .card-answer.qn-open::-webkit-scrollbar{ width:8px; }
@@ -1060,23 +1060,6 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card .qn-more{ margin-top:9px; background:#1397d6; color:#fff; border:0; border-radius:3px;
   padding:8px 16px; font:inherit; font-weight:700; font-size:13px; cursor:pointer; }
 .text-section .text-card .qn-more:hover{ background:#0f7cb3; }
-/* long answer -> modal scroll window ("Read full answer") */
-.qn-amodal__card{ width:100%; max-width:680px; max-height:84vh; background:#fff; border-radius:3px; overflow:hidden;
-  display:flex; flex-direction:column; box-shadow:0 30px 80px rgba(0,0,0,.42); font-family:"Avenir Next Cyr",sans-serif; }
-.qn-amodal__head{ display:flex; align-items:center; gap:10px; padding:15px 18px; border-bottom:1px solid #e9ecef; flex:0 0 auto; }
-.qn-amodal__head b{ font-size:15px; color:#1b1f23; font-weight:700; }
-.qn-amodal__head small{ color:#8a8f96; font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
-.qn-amodal__x{ margin-left:auto; width:30px; height:30px; flex:0 0 30px; border:0; border-radius:50%; background:#eef1f4; color:#5a6068;
-  cursor:pointer; font-size:18px; line-height:1; display:grid; place-items:center; }
-.qn-amodal__x:hover{ background:#e1e5ea; color:#1b1f23; }
-.qn-amodal__body{ padding:18px; overflow-y:auto; font-size:14.5px; line-height:1.62; color:#2a2f35; flex:1 1 auto;
-  scrollbar-width:thin; scrollbar-color:rgba(19,151,214,.5) transparent; }
-.qn-amodal__body p{ margin:0 0 12px; }
-.qn-amodal__body::-webkit-scrollbar{ width:8px; }
-.qn-amodal__body::-webkit-scrollbar-thumb{ background:rgba(19,151,214,.45); border-radius:3px; }
-.qn-amodal__disc{ flex:0 0 auto; padding:12px 18px; border-top:1px solid #eef1f4; background:#fafbfc;
-  font-size:11.5px; line-height:1.5; color:#9aa0a6; font-style:italic; }
-.qn-amodal__disc b{ color:#6b7177; font-style:normal; }
 /* Related questions block (Avvo/Justia-style, internal linking) */
 .qn-related{ max-width:1500px; margin:22px auto; padding:0 clamp(10px,1.95vw,30px); font-family:"Avenir Next Cyr",sans-serif; }
 .qn-related h2{ font-family:"Bicubik",sans-serif; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:#1b1b1b; margin:0 0 12px; }
@@ -3893,24 +3876,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       hook(document.querySelector('#qaForm')); hook(document.querySelector('#fcPanel .fc__form'));
     }
 
-    /* full-answer modal scroll window (long answers) */
-    function answerModal(name, html){
-      if(document.querySelector('.qn-amodal')) return;
-      var ov=document.createElement('div'); ov.className='qn-modal qn-amodal';
-      ov.innerHTML='<div class="qn-amodal__card" role="dialog" aria-modal="true" aria-label="Full answer">'
-        +'<div class="qn-amodal__head"><b>'+esc(name)+'</b><small>Full answer</small>'
-        +'<button class="qn-amodal__x" type="button" aria-label="Close">\u00d7</button></div>'
-        +'<div class="qn-amodal__body">'+html+'</div>'
-        +'<div class="qn-amodal__disc"><b>Disclaimer.</b> General information, not legal advice. ConsultantLM is not a law firm and this does not create an attorney\u2013client relationship.</div>'
-        +'</div>';
-      document.body.appendChild(ov);
-      function close(){ ov.remove(); document.removeEventListener('keydown',onkey); }
-      function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
-      ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
-      ov.querySelector('.qn-amodal__x').addEventListener('click',close);
-      document.addEventListener('keydown',onkey);
-    }
-
     /* ----- per-card transforms (report / profile / disclaimer / read-more) ----- */
     cards.forEach(function(c){
       if(c.__qn) return; c.__qn=1;
@@ -3946,9 +3911,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           var wp=document.createElement('div'); wp.className='qn-wrap'; ans.parentNode.insertBefore(wp,ans); wp.appendChild(ans);
           if(ans.scrollHeight>260){
             ans.classList.add('qn-clip');
-            var nm=((c.querySelector('.balance-card__name')||{}).textContent||'Full answer').trim();
-            var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read full answer \u2192'; wp.appendChild(b);
-            b.addEventListener('click',function(){ answerModal(nm, ans.innerHTML); });
+            var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read more \u2193'; wp.appendChild(b);
+            b.addEventListener('click',function(){ var open=ans.classList.toggle('qn-open'); ans.classList.toggle('qn-clip',!open);
+              b.textContent=open?'Show less \u2191':'Read more \u2193'; if(open) ans.scrollTop=0; });
           }
         }
       }

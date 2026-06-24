@@ -1305,14 +1305,22 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 @keyframes qn-ring{ 0%{ transform:scale(1); opacity:.7;} 100%{ transform:scale(1.34); opacity:0;} }
 @keyframes qn-slidein{ from{ transform:translateX(46px); opacity:.35;} to{ transform:translateX(0); opacity:1;} }
 @media(min-width:992px){
+  /* unified chat height — SAME in docked & wide; only the WIDTH changes between the two states.
+     log flexes to fill, so the panel keeps a constant height instead of growing/shrinking with content */
+  body.qn-cx .text-section .qa-aside{ --chat-h:min(660px, calc(100vh - var(--header-height,108px) - 30px));
+    height:var(--chat-h) !important; max-height:var(--chat-h) !important; display:flex !important; flex-direction:column !important; }
+  body.qn-cx .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; min-height:0 !important; max-height:none !important; }
+  body.qn-cx .text-section .qa-aside .qa-chat__head,
+  body.qn-cx .text-section .qa-aside .qn-contacts,
+  body.qn-cx .text-section .qa-aside .qa-chat__input{ flex:0 0 auto !important; }
   body.qn-cx--launch .qn-launch{ display:flex; }
   body.qn-cx--launch .text-section .qa-aside{ opacity:0 !important; pointer-events:none !important; }
   /* WIDE: fixed right-pinned overlay (~48vw), faint 10% dim, fills viewport height */
   body.qn-cx--wide .qn-dim{ display:block; animation:qn-fade .3s ease; }
   body.qn-cx--wide .text-section .qa-aside{
     position:fixed !important; right:0 !important; left:auto !important;
-    top:calc(var(--header-height,108px) + 8px) !important; bottom:18px !important;
-    width:clamp(420px,48vw,720px) !important; max-height:none !important; height:auto !important; margin:0 !important;
+    top:calc(var(--header-height,108px) + 8px) !important; bottom:auto !important;
+    width:clamp(420px,48vw,720px) !important; margin:0 !important;
     border-radius:3px 0 0 3px !important; z-index:9991 !important; box-shadow:-34px 0 90px rgba(0,0,0,.34) !important;
     display:flex !important; flex-direction:column !important; animation:qn-slidein .44s cubic-bezier(.2,.8,.2,1); }
   body.qn-cx--wide .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; min-height:0 !important; max-height:none !important; }

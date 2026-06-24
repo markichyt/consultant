@@ -1078,12 +1078,22 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-needhelp button{ margin-left:auto; background:#1397d6; color:#fff; border:0; border-radius:3px; padding:13px 24px; font:inherit; font-weight:700; font-size:14.5px; cursor:pointer; white-space:nowrap; }
 .qn-needhelp button:hover{ background:#0f7cb3; }
 @media(max-width:560px){ .qn-needhelp button{ margin-left:0; width:100%; } }
-/* "THINK YOU HAVE A CLAIM" blue CTA */
-.qn-claim{ max-width:1500px; margin:20px auto; padding:26px clamp(16px,2vw,30px); background:linear-gradient(180deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
+/* unified end-of-article plashka: "THINK YOU HAVE A CLAIM" CTA + merged SHARE row */
+.qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:linear-gradient(135deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
+.qn-claim__main{ flex:1 1 440px; min-width:0; }
 .qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.6vw,30px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 8px; }
-.qn-claim p{ margin:0 0 16px; font-size:15px; } .qn-claim .qn-star{ color:#FFD337; }
-.qn-claim button{ background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:13px 26px; font:inherit; font-weight:700; font-size:15px; cursor:pointer; }
-.qn-claim button:hover{ background:#eef7fc; }
+.qn-claim p{ margin:0 0 18px; font-size:15px; color:rgba(255,255,255,.92); } .qn-claim .qn-star{ color:#FFD337; } .qn-claim p b{ color:#fff; font-weight:700; }
+.qn-claim__btn{ background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:14px 28px; font:inherit; font-weight:800; font-size:15.5px; cursor:pointer; box-shadow:0 10px 26px rgba(8,40,60,.18); }
+.qn-claim__btn:hover{ background:#eef7fc; }
+.qn-claim__share{ flex:0 0 auto; display:flex; flex-direction:column; gap:11px; align-items:flex-start; }
+.qn-claim__shlabel{ font-size:11px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:rgba(255,255,255,.82); }
+.qn-claim__shrow{ display:flex; gap:9px; flex-wrap:wrap; }
+.qn-claim__sh{ width:44px; height:44px; border-radius:3px; display:grid; place-items:center; border:0; cursor:pointer; text-decoration:none; background:rgba(255,255,255,.16); color:#fff; transition:background .15s,transform .1s; }
+.qn-claim__sh:hover{ background:rgba(255,255,255,.3); transform:translateY(-1px); }
+.qn-claim__sh svg{ width:21px; height:21px; }
+.qn-claim__sh--copy.is-copied{ background:#3ddc84; color:#08361d; }
+@media(max-width:760px){ .qn-claim{ flex-direction:column; align-items:stretch; } .qn-claim__btn{ width:100%; } .qn-claim__share{ align-items:center; } .qn-claim__shrow{ justify-content:center; } }
+.share-list.content-hero__share{ display:none !important; }   /* merged into the .qn-claim plashka */
 
 /* =====================================================================
    HERO (screenshot 1)  — full-bleed dark band behind the left column,
@@ -1406,6 +1416,15 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   font-weight:800; font-size:15px; color:#fff; background:linear-gradient(120deg,#1b6fb3,#1f9cdf); }
 .qn-modal__cta:hover{ filter:brightness(1.06); }
 .qn-modal__fine{ margin:11px 0 0; font-size:11.5px; color:#9097a0; text-align:center; }
+/* share-to-unlock modal (free-question funnel) */
+.qn-um__share{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:2px 0 14px; }
+.qn-um__sh{ width:52px; height:52px; border-radius:3px; display:grid; place-items:center; border:0; cursor:pointer; text-decoration:none; color:#fff; transition:transform .1s,filter .12s; }
+.qn-um__sh:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+.qn-um__sh svg{ width:24px; height:24px; }
+.qn-um__sh--copy{ background:#eef1f4 !important; color:#1b1f23; }
+.qn-um__sh--copy.is-copied{ background:#3ddc84 !important; color:#08361d; }
+.qn-um__skip{ display:block; width:100%; background:none; border:0; cursor:pointer; color:#1397d6; font:inherit; font-weight:700; font-size:13.5px; padding:4px 0 0; text-align:center; }
+.qn-um__skip:hover{ text-decoration:underline; }
 
 /* mobile: hero left column stacks above; chat is the floating one (#fc) */
 @media (max-width:991px){
@@ -3705,6 +3724,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     tg:S('<path d="M21.6 4.3L2.9 11.5c-1 .4-1 1-.2 1.3l4.7 1.5 1.8 5.6c.2.5.4.6.9.2l2.6-2 4.5 3.3c.8.5 1.4.2 1.6-.8L22.9 5.2c.3-1.2-.4-1.7-1.3-1z"/>'),
     wa:S('<path d="M12 3a8.9 8.9 0 0 0-7.6 13.5L3 21l4.6-1.4A8.9 8.9 0 1 0 12 3zm-2.4 5c.2 0 .5 0 .6.4l.6 1.5c.1.2 0 .4-.1.5l-.4.5c-.1.1-.1.3 0 .4.5.9 1.3 1.6 2.3 2 .2.1.4 0 .5-.1l.5-.6c.1-.2.3-.2.5-.1l1.4.7c.2.1.3.3.2.6-.2.6-1 1.1-1.6 1.1-1.4.1-3.8-1-5.2-3.3-.5-.8-.8-1.7-.8-2.4 0-.6.3-1.1.6-1.4.1-.2.3-.3.6-.3z"/>'),
     x:S('<path d="M18.2 2.2h2.9l-6.4 7.3 7.5 9.9h-5.9l-4.6-6-5.3 6H3.5l6.8-7.8L2.5 2.2h6l4.2 5.5 5.5-5.5zm-1 14.9h1.6L7.9 3.9H6.1l12.1 13.2z"/>'),
+    in:S('<path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H20.6v-5.4c0-1.3 0-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H13V9z"/>'),
+    copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8" stroke-linecap="round"/></svg>',
     link:'<svg viewBox="0 0 24 24" fill="none" stroke="#1b1f23" stroke-width="1.9" aria-hidden="true"><path d="M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8" stroke-linecap="round"/></svg>',
     share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke-linecap="round"/></svg>',
     pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19" stroke-linecap="round"/><circle cx="6.5" cy="6.5" r="2.6"/><circle cx="17.5" cy="17.5" r="2.6"/></svg>',
@@ -4077,16 +4098,76 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       mid.insertAdjacentElement('afterend', nh);
       nh.querySelector('button').addEventListener('click',openChat);
     }
-    /* blue "THINK YOU HAVE A CLAIM" CTA before Related/FAQ */
-    var anchor2=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
-    if(anchor2 && !document.querySelector('.qn-claim')){
-      var cl=document.createElement('section'); cl.className='qn-claim';
-      cl.innerHTML='<h3>Think you have a wrongful arrest claim?</h3>'
-        +'<p>Get a free case review from a verified attorney. <b><span class="qn-star">\u2605</span> 4.9</b> from 2,400 reviews.</p>'
-        +'<button type="button">Get a free consultation \u2192</button>';
-      anchor2.parentNode.insertBefore(cl, anchor2);
-      cl.querySelector('button').addEventListener('click',openChat);
-    }
+    /* unified end-of-article plashka: claim CTA + merged SHARE row + "ask free -> share to unlock" modal */
+    (function(){
+      function shareTargets(){
+        var url=encodeURIComponent(location.href), tt=encodeURIComponent(document.title||'Wrongful arrest \u2014 compensation');
+        return { fb:['Facebook','#1877f2',IC.fb,'https://www.facebook.com/sharer/sharer.php?u='+url],
+                 in:['LinkedIn','#0a66c2',IC.in,'https://www.linkedin.com/sharing/share-offsite?url='+url],
+                 tg:['Telegram','#2aabee',IC.tg,'https://t.me/share/url?url='+url+'&text='+tt],
+                 wa:['WhatsApp','#25d366',IC.wa,'https://api.whatsapp.com/send?text='+tt+'%20'+url],
+                 x:['X','#15181c',IC.x,'https://twitter.com/intent/tweet?url='+url+'&text='+tt] };
+      }
+      function askFree(){ setTimeout(openChat, 140); }
+      function copyLink(el,done){ try{ navigator.clipboard&&navigator.clipboard.writeText(location.href); }catch(e){}
+        el.classList.add('is-copied'); setTimeout(done, 460); }
+
+      /* the "ask free" button opens this share-to-unlock modal (= a free consultation) */
+      function unlockModal(){
+        if(document.querySelector('.qn-modal')) return;
+        var T=shareTargets();
+        var tiles=['fb','tg','wa','x'].map(function(k){ var s=T[k];
+          return '<a class="qn-um__sh" style="background:'+s[1]+'" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+s[2]+'</a>'; }).join('')
+          +'<button class="qn-um__sh qn-um__sh--copy" type="button" aria-label="Copy link">'+IC.copy+'</button>';
+        var ov=document.createElement('div'); ov.className='qn-modal';
+        ov.innerHTML='<div class="qn-modal__card" role="dialog" aria-modal="true" aria-label="Ask your question for free">'
+          +'<div class="qn-modal__top"><button class="qn-modal__x" type="button" aria-label="Close">\u00d7</button>'
+          +'<span class="qn-modal__badge">'+IC.share+' FREE CONSULTATION</span>'
+          +'<h3>Share &amp; ask your question \u2014 free</h3>'
+          +'<p>Share this article in one tap and we\u2019ll unlock a free consultation \u2014 ask your wrongful-arrest question and a verified attorney replies.</p></div>'
+          +'<div class="qn-modal__body"><div class="qn-um__share">'+tiles+'</div>'
+          +'<button class="qn-um__skip" type="button">or just ask your question \u2192</button>'
+          +'<p class="qn-modal__fine">Free for readers \u2014 share to unlock your question.</p></div></div>';
+        document.body.appendChild(ov);
+        function close(){ ov.remove(); document.removeEventListener('keydown',onkey); }
+        function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
+        ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+        ov.querySelector('.qn-modal__x').addEventListener('click',close);
+        ov.querySelector('.qn-um__skip').addEventListener('click',function(){ close(); openChat(); });
+        [].forEach.call(ov.querySelectorAll('.qn-um__sh'),function(el){
+          el.addEventListener('click',function(){
+            if(el.classList.contains('qn-um__sh--copy')){ copyLink(el,function(){ close(); openChat(); }); }
+            else { setTimeout(function(){ close(); openChat(); },150); }
+          });
+        });
+        document.addEventListener('keydown',onkey);
+      }
+
+      /* build the merged plashka at the very end of the article */
+      if(!document.querySelector('.qn-claim')){
+        var T=shareTargets();
+        var row='<button class="qn-claim__sh qn-claim__sh--copy" type="button" aria-label="Copy link">'+IC.copy+'</button>'
+          +['fb','in','tg','x'].map(function(k){ var s=T[k];
+            return '<a class="qn-claim__sh" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+s[2]+'</a>'; }).join('');
+        var cl=document.createElement('section'); cl.className='qn-claim';
+        cl.innerHTML='<div class="qn-claim__main">'
+          +'<h3>Think you have a wrongful arrest claim?</h3>'
+          +'<p>Ask your question and get a free case review from a verified attorney. <b><span class="qn-star">\u2605</span> 4.9</b> from 2,400 reviews.</p>'
+          +'<button class="qn-claim__btn" type="button">Ask your question \u2014 free \u2192</button></div>'
+          +'<div class="qn-claim__share"><span class="qn-claim__shlabel">Or share to unlock</span>'
+          +'<div class="qn-claim__shrow">'+row+'</div></div>';
+        var shareBar=document.querySelector('.share-list.content-hero__share');
+        var anchor=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
+        if(anchor){ anchor.parentNode.insertBefore(cl, anchor); }
+        else if(shareBar){ shareBar.parentNode.insertBefore(cl, shareBar.nextSibling); }
+        else { (document.querySelector('main')||document.body).appendChild(cl); }
+        cl.querySelector('.qn-claim__btn').addEventListener('click',unlockModal);
+        var cp=cl.querySelector('.qn-claim__sh--copy');
+        if(cp) cp.addEventListener('click',function(){ copyLink(cp,askFree); });
+        [].forEach.call(cl.querySelectorAll('a.qn-claim__sh'),function(a){ a.addEventListener('click',askFree); });
+        if(shareBar) shareBar.style.display='none';   /* native bar merged into the plashka */
+      }
+    })();
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';

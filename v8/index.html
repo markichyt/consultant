@@ -1072,12 +1072,15 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   font-size:13px; line-height:1.62; color:#5a6068; background:#f4f6f8; border:1px solid #e2e6ea; border-left:4px solid #1397d6; border-radius:3px; }
 .qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#1b1f23; margin:0 0 7px; }
 .qn-legal b{ color:#1b1f23; }
-/* "Need help with a similar situation?" dark bar */
-.qn-needhelp{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:18px clamp(0px,1.95vw,30px); padding:18px 22px; background:#15191d; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; }
-.qn-needhelp b{ font-size:17px; display:block; } .qn-needhelp small{ font-size:13px; color:#c4ccd2; }
-.qn-needhelp button{ margin-left:auto; background:#1397d6; color:#fff; border:0; border-radius:3px; padding:13px 24px; font:inherit; font-weight:700; font-size:14.5px; cursor:pointer; white-space:nowrap; }
+/* "Need help with a similar situation?" dark bar — styled identically to the .sx-askcta block */
+.qn-needhelp{ margin:18px auto; padding:20px 24px; background:#15191d; border-radius:3px; color:#fff;
+  font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
+.qn-needhelp span{ flex:1; min-width:220px; }
+.qn-needhelp b{ display:block; font-family:"Bicubik",sans-serif; font-weight:400; font-size:19px; letter-spacing:.04em; text-transform:uppercase; color:#fff; margin:0 0 5px; }
+.qn-needhelp small{ font-size:14.5px; color:#c4ccd2; }
+.qn-needhelp button{ margin-left:auto; background:#1397d6; color:#fff; border:0; border-radius:3px; padding:13px 28px; font-family:"Avenir Next Cyr",sans-serif; font-weight:700; font-size:15px; cursor:pointer; white-space:nowrap; }
 .qn-needhelp button:hover{ background:#0f7cb3; }
-@media(max-width:560px){ .qn-needhelp button{ margin-left:0; width:100%; } }
+@media(max-width:560px){ .qn-needhelp{ flex-direction:column; align-items:stretch; text-align:center; gap:14px; } .qn-needhelp button{ margin-left:0; width:100%; } }
 /* unified end-of-article plashka: "THINK YOU HAVE A CLAIM" CTA + merged SHARE row */
 .qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:linear-gradient(135deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
 .qn-claim__main{ flex:1 1 440px; min-width:0; }

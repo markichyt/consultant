@@ -1144,15 +1144,6 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   font-size:13px; line-height:1.62; color:#5a6068; background:#f4f6f8; border:1px solid #e2e6ea; border-left:4px solid #1397d6; border-radius:3px; }
 .qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#1b1f23; margin:0 0 7px; }
 .qn-legal b{ color:#1b1f23; }
-/* "Need help with a similar situation?" dark bar — styled identically to the .sx-askcta block */
-.qn-needhelp{ margin:18px auto; padding:20px 24px; background:#15191d; border-radius:3px; color:#fff;
-  font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; gap:22px; flex-wrap:wrap; }
-.qn-needhelp span{ flex:1; min-width:220px; }
-.qn-needhelp b{ display:block; font-family:"Bicubik",sans-serif; font-weight:400; font-size:19px; letter-spacing:.04em; text-transform:uppercase; color:#fff; margin:0 0 5px; }
-.qn-needhelp small{ font-size:14.5px; color:#c4ccd2; }
-.qn-needhelp button{ margin-left:auto; background:#1397d6; color:#fff; border:0; border-radius:3px; padding:13px 28px; font-family:"Avenir Next Cyr",sans-serif; font-weight:700; font-size:15px; cursor:pointer; white-space:nowrap; }
-.qn-needhelp button:hover{ background:#0f7cb3; }
-@media(max-width:560px){ .qn-needhelp{ flex-direction:column; align-items:stretch; text-align:center; gap:14px; } .qn-needhelp button{ margin-left:0; width:100%; } }
 /* unified end-of-article plashka: "THINK YOU HAVE A CLAIM" CTA + merged SHARE row */
 .qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:linear-gradient(135deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
 .qn-claim__main{ flex:1 1 440px; min-width:0; }
@@ -1415,6 +1406,10 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 }
 /* mobile floating chat (#fc) — same dark "manager" widget */
 #fc .fc__panel{ background:#1b1c1f !important; }
+/* red "unread" notification badge on the sticky chat bar (mobile) */
+#fc .fc__cta .fc-badge{ position:absolute; top:2px; left:44px; min-width:19px; height:19px; padding:0 4px; border-radius:999px;
+  background:#e6484d; color:#fff; font-size:11px; font-weight:800; line-height:1; display:grid; place-items:center;
+  border:2px solid #15191d; box-shadow:0 1px 4px rgba(0,0,0,.35); z-index:3; }
 #fc .fc__head{ background:#1b1c1f !important; border-bottom:1px solid rgba(255,255,255,.07); }
 #fc .fc__head b{ font-size:16px !important; }
 #fc .fc__head .ava img{ object-position:center 12%; }
@@ -2249,8 +2244,8 @@ The amount of time you spent in custody can be relevant, but the strongest claim
                         <div class="qa-cardbar"><div class="qa-rate"><span class="qa-rate__label">Rate</span><span class="qa-stars" style="--rate:4.9" aria-label="4.9 out of 5"></span><span class="qa-count" data-count>(37)</span></div><span class="qa-cardbar__sep"></span><button type="button" class="qa-act" data-act="share"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg><span>Share</span></button><button type="button" class="qa-act" data-act="comment"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg><span>Comment</span></button></div></div>
 
 <div class="sx-askcta" id="ask-lawyer"><div class="sx-askcta__box">
-  <div class="sx-askcta__txt"><h3>Get a free answer from a legal expert</h3><p>Share this article and ask your question &mdash; free.</p></div>
-  <button class="sx-askcta__btn qn-share" type="button" data-share>Share &amp; get it free</button>
+  <div class="sx-askcta__txt"><h3>Want to ask your question right now?</h3><p>Get a written answer from a verified lawyer.</p></div>
+  <button class="sx-askcta__btn" type="button">Ask your question now &rarr;</button>
 </div></div>
 
 
@@ -4150,6 +4145,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         /* show the sticky bar only while the inline chat is scrolled out of view */
         var mcta=document.getElementById('fcCta');
         if(mcta){ mcta.hidden=true;
+          if(!mcta.querySelector('.fc-badge')){ var fb=document.createElement('span'); fb.className='fc-badge'; fb.textContent='1'; mcta.appendChild(fb); }
           if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ mcta.hidden=es[0].isIntersecting; },{threshold:.12}).observe(aside); }
           else { window.addEventListener('scroll',function(){ var r=aside.getBoundingClientRect(); mcta.hidden=(r.top<window.innerHeight&&r.bottom>70); },{passive:true}); } }
       }
@@ -4221,16 +4217,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     function openChat(){
       if(window.matchMedia && window.matchMedia('(min-width:992px)').matches && window.qnDeskOpen){ window.qnDeskOpen(); }
       else if(window.openChat){ window.openChat(); }
-    }
-    /* "Need help…" dark bar between answers */
-    var ac=document.querySelectorAll('.text-section .text-card');
-    if(ac.length && !document.querySelector('.qn-needhelp')){
-      var mid=ac[Math.min(1, ac.length-1)];
-      var nh=document.createElement('div'); nh.className='qn-needhelp';
-      nh.innerHTML='<span><b>Need help with a similar situation?</b><small>Free consultation \u00b7 847 verified attorneys online now.</small></span>'
-        +'<button type="button">Find a wrongful arrest lawyer \u2192</button>';
-      mid.insertAdjacentElement('afterend', nh);
-      nh.querySelector('button').addEventListener('click',openChat);
     }
     /* unified end-of-article plashka: claim CTA + merged SHARE row + "ask free -> share to unlock" modal */
     (function(){
@@ -4316,43 +4302,11 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       else { var main=document.querySelector('main')||document.body; main.appendChild(f); }
     }
 
-    /* ----- meeting: "Ask a Question" CTA -> "Share & get it free" (поделись→бесплатно) ----- */
+    /* ----- "Want to ask your question right now?" CTA -> opens the chat (paid path) ----- */
     (function(){
-      function unlock(){
-        var box=document.querySelector('.sx-askcta');
-        if(box){ var t=box.querySelector('.sx-askcta__txt');
-          if(t) t.innerHTML='<h3>Unlocked &mdash; ask for free</h3><p>Thanks for sharing! Your question is on us.</p>';
-          var b=box.querySelector('.qn-share');
-          if(b){ b.innerHTML='Ask your question \u2192'; b.removeAttribute('data-share'); b.classList.remove('qn-share');
-            b.classList.add('qn-share--done'); var nb=b.cloneNode(true); b.parentNode.replaceChild(nb,b); nb.addEventListener('click',openChat); }
-        }
-        openChat();
-      }
-      function popover(btn){
-        var ex=document.querySelector('.qn-sharepop'); if(ex){ ex.remove(); return; }
-        var url=encodeURIComponent(location.href), tt=encodeURIComponent(document.title||'Wrongful arrest \u2014 compensation');
-        var T=[['Facebook',IC.fb,'#0a7cff','https://www.facebook.com/sharer/sharer.php?u='+url],
-               ['Telegram',IC.tg,'#28a7e9','https://t.me/share/url?url='+url+'&text='+tt],
-               ['WhatsApp',IC.wa,'#25d366','https://api.whatsapp.com/send?text='+tt+'%20'+url],
-               ['X',IC.x,'#15181c','https://twitter.com/intent/tweet?url='+url+'&text='+tt]];
-        var pop=document.createElement('div'); pop.className='qn-sharepop';
-        pop.innerHTML=T.map(function(s){ return '<a class="qn-sh" style="background:'+s[2]+'" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+s[1]+'</a>'; }).join('')
-          +'<button class="qn-sh qn-sh--copy" type="button" aria-label="Copy link">'+IC.link+'</button>';
-        var host=btn.parentNode; host.style.position='relative'; host.appendChild(pop);
-        [].forEach.call(pop.querySelectorAll('a.qn-sh'),function(a){ a.addEventListener('click',function(){ setTimeout(function(){ pop.remove(); unlock(); },60); }); });
-        var cp=pop.querySelector('.qn-sh--copy');
-        if(cp) cp.addEventListener('click',function(){ try{ navigator.clipboard&&navigator.clipboard.writeText(location.href); }catch(e){}
-          cp.classList.add('is-copied'); setTimeout(function(){ pop.remove(); unlock(); },520); });
-        setTimeout(function(){ document.addEventListener('click',function h(e){ if(!pop.contains(e.target)&&e.target!==btn){ pop.remove(); document.removeEventListener('click',h);} }); },0);
-      }
-      [].forEach.call(document.querySelectorAll('[data-share]'),function(btn){
-        if(btn.__sh) return; btn.__sh=1;
-        if(IC&&IC.share && !btn.querySelector('svg')) btn.insertAdjacentHTML('afterbegin', IC.share+' ');
-        btn.addEventListener('click',function(e){ e.preventDefault();
-          if(navigator.share){ navigator.share({title:document.title,url:location.href}).then(unlock).catch(function(){}); }
-          else popover(btn);
-        });
-      });
+      var b=document.querySelector('.sx-askcta .sx-askcta__btn');
+      if(b){ var nb=b.cloneNode(true); b.parentNode.replaceChild(nb,b);   /* drop any base data-openchat handler */
+        nb.addEventListener('click',function(e){ e.preventDefault(); openChat(); }); }
     })();
 
     /* ----- adaptive type: run now, on resize, and once web-fonts are ready ----- */

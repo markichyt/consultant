@@ -1054,6 +1054,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .text-section .text-card > .sx-answrap{ grid-column:2 !important; grid-row:1 !important; padding-top:0 !important; }
 @media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:22px; } }
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
+/* drop the "A:" prefix before every answer (base adds it via ::before on .card-answer and .sx-atext) */
+.text-section .text-card .card-answer::before,
+.text-section .sx-atext::before{ content:none !important; }
 .text-section .text-card .card-answer.qn-clip{ max-height:160px !important; overflow:hidden !important;
   -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%); mask-image:linear-gradient(180deg,#000 60%,transparent 100%); }
 .text-section .text-card .card-answer.qn-open{ max-height:clamp(220px,32vh,360px) !important; overflow-y:auto !important;
@@ -1199,14 +1202,22 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-leadbox{ max-width:700px; margin:0 0 22px; }
 .qn-lead{ margin:0; line-height:1.55; color:rgba(255,255,255,.80); font-size:16px; overflow-wrap:break-word; }
 /* hero meta chips (reading time / views / rate / publication date) — replace the old trust row */
-.qn-chips{ display:flex; flex-wrap:wrap; gap:8px; }
-.qn-chip{ display:inline-flex; align-items:center; gap:7px; padding:8px 12px; border-radius:3px;
-  font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:700; line-height:1; color:#fff; white-space:nowrap; }
+/* DESKTOP (>=881px): tidy compact row, content-sized chips, capped so they don't stretch wide */
+.qn-chips{ display:flex; flex-wrap:wrap; gap:8px; max-width:760px; }
+.qn-chip{ display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:8px 12px; border-radius:3px;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:700; line-height:1; color:#fff; white-space:nowrap; min-width:0; box-sizing:border-box; }
 .qn-chip svg{ width:15px; height:15px; flex:0 0 15px; }
 .qn-chip--blue{ background:#3d97d6; }
 .qn-chip--dark{ background:#20242b; border:1px solid rgba(255,255,255,.08); }
 .qn-chip__stars{ color:#f0a82e; letter-spacing:1px; font-size:13px; }
-@media(max-width:560px){ .qn-chip{ font-size:12.5px; padding:8px 11px; } }
+/* TABLET (600-880px): clean balanced 2x2 grid, equal centered cells (kills the ragged single row) */
+@media(max-width:880px) and (min-width:600px){
+  .qn-chips{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; max-width:520px; }
+  .qn-chip{ width:auto; font-size:12.5px; } }
+/* PHONE (<=599px): single stacked column, content-sized & left-aligned (kills the 2+1+1 wrap, no empty side-bars) */
+@media(max-width:599px){
+  .qn-chips{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; max-width:100%; }
+  .qn-chip{ width:auto; font-size:12.5px; padding:8px 11px; } }
 
 /* "Answered by N specialists" banner (screenshot 2 — light gradient card) */
 .qn-answeredby2{ display:flex; align-items:center; gap:20px; margin:0 0 24px; max-width:760px;

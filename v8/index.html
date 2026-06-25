@@ -1018,6 +1018,12 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 
 <style id="qn-css">
 /* ============ NEW PAGE (v8) — light, on v5 base ============ */
+/* boot gate: until init() transforms the page, hide the bits that visibly "pop" (auto-sized title,
+   injected "Answered by" banner, meta chips, the answer cards incl. the soon-removed "Contact this lawyer").
+   The dark hero band stays visible so it reads as loading, not glitching; everything fades in on reveal. */
+html.qn-boot .qn-titlebox, html.qn-boot .qn-leadbox, html.qn-boot .qn-chips,
+html.qn-boot .qn-answeredby2, html.qn-boot .text-section .text-card{ opacity:0 !important; }
+.qn-titlebox, .qn-leadbox, .qn-chips, .qn-answeredby2, .text-section .text-card{ transition:opacity .28s ease; }
 /* footer: drop Share/Comment, keep Rate, add Report; hide native read-more */
 .text-section .qa-cardbar .qa-act[data-act="share"],
 .text-section .qa-cardbar .qa-act[data-act="comment"]{ display:none !important; }
@@ -1601,6 +1607,7 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 @media(max-width:760px){ .qn-rating-list{ grid-template-columns:1fr; gap:16px; } .qn-rating{ padding:24px 18px; } }
 </style>
 
+<script>(function(){var h=document.documentElement;h.className+=" qn-boot";setTimeout(function(){h.classList.remove("qn-boot");},2000);})();</script>
 </head>
 
 <body class="">
@@ -4445,8 +4452,18 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
   /* hide the docked desktop chat ASAP (before load) so the launcher doesn't flash a stray panel */
   (function(){ try{ if(document.body && window.matchMedia && window.matchMedia('(min-width:992px)').matches){
     document.body.classList.add('qn-cx','qn-cx--launch'); } }catch(e){} })();
-  if(document.readyState==='complete') requestAnimationFrame(init);
-  else window.addEventListener('load',function(){ requestAnimationFrame(init); });
+  /* run the transforms as soon as the DOM is parsed (this script is at the end of <body>),
+     NOT on window.load — waiting for every image/font is what caused the ~0.5s flash of raw HTML.
+     Reveal the gated content once fitText has the real font (fonts.ready) or after a short fallback. */
+  function qnUnhide(){ document.documentElement.classList.remove('qn-boot'); }
+  function qnStart(){ requestAnimationFrame(function(){
+    init();
+    var done=false; function go(){ if(done) return; done=true; requestAnimationFrame(qnUnhide); }
+    if(document.fonts&&document.fonts.ready){ try{ document.fonts.ready.then(go); }catch(e){} }
+    setTimeout(go,650);
+  }); }
+  if(document.readyState!=='loading') qnStart();
+  else document.addEventListener('DOMContentLoaded',qnStart);
 })();
 </script>
 

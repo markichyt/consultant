@@ -1530,7 +1530,7 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   box-shadow:0 40px 120px rgba(0,0,0,.6); animation:qn-umpop .26s cubic-bezier(.2,.7,.3,1); }
 @keyframes qn-umpop{ from{ transform:translateY(14px) scale(.985); opacity:.4 } to{ transform:none; opacity:1 } }
 .qn-umodal__photo{ flex:0 0 44%; background:#0e1014 center/cover no-repeat;
-  background-image:url("../assets/modal-pro.jpg"); background-position:30% center; }
+  background-image:url("../assets/modal-pro.webp"); background-position:50% center; }
 .qn-umodal__panel{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; padding:clamp(24px,4vw,52px) clamp(20px,4vw,54px); gap:clamp(14px,2vw,20px); }
 .qn-umodal__h{ font-family:"Bicubik",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.045em;
@@ -1541,11 +1541,18 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
   line-height:1.55; color:rgba(255,255,255,.62); }
 .qn-umodal__arrow{ display:block; color:rgba(255,255,255,.34); margin:1px 0; }
 .qn-umodal__arrow svg{ width:22px; height:30px; }
+.qn-umodal__p b{ color:rgba(255,255,255,.92); font-weight:800; }
 .qn-umodal__share{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-.qn-umodal__sh{ width:58px; height:58px; border-radius:3px; display:grid; place-items:center; border:0; cursor:pointer;
-  text-decoration:none; color:#fff; transition:transform .12s,filter .12s; box-shadow:0 6px 18px rgba(0,0,0,.32); }
-.qn-umodal__sh:hover{ transform:translateY(-2px); filter:brightness(1.08); }
-.qn-umodal__sh svg{ width:26px; height:26px; }
+.qn-umodal__sh{ width:56px; height:56px; display:block; border:0; cursor:pointer; text-decoration:none; border-radius:11px;
+  transition:transform .12s,filter .12s; box-shadow:0 6px 18px rgba(0,0,0,.32); }
+.qn-umodal__sh:hover{ transform:translateY(-2px); filter:brightness(1.06); }
+.qn-umodal__sh svg{ width:100%; height:100%; display:block; }
+/* app-store badges (used by the "Get 20% off -> register" modal) */
+.qn-umodal__apps{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.qn-umodal__apps a{ display:block; line-height:0; transition:transform .12s,filter .12s; }
+.qn-umodal__apps a:hover{ transform:translateY(-2px); filter:brightness(1.06); }
+.qn-umodal__apps img{ height:48px; width:auto; display:block; }
+@media(max-width:640px){ .qn-umodal__apps img{ height:44px; } }
 .qn-umodal__x{ position:absolute; top:13px; right:15px; z-index:2; width:34px; height:34px; border:0; cursor:pointer;
   background:transparent; color:rgba(255,255,255,.85); font-size:30px; line-height:1; display:grid; place-items:center;
   text-shadow:0 1px 5px rgba(0,0,0,.65); }
@@ -4230,25 +4237,27 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
 
     /* ----- promo button -> "Get 20% off" modal (register + download the app) ----- */
     function discountModal(){
-      if(document.querySelector('.qn-modal')) return;
-      var ov=document.createElement('div'); ov.className='qn-modal';
-      ov.innerHTML='<div class="qn-modal__card" role="dialog" aria-modal="true" aria-label="Get 20% off">'
-        +'<div class="qn-modal__top"><button class="qn-modal__x" type="button" aria-label="Close">\u00d7</button>'
-        +'<span class="qn-modal__badge">'+IC.pct+' SAVE 20%</span>'
-        +'<h3>Get 20% off your first consultation</h3>'
-        +'<p>Unlock your discount in two quick steps.</p></div>'
-        +'<div class="qn-modal__body"><ul class="qn-modal__steps">'
-        +'<li><span class="qn-modal__ic">'+IC.check+'</span><span><b>Create a free account</b> &mdash; it takes less than a minute.</span></li>'
-        +'<li><span class="qn-modal__ic">'+IC.check+'</span><span><b>Download the Consultant app</b> for iOS or Android.</span></li>'
-        +'<li><span class="qn-modal__ic">'+IC.check+'</span><span>Your <b>20% discount</b> is applied automatically to your first paid consultation.</span></li>'
-        +'</ul><button class="qn-modal__cta" type="button">Register &amp; get the app</button>'
-        +'<p class="qn-modal__fine">Valid for new users on the first consultation only.</p></div></div>';
+      if(document.querySelector('.qn-umodal')) return;
+      var ARR='<svg viewBox="0 0 22 30" fill="none" aria-hidden="true"><path d="M11 1V27M3.5 19.5 11 27l7.5-7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      var ov=document.createElement('div'); ov.className='qn-umodal';
+      ov.innerHTML='<div class="qn-umodal__card" role="dialog" aria-modal="true" aria-label="Get 20% off \u2014 register in the app">'
+        +'<button class="qn-umodal__x" type="button" aria-label="Close">\u00d7</button>'
+        +'<div class="qn-umodal__photo" aria-hidden="true"></div>'
+        +'<div class="qn-umodal__panel">'
+          +'<h3 class="qn-umodal__h">Get<br>20% off</h3>'
+          +'<p class="qn-umodal__p">Register in the Consultant app right now and get <b>20% off</b> lawyer consultations and lawyer services.</p>'
+          +'<span class="qn-umodal__arrow">'+ARR+'</span>'
+          +'<div class="qn-umodal__apps">'
+            +'<a href="#app" rel="noopener" aria-label="Download on the App Store"><img src="../assets/appstore.svg" alt="App Store"></a>'
+            +'<a href="#app" rel="noopener" aria-label="Get it on Google Play"><img src="../assets/googleplay.svg" alt="Google Play"></a>'
+          +'</div>'
+        +'</div></div>';
       document.body.appendChild(ov);
-      function close(){ ov.remove(); document.removeEventListener('keydown',onkey); }
+      var hadOv=document.documentElement.style.overflow; document.documentElement.style.overflow='hidden';
+      function close(){ ov.remove(); document.documentElement.style.overflow=hadOv; document.removeEventListener('keydown',onkey); }
       function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
       ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
-      ov.querySelector('.qn-modal__x').addEventListener('click',close);
-      ov.querySelector('.qn-modal__cta').addEventListener('click',function(){ close(); openChat(); });
+      ov.querySelector('.qn-umodal__x').addEventListener('click',close);
       document.addEventListener('keydown',onkey);
     }
     document.addEventListener('click',function(e){
@@ -4343,6 +4352,13 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
                  x:['X','#15181c',IC.x,'https://twitter.com/intent/tweet?url='+url+'&text='+tt] };
       }
       function askFree(){ setTimeout(openChat, 140); }
+      /* real brand icons (self-contained rounded squares) — FB + Telegram lifted from the site sprite, LinkedIn + X matched to the same style */
+      var SIC={
+        fb:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#1877F2"/><g transform="translate(5.8,5.4) scale(1.8)" fill="#fff"><path d="M15.12 5.32H17V2.14C16.67 2.1 15.56 2 14.27 2c-2.69 0-4.53 1.65-4.53 4.7v2.6H6.61v3.56h3.13V22h3.84v-9.13h3.21l.49-3.56h-3.7V7.06c0-1.03.28-1.74 1.54-1.74z"/></g></svg>',
+        tg:'<svg viewBox="0 0 55 54" fill="none" aria-hidden="true"><rect x=".5" width="54" height="54" rx="10" fill="#55ACE3"/><path d="M38.3004 17.013L34.2431 38.1945C34.2431 38.1945 33.6754 39.6631 32.1159 38.9588L22.7546 31.5259L22.7112 31.504C23.9757 30.3282 33.7811 21.1985 34.2097 20.7847C34.8731 20.1438 34.4612 19.7622 33.691 20.2464L19.2071 29.7715L13.6192 27.8245C13.6192 27.8245 12.7398 27.5006 12.6552 26.7962C12.5695 26.0908 13.6481 25.7092 13.6481 25.7092L36.4281 16.455C36.4281 16.455 38.3004 15.6032 38.3004 17.013Z" fill="#fff"/></svg>',
+        in:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#0A66C2"/><g transform="translate(14,14) scale(1.08)" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H20.6v-5.4c0-1.3 0-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H13V9z"/></g></svg>',
+        x:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect x=".6" y=".6" width="52.8" height="52.8" rx="9.6" fill="#000" stroke="rgba(255,255,255,.18)"/><g transform="translate(15,15)" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></g></svg>'
+      };
       function copyLink(el,done){ try{ navigator.clipboard&&navigator.clipboard.writeText(location.href); }catch(e){}
         el.classList.add('is-copied'); setTimeout(done, 460); }
 
@@ -4352,7 +4368,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var T=shareTargets();
         var ARR='<svg viewBox="0 0 22 30" fill="none" aria-hidden="true"><path d="M11 1V27M3.5 19.5 11 27l7.5-7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         var tiles=['fb','in','tg','x'].map(function(k){ var s=T[k];
-          return '<a class="qn-umodal__sh" style="background:'+s[1]+'" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+s[2]+'</a>'; }).join('');
+          return '<a class="qn-umodal__sh" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+SIC[k]+'</a>'; }).join('');
         var ov=document.createElement('div'); ov.className='qn-umodal';
         ov.innerHTML='<div class="qn-umodal__card" role="dialog" aria-modal="true" aria-label="Useful page? Share to unlock a free consultation">'
           +'<button class="qn-umodal__x" type="button" aria-label="Close">\u00d7</button>'

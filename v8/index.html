@@ -1521,6 +1521,42 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 .qn-um__sh--copy.is-copied{ background:#3ddc84 !important; color:#08361d; }
 .qn-um__skip{ display:block; width:100%; background:none; border:0; cursor:pointer; color:#1397d6; font:inherit; font-weight:700; font-size:13.5px; padding:4px 0 0; text-align:center; }
 .qn-um__skip:hover{ text-decoration:underline; }
+/* ===== "Useful page? -> share for a free consultation" modal (photo left / dark panel right) ===== */
+.qn-umodal{ position:fixed; inset:0; z-index:2147483647; display:flex; align-items:center; justify-content:center;
+  background:rgba(6,8,11,.76); padding:18px; animation:qn-umfade .22s ease; }
+@keyframes qn-umfade{ from{ opacity:0 } to{ opacity:1 } }
+.qn-umodal__card{ position:relative; display:flex; width:100%; max-width:900px; height:min(82vh,560px);
+  background:linear-gradient(135deg,#23262c 0%,#15171b 58%,#0f1115 100%); border-radius:3px; overflow:hidden;
+  box-shadow:0 40px 120px rgba(0,0,0,.6); animation:qn-umpop .26s cubic-bezier(.2,.7,.3,1); }
+@keyframes qn-umpop{ from{ transform:translateY(14px) scale(.985); opacity:.4 } to{ transform:none; opacity:1 } }
+.qn-umodal__photo{ flex:0 0 44%; background:#0e1014 center/cover no-repeat;
+  background-image:url("../assets/modal-pro.jpg"); background-position:30% center; }
+.qn-umodal__panel{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:clamp(24px,4vw,52px) clamp(20px,4vw,54px); gap:clamp(14px,2vw,20px); }
+.qn-umodal__h{ font-family:"Bicubik",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.045em;
+  font-size:clamp(34px,4.6vw,58px); line-height:1.02; margin:0;
+  background:linear-gradient(180deg,#f5f6f8 0%,#cbced4 36%,#8d9097 68%,#e3e6ea 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+.qn-umodal__p{ margin:0; max-width:390px; font-family:"Avenir Next Cyr",sans-serif; font-size:clamp(14px,1.5vw,16px);
+  line-height:1.55; color:rgba(255,255,255,.62); }
+.qn-umodal__arrow{ display:block; color:rgba(255,255,255,.34); margin:1px 0; }
+.qn-umodal__arrow svg{ width:22px; height:30px; }
+.qn-umodal__share{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.qn-umodal__sh{ width:58px; height:58px; border-radius:3px; display:grid; place-items:center; border:0; cursor:pointer;
+  text-decoration:none; color:#fff; transition:transform .12s,filter .12s; box-shadow:0 6px 18px rgba(0,0,0,.32); }
+.qn-umodal__sh:hover{ transform:translateY(-2px); filter:brightness(1.08); }
+.qn-umodal__sh svg{ width:26px; height:26px; }
+.qn-umodal__x{ position:absolute; top:13px; right:15px; z-index:2; width:34px; height:34px; border:0; cursor:pointer;
+  background:transparent; color:rgba(255,255,255,.85); font-size:30px; line-height:1; display:grid; place-items:center;
+  text-shadow:0 1px 5px rgba(0,0,0,.65); }
+.qn-umodal__x:hover{ color:#fff; }
+@media(max-width:640px){
+  .qn-umodal{ padding:0; }
+  .qn-umodal__card{ flex-direction:column; width:100%; height:100%; max-width:none; border-radius:0; }
+  .qn-umodal__photo{ flex:0 0 34%; background-position:30% 18%; }
+  .qn-umodal__panel{ gap:13px; padding:22px 22px 30px; }
+  .qn-umodal__h{ font-size:clamp(30px,9vw,46px); }
+  .qn-umodal__sh{ width:52px; height:52px; } }
 
 /* mobile: hero left column stacks above; the chat becomes an INLINE block under the hero (not the fullscreen #fc) */
 @media (max-width:991px){
@@ -4310,34 +4346,31 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       function copyLink(el,done){ try{ navigator.clipboard&&navigator.clipboard.writeText(location.href); }catch(e){}
         el.classList.add('is-copied'); setTimeout(done, 460); }
 
-      /* the "ask free" button opens this share-to-unlock modal (= a free consultation) */
+      /* the "ask free" button opens this share-to-unlock modal: photo left / dark panel right (= a free consultation) */
       function unlockModal(){
-        if(document.querySelector('.qn-modal')) return;
+        if(document.querySelector('.qn-umodal')) return;
         var T=shareTargets();
-        var tiles=['fb','tg','wa','x'].map(function(k){ var s=T[k];
-          return '<a class="qn-um__sh" style="background:'+s[1]+'" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+s[2]+'</a>'; }).join('')
-          +'<button class="qn-um__sh qn-um__sh--copy" type="button" aria-label="Copy link">'+IC.copy+'</button>';
-        var ov=document.createElement('div'); ov.className='qn-modal';
-        ov.innerHTML='<div class="qn-modal__card" role="dialog" aria-modal="true" aria-label="Ask your question for free">'
-          +'<div class="qn-modal__top"><button class="qn-modal__x" type="button" aria-label="Close">\u00d7</button>'
-          +'<span class="qn-modal__badge">'+IC.share+' FREE CONSULTATION</span>'
-          +'<h3>Share &amp; ask your question \u2014 free</h3>'
-          +'<p>Share this article in one tap and we\u2019ll unlock a free consultation \u2014 ask your wrongful-arrest question and a verified attorney replies.</p></div>'
-          +'<div class="qn-modal__body"><div class="qn-um__share">'+tiles+'</div>'
-          +'<button class="qn-um__skip" type="button">or just ask your question \u2192</button>'
-          +'<p class="qn-modal__fine">Free for readers \u2014 share to unlock your question.</p></div></div>';
+        var ARR='<svg viewBox="0 0 22 30" fill="none" aria-hidden="true"><path d="M11 1V27M3.5 19.5 11 27l7.5-7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        var tiles=['fb','in','tg','x'].map(function(k){ var s=T[k];
+          return '<a class="qn-umodal__sh" style="background:'+s[1]+'" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+s[2]+'</a>'; }).join('');
+        var ov=document.createElement('div'); ov.className='qn-umodal';
+        ov.innerHTML='<div class="qn-umodal__card" role="dialog" aria-modal="true" aria-label="Useful page? Share to unlock a free consultation">'
+          +'<button class="qn-umodal__x" type="button" aria-label="Close">\u00d7</button>'
+          +'<div class="qn-umodal__photo" aria-hidden="true"></div>'
+          +'<div class="qn-umodal__panel">'
+            +'<h3 class="qn-umodal__h">Useful<br>page?</h3>'
+            +'<p class="qn-umodal__p">Share it with friends and get a free consultation from a verified lawyer in our mobile app.</p>'
+            +'<span class="qn-umodal__arrow">'+ARR+'</span>'
+            +'<div class="qn-umodal__share">'+tiles+'</div>'
+          +'</div></div>';
         document.body.appendChild(ov);
-        function close(){ ov.remove(); document.removeEventListener('keydown',onkey); }
+        var hadOv=document.documentElement.style.overflow; document.documentElement.style.overflow='hidden';
+        function close(){ ov.remove(); document.documentElement.style.overflow=hadOv; document.removeEventListener('keydown',onkey); }
         function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
         ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
-        ov.querySelector('.qn-modal__x').addEventListener('click',close);
-        ov.querySelector('.qn-um__skip').addEventListener('click',function(){ close(); openChat(); });
-        [].forEach.call(ov.querySelectorAll('.qn-um__sh'),function(el){
-          el.addEventListener('click',function(){
-            if(el.classList.contains('qn-um__sh--copy')){ copyLink(el,function(){ close(); openChat(); }); }
-            else { setTimeout(function(){ close(); openChat(); },150); }
-          });
-        });
+        ov.querySelector('.qn-umodal__x').addEventListener('click',close);
+        [].forEach.call(ov.querySelectorAll('.qn-umodal__sh'),function(el){
+          el.addEventListener('click',function(){ setTimeout(close,180); }); });   /* share opens in a new tab, then close */
         document.addEventListener('keydown',onkey);
       }
 

@@ -1057,7 +1057,7 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 /* drop the "A:" prefix before every answer (base adds it via ::before on .card-answer and .sx-atext) */
 .text-section .text-card .card-answer::before,
 .text-section .sx-atext::before{ content:none !important; }
-.text-section .text-card .card-answer.qn-clip{ max-height:160px !important; overflow:hidden !important;
+.text-section .text-card .card-answer.qn-clip{ max-height:140px !important; overflow:hidden !important;
   -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%); mask-image:linear-gradient(180deg,#000 60%,transparent 100%); }
 .text-section .text-card .card-answer.qn-open{ max-height:clamp(220px,32vh,360px) !important; overflow-y:auto !important;
   overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding-right:10px; width:100%;
@@ -4074,7 +4074,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           var wp=document.createElement('div'); wp.className='qn-wrap'; ans.parentNode.insertBefore(wp,ans); wp.appendChild(ans);
           var evalClip=function(){
             if(wp.querySelector('.qn-more')||ans.classList.contains('qn-clip')) return;   /* already evaluated */
-            if(ans.scrollHeight>200){
+            if(ans.scrollHeight>160){   /* clip when answer is taller than the ~140px preview; threshold sits below the line-wrap wobble so it's deterministic */
               ans.classList.add('qn-clip');
               var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read more \u2193'; wp.appendChild(b);
               b.addEventListener('click',function(){ var open=ans.classList.toggle('qn-open'); ans.classList.toggle('qn-clip',!open);
@@ -4083,6 +4083,13 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           };
           evalClip();
           if(document.fonts&&document.fonts.ready) document.fonts.ready.then(evalClip);   /* re-check once the web-font reflows the text */
+          /* the answer height settles LATE (web-fonts + the injected rating block reflow it past the threshold
+             AFTER the first eval) -> re-check on a few delays, on resize, and on any size change so the
+             "Read more" clip is never missed (was racing and silently skipping long answers). */
+          [120,400,900,1800].forEach(function(t){ setTimeout(evalClip,t); });
+          window.addEventListener('resize',evalClip);
+          if(window.ResizeObserver){ var ro=new ResizeObserver(function(){ evalClip();
+            if(ans.classList.contains('qn-clip')||wp.querySelector('.qn-more')) ro.disconnect(); }); ro.observe(ans); }
         }
       }
     });

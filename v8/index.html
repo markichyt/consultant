@@ -1024,6 +1024,27 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 html.qn-boot .qn-titlebox, html.qn-boot .qn-leadbox, html.qn-boot .qn-chips,
 html.qn-boot .qn-answeredby2, html.qn-boot .text-section .text-card{ opacity:0 !important; }
 .qn-titlebox, .qn-leadbox, .qn-chips, .qn-answeredby2, .text-section .text-card{ transition:opacity .28s ease; }
+/* RESERVE the hero's final dimensions BEFORE JS/fonts run, so the dark band is full-height from the
+   first paint and never changes size (the band growing/shrinking was the visible "twitch" on reload).
+   Two things shifted: (1) the "Answered by" banner popped in from display:none; (2) the <h1> paints at
+   its default 52px and wraps to 3 lines until JS fitText() shrinks it to 2 — so the titlebox ballooned,
+   then snapped back. Fix: each box carries its reserved height as a CSS var (numbers mirror relayout():
+   title = lines*maxFont*1.07, lead = lines*maxFont*1.55; box-sizing is border-box site-wide). The var is
+   the always-on min-height, AND during boot it HARD-LOCKS the box height (height+overflow) so the unfit
+   title / unbuilt banner can't move the band. Content is opacity:0 during boot, so clamping is invisible;
+   fitText still measures the <h1>'s own scrollHeight (unaffected by the parent's clamp) and sizes it, so
+   after qn-boot is removed the fitted text fits the reserved height exactly — no reflow, no jump. */
+.qn-titlebox{ --tbh:116px; min-height:var(--tbh); }   /* >=1200: 2*54*1.07 */
+.qn-leadbox{  --lbh:132px; min-height:var(--lbh); }   /* >=1200: 5*17*1.55 */
+.qn-answeredby2{ --abh:102px; min-height:var(--abh); } /* avatar row(56)+padding(44); == rendered height */
+@media(max-width:1199px){ .qn-titlebox{ --tbh:98px; }  .qn-leadbox{ --lbh:124px; } } /* 992-1199 */
+@media(max-width:991px){  .qn-titlebox{ --tbh:148px; } .qn-leadbox{ --lbh:149px; } } /* 768-991  */
+@media(max-width:767px){  .qn-titlebox{ --tbh:122px; } }                              /* 560-767  */
+@media(max-width:600px){  .qn-answeredby2{ --abh:144px; } }                           /* column   */
+@media(max-width:559px){  .qn-titlebox{ --tbh:96px; }   .qn-leadbox{ --lbh:163px; } } /* <560     */
+html.qn-boot .qn-titlebox{ height:var(--tbh); overflow:hidden; }
+html.qn-boot .qn-leadbox{  height:var(--lbh); overflow:hidden; }
+html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh); overflow:hidden; }
 /* footer: drop Share/Comment, keep Rate, add Report; hide native read-more */
 .text-section .qa-cardbar .qa-act[data-act="share"],
 .text-section .qa-cardbar .qa-act[data-act="comment"]{ display:none !important; }

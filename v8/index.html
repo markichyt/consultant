@@ -1045,13 +1045,15 @@ html.qn-boot .qn-answeredby2, html.qn-boot .text-section .text-card{ opacity:0 !
 html.qn-boot .qn-titlebox{ height:var(--tbh); overflow:hidden; }
 html.qn-boot .qn-leadbox{  height:var(--lbh); overflow:hidden; }
 html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh); overflow:hidden; }
-/* footer: drop Share/Comment, keep Rate, add Report; hide native read-more */
+/* footer bar: drop Share/Comment, the now-removed Report, and the dangling separator; hide native read-more */
 .text-section .qa-cardbar .qa-act[data-act="share"],
-.text-section .qa-cardbar .qa-act[data-act="comment"]{ display:none !important; }
+.text-section .qa-cardbar .qa-act[data-act="comment"],
+.text-section .qa-cardbar .qa-act.qn-report,
+.text-section .qa-cardbar .qa-cardbar__sep{ display:none !important; }
 .text-section .text-card .sx-rm{ display:none !important; }
-.text-section .qa-cardbar .qa-act.qn-report{ color:#9aa0a6; }
-.text-section .qa-cardbar .qa-act.qn-report:hover{ color:#d9534f; }
-.text-section .qa-cardbar .qa-act.qn-report.is-done{ color:#d9534f; }
+/* the meta bar (best-answer badge + date) is relocated to the TOP of the answer column as a clean header */
+.text-section .text-card .qn-wrap > .qa-cardbar,
+.text-section .text-card .sx-answrap > .qa-cardbar{ margin:0 0 12px !important; padding:0 !important; border:0 !important; min-height:0 !important; }
 /* Contact lives in the profile now -> hide the inline button on the card */
 .text-section .text-card .qa-contact.qn-hidden{ display:none !important; }
 .text-section .text-card .qn-i{ cursor:pointer; }
@@ -1170,10 +1172,14 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-related a{ display:flex; align-items:center; gap:10px; padding:13px 15px; font-size:14px; color:#1b1b1b; text-decoration:none; }
 .qn-related a:hover{ background:#f7f9fb; }
 .qn-related a svg{ margin-left:auto; width:16px; height:16px; flex:0 0 16px; color:#1397d6; }
-.qn-legal{ max-width:1500px; margin:28px auto 44px; padding:20px clamp(18px,2vw,30px); font-family:"Avenir Next Cyr",sans-serif;
-  font-size:13px; line-height:1.62; color:#5a6068; background:#f4f6f8; border:1px solid #e2e6ea; border-left:4px solid #1397d6; border-radius:3px; }
-.qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#1b1f23; margin:0 0 7px; }
-.qn-legal b{ color:#1b1f23; }
+/* legal disclaimer — DARK panel (stands out on the white article body) */
+.qn-legal{ max-width:1500px; margin:28px auto 44px; padding:22px clamp(18px,2vw,30px); font-family:"Avenir Next Cyr",sans-serif;
+  font-size:13px; line-height:1.64; color:rgba(255,255,255,.66); background:#11151a; border:1px solid rgba(255,255,255,.08);
+  border-left:4px solid #1397d6; border-radius:3px; box-shadow:0 16px 38px rgba(10,13,17,.16); }
+.qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#fff; margin:0 0 10px; }
+.qn-legal b{ color:rgba(255,255,255,.9); font-weight:700; }
+.qn-legal p{ margin:0 0 10px; }
+.qn-legal p:last-child{ margin:0; }
 /* unified end-of-article plashka: "THINK YOU HAVE A CLAIM" CTA + merged SHARE row */
 .qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:linear-gradient(135deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
 .qn-claim__main{ flex:1 1 440px; min-width:0; }
@@ -2212,10 +2218,10 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   <div class="qn-leadbox" id="qnLeadBox"><p class="qn-lead" id="qnLead">I was stopped during a routine police check and arrested because an error in a police database wrongly listed me as a wanted suspect. I spent several hours locked in a holding cell and missed an important work meeting, even though I had committed no crime and the mistake was entirely the authorities' fault. After they confirmed the database error, I was released without any apology. Can I claim compensation for the wrongful arrest, my lost earnings, and the emotional distress this caused me?</p></div>
   <div class="qn-answeredby2" id="qnAnsweredby" hidden></div>
   <div class="qn-chips">
-    <span class="qn-chip qn-chip--blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Reading time: 11 minutes</span>
+    <span class="qn-chip qn-chip--dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>Reading time: 11 minutes</span>
     <span class="qn-chip qn-chip--dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/></svg>Total views: 2</span>
     <span class="qn-chip qn-chip--dark">Rate:&nbsp;<span class="qn-chip__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>&nbsp;5</span>
-    <span class="qn-chip qn-chip--blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 9.5h18M8 3v4M16 3v4" stroke-linecap="round"/></svg>Publication date: 23.06.2026</span>
+    <span class="qn-chip qn-chip--dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1.5"/><path d="M3 9.5h18M8 3v4M16 3v4" stroke-linecap="round"/></svg>Publication date: 23.06.2026</span>
   </div>
 </section>
 
@@ -4111,13 +4117,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     cards.forEach(function(c){
       if(c.__qn) return; c.__qn=1;
       var bar=c.querySelector('.qa-cardbar');
-      if(bar && !bar.querySelector('.qn-report')){
-        var rep=document.createElement('button'); rep.type='button'; rep.className='qa-act qn-report'; rep.setAttribute('data-act','report');
-        rep.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M5 21V4h10l-1 3h6l-2 4 2 4H6v6" stroke-linejoin="round"/></svg><span>Report</span>';
-        rep.addEventListener('click',function(){ var s=rep.querySelector('span'); if(!s||rep.classList.contains('is-done'))return;
-          var o=s.textContent; rep.classList.add('is-done'); s.textContent='Reported'; setTimeout(function(){s.textContent=o;rep.classList.remove('is-done');},1500); });
-        bar.appendChild(rep);
-      }
+      /* Report button removed per request (no longer created). */
       /* replace the per-card RATE rating with the answer date (DD.MM.YYYY HH:MM — seconds stripped) */
       if(bar && !bar.querySelector('.qn-adate')){
         var dt=''; var ansEl=c.querySelector('.card-answer');
@@ -4151,6 +4151,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         ans.classList.remove('sx-clip'); var nat=c.querySelector('.sx-rm'); if(nat) nat.remove();
         if(!ans.parentNode.classList.contains('qn-wrap')){
           var wp=document.createElement('div'); wp.className='qn-wrap'; ans.parentNode.insertBefore(wp,ans); wp.appendChild(ans);
+          /* meta bar (best-answer badge + date) -> the TOP of the answer column, above the answer text */
+          if(bar) wp.insertBefore(bar, wp.firstChild);
           var evalClip=function(){
             if(wp.querySelector('.qn-more')||ans.classList.contains('qn-clip')) return;   /* already evaluated */
             if(ans.scrollHeight>160){   /* clip when answer is taller than the ~140px preview; threshold sits below the line-wrap wobble so it's deterministic */
@@ -4453,11 +4455,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
-      f.innerHTML='<h4>Legal disclaimer</h4>ConsultantLM is an online marketplace and is <b>not a law firm</b>; it does not provide legal advice or legal services. '+
-        'The answers above are general information shared by independent specialists, are provided <b>&ldquo;as is&rdquo; without any warranty</b>, '+
-        'and do not constitute legal advice or create an attorney\u2013client relationship. '+
-        'ConsultantLM and the contributing specialists <b>accept no liability</b> for any decision, action or omission made in reliance on this content. '+
-        'Laws differ by jurisdiction and change over time \u2014 always consult a licensed attorney about your specific situation before acting.';
+      f.innerHTML='<h4>Legal disclaimer</h4>'+
+        '<p>Consultant is an online legal marketplace, <b>not a law firm</b>, where consumers can get answers to basic legal questions from independent specialists free of charge. Any information you submit through Consultant is not privileged and is shared on a strictly <b>non-confidential</b> basis.</p>'+
+        '<p>Using this website to ask questions or receive answers does <b>not create an attorney&ndash;client relationship</b> between you and Consultant, or between you and any specialist who receives your information or responds to your question, and it is not intended to create one. None of the answers on this platform constitute <b>legal advice</b>, which must be tailored to the specific circumstances of each case. You should not act on any information provided through Consultant without first consulting a licensed attorney admitted or authorized to practice in your jurisdiction. Consultant <b>accepts no liability</b> to any person who relies on information contained on or obtained through this site, and disclaims all liability with respect to such information.</p>'+
+        '<p>Consultant cannot guarantee the <b>accuracy, completeness, or timeliness</b> of the information on this website (including any legal information provided by a specialist through this service). While we strive to keep this information up to date, the owners and authors of this site make no representations, promises, or warranties about the accuracy, completeness, or adequacy of the information contained on or linked from this site.</p>';
       /* place the disclaimer right after the last answer card */
       var allc=document.querySelectorAll('.text-section .text-card');
       var last=allc.length?allc[allc.length-1]:null;

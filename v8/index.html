@@ -1057,7 +1057,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.13em; text-transform:uppercase; line-height:1.2; }
 .text-section .text-card .qn-abhead .qn-ablbl{ color:#9aa0a6; }
 .text-section .text-card .qn-abhead .qn-adate{ position:relative; padding-left:14px; color:#6b7177;
-  font-family:"Avenir Next Cyr",sans-serif; font-size:12.5px; font-weight:600; letter-spacing:0; text-transform:none; white-space:nowrap; }
+  font-family:"Bicubik",sans-serif; font-size:12px; font-weight:400; letter-spacing:.06em; text-transform:none; white-space:nowrap; }
 .text-section .text-card .qn-abhead .qn-adate::before{ content:"·"; position:absolute; left:3px; color:#c2c7cc; }
 /* the relocated bar now carries ONLY the best-answer badge, pinned to the top-RIGHT of the answer column */
 .text-section .text-card .qn-wrap > .qa-cardbar,
@@ -1077,7 +1077,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* best-answer: subtle card highlight + a "★ Best answer" mark in the bottom bar (no background, before the rating) */
 .text-section .text-card.qn-isbest{ box-shadow:0 10px 26px rgba(20,40,60,.10) !important; }
 .text-section .qa-cardbar .qn-bestmark{ display:inline-flex; align-items:center; gap:6px; margin-right:16px;
-  font-family:"Avenir Next Cyr",sans-serif; font-size:12.5px; font-weight:800; color:#b8860b; text-transform:uppercase; letter-spacing:.03em; white-space:nowrap; }
+  font-family:"Bicubik",sans-serif; font-size:12px; font-weight:400; color:#b8860b; text-transform:uppercase; letter-spacing:.1em; white-space:nowrap; }
 .text-section .qa-cardbar .qn-bestmark svg{ width:14px; height:14px; fill:#FFD337; }
 /* answer date shown in the bottom bar instead of the rating */
 .text-section .qa-cardbar .qn-adate{ display:inline-flex; align-items:center; gap:6px; font-family:"Avenir Next Cyr",sans-serif;
@@ -1233,9 +1233,11 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-hero > *{ position:relative; z-index:1; }
 .qn-hero__band{ position:absolute; top:0; bottom:0; left:0; width:100vw; z-index:0; background:#0a0d11; }
 /* breadcrumbs */
-.qn-bc{ display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-size:13px; color:rgba(255,255,255,.55); margin:0 0 24px; }
+.qn-bc{ display:flex; flex-wrap:nowrap; gap:7px; align-items:center; font-size:13px; color:rgba(255,255,255,.55); margin:0 0 24px; min-width:0; }
 .qn-bc a{ color:rgba(255,255,255,.55); text-decoration:none; } .qn-bc a:hover{ color:#fff; }
-.qn-bc__cur{ color:rgba(255,255,255,.85); }
+.qn-bc > a, .qn-bc > span:not(.qn-bc__cur){ flex:0 0 auto; white-space:nowrap; }
+/* last crumb = full question, kept on ONE line and truncated with an ellipsis (full text in title=) */
+.qn-bc__cur{ color:rgba(255,255,255,.85); flex:0 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 /* eyebrow row: "Question from a client" + the asker's city, side by side above the title */
 .qn-eyebrows{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 20px; }
 .qn-eyebrow{ display:flex; width:fit-content; align-items:center; gap:9px; font-family:"Bicubik",sans-serif; font-size:12px;
@@ -2222,7 +2224,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   <nav class="qn-bc" aria-label="Breadcrumb">
     <a href="https://consultantlm.com/">Consultant</a><span>/</span>
     <a href="https://consultantlm.com/consultations">Materials of Specialists</a><span>/</span>
-    <span class="qn-bc__cur">Can I claim compensation for a wrongful arrest?</span>
+    <span class="qn-bc__cur" title="Can I claim compensation for a wrongful arrest?">Can I claim compensation for a wrongful arrest?</span>
   </nav>
   <div class="qn-eyebrows">
     <span class="qn-eyebrow"><i></i>Question from a client</span>

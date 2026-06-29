@@ -1081,7 +1081,10 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* sx-gen cards wrap the answer in .sx-answrap (base pins it to row2 -> collides with the cardbar at row2,
    so the answer drops to the bottom). Pin it to row1 like .qn-wrap and drop the legacy top padding. */
 .text-section .text-card > .sx-answrap{ grid-column:2 !important; grid-row:1 !important; padding-top:0 !important; }
-@media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:22px; } }
+/* meta bar (best-answer + date) sits at qn-wrap top, aligned with the "ANSWERED BY" label of the
+   lawyer column; the answer text below it is nudged down to line up with the lawyer card image. */
+@media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:0; }
+  .text-section .text-card .qn-wrap > .card-answer{ margin-top:6px !important; } }
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 /* drop the "A:" prefix before every answer (base adds it via ::before on .card-answer and .sx-atext) */
 .text-section .text-card .card-answer::before,

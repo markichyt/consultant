@@ -1021,9 +1021,9 @@ body.reminder-open .vip-hero{ padding-top:var(--header-height) !important; }
 /* boot gate: until init() transforms the page, hide the bits that visibly "pop" (auto-sized title,
    injected "Answered by" banner, meta chips, the answer cards incl. the soon-removed "Contact this lawyer").
    The dark hero band stays visible so it reads as loading, not glitching; everything fades in on reveal. */
-html.qn-boot .qn-titlebox, html.qn-boot .qn-leadbox, html.qn-boot .qn-chips,
+html.qn-boot .qn-eyebrow, html.qn-boot .qn-titlebox, html.qn-boot .qn-leadbox, html.qn-boot .qn-chips,
 html.qn-boot .qn-answeredby2, html.qn-boot .text-section .text-card{ opacity:0 !important; }
-.qn-titlebox, .qn-leadbox, .qn-chips, .qn-answeredby2, .text-section .text-card{ transition:opacity .28s ease; }
+.qn-eyebrow, .qn-titlebox, .qn-leadbox, .qn-chips, .qn-answeredby2, .text-section .text-card{ transition:opacity .28s ease; }
 /* RESERVE the hero's final dimensions BEFORE JS/fonts run, so the dark band is full-height from the
    first paint and never changes size (the band growing/shrinking was the visible "twitch" on reload).
    Two things shifted: (1) the "Answered by" banner popped in from display:none; (2) the <h1> paints at
@@ -1217,8 +1217,8 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-bc a{ color:rgba(255,255,255,.55); text-decoration:none; } .qn-bc a:hover{ color:#fff; }
 .qn-bc__cur{ color:rgba(255,255,255,.85); }
 /* eyebrow */
-.qn-eyebrow{ display:inline-flex; align-items:center; gap:9px; font-family:"Bicubik",sans-serif; font-size:12px;
-  letter-spacing:.13em; text-transform:uppercase; color:#41b4ed; background:rgba(19,151,214,.12);
+.qn-eyebrow{ display:flex; width:fit-content; align-items:center; gap:9px; font-family:"Bicubik",sans-serif; font-size:12px;
+  letter-spacing:.13em; text-transform:uppercase; color:#41b4ed; background:rgba(19,151,214,.12); white-space:nowrap;
   border:1px solid rgba(19,151,214,.34); border-radius:3px; padding:6px 12px; margin:0 0 20px; }
 .qn-eyebrow i{ width:7px; height:7px; border-radius:50%; background:#1397d6; flex:0 0 7px; }
 /* TITLE (adaptive — JS sets font-size & box min-height) */
@@ -2200,6 +2200,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
     <a href="https://consultantlm.com/consultations">Materials of Specialists</a><span>/</span>
     <span class="qn-bc__cur">Wrongful arrest &ndash; compensation</span>
   </nav>
+  <span class="qn-eyebrow"><i></i>Question from a user</span>
   <div class="qn-titlebox" id="qnTitleBox"><h1 class="qn-title" id="qnTitle">Can I claim compensation for a wrongful arrest?</h1></div>
   <div class="qn-leadbox" id="qnLeadBox"><p class="qn-lead" id="qnLead">“I was held in custody for several hours because of an error in a police database, even though I committed no crime.” Below, verified specialists answer this exact question — and you can ask yours for free.</p></div>
   <div class="qn-answeredby2" id="qnAnsweredby" hidden></div>

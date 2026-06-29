@@ -4111,7 +4111,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           var o=s.textContent; rep.classList.add('is-done'); s.textContent='Reported'; setTimeout(function(){s.textContent=o;rep.classList.remove('is-done');},1500); });
         bar.appendChild(rep);
       }
-      /* replace the per-card RATE rating with the answer date (DD.MM.YYYY HH:MM:SS) */
+      /* replace the per-card RATE rating with the answer date (DD.MM.YYYY HH:MM — seconds stripped) */
       if(bar && !bar.querySelector('.qn-adate')){
         var dt=''; var ansEl=c.querySelector('.card-answer');
         if(ansEl){ var sp=ansEl.querySelectorAll('span'); for(var si=0; si<sp.length; si++){
@@ -4119,7 +4119,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         if(!dt) dt='14.06.2026 12:00:00';
         var rt=bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';   /* keep in DOM for best-answer rateOf() */
         var de=document.createElement('span'); de.className='qn-adate';
-        de.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+esc(dt);
+        de.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+esc(dt.replace(/:\d{2}$/,''));
         if(rt) bar.insertBefore(de, rt); else bar.insertBefore(de, bar.firstChild);
       }
       var contact=c.querySelector('.qa-contact');

@@ -1051,9 +1051,20 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .qa-cardbar .qa-act.qn-report,
 .text-section .qa-cardbar .qa-cardbar__sep{ display:none !important; }
 .text-section .text-card .sx-rm{ display:none !important; }
-/* the meta bar (best-answer badge + date) is relocated to the TOP of the answer column as a clean header */
+/* top meta row: "ANSWERED BY · date" header over the lawyer card (left), "BEST ANSWER" badge top-right (answer column) */
+.text-section .text-card .qa-lawyer::before{ content:none !important; }   /* native "ANSWERED BY" label replaced by a real header that carries the date */
+.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:wrap; gap:9px; margin:0 0 8px;
+  font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.13em; text-transform:uppercase; line-height:1.2; }
+.text-section .text-card .qn-abhead .qn-ablbl{ color:#9aa0a6; }
+.text-section .text-card .qn-abhead .qn-adate{ position:relative; padding-left:14px; color:#6b7177;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:12.5px; font-weight:600; letter-spacing:0; text-transform:none; white-space:nowrap; }
+.text-section .text-card .qn-abhead .qn-adate::before{ content:"·"; position:absolute; left:3px; color:#c2c7cc; }
+/* the relocated bar now carries ONLY the best-answer badge, pinned to the top-RIGHT of the answer column */
 .text-section .text-card .qn-wrap > .qa-cardbar,
-.text-section .text-card .sx-answrap > .qa-cardbar{ margin:0 0 12px !important; padding:0 !important; border:0 !important; min-height:0 !important; }
+.text-section .text-card .sx-answrap > .qa-cardbar{ margin:0 0 8px !important; padding:0 !important; border:0 !important; min-height:18px !important;
+  align-self:stretch !important; width:auto !important; justify-content:flex-end !important; }
+.text-section .text-card .qn-wrap > .qa-cardbar .qn-bestmark,
+.text-section .text-card .sx-answrap > .qa-cardbar .qn-bestmark{ margin:0 !important; }
 /* Contact lives in the profile now -> hide the inline button on the card */
 .text-section .text-card .qa-contact.qn-hidden{ display:none !important; }
 .text-section .text-card .qn-i{ cursor:pointer; }
@@ -4121,16 +4132,17 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       if(c.__qn) return; c.__qn=1;
       var bar=c.querySelector('.qa-cardbar');
       /* Report button removed per request (no longer created). */
-      /* replace the per-card RATE rating with the answer date (DD.MM.YYYY HH:MM — seconds stripped) */
-      if(bar && !bar.querySelector('.qn-adate')){
+      /* answer date -> attached to the "Answered by" label above the lawyer card (DD.MM.YYYY HH:MM) */
+      var lawyer=c.querySelector('.qa-lawyer');
+      if(lawyer && !lawyer.querySelector('.qn-abhead')){
         var dt=''; var ansEl=c.querySelector('.card-answer');
         if(ansEl){ var sp=ansEl.querySelectorAll('span'); for(var si=0; si<sp.length; si++){
           var tx=sp[si].textContent.trim(); if(/^\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2}:\d{2}$/.test(tx)){ dt=tx; break; } } }
         if(!dt) dt='14.06.2026 12:00:00';
-        var rt=bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';   /* keep in DOM for best-answer rateOf() */
-        var de=document.createElement('span'); de.className='qn-adate';
-        de.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg>'+esc(dt.replace(/:\d{2}$/,''));
-        if(rt) bar.insertBefore(de, rt); else bar.insertBefore(de, bar.firstChild);
+        var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';   /* keep in DOM for best-answer rateOf() */
+        var hd=document.createElement('div'); hd.className='qn-abhead';
+        hd.innerHTML='<span class="qn-ablbl">Answered by</span><span class="qn-adate">'+esc(dt.replace(/:\d{2}$/,''))+'</span>';
+        lawyer.insertBefore(hd, lawyer.firstChild);
       }
       var contact=c.querySelector('.qa-contact');
       if(contact && !contact.classList.contains('qn-hidden') && isAI(c)){ contact.classList.add('qn-hidden'); contact=null; }

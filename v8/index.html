@@ -4181,8 +4181,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       var plus=Math.max(1, total - 1);   /* "+N more specialists" (mirrors screenshot 2) */
       var stack=shown.map(function(s){ return '<img src="'+s+'" alt="" decoding="async">'; }).join('');
       ab.innerHTML=''
-        +'<div class="qn-answeredby2__txt"><div class="qn-answeredby2__big">Answered by '+total+' specialists</div>'
-        +'<span class="qn-answeredby2__sub">Including 2 verified attorneys &middot; <a href="#answers" id="qnReadAll">Read all answers \u2193</a></span></div>'
+        +'<div class="qn-answeredby2__txt"><div class="qn-answeredby2__big">Answered by specialists</div>'
+        +'<span class="qn-answeredby2__sub">Including 4 verified specialists &middot; <a href="#answers" id="qnReadAll">Read all answers \u2193</a></span></div>'
         +'<div class="qn-answeredby2__right"><span class="qn-answeredby2__plus">+'+plus+'</span><span class="qn-stack">'+stack+'</span></div>';
       ab.hidden=false;
       var ra=document.getElementById('qnReadAll');

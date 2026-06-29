@@ -1216,11 +1216,15 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-bc{ display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-size:13px; color:rgba(255,255,255,.55); margin:0 0 24px; }
 .qn-bc a{ color:rgba(255,255,255,.55); text-decoration:none; } .qn-bc a:hover{ color:#fff; }
 .qn-bc__cur{ color:rgba(255,255,255,.85); }
-/* eyebrow */
+/* eyebrow row: "Question from a client" + the asker's city, side by side above the title */
+.qn-eyebrows{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 20px; }
 .qn-eyebrow{ display:flex; width:fit-content; align-items:center; gap:9px; font-family:"Bicubik",sans-serif; font-size:12px;
   letter-spacing:.13em; text-transform:uppercase; color:#41b4ed; background:rgba(19,151,214,.12); white-space:nowrap;
-  border:1px solid rgba(19,151,214,.34); border-radius:3px; padding:6px 12px; margin:0 0 20px; }
+  border:1px solid rgba(19,151,214,.34); border-radius:3px; padding:6px 12px; margin:0; }
 .qn-eyebrow i{ width:7px; height:7px; border-radius:50%; background:#1397d6; flex:0 0 7px; }
+.qn-eyebrow svg{ width:13px; height:13px; flex:0 0 13px; }
+/* city pill — neutral secondary tag next to the blue one */
+.qn-eyebrow--city{ color:rgba(255,255,255,.82); background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.18); }
 /* TITLE (adaptive — JS sets font-size & box min-height) */
 .qn-titlebox{ display:flex; align-items:flex-end; max-width:760px; margin:0 0 18px; }
 .qn-title{ font-family:"Bicubik",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.01em;
@@ -2198,9 +2202,12 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   <nav class="qn-bc" aria-label="Breadcrumb">
     <a href="https://consultantlm.com/">Consultant</a><span>/</span>
     <a href="https://consultantlm.com/consultations">Materials of Specialists</a><span>/</span>
-    <span class="qn-bc__cur">Wrongful arrest &ndash; compensation</span>
+    <span class="qn-bc__cur">Can I claim compensation for a wrongful arrest?</span>
   </nav>
-  <span class="qn-eyebrow"><i></i>Question from a user</span>
+  <div class="qn-eyebrows">
+    <span class="qn-eyebrow"><i></i>Question from a client</span>
+    <span class="qn-eyebrow qn-eyebrow--city"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z" stroke-linejoin="round"/><circle cx="12" cy="11" r="2.2"/></svg>Houston, TX</span>
+  </div>
   <div class="qn-titlebox" id="qnTitleBox"><h1 class="qn-title" id="qnTitle">Can I claim compensation for a wrongful arrest?</h1></div>
   <div class="qn-leadbox" id="qnLeadBox"><p class="qn-lead" id="qnLead">“I was held in custody for several hours because of an error in a police database, even though I committed no crime.” Below, verified specialists answer this exact question — and you can ask yours for free.</p></div>
   <div class="qn-answeredby2" id="qnAnsweredby" hidden></div>

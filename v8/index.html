@@ -1053,7 +1053,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .sx-rm{ display:none !important; }
 /* top meta row: "ANSWERED BY · date" header over the lawyer card (left), "BEST ANSWER" badge top-right (answer column) */
 .text-section .text-card .qa-lawyer::before{ content:none !important; }   /* native "ANSWERED BY" label replaced by a real header that carries the date */
-.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:wrap; gap:9px; margin:0 0 8px;
+.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:nowrap; gap:9px; margin:0 0 8px; min-width:0; overflow:hidden;
   font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.13em; text-transform:uppercase; line-height:1.2; }
 .text-section .text-card .qn-abhead .qn-ablbl{ color:#9aa0a6; }
 .text-section .text-card .qn-abhead .qn-adate{ position:relative; padding-left:14px; color:#6b7177;

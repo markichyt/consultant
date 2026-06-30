@@ -4157,7 +4157,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
         hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
-        c.insertBefore(hd, lawyer);   /* full-width header above both float and text */
+        c.insertBefore(hd, c.firstElementChild||c.firstChild);   /* full-width header — always first in card */
       }
       /* normalize role to: Attorney | Lawyer | Artificial intelligence */
       var jobEl=c.querySelector('.balance-card__job');
@@ -4191,6 +4191,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           if(bar) wp.insertBefore(bar, wp.firstChild);
           /* hide the bar when it has nothing visible (no bestmark = just a hidden rate element) */
           if(bar && !bar.querySelector('.qn-bestmark')){ bar.hidden=true; }
+          /* float layout requires lawyer BEFORE qn-wrap in DOM; native HTML has card-answer first, so reorder */
+          if(lawyer && lawyer.parentNode===c) c.insertBefore(lawyer, wp);
           /* clip if text > 300 chars; expand = just remove qn-clip (no inner scroll) */
           var evalClip=function(){
             if(wp.querySelector('.qn-more')) return;

@@ -1094,8 +1094,15 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card > .sx-answrap{ grid-column:2 !important; grid-row:1 !important; padding-top:0 !important; }
 /* meta bar (best-answer + date) sits at qn-wrap top, aligned with the "ANSWERED BY" label of the
    lawyer column; the answer text below it is nudged down to line up with the lawyer card image. */
-@media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:0; }
-  .text-section .text-card .qn-wrap > .card-answer{ margin-top:6px !important; } }
+@media(min-width:992px){
+  /* float layout: lawyer card floats left, answer text wraps around it and fills space below */
+  .text-section .text-card{ display:block !important; }
+  .text-section .text-card::after{ content:""; display:table; clear:both; }
+  .text-section .text-card .qa-lawyer{ float:left !important; width:360px !important; margin:0 24px 14px 0 !important; grid-row:auto !important; }
+  .text-section .text-card .qn-wrap{ display:block !important; overflow:hidden !important; grid-column:auto !important; grid-row:auto !important; margin-top:0; }
+  .text-section .text-card > .sx-answrap{ display:block !important; overflow:hidden !important; padding-top:0 !important; grid-column:auto !important; grid-row:auto !important; }
+  .text-section .text-card .qn-wrap > .card-answer{ margin-top:6px !important; }
+}
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 /* drop the "A:" prefix before every answer (base adds it via ::before on .card-answer and .sx-atext) */
 .text-section .text-card .card-answer::before,
@@ -1112,6 +1119,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* mobile: stack the answer card (lawyer above answer) instead of the 360px desktop grid */
 @media(max-width:991px){
   .text-section .text-card{ display:flex !important; flex-direction:column !important; grid-template-columns:none !important; }
+  .text-section .text-card .qn-abhead{ order:-2 !important; }
   .text-section .text-card .qa-lawyer{ order:-1 !important; width:100% !important; max-width:100% !important; margin:0 0 14px !important; }
   .text-section .text-card .qn-wrap,
   .text-section .text-card > .sx-answrap{ order:0 !important; }
@@ -4149,7 +4157,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
         hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
-        lawyer.insertBefore(hd, lawyer.firstChild);
+        c.insertBefore(hd, lawyer);   /* full-width header above both float and text */
       }
       /* normalize role to: Attorney | Lawyer | Artificial intelligence */
       var jobEl=c.querySelector('.balance-card__job');

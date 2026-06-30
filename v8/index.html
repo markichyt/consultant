@@ -1053,12 +1053,12 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .sx-rm{ display:none !important; }
 /* top meta row: "ANSWERED BY · date" header over the lawyer card (left), "BEST ANSWER" badge top-right (answer column) */
 .text-section .text-card .qa-lawyer::before{ content:none !important; }   /* native "ANSWERED BY" label replaced by a real header that carries the date */
-.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:nowrap; gap:9px; margin:0 0 8px; min-width:0; overflow:hidden;
-  font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.13em; text-transform:uppercase; line-height:1.2; }
-.text-section .text-card .qn-abhead .qn-ablbl{ color:#9aa0a6; }
-.text-section .text-card .qn-abhead .qn-adate{ position:relative; padding-left:14px; color:#6b7177;
-  font-family:"Bicubik",sans-serif; font-size:12px; font-weight:400; letter-spacing:.06em; text-transform:none; white-space:nowrap; }
-.text-section .text-card .qn-abhead .qn-adate::before{ content:"·"; position:absolute; left:3px; color:#c2c7cc; }
+.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:nowrap; gap:8px; margin:0 0 8px; min-width:0; overflow:hidden;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:11px; letter-spacing:.04em; text-transform:uppercase; line-height:1.2; }
+.text-section .text-card .qn-abhead .qn-ablbl{ color:#9aa0a6; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:0 1 auto; }
+.text-section .text-card .qn-abhead .qn-adate{ position:relative; padding-left:12px; color:#6b7177;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; flex:0 0 auto; }
+.text-section .text-card .qn-abhead .qn-adate::before{ content:"·"; position:absolute; left:2px; color:#c2c7cc; }
 /* the relocated bar now carries ONLY the best-answer badge, pinned to the top-RIGHT of the answer column */
 .text-section .text-card .qn-wrap > .qa-cardbar,
 .text-section .text-card .sx-answrap > .qa-cardbar{ margin:0 0 8px !important; padding:0 !important; border:0 !important; min-height:18px !important;
@@ -4144,9 +4144,11 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       var lawyer=c.querySelector('.qa-lawyer');
       if(lawyer && !lawyer.querySelector('.qn-abhead')){
         var m=AMETAS[idx]||AMETAS[0];
+        var nparts=m.name.split(' ');
+        var shortN=nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0];
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
-        hd.innerHTML='<span class="qn-ablbl">Answered by <b>'+esc(m.name)+'</b> in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
+        hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
         lawyer.insertBefore(hd, lawyer.firstChild);
       }
       /* normalize role to: Attorney | Lawyer | Artificial intelligence */

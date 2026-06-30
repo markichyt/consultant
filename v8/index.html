@@ -1102,11 +1102,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .sx-atext::before{ content:none !important; }
 .text-section .text-card .card-answer.qn-clip{ max-height:140px !important; overflow:hidden !important;
   -webkit-mask-image:linear-gradient(180deg,#000 60%,transparent 100%); mask-image:linear-gradient(180deg,#000 60%,transparent 100%); }
-.text-section .text-card .card-answer.qn-open{ max-height:clamp(220px,32vh,360px) !important; overflow-y:auto !important;
-  overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding-right:10px; width:100%;
-  scrollbar-width:thin; scrollbar-color:rgba(19,151,214,.5) transparent; }
-.text-section .text-card .card-answer.qn-open::-webkit-scrollbar{ width:8px; }
-.text-section .text-card .card-answer.qn-open::-webkit-scrollbar-thumb{ background:rgba(19,151,214,.45); border-radius:3px; }
+.text-section .text-card .card-answer.qn-open{ max-height:none !important; overflow:visible !important; -webkit-mask-image:none !important; mask-image:none !important; }
 .text-section .text-card .qn-more{ margin-top:8px; background:none; border:0; padding:2px 0; color:#6b7177;
   font:inherit; font-weight:700; font-size:13px; letter-spacing:.01em; cursor:pointer; display:inline-flex; align-items:center; gap:5px; }
 .text-section .text-card .qn-more:hover{ color:#1397d6; }
@@ -1115,8 +1111,10 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .balance-card__name b{ white-space:normal !important; overflow-wrap:break-word !important; }
 /* mobile: stack the answer card (lawyer above answer) instead of the 360px desktop grid */
 @media(max-width:991px){
-  .text-section .text-card{ display:block !important; grid-template-columns:none !important; }
-  .text-section .text-card .qa-lawyer{ width:100% !important; max-width:100% !important; margin:0 0 14px !important; }
+  .text-section .text-card{ display:flex !important; flex-direction:column !important; grid-template-columns:none !important; }
+  .text-section .text-card .qa-lawyer{ order:-1 !important; width:100% !important; max-width:100% !important; margin:0 0 14px !important; }
+  .text-section .text-card .qn-wrap,
+  .text-section .text-card > .sx-answrap{ order:0 !important; }
 }
 /* --- card shell (361x200, radius 10, soft shadow) --- */
 .text-section .text-card .qa-lawyer .balance-card{ position:relative !important; height:200px !important; min-height:200px !important; max-height:200px !important;
@@ -1186,16 +1184,17 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-related a{ display:flex; align-items:center; gap:10px; padding:13px 15px; font-size:14px; color:#1b1b1b; text-decoration:none; }
 .qn-related a:hover{ background:#f7f9fb; }
 .qn-related a svg{ margin-left:auto; width:16px; height:16px; flex:0 0 16px; color:#1397d6; }
-/* legal disclaimer — DARK panel (stands out on the white article body) */
-.qn-legal{ max-width:1500px; margin:28px auto 44px; padding:22px clamp(18px,2vw,30px); font-family:"Avenir Next Cyr",sans-serif;
-  font-size:13px; line-height:1.64; color:rgba(255,255,255,.84); background:#11151a; border:1px solid rgba(255,255,255,.08);
-  border-left:4px solid #1397d6; border-radius:3px; box-shadow:0 16px 38px rgba(10,13,17,.16); }
-.qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color:#fff; margin:0 0 10px; }
-.qn-legal b{ color:#fff; font-weight:700; }
-.qn-legal p{ margin:0 0 10px; }
+/* legal disclaimer — LIGHT, understated note panel (fine print, calm) */
+.qn-legal{ max-width:1500px; margin:28px auto 44px; padding:20px clamp(18px,2vw,28px); font-family:"Avenir Next Cyr",sans-serif;
+  font-size:12.5px; line-height:1.66; color:#5b646c; background:#f6f7f9; border:1px solid #e6e8ee; border-radius:3px; }
+.qn-legal__head{ display:flex; align-items:center; gap:9px; margin:0 0 13px; padding-bottom:12px; border-bottom:1px solid #e8eaee; }
+.qn-legal__head svg{ width:18px; height:18px; color:#9aa0a6; flex:0 0 18px; }
+.qn-legal h4{ font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:#7a828a; margin:0; }
+.qn-legal b{ color:#2c3a40; font-weight:700; }
+.qn-legal p{ margin:0 0 9px; }
 .qn-legal p:last-child{ margin:0; }
 /* unified end-of-article plashka: "THINK YOU HAVE A CLAIM" CTA + merged SHARE row */
-.qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:linear-gradient(135deg,#1f9ad8,#0f6fa3); border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
+.qn-claim{ max-width:1500px; margin:24px auto; padding:26px clamp(18px,2.4vw,34px); background:#1389c9; border-radius:3px; color:#fff; font-family:"Avenir Next Cyr",sans-serif; display:flex; align-items:center; justify-content:space-between; gap:22px 40px; flex-wrap:wrap; }
 .qn-claim__main{ flex:1 1 440px; min-width:0; }
 .qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.6vw,30px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 16px; }
 .qn-claim p{ margin:0 0 18px; font-size:15px; color:rgba(255,255,255,.92); } .qn-claim .qn-star{ color:#FFD337; } .qn-claim p b{ color:#fff; font-weight:700; }
@@ -1274,7 +1273,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 
 /* "Answered by N specialists" banner (screenshot 2 — light gradient card) */
 .qn-answeredby2{ display:flex; align-items:center; gap:20px; margin:0 0 24px; max-width:760px;
-  background:linear-gradient(118deg,#f3f5f7 0%,#e8ebee 52%,#dde1e6 100%);
+  background:#edeff2;
   border-radius:3px; padding:22px 26px; box-shadow:0 20px 44px rgba(0,0,0,.30); }
 .qn-answeredby2[hidden]{ display:none; }
 .qn-answeredby2__txt{ min-width:0; }
@@ -1587,9 +1586,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-umodal__panel{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; padding:clamp(24px,4vw,52px) clamp(20px,4vw,54px); gap:clamp(14px,2vw,20px); }
 .qn-umodal__h{ font-family:"Bicubik",sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:.045em;
-  font-size:clamp(34px,4.6vw,58px); line-height:1.02; margin:0;
-  background:linear-gradient(180deg,#f5f6f8 0%,#cbced4 36%,#8d9097 68%,#e3e6ea 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent; }
+  font-size:clamp(34px,4.6vw,58px); line-height:1.02; margin:0; color:#fff; }
 .qn-umodal__p{ margin:0; max-width:390px; font-family:"Avenir Next Cyr",sans-serif; font-size:clamp(14px,1.5vw,16px);
   line-height:1.55; color:rgba(255,255,255,.62); }
 .qn-umodal__arrow{ display:block; color:rgba(255,255,255,.34); margin:1px 0; }
@@ -4130,21 +4127,33 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     }
 
     /* ----- per-card transforms (report / profile / disclaimer / read-more) ----- */
-    cards.forEach(function(c){
+    var ATEXTS=["Based on the facts you have described, you likely have a viable civil rights claim. A wrongful arrest due to a police database error is a recognized cause of action in U.S. federal courts. I recommend consulting a civil rights attorney promptly to assess the specific circumstances of your situation and evaluate the strength of your claim before the limitations period expires.", "A wrongful arrest caused by a government database error can give rise to several legal claims under both federal and state law.\n\nUnder 42 U.S.C. \u00a7\u202f1983 you may bring a claim against the law enforcement agency for violating your Fourth Amendment right to be free from unreasonable seizure. Even if the arresting officers acted in good faith relying on facially valid warrant information, the municipality itself may still be liable under Monell v. Department of Social Services if the error resulted from a systemic failure in record-keeping or an inadequate database-maintenance policy.\n\nFor your case I would begin by obtaining the arrest report and any written documentation of the database error. Record your lost earnings from the missed work meeting, any medical or psychological treatment you sought, and a detailed timeline of your detention. These records form the foundation of a damages claim.", "Your situation falls squarely within the civil rights law that federal courts enforce regularly, and you have several meaningful legal options available to you.\n\nThe primary theory is a \u00a7\u202f1983 claim for a Fourth Amendment violation. For an arrest to be constitutionally permissible it must be supported by probable cause \u2014 a reasonable belief based on articulable facts that the arrestee committed a crime. When that belief rests entirely on a database error, there is no actual probable cause, and the arrest is constitutionally defective.\n\nRegarding defendants: you can sue the individual officers (though they will raise qualified immunity, arguing they reasonably relied on the database), and \u2014 more promisingly \u2014 the municipality under Monell if the error reflects an inadequate record-keeping policy or a failure to train personnel who manage the warrant database.\n\nDamages available in a successful action include: lost wages from the missed meeting; compensation for the hours spent in unlawful custody (courts routinely award between $100 and $500 per hour of wrongful confinement); emotional distress damages; out-of-pocket costs; and attorney\u2019s fees under 42 U.S.C. \u00a7\u202f1988 if you prevail.\n\nAct quickly: the statute of limitations for \u00a7\u202f1983 claims is typically two to three years from the date of arrest, but some states require a formal notice of claim within 90\u2013180 days. Do not delay in consulting a civil rights attorney.", "This is a situation where you have clear legal recourse, and I want to walk you through each element of what a successful compensation claim looks like.\n\nThe Legal Framework\n\nYour primary avenue of relief is a civil rights action under 42 U.S.C. \u00a7\u202f1983. This federal statute allows any person whose constitutional rights have been violated by a state actor to sue for damages in federal court. The constitutional violation here is a Fourth Amendment false arrest \u2014 you were seized without probable cause because the probable cause was premised entirely on a database error.\n\nWho Can You Sue?\n\nYou can potentially bring claims against: (1) the individual officers who arrested you, though they will likely raise a qualified immunity defense; (2) the police department or municipality under the Monell doctrine, if the database error resulted from an inadequate or outdated record-keeping policy; and (3) the state agency responsible for maintaining the criminal database, if their negligence caused the error to persist uncorrected.\n\nWhat Damages Can You Recover?\n\nIn a successful action you may be entitled to: lost wages from the work meeting you missed; compensation for the hours of unlawful detention (courts typically award $100\u2013$500 per hour); emotional distress damages, which can be substantial if you can demonstrate anxiety, sleep disruption, or other psychological impact; out-of-pocket costs such as transportation and childcare disrupted by the arrest; punitive damages if the agency showed reckless disregard for accurate record-keeping; and attorney\u2019s fees under \u00a7\u202f1988.\n\nPractical Next Steps\n\nGather all documentation now: the arrest report, written confirmation of the database error, your work schedule showing the missed meeting, and any medical records. File a formal complaint with the police department\u2019s internal affairs division to create a paper trail. Then consult a civil rights attorney \u2014 many take \u00a7\u202f1983 cases on a contingency basis, meaning no upfront cost to you.", "Thank you for sharing your situation. Based on what you\u2019ve described, here is a comprehensive analysis of your legal position and the options available to you.\n\nYour Core Legal Claim: False Arrest\n\nA wrongful arrest occurs when law enforcement takes a person into custody without lawful authority. In your case the arrest was premised entirely on a database error, meaning there was no actual legal basis for your detention. This constitutes a false arrest under both common law tort principles and federal constitutional law.\n\nFederal Constitutional Claim (\u00a7\u202f1983)\n\nThe Fourth Amendment protects individuals against unreasonable searches and seizures. An arrest made on the basis of a known inaccurate database record \u2014 or one that should have been corrected \u2014 violates this protection. Under \u00a7\u202f1983 you may sue:\n\nThe individual officers: While they may assert qualified immunity (arguing they acted in objective good faith on facially valid warrant information), recent case law has narrowed this defense where errors were systemic or where simple verification steps could have prevented the arrest.\n\nThe municipality: Under Monell v. Department of Social Services (1978), local governments can be held liable when a constitutional violation results from an official policy, widespread practice, or failure to train. A persistent database error affecting arrest records is precisely the kind of systemic failure courts have held municipalities responsible for.\n\nState-Level Claims\n\nIn addition to federal \u00a7\u202f1983 claims, you may have state tort claims including: false imprisonment (unlawful restraint of your liberty); negligence against the agency that maintained the faulty database; and intentional or negligent infliction of emotional distress.\n\nCalculating Your Damages\n\nA court or jury will consider: lost wages from the missed meeting and any future earning impact; non-economic damages for emotional distress, humiliation, and reputational harm; punitive damages if the agency showed reckless disregard for maintaining accurate records; and attorney\u2019s fees under 42 U.S.C. \u00a7\u202f1988 if you prevail on the \u00a7\u202f1983 claim.\n\nTimeline and Practical Steps\n\nThe statute of limitations for \u00a7\u202f1983 claims varies by state, typically two to three years from the date of the constitutional violation. To preserve your claim: request a complete copy of your arrest record immediately; obtain written documentation of the database error from the relevant agency; preserve all evidence of your damages including pay stubs, calendar records, and any medical or therapy records; send a formal written notice of your claim to the relevant government entities if required by your state; and consult a civil rights attorney \u2014 many handle these cases on contingency.", "Based on the facts you have presented, I can provide a thorough analysis of your legal options under both federal and state law. This is a situation where the law is firmly on your side.\n\nPart 1: The Constitutional Foundation\n\nThe Fourth Amendment to the U.S. Constitution guarantees the right of people to be secure in their persons against unreasonable seizures. An arrest is a seizure within the meaning of the Fourth Amendment. For an arrest to be constitutionally permissible it must be supported by probable cause \u2014 a reasonable belief, based on articulable facts and circumstances, that the arrestee has committed a crime.\n\nWhen you were arrested on the basis of a database error that falsely identified you as a wanted suspect, there was, in legal terms, no actual probable cause. The officers may have subjectively believed they had authority to arrest you, but that belief was premised on false information. Courts across federal circuits have consistently held that where the underlying data supporting an arrest is inaccurate, the resulting arrest may be constitutionally defective.\n\nPart 2: Federal Civil Rights Claim (42 U.S.C. \u00a7\u202f1983)\n\nYour primary federal cause of action arises under 42 U.S.C. \u00a7\u202f1983, which provides a private right of action for any person deprived of constitutional rights by a person acting under color of state law. Elements you must establish: (1) the defendant was acting under color of state law; (2) the defendant\u2019s conduct deprived you of a right secured by the Constitution; (3) the deprivation caused you actual injury. All three elements appear to be satisfied in your case.\n\nQualified Immunity Considerations: Officers will almost certainly assert qualified immunity, which shields government officials from personal liability unless they violated a clearly established constitutional right that a reasonable person would have known. In wrongful-arrest cases based on database errors, the immunity analysis turns on whether the officers had any independent reason to doubt the validity of the warrant and whether the department had protocols for verifying warrant information before an arrest. If you have any facts suggesting the officers or their department were on notice that the database was unreliable, this significantly weakens their immunity defense.\n\nMonell Liability (Municipal): Under Monell v. Department of Social Services (436 U.S. 658, 1978), municipalities cannot be held liable under \u00a7\u202f1983 on a respondeat superior theory, but they can be held liable when a constitutional deprivation is caused by an official policy, a widespread practice amounting to a custom, or a failure to train, supervise, or discipline employees. The key question in your case is whether the database error represents an isolated incident or evidence of a systemic failure. If records show a pattern of such errors, or if the database was known to contain inaccuracies, you have a strong Monell claim against the municipality.\n\nPart 3: State Law Claims\n\nIn parallel with your federal claims, you likely have the following state tort claims: False Arrest / False Imprisonment \u2014 under most state laws, a false arrest is an unlawful restraint of a person\u2019s freedom of movement, and the tort does not require malice. Negligence \u2014 the agency responsible for maintaining the criminal records database owed a duty of care to individuals in the database, and a persistent uncorrected error is strong evidence of breach. Intentional or Negligent Infliction of Emotional Distress \u2014 depending on the conduct of the arresting officers and the circumstances of your detention, these may also be available.\n\nPart 4: Damages\n\nLost wages: calculate the exact monetary value of the missed work meeting and any other income lost. Compensation for time in custody: courts routinely award damages for the time spent in wrongful confinement. Emotional distress: document any psychological impact \u2014 anxiety, sleep disruption, difficulty returning to normal work, or any professional treatment sought. Reputational harm: if the arrest became publicly known in your workplace or community. Punitive damages: potentially available if the arresting agency showed deliberate indifference to the accuracy of its records. Attorney\u2019s fees: under 42 U.S.C. \u00a7\u202f1988 you are entitled to attorney\u2019s fees if you prevail on a \u00a7\u202f1983 claim.\n\nPart 5: Immediate Action Steps\n\nRequest the arrest record and any internal documentation of the database error. Secure all evidence of your damages: pay stubs, meeting logs, correspondence, medical records. File a formal notice of claim against the government entity if required by your state \u2014 usually within 90\u2013180 days of the incident. Consult a civil rights attorney promptly, as \u00a7\u202f1983 limitations periods are typically two to three years but state notice requirements may be much shorter. Ask your attorney to submit a public records request to determine how long the database error existed and whether other individuals were similarly affected \u2014 this could support a Monell claim or even a class action."];
+    var AMETAS=[{"name": "James R. Carter", "mins": 5, "ago": "16 days ago"}, {"name": "Laura Bennett", "mins": 3, "ago": "16 days ago"}, {"name": "Daniel R. Pierce", "mins": 8, "ago": "15 days ago"}, {"name": "Karen Whitfield", "mins": 1, "ago": "16 days ago"}, {"name": "GPT Chat", "mins": 2, "ago": "15 days ago"}, {"name": "Grok AI", "mins": 4, "ago": "14 days ago"}];
+    cards.forEach(function(c,idx){
       if(c.__qn) return; c.__qn=1;
       var bar=c.querySelector('.qa-cardbar');
-      /* Report button removed per request (no longer created). */
-      /* answer date -> attached to the "Answered by" label above the lawyer card (DD.MM.YYYY HH:MM) */
+      /* inject answer text by card index (varying lengths 300..3500 chars) */
+      if(idx<ATEXTS.length){
+        var ansEl2=c.querySelector('.card-answer');
+        if(ansEl2){
+          var paras=ATEXTS[idx].split('\n\n');
+          ansEl2.innerHTML=paras.map(function(p){ return '<p style="margin:0 0 11px;line-height:1.68">'+esc(p)+'</p>'; }).join('');
+        }
+      }
+      /* "Answered by Name in N mins · X ago" header above the lawyer card */
       var lawyer=c.querySelector('.qa-lawyer');
       if(lawyer && !lawyer.querySelector('.qn-abhead')){
-        var dt=''; var ansEl=c.querySelector('.card-answer');
-        if(ansEl){ var sp=ansEl.querySelectorAll('span'); for(var si=0; si<sp.length; si++){
-          var tx=sp[si].textContent.trim(); if(/^\d{2}\.\d{2}\.\d{4}\s+\d{2}:\d{2}:\d{2}$/.test(tx)){ dt=tx; break; } } }
-        if(!dt) dt='14.06.2026 12:00:00';
-        var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';   /* keep in DOM for best-answer rateOf() */
+        var m=AMETAS[idx]||AMETAS[0];
+        var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
-        hd.innerHTML='<span class="qn-ablbl">Answered by</span><span class="qn-adate">'+esc(dt.replace(/:\d{2}$/,''))+'</span>';
+        hd.innerHTML='<span class="qn-ablbl">Answered by <b>'+esc(m.name)+'</b> in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
         lawyer.insertBefore(hd, lawyer.firstChild);
+      }
+      /* normalize role to: Attorney | Lawyer | Artificial intelligence */
+      var jobEl=c.querySelector('.balance-card__job');
+      if(jobEl){
+        var jt=jobEl.textContent||'';
+        jobEl.textContent=isAI(c)?'Artificial intelligence':(/[Aa]ttorney/.test(jt)?'Attorney':/[Ll]awyer/.test(jt)?'Lawyer':'Attorney');
       }
       var contact=c.querySelector('.qa-contact');
       if(contact && !contact.classList.contains('qn-hidden') && isAI(c)){ contact.classList.add('qn-hidden'); contact=null; }
@@ -4170,24 +4179,21 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           var wp=document.createElement('div'); wp.className='qn-wrap'; ans.parentNode.insertBefore(wp,ans); wp.appendChild(ans);
           /* meta bar (best-answer badge + date) -> the TOP of the answer column, above the answer text */
           if(bar) wp.insertBefore(bar, wp.firstChild);
+          /* clip if text > 300 chars; expand = just remove qn-clip (no inner scroll) */
           var evalClip=function(){
-            if(wp.querySelector('.qn-more')||ans.classList.contains('qn-clip')) return;   /* already evaluated */
-            if(ans.scrollHeight>160){   /* clip when answer is taller than the ~140px preview; threshold sits below the line-wrap wobble so it's deterministic */
+            if(wp.querySelector('.qn-more')) return;
+            var tlen=(ans.textContent||'').replace(/\s+/g,' ').trim().length;
+            if(tlen>300){
               ans.classList.add('qn-clip');
-              var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read more \u2193'; wp.appendChild(b);
-              b.addEventListener('click',function(){ var open=ans.classList.toggle('qn-open'); ans.classList.toggle('qn-clip',!open);
-                b.textContent=open?'Show less \u2191':'Read more \u2193'; if(open) ans.scrollTop=0; });
+              var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read all \u2193'; wp.appendChild(b);
+              b.addEventListener('click',function(){
+                var collapsed=ans.classList.contains('qn-clip');
+                if(collapsed){ ans.classList.remove('qn-clip'); ans.classList.add('qn-open'); b.textContent='Show less \u2191'; }
+                else { ans.classList.add('qn-clip'); ans.classList.remove('qn-open'); b.textContent='Read all \u2193'; }
+              });
             }
           };
           evalClip();
-          if(document.fonts&&document.fonts.ready) document.fonts.ready.then(evalClip);   /* re-check once the web-font reflows the text */
-          /* the answer height settles LATE (web-fonts + the injected rating block reflow it past the threshold
-             AFTER the first eval) -> re-check on a few delays, on resize, and on any size change so the
-             "Read more" clip is never missed (was racing and silently skipping long answers). */
-          [120,400,900,1800].forEach(function(t){ setTimeout(evalClip,t); });
-          window.addEventListener('resize',evalClip);
-          if(window.ResizeObserver){ var ro=new ResizeObserver(function(){ evalClip();
-            if(ans.classList.contains('qn-clip')||wp.querySelector('.qn-more')) ro.disconnect(); }); ro.observe(ans); }
         }
       }
     });
@@ -4454,25 +4460,21 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var cl=document.createElement('section'); cl.className='qn-claim';
         cl.innerHTML='<div class="qn-claim__main">'
           +'<h3>Think you have a wrongful arrest claim?</h3>'
-          +'<button class="qn-claim__btn" type="button">Ask your question \u2014 free \u2192</button></div>'
-          +'<div class="qn-claim__share"><span class="qn-claim__shlabel">Or share to unlock</span>'
-          +'<div class="qn-claim__shrow">'+row+'</div></div>';
+          +'<p>Share the page and get the chance to ask your question right now!</p>'
+          +'<button class="qn-claim__btn" type="button">Get a free question \u2192</button></div>';
         var shareBar=document.querySelector('.share-list.content-hero__share');
         var anchor=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
         if(anchor){ anchor.parentNode.insertBefore(cl, anchor); }
         else if(shareBar){ shareBar.parentNode.insertBefore(cl, shareBar.nextSibling); }
         else { (document.querySelector('main')||document.body).appendChild(cl); }
         cl.querySelector('.qn-claim__btn').addEventListener('click',unlockModal);
-        var cp=cl.querySelector('.qn-claim__sh--copy');
-        if(cp) cp.addEventListener('click',function(){ copyLink(cp,askFree); });
-        [].forEach.call(cl.querySelectorAll('a.qn-claim__sh'),function(a){ a.addEventListener('click',askFree); });
-        if(shareBar) shareBar.style.display='none';   /* native bar merged into the plashka */
+        if(shareBar) shareBar.style.display='none';
       }
     })();
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
-      f.innerHTML='<h4>Legal disclaimer</h4>'+
+      f.innerHTML='<div class="qn-legal__head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 19.3 5 15.4 5 11V6l7-3z" stroke-linejoin="round"/><path d="M9.3 11.8l1.8 1.8 3.7-3.9" stroke-linecap="round" stroke-linejoin="round"/></svg><h4>Legal disclaimer</h4></div>'+
         '<p>Consultant is an online legal marketplace, <b>not a law firm</b>, where consumers can get answers to basic legal questions from independent specialists free of charge. Any information you submit through Consultant is not privileged and is shared on a strictly <b>non-confidential</b> basis.</p>'+
         '<p>Using this website to ask questions or receive answers does <b>not create an attorney&ndash;client relationship</b> between you and Consultant, or between you and any specialist who receives your information or responds to your question, and it is not intended to create one. None of the answers on this platform constitute <b>legal advice</b>, which must be tailored to the specific circumstances of each case. You should not act on any information provided through Consultant without first consulting a licensed attorney admitted or authorized to practice in your jurisdiction. Consultant <b>accepts no liability</b> to any person who relies on information contained on or obtained through this site, and disclaims all liability with respect to such information.</p>'+
         '<p>Consultant cannot guarantee the <b>accuracy, completeness, or timeliness</b> of the information on this website (including any legal information provided by a specialist through this service). While we strive to keep this information up to date, the owners and authors of this site make no representations, promises, or warranties about the accuracy, completeness, or adequacy of the information contained on or linked from this site.</p>';

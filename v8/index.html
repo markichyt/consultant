@@ -1959,8 +1959,12 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   -webkit-background-clip:border-box !important; background-clip:border-box !important;
   -webkit-text-fill-color:currentColor !important;
 }
-.article-section .main-top__title{ color:rgba(255,255,255,.5) !important; }
-.get-service   .main-top__title{ color:rgba(0,0,0,.42) !important; }
+/* remove the background photo behind these two blocks (IT COULD BE INTERESTING / RECEIVE A SERVICE) */
+.article-section_bg.bg-image, .get-service__bg.bg-image{ display:none !important; }
+/* with the dark photo gone, both sections sit on the light page bg — make all their text dark & readable */
+.article-section .main-top__title, .get-service .main-top__title{ color:rgba(0,0,0,.42) !important; }
+.article-section .main-top__subtitle, .get-service .main-top__subtitle{ color:#13171b !important; }
+.article-section .categories-card__name{ color:rgba(0,0,0,.85) !important; }
 </style>
 
 <script>(function(){var h=document.documentElement;h.className+=" qn-boot";setTimeout(function(){h.classList.remove("qn-boot");},2000);})();</script>

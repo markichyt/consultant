@@ -1344,7 +1344,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-collapse svg{ width:17px; height:17px; }
 .qn-collapse:hover{ background:rgba(255,255,255,.24); color:#fff; }
 /* contacts: phone pills + messenger row + call me back */
-.qn-contacts{ display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:transparent;
+.qn-contacts{ display:flex; flex-direction:column; gap:10px; padding:14px 16px 16px; background:transparent;
   border-bottom:1px solid rgba(255,255,255,.07); font-family:"Avenir Next Cyr",sans-serif; }
 /* phones — ADAPTIVE FRAME: 4+ = compact 2-col, 3/2/1 = full-width rows that scale up */
 .qn-phones{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
@@ -1362,20 +1362,74 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-phones[data-n="2"] .qn-phone{ padding:13px 16px; font-size:15.5px; gap:11px; }
 .qn-phones[data-n="2"] .qn-phone__i{ flex:0 0 30px; width:30px; height:30px; }
 .qn-phones[data-n="2"] .qn-phone__i svg{ width:16px; height:16px; }
-.qn-phones[data-n="1"] .qn-phone{ padding:16px 18px; font-size:18px; gap:13px; }
-.qn-phones[data-n="1"] .qn-phone__i{ flex:0 0 34px; width:34px; height:34px; }
-.qn-phones[data-n="1"] .qn-phone__i svg{ width:18px; height:18px; }
+.qn-phones[data-n="1"] .qn-phone{ padding:11px 14px; font-size:16px; gap:11px; }   /* compact single-number pill */
+.qn-phones[data-n="1"] .qn-phone__i{ flex:0 0 30px; width:30px; height:30px; }
+.qn-phones[data-n="1"] .qn-phone__i svg{ width:16px; height:16px; }
 /* messenger icons replaced by a promo button -> 20%-discount modal (meeting) */
-.qn-promo{ display:flex; align-items:center; gap:11px; width:100%; border:0; cursor:pointer; text-align:left;
-  border-radius:3px; padding:12px 14px; color:#fff; font:inherit; background:linear-gradient(120deg,#1b7fc4,#1f9cdf); }
+.qn-promo{ display:flex; align-items:center; gap:10px; width:100%; border:0; cursor:pointer; text-align:left;
+  border-radius:3px; padding:10px 13px; color:#fff; font:inherit; background:linear-gradient(120deg,#1b7fc4,#1f9cdf); }
 .qn-promo:hover{ filter:brightness(1.07); }
-.qn-promo__i{ width:34px; height:34px; flex:0 0 34px; border-radius:50%; background:rgba(255,255,255,.18); display:grid; place-items:center; }
-.qn-promo__i svg{ width:19px; height:19px; }
+.qn-promo__i{ width:30px; height:30px; flex:0 0 30px; border-radius:50%; background:rgba(255,255,255,.18); display:grid; place-items:center; }
+.qn-promo__i svg{ width:17px; height:17px; }
 .qn-promo span{ font-size:13.5px; line-height:1.25; }
 .qn-promo span b{ font-weight:800; }
-.qn-callback{ width:100%; background:rgba(255,255,255,.08); color:#fff; border:0; border-radius:3px;
-  padding:11px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
-.qn-callback:hover{ background:rgba(255,255,255,.15); }
+/* compact row: messenger squares + blue "Call me back" (old-chat style, 3px corners) */
+.qn-crow{ display:flex; gap:8px; align-items:stretch; }
+.qn-msg{ flex:0 0 48px; width:48px; border-radius:3px; display:grid; place-items:center; text-decoration:none; transition:filter .15s ease; }
+.qn-msg:hover{ filter:brightness(1.12); }
+.qn-msg svg{ width:22px; height:22px; fill:#fff; display:block; }
+.qn-callback{ flex:1 1 auto; width:auto; background:#1f9cdf; color:#fff; border:0; border-radius:3px;
+  padding:12px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
+.qn-callback:hover{ background:#1789c5; }
+.qn-callback.is-dim{ opacity:.5; }
+/* old-chat layout: phone pill centered on its own row, then [Telegram] + blue Call me back */
+.qn-crow--phone{ justify-content:center; }
+.qn-crow--phone .qn-phones{ display:inline-flex; width:auto; grid-template-columns:none; }
+.qn-crow--phone .qn-phone{ padding:11px 22px; }
+.qn-crow--act{ align-items:stretch; gap:10px; }
+.qn-crow--act .qn-msg{ flex:0 0 52px; width:52px; }
+.qn-crow--act .qn-msg--tg{ background:#2aabee; }
+.qn-crow--act .qn-callback{ flex:1 1 auto; }
+/* callback flow: phone-number input (replaces the message input) */
+.qn-cbphone[hidden]{ display:none; }
+.qn-cbphone__lbl{ font-size:12.5px; color:rgba(255,255,255,.55); margin:0 0 8px; padding:0 2px; }
+.qn-cbphone__field{ display:flex; align-items:center; gap:8px; background:#fff; border-radius:3px; padding:5px 8px 5px 12px; }
+.qn-cbphone__cc{ display:inline-flex; align-items:center; gap:6px; color:#13171b; font-size:15px; font-weight:600; white-space:nowrap; }
+.qn-cbphone__flag{ width:22px; height:15px; border-radius:2px; display:block; flex:0 0 22px; }
+.qn-cbphone__in{ flex:1 1 auto; min-width:0; border:0; outline:none; background:transparent; font:inherit; font-size:15px; color:#13171b; padding:9px 0; }
+.qn-cbphone__in::placeholder{ color:#9aa0a6; }
+.qn-cbphone__send{ flex:0 0 auto; width:38px; height:38px; border:0; background:transparent; cursor:pointer; display:grid; place-items:center; padding:0; }
+.qn-cbphone__send svg{ width:22px; height:22px; }
+.qn-cbphone.is-sent{ opacity:.5; pointer-events:none; }
+/* callback: "we are calling you" countdown ring */
+.qn-cbdone{ text-align:center; padding:26px 16px; }
+.qn-cbdone__t{ color:#fff; font-size:16px; font-weight:700; line-height:1.45; margin:0 0 22px; }
+.qn-cbring{ position:relative; width:150px; height:150px; margin:0 auto; }
+.qn-cbring svg{ width:100%; height:100%; transform:rotate(-90deg); }
+.qn-cbring__bg{ fill:none; stroke:rgba(255,255,255,.12); stroke-width:6; }
+.qn-cbring__fg{ fill:none; stroke:#1f9cdf; stroke-width:6; stroke-linecap:round; transition:stroke-dashoffset 1s linear; }
+.qn-cbring__n{ position:absolute; inset:0; display:grid; place-items:center; color:#1f9cdf; font-size:36px; font-weight:800; }
+/* country selector inside the phone field */
+.qn-cbcc{ position:relative; flex:0 0 auto; }
+.qn-cbcc__btn{ display:inline-flex; align-items:center; gap:6px; background:transparent; border:0; border-right:1px solid #e2e6ea; cursor:pointer; padding:6px 10px 6px 2px; font:inherit; color:#13171b; }
+.qn-cbflag{ width:22px; height:15px; border-radius:2px; display:block; flex:0 0 22px; }
+.qn-cbcc__code{ font-size:15px; font-weight:700; color:#13171b; }
+.qn-cbcc__ar{ width:0; height:0; border-left:4px solid transparent; border-right:4px solid transparent; border-top:5px solid #8a8f96; margin-left:1px; }
+.qn-cbcc__list{ position:absolute; left:0; bottom:calc(100% + 8px); z-index:40; margin:0; padding:5px; list-style:none; min-width:124px;
+  background:#23272e; border:1px solid rgba(255,255,255,.14); border-radius:3px; box-shadow:0 -14px 40px rgba(0,0,0,.45); }
+.qn-cbcc__list[hidden]{ display:none; }
+.qn-cbcc__opt{ display:flex; align-items:center; gap:9px; padding:8px 10px; border-radius:3px; cursor:pointer; color:#fff; font-size:14px; }
+.qn-cbcc__opt:hover{ background:#1f9cdf; }
+.qn-cbcc__opt .qn-cbflag{ width:24px; height:16px; }
+/* app-download panel: shown after the countdown, and on "Get 20% off" */
+.qn-cbthanks{ text-align:center; padding:26px 20px; }
+.qn-cbthanks__h{ font-family:"Bicubik",sans-serif; font-size:clamp(20px,2.4vw,28px); font-weight:400; color:#fff; text-transform:uppercase; letter-spacing:.02em; margin:0 0 10px; line-height:1.12; }
+.qn-cbthanks__p{ font-size:14px; color:rgba(255,255,255,.6); margin:0 0 20px; line-height:1.45; }
+.qn-cbthanks__apps{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+.qn-appbadge{ display:inline-flex; align-items:center; gap:10px; width:212px; box-sizing:border-box; background:#0c0e11; color:#fff; border:1px solid rgba(255,255,255,.14); border-radius:3px; padding:10px 18px; text-decoration:none; line-height:1.05; }
+.qn-appbadge svg{ width:24px; height:24px; flex:0 0 24px; fill:#fff; }
+.qn-appbadge small{ display:block; font-size:9.5px; letter-spacing:.04em; text-transform:uppercase; opacity:.82; }
+.qn-appbadge b{ display:block; font-size:16px; font-weight:700; }
 /* message log — dark */
 .text-section .qa-aside .qa-chat__log{ background:transparent !important; min-height:360px !important; }
 .text-section .qa-aside .qa-msg{ font-size:15px !important; line-height:1.5 !important; padding:11px 13px !important; border-radius:3px !important; }
@@ -1824,6 +1878,32 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 }
 .article-section .categories-card__name::before,
 .article-section .categories-card__name::after{ content:none !important; display:none !important; }
+/* ===== chat contacts — chosen redesign: discount full-width on TOP, then [phone | Call me back] 2-up ===== */
+.qn-contacts{ display:flex !important; flex-flow:row wrap !important; align-items:stretch !important; gap:8px !important; padding:12px 14px 14px !important;
+  background:transparent !important; border-bottom:1px solid rgba(255,255,255,.07) !important; }
+.qn-contacts .qn-promo{ order:1 !important; flex:1 1 100% !important; width:100% !important; box-sizing:border-box; height:40px; display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:1px solid rgba(31,156,223,.55); border-radius:3px; padding:0 14px; font:inherit; font-size:14px; font-weight:700; cursor:pointer;
+  background:rgba(31,156,223,.13); color:#7fcdf2; text-align:center; transition:background .15s ease, border-color .15s ease, color .15s ease, transform .15s ease; }
+.qn-contacts .qn-promo:hover{ background:rgba(31,156,223,.2); border-color:#1f9cdf; color:#a8def7; transform:translateY(-1px); filter:none; }
+.qn-contacts .qn-promo__i{ flex:0 0 20px; width:20px; height:20px; border-radius:50%; background:transparent !important; display:grid; place-items:center; color:inherit; }
+.qn-contacts .qn-promo__i svg{ width:15px; height:15px; display:block; fill:currentColor; stroke:currentColor; }
+.qn-contacts .qn-promo span{ font-size:13.5px; line-height:1; white-space:nowrap; }
+.qn-contacts .qn-promo span b{ font-weight:800; }
+.qn-contacts .qn-phones{ order:2 !important; flex:1 1 calc(50% - 4px) !important; min-width:0; display:block !important; margin:0 !important; }
+.qn-contacts .qn-phones[data-n="1"],.qn-contacts .qn-phones[data-n="2"],.qn-contacts .qn-phones[data-n="3"]{ grid-template-columns:none !important; }
+.qn-contacts .qn-phone{ box-sizing:border-box; height:40px; display:flex; align-items:center; gap:7px; min-width:0; padding:0 10px !important;
+  border-radius:3px; background:rgba(255,255,255,.055); border:1px solid rgba(255,255,255,.09); color:#eef4f8; text-decoration:none;
+  font-size:12px !important; font-weight:600; letter-spacing:0; line-height:1; transition:background .15s ease, border-color .15s ease, transform .15s ease; }
+.qn-contacts .qn-phone:hover{ background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.16); transform:translateY(-1px); }
+.qn-contacts .qn-phone__i{ flex:0 0 22px !important; width:22px !important; height:22px !important; border-radius:50%; display:grid; place-items:center; background:rgba(31,156,223,.16) !important; color:#7fcdf2; }
+.qn-contacts .qn-phone__i svg{ width:12px !important; height:12px !important; display:block; fill:currentColor; stroke:currentColor; }
+.qn-contacts .qn-phone__n{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; font-variant-numeric:tabular-nums; }
+.qn-contacts .qn-callback{ order:3 !important; flex:1 1 calc(50% - 4px) !important; box-sizing:border-box; height:40px; width:auto !important; display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid #1f9cdf; border-radius:3px; padding:0 12px !important; font:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
+  background:#1f9cdf; color:#fff; transition:background .15s ease, transform .15s ease; }
+.qn-contacts .qn-callback:hover{ background:#1789c5; border-color:#1789c5; transform:translateY(-1px); }
+.qn-contacts .qn-callback.is-dim{ opacity:.5; }
+@media(max-width:320px){ .qn-contacts .qn-phones,.qn-contacts .qn-callback{ flex:1 1 100% !important; } }
 </style>
 
 <script>(function(){var h=document.documentElement;h.className+=" qn-boot";setTimeout(function(){h.classList.remove("qn-boot");},2000);})();</script>
@@ -4132,6 +4212,103 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     mini:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>'
   };
+  /* ===== chat flows: "Call me back" (phone + country + countdown -> app panel) and "Get 20% off" (app panel) ===== */
+  var CB_ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="#1f9cdf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>';
+  var CB_APPLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.74-1.517.03-2.01-.88-3.766-.88-1.756 0-2.302.85-3.74.91-1.44.06-2.59-1.49-3.54-2.83-1.987-2.96-3.5-8.36-1.46-12.01 1.014-1.81 2.83-2.96 4.81-2.99 1.45-.03 2.83.96 3.72.96.89 0 2.56-1.18 4.32-1.01.73.03 2.79.3 4.11 2.22-.105.07-2.455 1.42-2.43 4.25.03 3.38 2.99 4.51 3.02 4.52z"/></svg>';
+  var CB_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.6 2.3c-.3.3-.5.7-.5 1.3v16.8c0 .6.2 1 .5 1.3l.1.1L13 12.1v-.2z"/><path fill="currentColor" d="M16.3 15.3l-3.1-3.1v-.2l3.1-3.1 3.8 2.2c1 .6 1 1.5 0 2.1z"/></svg>';
+  function cbFlag(id){
+    var f={ us:'<rect width="24" height="16" fill="#fff"/><g fill="#b22234"><rect width="24" height="1.8"/><rect y="3.6" width="24" height="1.8"/><rect y="7.2" width="24" height="1.8"/><rect y="10.8" width="24" height="1.8"/><rect y="14.2" width="24" height="1.8"/></g><rect width="10" height="8.9" fill="#3c3b6e"/>',
+      gb:'<rect width="24" height="16" fill="#012169"/><path d="M0 0l24 16M24 0L0 16" stroke="#fff" stroke-width="3"/><path d="M12 0v16M0 8h24" stroke="#fff" stroke-width="4"/><path d="M12 0v16M0 8h24" stroke="#C8102E" stroke-width="2"/>',
+      ua:'<rect width="24" height="8" fill="#0057b7"/><rect y="8" width="24" height="8" fill="#ffd700"/>',
+      pl:'<rect width="24" height="8" fill="#fff"/><rect y="8" width="24" height="8" fill="#dc143c"/>',
+      ca:'<rect width="24" height="16" fill="#fff"/><rect width="6" height="16" fill="#d52b1e"/><rect x="18" width="6" height="16" fill="#d52b1e"/>' };
+    return '<svg class="qn-cbflag" viewBox="0 0 24 16" preserveAspectRatio="none" aria-hidden="true">'+(f[id]||f.us)+'</svg>';
+  }
+  var CB_CC=[['us','+1',10],['gb','+44',10],['ua','+380',9],['pl','+48',9],['ca','+1',10]];
+  function qnAppPanel(log, title, sub){
+    if(!log) return;
+    var box=document.createElement('div'); box.className='qn-cbthanks';
+    box.innerHTML='<h3 class="qn-cbthanks__h">'+title+'</h3><p class="qn-cbthanks__p">'+sub+'</p>'
+      +'<div class="qn-cbthanks__apps">'
+      +'<a class="qn-appbadge" href="#app" rel="nofollow noopener">'+CB_APPLE+'<span><small>Download on the</small><b>App Store</b></span></a>'
+      +'<a class="qn-appbadge" href="#app" rel="nofollow noopener">'+CB_PLAY+'<span><small>Get it on</small><b>Google Play</b></span></a>'
+      +'</div>';
+    log.innerHTML=''; log.appendChild(box);
+  }
+  function qnCountdown(log, secs, onDone){
+    if(!log) return null;
+    var box=document.createElement('div'); box.className='qn-cbdone';
+    box.innerHTML='<p class="qn-cbdone__t">Thank you, we are calling you right now.<br>Remaining:</p>'
+      +'<div class="qn-cbring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="qn-cbring__bg" cx="60" cy="60" r="52"/><circle class="qn-cbring__fg" cx="60" cy="60" r="52"/></svg><span class="qn-cbring__n">'+secs+'</span></div>';
+    log.innerHTML=''; log.appendChild(box);
+    var fg=box.querySelector('.qn-cbring__fg'), num=box.querySelector('.qn-cbring__n');
+    var C=2*Math.PI*52; fg.style.strokeDasharray=C.toFixed(1); fg.style.strokeDashoffset='0';
+    var t=secs, iv=setInterval(function(){ t--; if(num)num.textContent=t; if(fg)fg.style.strokeDashoffset=(C*(1-t/secs)).toFixed(1);
+      if(t<=0){ clearInterval(iv); if(onDone) onDone(); } }, 1000);
+    return iv;
+  }
+  function wireContacts(cb, inputEl){
+    if(!inputEl) return;
+    var cbBtn=cb.querySelector('.qn-callback'), promo=cb.querySelector('.qn-promo');
+    var wrap=inputEl.closest('.qa-chat__input')||inputEl.closest('.fc__form')||inputEl.parentNode;
+    var root=inputEl.closest('.qa-aside')||inputEl.closest('#fc')||wrap;
+    var log=root.querySelector('#qaLog')||root.querySelector('.qa-chat__log')||root.querySelector('.fc__log');
+    var send=wrap.querySelector('.qa-send');
+    var savedLog=null, timer=null, ci=0;
+    /* phone-input row with a country selector (hidden until "Call me back") */
+    var row=document.createElement('div'); row.className='qn-cbphone'; row.hidden=true;
+    row.innerHTML='<div class="qn-cbphone__lbl">Enter the phone number to call you</div>'
+      +'<div class="qn-cbphone__field">'
+        +'<div class="qn-cbcc"><button type="button" class="qn-cbcc__btn">'+cbFlag('us')+'<span class="qn-cbcc__code">+1</span><i class="qn-cbcc__ar"></i></button>'
+          +'<ul class="qn-cbcc__list" hidden>'+CB_CC.map(function(c,i){ return '<li class="qn-cbcc__opt" data-i="'+i+'">'+cbFlag(c[0])+'<span>'+c[1]+'</span></li>'; }).join('')+'</ul></div>'
+        +'<input class="qn-cbphone__in" type="tel" inputmode="tel" placeholder="(555) 000-0000" maxlength="16">'
+        +'<button class="qn-cbphone__send" type="button" aria-label="Call me back">'+CB_ARROW+'</button></div>';
+    wrap.appendChild(row);
+    var pin=row.querySelector('.qn-cbphone__in'), psend=row.querySelector('.qn-cbphone__send');
+    var ccBtn=row.querySelector('.qn-cbcc__btn'), ccList=row.querySelector('.qn-cbcc__list'), ccCode=ccBtn.querySelector('.qn-cbcc__code');
+    /* country dropdown */
+    ccBtn.addEventListener('click', function(e){ e.stopPropagation(); ccList.hidden=!ccList.hidden; });
+    /* phone mask: keep only digits, cap at the country length, auto-format like a real number */
+    function fmtPhone(){ var c=CB_CC[ci]||CB_CC[0], maxD=c[2]||10, dg=pin.value.replace(/\D/g,'').slice(0,maxD), out;
+      if(c[1]==='+1'){ if(dg.length<=3){ out=dg?'('+dg:''; }
+        else if(dg.length<=6){ out='('+dg.slice(0,3)+') '+dg.slice(3); }
+        else { out='('+dg.slice(0,3)+') '+dg.slice(3,6)+'-'+dg.slice(6); } }
+      else { out=dg.replace(/(\d{3})(?=\d)/g,'$1 '); }
+      pin.value=out; }
+    function setPh(){ pin.setAttribute('placeholder', (CB_CC[ci]&&CB_CC[ci][1]==='+1')?'(555) 000-0000':'000 000 000'); }
+    /* country dropdown */
+    ccBtn.addEventListener('click', function(e){ e.stopPropagation(); ccList.hidden=!ccList.hidden; });
+    [].forEach.call(row.querySelectorAll('.qn-cbcc__opt'), function(op){ op.addEventListener('click', function(e){ e.stopPropagation();
+      ci=+op.getAttribute('data-i'); var c=CB_CC[ci]; ccCode.textContent=c[1];
+      var fl=ccBtn.querySelector('.qn-cbflag'); if(fl) fl.outerHTML=cbFlag(c[0]);
+      ccList.hidden=true; setPh(); fmtPhone(); try{pin.focus();}catch(x){} }); });
+    document.addEventListener('click', function(){ ccList.hidden=true; });
+    pin.addEventListener('input', fmtPhone);
+    /* state helpers */
+    function saveLog(){ if(savedLog===null && log) savedLog=log.innerHTML; }
+    function toBack(){ if(cbBtn){ cbBtn.textContent='To chat'; cbBtn.classList.add('is-back'); } }
+    function restore(){ if(timer){ clearInterval(timer); timer=null; }
+      row.hidden=true; row.classList.remove('is-sent'); pin.disabled=false;
+      inputEl.style.display=''; if(send) send.style.display='';
+      if(savedLog!==null && log){ log.innerHTML=savedLog; savedLog=null; }
+      if(cbBtn){ cbBtn.textContent='Call me back'; cbBtn.classList.remove('is-back'); } }
+    /* "Call me back" <-> "To chat" */
+    if(cbBtn) cbBtn.addEventListener('click', function(){
+      if(cbBtn.classList.contains('is-back')){ restore(); return; }
+      saveLog(); row.hidden=false; inputEl.style.display='none'; if(send) send.style.display='none'; toBack();
+      setTimeout(function(){ try{pin.focus();}catch(e){} },40); });
+    /* submit phone -> countdown -> "thanks / download app" */
+    function submit(){ var v=(pin.value||'').trim(); if(!v){ try{pin.focus();}catch(e){} return; }
+      row.classList.add('is-sent'); pin.disabled=true;
+      timer=qnCountdown(log, 60, function(){ row.hidden=true;
+        qnAppPanel(log, 'Thanks for your contact!', 'Download our app to always have legal protection and support'); }); }
+    psend.addEventListener('click', submit);
+    pin.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.keyCode===13){ e.preventDefault(); submit(); } });
+    /* "Get 20% off" -> the same app panel, in the chat */
+    if(promo) promo.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation();
+      saveLog(); row.hidden=true; inputEl.style.display='none'; if(send) send.style.display='none'; toBack();
+      qnAppPanel(log, 'Get 20% off in the app', 'Download the Consultant app and get 20% off all consultations and lawyer services.'); });
+  }
   /* build the dark "contacts" panel (phones + messengers + Call me back) */
   function mkContacts(inputEl){
     /* REAL numbers shown by default — backend supplies this list; the frame adapts to its length */
@@ -4145,11 +4322,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       +'<span class="qn-phone__i" style="background:'+p[1]+'">'+p[2]+'</span><span class="qn-phone__n">'+p[0]+'</span></a>'; }).join('');
     var cb=document.createElement('div'); cb.className='qn-contacts';
     cb.innerHTML='<div class="qn-phones" data-n="'+phones.length+'">'+ph+'</div>'
-      +'<button type="button" class="qn-promo" data-promo><span class="qn-promo__i">'+IC.pct+'</span>'
-      +'<span><b>Get 20% off</b> your first consultation</span></button>'
-      +'<button type="button" class="qn-callback">Call me back</button>';
-    var btn=cb.querySelector('.qn-callback');
-    if(btn) btn.addEventListener('click',function(){ if(inputEl){ try{inputEl.focus();}catch(e){} } });
+      +'<button type="button" class="qn-callback">Call me back</button>'
+      +'<button type="button" class="qn-promo"><span class="qn-promo__i">'+IC.pct+'</span>'
+      +'<span><b>Get 20% off</b> everything</span></button>';
+    wireContacts(cb, inputEl);
     return cb;
   }
   function rateOf(c){ var st=c.querySelector('.qa-stars'); if(!st) return 0;

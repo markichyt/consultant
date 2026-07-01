@@ -1951,6 +1951,16 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-contacts .qn-callback:hover{ background:#1789c5; border-color:#1789c5; transform:translateY(-1px); }
 .qn-contacts .qn-callback.is-dim{ opacity:.5; }
 @media(max-width:320px){ .qn-contacts .qn-phones,.qn-contacts .qn-callback{ flex:1 1 100% !important; } }
+/* ===== watermark section titles ("IT COULD BE INTERESTING" / "RECEIVE A SERVICE"):
+   kill the gradient text-fill so they're a solid, evenly-visible colour (no fade into the bg).
+   Scoped per section: light-grey on the dark article bg, dark-grey on the light service bg. ===== */
+.main-top__title, .main-top__title--big{
+  background:none !important;
+  -webkit-background-clip:border-box !important; background-clip:border-box !important;
+  -webkit-text-fill-color:currentColor !important;
+}
+.article-section .main-top__title{ color:rgba(255,255,255,.5) !important; }
+.get-service   .main-top__title{ color:rgba(0,0,0,.42) !important; }
 </style>
 
 <script>(function(){var h=document.documentElement;h.className+=" qn-boot";setTimeout(function(){h.classList.remove("qn-boot");},2000);})();</script>

@@ -1053,12 +1053,16 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .sx-rm{ display:none !important; }
 /* top meta row: "ANSWERED BY · date" header over the lawyer card (left), "BEST ANSWER" badge top-right (answer column) */
 .text-section .text-card .qa-lawyer::before{ content:none !important; }   /* native "ANSWERED BY" label replaced by a real header that carries the date */
-.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:nowrap; gap:8px; margin:0 0 8px; min-width:0; overflow:hidden;
+.text-section .text-card .qn-abhead{ display:flex; align-items:baseline; flex-wrap:nowrap; gap:8px; margin:0 0 15px; min-width:0; overflow:hidden;
   font-family:"Avenir Next Cyr",sans-serif; font-size:11px; letter-spacing:.04em; text-transform:uppercase; line-height:1.2; }
 .text-section .text-card .qn-abhead .qn-ablbl{ color:#9aa0a6; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:0 1 auto; }
 .text-section .text-card .qn-abhead .qn-adate{ position:relative; padding-left:12px; color:#6b7177;
   font-family:"Avenir Next Cyr",sans-serif; font-size:11px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; white-space:nowrap; flex:0 0 auto; }
 .text-section .text-card .qn-abhead .qn-adate::before{ content:"·"; position:absolute; left:2px; color:#c2c7cc; }
+/* best-answer badge lifted onto the header row: pinned to the far RIGHT, on the same line as "Answered by …" */
+.text-section .text-card .qn-abhead .qn-bestmark{ display:inline-flex; align-items:center; gap:6px; margin:0 0 0 auto; flex:0 0 auto; align-self:center;
+  font-family:"Bicubik",sans-serif; font-size:12px; font-weight:400; color:#b8860b; text-transform:uppercase; letter-spacing:.1em; white-space:nowrap; }
+.text-section .text-card .qn-abhead .qn-bestmark svg{ width:14px; height:14px; flex:0 0 14px; fill:#FFD337; }
 /* the relocated bar now carries ONLY the best-answer badge, pinned to the top-RIGHT of the answer column */
 .text-section .text-card .qn-wrap > .qa-cardbar,
 .text-section .text-card .sx-answrap > .qa-cardbar{ margin:0 0 8px !important; padding:0 !important; border:0 !important; min-height:0 !important;
@@ -1086,16 +1090,39 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* clean 2-row card grid: hide the "ANSWER 0N" eyebrow, pin lawyer+answer to row1 and the bar to row2,
    then nudge the answer down so it lines up with the lawyer card image (not the "ANSWERED BY" label). */
 .text-section .text-card::before{ display:none !important; }
-.text-section .text-card .qa-lawyer{ grid-row:1; }
-.text-section .text-card .qa-cardbar{ grid-row:2; }
-.text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; grid-column:2; grid-row:1; }
+/* row1 = full-width "Answered by …" header; row2 = lawyer card (left) + answer (right); row3 = bar.
+   row-gap:0 so the ONLY header->content gap is the header's margin (same in grid AND the expanded
+   float layout) — otherwise the grid row-gap makes collapsed taller and the card "jumps" on expand. */
+.text-section .text-card{ row-gap:0 !important; }
+.text-section .text-card .qn-abhead{ grid-column:1 / -1; grid-row:1; }
+.text-section .text-card .qa-lawyer{ grid-column:1; grid-row:2; }
+.text-section .text-card .qa-cardbar{ grid-row:3; }
+.text-section .text-card .qn-wrap{ display:flex; flex-direction:column; align-items:flex-start; min-width:0; grid-column:2; grid-row:2; }
 /* sx-gen cards wrap the answer in .sx-answrap (base pins it to row2 -> collides with the cardbar at row2,
-   so the answer drops to the bottom). Pin it to row1 like .qn-wrap and drop the legacy top padding. */
-.text-section .text-card > .sx-answrap{ grid-column:2 !important; grid-row:1 !important; padding-top:0 !important; }
+   so the answer drops to the bottom). Pin it to row2 like .qn-wrap and drop the legacy top padding. */
+.text-section .text-card > .sx-answrap{ grid-column:2 !important; grid-row:2 !important; padding-top:0 !important; }
 /* meta bar (best-answer + date) sits at qn-wrap top, aligned with the "ANSWERED BY" label of the
    lawyer column; the answer text below it is nudged down to line up with the lawyer card image. */
-@media(min-width:992px){ .text-section .text-card .qn-wrap{ margin-top:0; }
-  .text-section .text-card .qn-wrap > .card-answer{ margin-top:6px !important; } }
+/* DESKTOP ONLY: when the answer is EXPANDED (.qn-flow added by "Read all"), switch the card from the
+   2-column grid to a float layout so the long text wraps ("flows like water") around the lawyer card
+   and fills the full width below it. Collapsed cards keep the original grid (lawyer left / clipped
+   text right) — the card itself never moves; only the expanded text changes shape. */
+@media(min-width:992px){
+  .text-section .text-card.qn-flow{ display:block !important; }
+  .text-section .text-card.qn-flow::after{ content:""; display:table; clear:both; }
+  /* header stays full-width on top (it precedes the float in the DOM) */
+  .text-section .text-card.qn-flow > .qn-abhead{ clear:both !important; }
+  .text-section .text-card.qn-flow .qa-lawyer{ float:left !important; width:360px !important; margin:0 24px 16px 0 !important; grid-row:auto !important; grid-column:auto !important; }
+  /* overflow:visible (NOT a BFC) so the text shortens its line boxes around the float and wraps it */
+  .text-section .text-card.qn-flow .qn-wrap{ display:block !important; overflow:visible !important; grid-column:auto !important; grid-row:auto !important; margin-top:0 !important; }
+  .text-section .text-card.qn-flow > .sx-answrap{ display:block !important; overflow:visible !important; padding-top:0 !important; grid-column:auto !important; grid-row:auto !important; }
+  .text-section .text-card.qn-flow .qn-wrap > .card-answer{ margin-top:0 !important; }
+  /* force the answer paragraphs to FULL width — beside a float they otherwise default to shrink-to-fit,
+     which makes a short paragraph (e.g. a "Part 1:" heading) balloon its box and shove the rest of the
+     text below the card, leaving an empty gap. width:100% keeps the line boxes wrapping cleanly so the
+     text fills the space next to the card and only spills full-width below it. */
+  .text-section .text-card.qn-flow .card-answer p{ width:100% !important; }
+}
 .text-section .text-card .qn-wrap .card-answer{ width:100%; margin:0 !important; }
 /* drop the "A:" prefix before every answer (base adds it via ::before on .card-answer and .sx-atext) */
 .text-section .text-card .card-answer::before,
@@ -1112,6 +1139,9 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* mobile: stack the answer card (lawyer above answer) instead of the 360px desktop grid */
 @media(max-width:991px){
   .text-section .text-card{ display:flex !important; flex-direction:column !important; grid-template-columns:none !important; }
+  .text-section .text-card .qn-abhead{ order:-2 !important; flex-wrap:wrap !important; overflow:visible !important; }
+  /* best-answer badge can't fit next to "Answered by …" on a narrow screen -> drop it onto its own line */
+  .text-section .text-card .qn-abhead .qn-bestmark{ flex:0 0 100% !important; margin:8px 0 0 !important; }
   .text-section .text-card .qa-lawyer{ order:-1 !important; width:100% !important; max-width:100% !important; margin:0 0 14px !important; }
   .text-section .text-card .qn-wrap,
   .text-section .text-card > .sx-answrap{ order:0 !important; }
@@ -1296,13 +1326,16 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* =====================================================================
    CHAT — dark "manager" widget (figma 40:684 / screenshot)
    ===================================================================== */
-.text-section .qa-aside{ background:#1b1c1f !important; border:1px solid #0c0d0f !important;
+/* translucent "glass" panel (example look): frosted dark, backdrop-blurred. docked stays fairly opaque
+   (it sits over the light page); the wide state overrides this to a much more see-through tint. */
+.text-section .qa-aside{ background:rgba(19,22,29,.9) !important; border:1px solid rgba(255,255,255,.06) !important;
+  backdrop-filter:blur(16px) !important; -webkit-backdrop-filter:blur(16px) !important;
   box-shadow:0 26px 64px rgba(0,0,0,.42) !important; }
-.text-section .qa-aside .qa-chat__head{ background:#1b1c1f !important; color:#fff !important; position:relative;
+.text-section .qa-aside .qa-chat__head{ background:transparent !important; color:#fff !important; position:relative;
   padding:15px 48px 15px 16px !important; border-bottom:1px solid rgba(255,255,255,.07) !important; gap:11px !important; }
 .text-section .qa-aside .qa-chat__ava{ width:44px !important; height:44px !important; flex:0 0 44px !important; }
 .text-section .qa-aside .qa-chat__ava img{ width:44px !important; height:44px !important; object-position:center 12% !important; background:#2a2b2e !important; }
-.text-section .qa-aside .qa-chat__ava .qa-presence{ right:0 !important; bottom:0 !important; width:12px !important; height:12px !important; border:2px solid #1b1c1f !important; }
+.text-section .qa-aside .qa-chat__ava .qa-presence{ right:0 !important; bottom:0 !important; width:12px !important; height:12px !important; border:2px solid #1a1d24 !important; }
 .text-section .qa-aside .qa-chat__ava .qa-presence::before{ background:#3ddc84 !important; }
 .text-section .qa-aside .qa-chat__title{ color:#fff !important; font-size:16px !important; font-weight:700 !important; line-height:1.2; }
 .text-section .qa-aside .qa-chat__sub{ color:#9da1a7 !important; font-size:13px !important; }
@@ -1311,14 +1344,14 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-collapse svg{ width:17px; height:17px; }
 .qn-collapse:hover{ background:rgba(255,255,255,.24); color:#fff; }
 /* contacts: phone pills + messenger row + call me back */
-.qn-contacts{ display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:#1b1c1f;
+.qn-contacts{ display:flex; flex-direction:column; gap:12px; padding:14px 16px 16px; background:transparent;
   border-bottom:1px solid rgba(255,255,255,.07); font-family:"Avenir Next Cyr",sans-serif; }
 /* phones — ADAPTIVE FRAME: 4+ = compact 2-col, 3/2/1 = full-width rows that scale up */
 .qn-phones{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
 .qn-phones[data-n="1"],.qn-phones[data-n="2"],.qn-phones[data-n="3"]{ grid-template-columns:1fr; }
-.qn-phone{ display:flex; align-items:center; gap:9px; background:#2a2c30; border-radius:3px; padding:8px 11px;
+.qn-phone{ display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.08); border-radius:3px; padding:8px 11px;
   color:#fff; text-decoration:none; font-size:12.5px; font-weight:600; letter-spacing:.01em; min-width:0; }
-.qn-phone:hover{ background:#33363b; }
+.qn-phone:hover{ background:rgba(255,255,255,.15); }
 .qn-phone__i{ width:22px; height:22px; border-radius:50%; flex:0 0 22px; display:grid; place-items:center; }
 .qn-phone__i svg{ width:13px; height:13px; }
 .qn-phone span.qn-phone__n{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; }
@@ -1340,19 +1373,19 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-promo__i svg{ width:19px; height:19px; }
 .qn-promo span{ font-size:13.5px; line-height:1.25; }
 .qn-promo span b{ font-weight:800; }
-.qn-callback{ width:100%; background:#2a2c30; color:#fff; border:0; border-radius:3px;
+.qn-callback{ width:100%; background:rgba(255,255,255,.08); color:#fff; border:0; border-radius:3px;
   padding:11px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
-.qn-callback:hover{ background:#33363b; }
+.qn-callback:hover{ background:rgba(255,255,255,.15); }
 /* message log — dark */
-.text-section .qa-aside .qa-chat__log{ background:#171819 !important; min-height:360px !important; }
+.text-section .qa-aside .qa-chat__log{ background:transparent !important; min-height:360px !important; }
 .text-section .qa-aside .qa-msg{ font-size:15px !important; line-height:1.5 !important; padding:11px 13px !important; border-radius:3px !important; }
-.text-section .qa-aside .qa-msg--bot{ background:#2a2c30 !important; color:#e6e7e9 !important; border:0 !important; }
+.text-section .qa-aside .qa-msg--bot{ background:rgba(255,255,255,.08) !important; color:#e6e7e9 !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--user{ background:#1f9cdf !important; color:#fff !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--sys{ display:none !important; }
-.text-section .qa-aside .qa-typing{ background:#2a2c30 !important; border:0 !important; }
+.text-section .qa-aside .qa-typing{ background:rgba(255,255,255,.08) !important; border:0 !important; }
 .text-section .qa-aside .qa-typing span{ background:#8a8e94 !important; }
 /* input — white pill + blue send arrow */
-.text-section .qa-aside .qa-chat__input{ display:block !important; position:relative; background:#1b1c1f !important;
+.text-section .qa-aside .qa-chat__input{ display:block !important; position:relative; background:transparent !important;
   border-top:1px solid rgba(255,255,255,.07) !important; padding:14px 16px 28px !important; }
 .text-section .qa-aside .qa-chat__input input{ width:100% !important; background:#fff !important; border:0 !important;
   border-radius:3px !important; color:#1b1f23 !important; padding:13px 44px 13px 16px !important; font-size:15px !important; }
@@ -1363,14 +1396,15 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 @keyframes qn-onp{ 70%{ box-shadow:0 0 0 6px rgba(61,220,132,0);} 100%{ box-shadow:0 0 0 0 rgba(61,220,132,0);} }
 
 /* ===== PAGE offer: choice (subscription vs 1 consultation) -> plans -> card form, in the LEFT content ===== */
-.qn-poffer{ margin:30px 0 22px; font-family:"Avenir Next Cyr",sans-serif; animation:qn-offin .4s ease; }
+.qn-poffer{ margin:clamp(58px,7.5vw,96px) 0; font-family:"Avenir Next Cyr",sans-serif; animation:qn-offin .4s ease; }
 .qn-poffer[hidden]{ display:none; }
-.qn-poffer__card{ background:#fff; border:1px solid #e2e6ea; border-radius:3px; box-shadow:0 14px 34px rgba(20,40,60,.10); padding:24px clamp(18px,2vw,30px); }
-.qn-poffer__h{ font-family:"Bicubik",sans-serif; font-size:clamp(18px,2.1vw,23px); color:#13171b; text-transform:uppercase; letter-spacing:.01em; margin:0 0 4px; }
-.qn-poffer__sh{ font-size:14px; color:#6b7177; margin:0 0 18px; }
+.qn-poffer__card{ background:#1b1e22; border:1px solid rgba(255,255,255,.08); border-radius:3px; box-shadow:0 22px 54px rgba(0,0,0,.3); padding:clamp(20px,2.4vw,34px); color:#fff; }
+.qn-poffer__h{ font-family:"Bicubik",sans-serif; font-size:clamp(18px,2.1vw,23px); color:#fff; text-transform:uppercase; letter-spacing:.01em; margin:0 0 4px; }
+.qn-poffer__sh{ font-size:14px; color:rgba(255,255,255,.55); margin:0 0 18px; }
 .qn-poffer__opts{ display:grid; grid-template-columns:1.25fr 1fr; gap:16px; align-items:stretch; }
 @media(max-width:680px){ .qn-poffer__opts{ grid-template-columns:1fr; } }
-.qn-popt{ position:relative; text-align:left; border:0; cursor:pointer; border-radius:3px; font:inherit; display:flex; flex-direction:column; }
+.qn-popt{ position:relative; text-align:left; border:0; cursor:pointer; border-radius:3px; font:inherit; display:flex; flex-direction:column; transition:transform .2s cubic-bezier(.2,.8,.2,1), filter .18s ease, background .18s ease, box-shadow .2s ease; }
+.qn-popt:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.3); }
 .qn-popt--sub{ background:linear-gradient(135deg,#0f6fb0,#1f9cdf); color:#fff; padding:22px; }
 .qn-popt--sub:hover{ filter:brightness(1.04); }
 .qn-popt__tag{ position:absolute; top:-10px; left:20px; background:#13171b; color:#fff; font-size:10px; font-weight:800; letter-spacing:.05em; padding:4px 11px; border-radius:3px; }
@@ -1381,24 +1415,27 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-popt--sub li{ display:flex; gap:9px; align-items:flex-start; font-size:14px; margin:0 0 7px; }
 .qn-popt--sub li .qn-ok{ width:16px; height:16px; flex:0 0 16px; margin-top:2px; } .qn-popt--sub li .qn-ok path{ stroke:#fff; }
 .qn-popt__go{ margin-top:auto; font-weight:800; font-size:14px; }
-.qn-popt--one{ background:#f6f7f9; border:1px solid #e2e6ea; color:#13171b; padding:20px; }
-.qn-popt--one:hover{ background:#eef1f4; }
-.qn-popt--one .qn-popt__price{ color:#13171b; }
-.qn-popt--one small{ display:block; color:#8a8f96; font-size:13px; margin-top:8px; }
-.qn-pback{ background:none; border:0; color:#6b7177; cursor:pointer; font:inherit; font-size:13px; padding:0; margin:0 0 14px; }
-.qn-pback:hover{ color:#13171b; }
+.qn-popt--one{ background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14); color:#fff; padding:20px; }
+.qn-popt--one:hover{ background:rgba(255,255,255,.09); }
+.qn-popt--one .qn-popt__price{ color:#fff; }
+.qn-popt--one small{ display:block; color:rgba(255,255,255,.5); font-size:13px; margin-top:8px; }
+.qn-pback{ background:none; border:0; color:rgba(255,255,255,.6); cursor:pointer; font:inherit; font-size:13px; padding:0; margin:0 0 14px; }
+.qn-pback:hover{ color:#fff; }
 .qn-pplans{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
 @media(max-width:680px){ .qn-pplans{ grid-template-columns:1fr; } }
-.qn-pplan{ position:relative; border:1px solid #e2e6ea; border-radius:3px; padding:18px; background:#fff; display:flex; flex-direction:column; }
-.qn-pplan--best{ border:2px solid #1f9cdf; }
+.qn-pplan{ position:relative; border:1px solid rgba(255,255,255,.12); border-radius:3px; padding:18px; background:rgba(255,255,255,.04); display:flex; flex-direction:column;
+  transition:transform .2s cubic-bezier(.2,.8,.2,1), border-color .2s ease, background .2s ease, box-shadow .2s ease; }
+.qn-pplan:hover{ transform:translateY(-5px); border-color:rgba(31,156,223,.6); background:rgba(255,255,255,.08); box-shadow:0 16px 34px rgba(0,0,0,.34); }
+.qn-pplan--best{ border:2px solid #1f9cdf; background:rgba(31,156,223,.08); }
+.qn-pplan--best:hover{ border-color:#1f9cdf; background:rgba(31,156,223,.15); }
 .qn-pplan__tag{ position:absolute; top:-11px; left:50%; transform:translateX(-50%); background:#1f9cdf; color:#fff; font-size:10px; font-weight:800; letter-spacing:.04em; padding:4px 11px; border-radius:3px; white-space:nowrap; }
-.qn-pplan__name{ font-family:"Bicubik",sans-serif; font-size:14px; text-transform:uppercase; color:#13171b; letter-spacing:.04em; }
-.qn-pplan__price{ font-size:26px; font-weight:800; color:#13171b; margin:6px 0 0; } .qn-pplan__price span{ font-size:13px; color:#8a8f96; font-weight:600; }
+.qn-pplan__name{ font-family:"Bicubik",sans-serif; font-size:14px; text-transform:uppercase; color:#fff; letter-spacing:.04em; }
+.qn-pplan__price{ font-size:26px; font-weight:800; color:#fff; margin:6px 0 0; } .qn-pplan__price span{ font-size:13px; color:rgba(255,255,255,.5); font-weight:600; }
 .qn-pplan ul{ list-style:none; margin:14px 0 16px; padding:0; flex:1 1 auto; }
-.qn-pplan li{ display:flex; gap:8px; align-items:flex-start; font-size:13.5px; color:#3a4148; margin:0 0 7px; }
-.qn-pplan li .qn-ok{ width:15px; height:15px; flex:0 0 15px; margin-top:2px; } .qn-pplan li .qn-ok path{ stroke:#1fae5a; }
-.qn-pplan__sel{ width:100%; border:0; border-radius:3px; padding:12px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; background:#eef1f4; color:#13171b; }
-.qn-pplan__sel:hover{ background:#e1e6ea; } .qn-pplan--best .qn-pplan__sel{ background:#1f9cdf; color:#fff; } .qn-pplan--best .qn-pplan__sel:hover{ background:#1789c5; }
+.qn-pplan li{ display:flex; gap:8px; align-items:flex-start; font-size:13.5px; color:rgba(255,255,255,.72); margin:0 0 7px; }
+.qn-pplan li .qn-ok{ width:15px; height:15px; flex:0 0 15px; margin-top:2px; } .qn-pplan li .qn-ok path{ stroke:#3ddc84; }
+.qn-pplan__sel{ width:100%; border:0; border-radius:3px; padding:12px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; background:rgba(255,255,255,.1); color:#fff; }
+.qn-pplan__sel:hover{ background:rgba(255,255,255,.16); } .qn-pplan--best .qn-pplan__sel{ background:#1f9cdf; color:#fff; } .qn-pplan--best .qn-pplan__sel:hover{ background:#1789c5; }
 .qn-ppay{ max-width:430px; }
 .qn-ppay input{ width:100%; background:#fff; border:1px solid #d8dbdf; border-radius:3px; padding:13px; font:inherit; font-size:15px; color:#13171b; margin:0 0 10px; }
 .qn-ppay input:focus{ outline:none; border-color:#1397d6; }
@@ -1406,16 +1443,37 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-ppay__btn{ border:0; border-radius:3px; padding:14px 32px; font:inherit; font-weight:800; font-size:15px; cursor:pointer; background:#1f9cdf; color:#fff; }
 .qn-ppay__btn:hover{ background:#1789c5; }
 .qn-ppay__sec{ font-size:12px; color:#8a8f96; margin:10px 0 0; }
-.qn-poffer__done p{ color:#3a4148; font-size:15px; margin:6px 0 0; }
+.qn-poffer__done p{ color:rgba(255,255,255,.75); font-size:15px; margin:6px 0 0; }
 .qn-poffer__apps{ display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; }
-.qn-poffer__apps a{ background:#13171b; color:#fff; border-radius:3px; padding:12px 22px; font-size:13px; font-weight:700; text-decoration:none; }
+.qn-poffer__apps a{ background:#0c0e11; color:#fff; border:1px solid rgba(255,255,255,.12); border-radius:3px; padding:12px 22px; font-size:13px; font-weight:700; text-decoration:none; }
 .qn-poffer__apps a:hover{ background:#2a2f35; }
+/* ===== monthly/annual billing toggle (one instance, above .qn-pplans) ===== */
+.qn-pcycle{ display:inline-flex; gap:2px; padding:2px; margin:2px 0 16px; border:1px solid rgba(255,255,255,.14); border-radius:3px; background:rgba(255,255,255,.04); vertical-align:middle; }
+.qn-pcycle__b{ display:inline-flex; align-items:center; gap:6px; border:0; border-radius:2px; padding:7px 15px; font:inherit; font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:700; line-height:1; cursor:pointer; background:transparent; color:rgba(255,255,255,.6); transition:background .15s ease,color .15s ease; }
+.qn-pcycle__b:hover{ color:#fff; }
+.qn-pcycle__b.is-on{ background:#1f9cdf; color:#fff; font-weight:800; }
+.qn-pcycle__b small{ font-size:10px; font-weight:800; letter-spacing:.02em; color:#3ddc84; white-space:nowrap; }
+.qn-pcycle__b.is-on small{ color:#d6f5e4; }
+/* ===== per-card savings line (reuses the OK-check green as the money accent) ===== */
+.qn-pplan__save{ display:inline-block; margin:8px 0 0; padding:3px 8px; border-radius:3px; font-size:11.5px; font-weight:800; letter-spacing:.02em; background:rgba(61,220,132,.12); color:#3ddc84; }
+.qn-pplan--best .qn-pplan__save{ background:rgba(61,220,132,.18); }
+/* ===== per-cycle variant swap — monthly is the default (JS-off safe) ===== */
+.qn-pplan__pv,.qn-pplan__sv,.qn-pplan__cv{ display:none; }
+.qn-pplan__pv--mo,.qn-pplan__sv--mo,.qn-pplan__cv--mo{ display:inline; }
+.qn-poffer[data-cycle="yr"] .qn-pplan__pv--mo,.qn-poffer[data-cycle="yr"] .qn-pplan__sv--mo,.qn-poffer[data-cycle="yr"] .qn-pplan__cv--mo{ display:none; }
+.qn-poffer[data-cycle="yr"] .qn-pplan__pv--yr,.qn-poffer[data-cycle="yr"] .qn-pplan__sv--yr,.qn-poffer[data-cycle="yr"] .qn-pplan__cv--yr{ display:inline; }
+.qn-pplan__per{ font-size:13px; color:rgba(255,255,255,.5); font-weight:600; }
+/* ===== compact 4-perk list (override existing 3-perk sizing so 4 rows + savings never overflow) ===== */
+.qn-pplan ul{ margin:11px 0 13px; }
+.qn-pplan li{ font-size:13px; margin:0 0 5px; line-height:1.3; }
+.qn-pplan li .qn-ok{ width:14px; height:14px; flex:0 0 14px; }
+@media(max-width:680px){ .qn-pcycle{ display:flex; width:max-content; margin:2px auto 16px; } }
 /* align the send arrow to the input field box (not the footer, whose padding is asymmetric 14/28) */
 .text-section .qa-aside .qa-send{ position:absolute !important; right:20px; top:14px !important; bottom:28px !important; transform:none !important;
   display:grid !important; place-items:center !important; background:transparent !important; padding:0 !important; border-radius:0 !important; }
 .text-section .qa-aside .qa-send svg{ width:22px !important; height:22px !important; fill:#1f9cdf !important; }
 /* ---- desktop chat experience: launcher -> auto-wide(7s) -> dock(checkmark) ---- */
-.qn-dim{ position:fixed; inset:0; z-index:9990; background:rgba(8,11,15,.20); display:none; }
+.qn-dim{ position:fixed; inset:0; z-index:9990; background:rgba(7,10,14,.6); display:none; }
 .qn-launch{ position:fixed; right:26px; bottom:26px; z-index:9991; display:none; align-items:flex-end; gap:13px;
   border:0; background:transparent; cursor:pointer; padding:0; font-family:"Avenir Next Cyr",sans-serif; }
 .qn-launch__bubble{ white-space:nowrap; text-align:left; background:#d4ebfb; color:#0f7cbd; font-size:13.5px; font-weight:600; line-height:1.4;
@@ -1432,7 +1490,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 @keyframes qn-blink{ 50%{ opacity:0; } }
 .qn-launch__ava{ position:relative; width:62px; height:62px; flex:0 0 62px; border-radius:50%;
   box-shadow:0 12px 30px rgba(20,40,60,.32); animation:qn-bob 2.6s ease-in-out infinite; }
-.qn-launch__ava img{ width:62px; height:62px; box-sizing:border-box; border:3px solid #7ec3ec; border-radius:50%; object-fit:cover; object-position:center 16%; background:#1b1c1f; display:block; }
+.qn-launch__ava img{ width:62px; height:62px; box-sizing:border-box; border:3px solid #7ec3ec; border-radius:50%; object-fit:cover; object-position:center 16%; background:#1a1d24; display:block; }
 .qn-launch__ava::before{ content:""; position:absolute; inset:-4px; border-radius:50%; border:2px solid rgba(126,195,236,.6); animation:qn-ring 2.2s ease-out infinite; }
 .qn-launch__badge{ position:absolute; top:-2px; right:-2px; min-width:21px; height:21px; border-radius:999px;
   background:#e6484d; color:#fff; font-size:12px; font-weight:800; display:grid; place-items:center; border:2px solid #fff; padding:0 5px; }
@@ -1442,7 +1500,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 @media(min-width:992px){
   /* unified chat height — SAME in docked & wide; only the WIDTH changes between the two states.
      log flexes to fill, so the panel keeps a constant height instead of growing/shrinking with content */
-  body.qn-cx .text-section .qa-aside{ --chat-h:min(660px, calc(100vh - var(--header-height,108px) - 30px));
+  body.qn-cx .text-section .qa-aside{ --chat-h:min(760px, calc(100vh - var(--header-height,108px) - 22px));
     height:var(--chat-h) !important; max-height:var(--chat-h) !important; display:flex !important; flex-direction:column !important; }
   body.qn-cx .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; min-height:0 !important; max-height:none !important; }
   body.qn-cx .text-section .qa-aside .qa-chat__head,
@@ -1454,9 +1512,11 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   body.qn-cx--wide .qn-dim{ display:block; animation:qn-fade .3s ease; }
   body.qn-cx--wide .text-section .qa-aside{
     position:fixed !important; right:0 !important; left:auto !important;
-    top:calc(var(--header-height,108px) + 8px) !important; bottom:auto !important;
-    width:clamp(420px,48vw,720px) !important; margin:0 !important;
-    border-radius:3px 0 0 3px !important; z-index:9991 !important; box-shadow:-34px 0 90px rgba(0,0,0,.34) !important;
+    top:calc(var(--header-height,108px) + 8px) !important; bottom:auto !important;   /* same --chat-h as docked */
+    width:clamp(440px,46vw,720px) !important; margin:0 !important;
+    background:rgba(18,21,28,.42) !important;   /* wide: translucent glass over the dimmed page (example look) */
+    border-radius:3px 0 0 3px !important; z-index:9991 !important;
+    box-shadow:-40px 0 110px rgba(0,0,0,.5), 0 0 0 1px rgba(31,156,223,.5), 0 0 70px rgba(31,156,223,.2) !important;   /* blue focus glow */
     display:flex !important; flex-direction:column !important; animation:qn-slidein .44s cubic-bezier(.2,.8,.2,1); }
   body.qn-cx--wide .text-section .qa-aside .qa-chat__log{ flex:1 1 auto !important; min-height:0 !important; max-height:none !important; }
   /* keep header / contacts / offer / input from flex-shrinking (else the tall offer clips the header) */
@@ -1468,23 +1528,23 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   body.qn-docking .text-section .qa-aside{ animation:qn-fade .26s ease; }
 }
 /* mobile floating chat (#fc) — same dark "manager" widget */
-#fc .fc__panel{ background:#1b1c1f !important; }
+#fc .fc__panel{ background:#1a1d24 !important; }
 /* red "unread" notification badge on the sticky chat bar (mobile) */
 #fc .fc__cta .fc-badge{ position:absolute; top:2px; left:44px; min-width:19px; height:19px; padding:0 4px; border-radius:999px;
   background:#e6484d; color:#fff; font-size:11px; font-weight:800; line-height:1; display:grid; place-items:center;
   border:2px solid #15191d; box-shadow:0 1px 4px rgba(0,0,0,.35); z-index:3; }
-#fc .fc__head{ background:#1b1c1f !important; border-bottom:1px solid rgba(255,255,255,.07); }
+#fc .fc__head{ background:#1a1d24 !important; border-bottom:1px solid rgba(255,255,255,.07); }
 #fc .fc__head b{ font-size:16px !important; }
 #fc .fc__head .ava img{ object-position:center 12%; }
 #fc .fc__head .dot{ background:#3ddc84 !important; }
-#fc .qn-contacts{ background:#1b1c1f; }
-#fc .fc__log{ background:#171819 !important; }
+#fc .qn-contacts{ background:#1a1d24; }
+#fc .fc__log{ background:#14161c !important; }
 #fc .m{ border-radius:3px !important; }
-#fc .m--bot{ background:#2a2c30 !important; color:#e6e7e9 !important; border:0 !important; }
+#fc .m--bot{ background:rgba(255,255,255,.08) !important; color:#e6e7e9 !important; border:0 !important; }
 #fc .m--user{ background:#1f9cdf !important; }
 #fc .m--sys{ color:#8a8e94 !important; }
-#fc .typing{ background:#2a2c30 !important; border:0 !important; }
-#fc .fc__form{ background:#1b1c1f !important; border-top:1px solid rgba(255,255,255,.07) !important; position:relative; display:block !important; padding:14px 14px calc(24px + env(safe-area-inset-bottom)) !important; }
+#fc .typing{ background:rgba(255,255,255,.08) !important; border:0 !important; }
+#fc .fc__form{ background:#1a1d24 !important; border-top:1px solid rgba(255,255,255,.07) !important; position:relative; display:block !important; padding:14px 14px calc(24px + env(safe-area-inset-bottom)) !important; }
 #fc .fc__form input{ background:#fff !important; border:0 !important; border-radius:3px !important; color:#1b1f23 !important;
   padding:13px 46px 13px 18px !important; width:100% !important; }
 #fc .fc__form button[type="submit"]{ position:absolute !important; right:22px; top:14px; bottom:calc(24px + env(safe-area-inset-bottom)); transform:none;
@@ -1517,7 +1577,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-qcard__ans{ display:flex; align-items:center; gap:11px; }
 .qn-qcard__plus{ font-size:14px; font-weight:700; }
 .qn-stack--sm img{ width:36px; height:36px; border-radius:50%; object-fit:cover; object-position:center 26%;
-  border:2px solid #3a3e45; background:#2a2c30; margin-left:-12px; }
+  border:2px solid #3a3e45; background:rgba(255,255,255,.08); margin-left:-12px; }
 .qn-stack--sm img:first-child{ margin-left:0; }
 .qn-qarrow{ position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border:0; border-radius:3px;
   background:#1f9cdf; color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3;
@@ -1649,6 +1709,121 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-rating-card__icon{ flex:0 0 auto; display:flex; width:clamp(38px,3.4vw,53px); }
 .qn-rating-card__icon svg{ width:100%; height:auto; display:block; }
 @media(max-width:760px){ .qn-rating-list{ grid-template-columns:1fr; gap:16px; } .qn-rating{ padding:24px 18px; } }
+/* ----- client reviews: auto-scrolling marquee inside the dark ratings section ----- */
+.qn-reviews{ margin-top:clamp(26px,3vw,42px); }
+.qn-reviews__head{ display:flex; align-items:baseline; gap:12px; margin:0 0 18px; flex-wrap:wrap; }
+.qn-reviews__eyebrow{ font-family:"Bicubik",sans-serif; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#1397d6; }
+.qn-reviews__title{ font-family:"Bicubik",sans-serif; font-size:clamp(18px,2vw,26px); font-weight:400; color:#fff; text-transform:uppercase; letter-spacing:.01em; margin:0; }
+.qn-reviews__mask{ position:relative; overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent); }
+.qn-reviews__track{ display:flex; gap:18px; width:max-content; padding:4px 0; animation:qn-revroll 80s linear infinite; will-change:transform; }
+.qn-reviews__mask:hover .qn-reviews__track{ animation-play-state:paused; }
+@keyframes qn-revroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+.qn-rev{ flex:0 0 clamp(282px,23vw,332px); box-sizing:border-box; background:#1f242a; border:1px solid rgba(255,255,255,.08); border-radius:3px; padding:18px 20px; }
+.qn-rev__top{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin:0 0 9px; }
+.qn-rev__name{ color:#fff; font-weight:700; font-size:15px; }
+.qn-rev__date{ color:rgba(255,255,255,.4); font-size:12px; white-space:nowrap; }
+.qn-rev__stars{ display:flex; gap:3px; margin:0 0 10px; }
+.qn-rev__star .qn-rev__sv{ width:15px; height:15px; display:block; fill:rgba(255,255,255,.16); }
+.qn-rev__star.on .qn-rev__sv{ fill:#FFD337; }
+.qn-rev__text{ color:rgba(255,255,255,.72); font-size:13.5px; line-height:1.6; margin:0;
+  display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; }
+@media(prefers-reduced-motion:reduce){ .qn-reviews__track{ animation:none; } }
+/* ===== order form (replaces the card form in the offer 'pay' step) — Reiting screenshot, EN ===== */
+.qn-order{ background:transparent; padding:0; color:#fff; }   /* card is already dark now */
+.qn-order__h{ font-family:"Bicubik",sans-serif; font-size:clamp(15px,1.6vw,18px); text-transform:uppercase; letter-spacing:.02em; color:#fff; margin:0 0 20px; }
+.qn-order__grid2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:0 0 16px; }
+@media(max-width:680px){ .qn-order__grid2{ grid-template-columns:1fr; gap:14px; } }
+.qn-order__f{ position:relative; display:flex; align-items:center; gap:8px; border-bottom:1px solid rgba(255,255,255,.2); margin:0 0 16px; }
+.qn-order__grid2 .qn-order__f{ margin:0; }
+.qn-order__f input, .qn-order__f select, .qn-order__f textarea{ width:100%; background:transparent; border:0; outline:none; color:#fff; font:inherit; font-size:14px; padding:9px 2px; }
+.qn-order__f textarea{ resize:none; }
+.qn-order__f input::placeholder, .qn-order__f textarea::placeholder{ color:rgba(255,255,255,.5); }
+.qn-order__f select{ color:rgba(255,255,255,.55); appearance:none; -webkit-appearance:none; cursor:pointer; padding-right:18px; }
+.qn-order__f select option{ color:#13171b; }
+.qn-order__f--sel::after{ content:""; position:absolute; right:4px; top:50%; width:7px; height:7px; border-right:1.6px solid rgba(255,255,255,.55); border-bottom:1.6px solid rgba(255,255,255,.55); transform:translateY(-70%) rotate(45deg); pointer-events:none; }
+.qn-order__cc{ display:inline-flex; align-items:center; gap:6px; color:#fff; font-size:14px; white-space:nowrap; }
+.qn-order__flag{ width:22px; height:15px; border-radius:2px; flex:0 0 22px; display:block; }
+.qn-order__btn{ width:100%; border:0; border-radius:3px; padding:15px; margin-top:6px; background:#1f9cdf; color:#fff; font:inherit; font-weight:800; font-size:15px; cursor:pointer; }
+.qn-order__btn:hover{ background:#1789c5; }
+.qn-order__foot{ display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between; align-items:center; margin-top:14px; padding:16px; background:#f3f5f7; border:1px solid #e2e6ea; border-radius:3px; }
+.qn-order__app p{ margin:0 0 10px; font-size:13.5px; color:#3a4148; font-weight:600; max-width:300px; }
+.qn-order__badges{ display:flex; gap:10px; flex-wrap:wrap; }
+.qn-order__badge{ display:inline-flex; align-items:center; gap:8px; background:#13171b; color:#fff; border-radius:3px; padding:7px 13px; text-decoration:none; line-height:1.05; }
+.qn-order__badge svg{ width:18px; height:18px; flex:0 0 18px; fill:#fff; }
+.qn-order__badge small{ display:block; font-size:8.5px; letter-spacing:.04em; text-transform:uppercase; opacity:.8; }
+.qn-order__badge b{ display:block; font-size:13px; font-weight:700; }
+.qn-order__methods{ display:flex; gap:9px; flex-wrap:wrap; }
+.qn-order__method{ display:inline-flex; align-items:center; gap:6px; height:34px; padding:0 12px; background:#fff; border:1px solid #e2e6ea; border-radius:3px; font-size:12.5px; font-weight:800; color:#3a4148; letter-spacing:.02em; }
+.qn-order__method svg{ height:16px; width:auto; display:block; }
+/* custom dropdown (replaces the native <select>) — same dark style as the rest of the form */
+.qn-dd{ cursor:pointer; }
+.qn-dd__btn{ width:100%; background:transparent; border:0; outline:none; color:rgba(255,255,255,.55); font:inherit; font-size:14px; padding:9px 22px 9px 2px; text-align:left; cursor:pointer; }
+.qn-dd.is-set .qn-dd__btn{ color:#fff; }
+.qn-dd__list{ position:absolute; left:0; right:0; top:calc(100% + 7px); z-index:30; margin:0; padding:6px; list-style:none;
+  background:#23272e; border:1px solid rgba(255,255,255,.14); border-radius:3px; box-shadow:0 18px 44px rgba(0,0,0,.45); }
+.qn-dd__list[hidden]{ display:none; }
+.qn-dd__opt{ padding:10px 12px; border-radius:3px; color:rgba(255,255,255,.82); font-size:14px; }
+.qn-dd__opt:hover,.qn-dd__opt.is-on{ background:#1f9cdf; color:#fff; }
+.qn-dd.is-open.qn-order__f--sel::after{ transform:translateY(-30%) rotate(-135deg); }
+/* live char counters for Title (100) / Question (500) */
+.qn-order__f--cnt input, .qn-order__f--cnt textarea{ padding-right:54px; }
+.qn-order__cnt{ position:absolute; right:2px; bottom:9px; font-size:11px; color:rgba(255,255,255,.4); pointer-events:none; }
+/* ===== "It could be interesting" article tiles: frosted-glass cards, clear photo, shield in a
+   visible circle, title in its own readable box BELOW the photo (never on the photo) ===== */
+/* ===== GLASS TILES v2 — clear photo on top, shield in a visible circle, TITLE in a frosted box BELOW ===== */
+/* keep the dark section (glass reads on dark) */
+
+/* tile = frosted glass card, stacked: photo, then title box */
+.article-section .text-card__card.categories-card,
+.article-section .categories-card{
+  display:flex !important; flex-direction:column !important; height:100% !important;
+  background:rgba(23,27,34,.5) !important;
+  -webkit-backdrop-filter:blur(14px) !important; backdrop-filter:blur(14px) !important;
+  border:1px solid rgba(255,255,255,.13) !important;
+  border-radius:3px !important; overflow:hidden !important; filter:none !important;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease !important;
+}
+.article-section .categories-card:hover{
+  transform:translateY(-4px) !important;
+  border-color:rgba(31,156,223,.75) !important;
+  box-shadow:0 16px 36px rgba(0,0,0,.42), 0 0 0 1px rgba(31,156,223,.45), 0 0 44px rgba(31,156,223,.22) !important;
+}
+
+/* PHOTO — clear (no black wash), fixed ratio, at the top */
+.article-section .categories-card__image{
+  position:relative !important; width:100% !important; aspect-ratio:2/1.15 !important;
+  flex:0 0 auto !important; overflow:hidden !important; border-radius:0 !important; filter:none !important;
+}
+.article-section .categories-card__image::before{ content:none !important; }
+.article-section .categories-card__image img,
+.article-section .categories-card__image picture img{ width:100% !important; height:100% !important; object-fit:cover !important; }
+
+/* SHIELD — visible frosted dark circle + forced-white icon, so it reads on ANY photo */
+.article-section .categories-card__icon{
+  position:absolute !important; top:12px !important; right:12px !important; left:auto !important; bottom:auto !important; transform:none !important;
+  width:36px !important; height:36px !important; display:flex !important; align-items:center !important; justify-content:center !important;
+  background:rgba(9,13,18,.62) !important; -webkit-backdrop-filter:blur(6px) !important; backdrop-filter:blur(6px) !important;
+  border:1.5px solid rgba(255,255,255,.4) !important; border-radius:50% !important;
+  box-shadow:0 2px 10px rgba(0,0,0,.45) !important; z-index:6 !important;
+}
+/* keep each tile's OWN icon (document / briefcase / people …) in its natural colour — just size it to
+   fit the circle. Do NOT whiten it (that made the shields look broken). The dark circle gives contrast. */
+.article-section .categories-card__icon img{ display:block !important; width:auto !important; height:21px !important; max-width:22px !important; filter:none !important; }
+
+/* TITLE — its OWN frosted box BELOW the photo, with room for long text; always readable */
+.article-section .text-card__card.categories-card .categories-card__name,
+.article-section .categories-card__name{
+  position:static !important; left:auto !important; right:auto !important; bottom:auto !important; top:auto !important;
+  display:flex !important; align-items:flex-start !important; flex:1 1 auto !important;
+  margin:0 !important; padding:14px 15px 15px !important; min-height:78px !important;
+  background:rgba(255,255,255,.045) !important; border-top:1px solid rgba(255,255,255,.1) !important; border-left:3px solid #1397d6 !important;
+  color:#fff !important; font-family:"Avenir Next Cyr",sans-serif !important;
+  font-size:15px !important; font-weight:700 !important; line-height:1.35 !important; letter-spacing:0 !important;
+  text-shadow:none !important; text-transform:none !important; overflow-wrap:break-word !important; word-break:normal !important;
+}
+.article-section .categories-card__name::before,
+.article-section .categories-card__name::after{ content:none !important; display:none !important; }
 </style>
 
 <script>(function(){var h=document.documentElement;h.className+=" qn-boot";setTimeout(function(){h.classList.remove("qn-boot");},2000);})();</script>
@@ -2821,7 +2996,7 @@ If officers reasonably relied on information that appeared accurate at the time,
     </section>
 
         
-        <section class="qn-rating" aria-label="App ratings"><div class="qn-rating__inner"><ul class="qn-rating-list"><li class="qn-rating-card"><span class="qn-rating-card__value"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.02l-5.88 3.09 1.12-6.55L2.48 8.92l6.58-.96L12 2z"/></svg> 5.0</span><a class="qn-rating-card__wrapp" href="https://apps.apple.com/us/app/id1459241538" target="_blank" rel="nofollow noopener"><span class="qn-rating-card__icon"><svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#qnr_ios_clip)"><path d="M16.6667 60H43.3333C52.5383 60 60 52.5383 60 43.3333V16.6667C60 7.46167 52.5383 0 43.3333 0H16.6667C7.46167 0 0 7.46167 0 16.6667V43.3333C0 52.5383 7.46167 60 16.6667 60Z" fill="#ECEFF1"/><path d="M35.8521 11C35.9289 11 36.0057 11 36.0869 11C36.2753 13.3272 35.387 15.0661 34.3074 16.3254C33.2481 17.5759 31.7976 18.7888 29.4515 18.6048C29.295 16.3109 30.1848 14.701 31.2629 13.4446C32.2628 12.2737 34.0958 11.2319 35.8521 11Z" fill="black"/><path d="M42.9545 35.2228C42.9545 35.246 42.9545 35.2662 42.9545 35.288C42.2951 37.2848 41.3547 38.9962 40.207 40.5844C39.1593 42.0262 37.8754 43.9665 35.583 43.9665C33.6021 43.9665 32.2863 42.6928 30.2562 42.658C28.1086 42.6232 26.9276 43.7231 24.9641 43.9999C24.7395 43.9999 24.5149 43.9999 24.2946 43.9999C22.8528 43.7912 21.6892 42.6493 20.8415 41.6205C18.3418 38.5803 16.4102 34.6533 16.0508 29.6279C16.0508 29.1352 16.0508 28.6439 16.0508 28.1512C16.2029 24.5546 17.9505 21.6304 20.2734 20.2132C21.4993 19.4596 23.1846 18.8177 25.0612 19.1046C25.8654 19.2292 26.6871 19.5046 27.4073 19.777C28.0898 20.0393 28.9433 20.5044 29.7519 20.4798C30.2996 20.4638 30.8445 20.1784 31.3966 19.977C33.0138 19.393 34.5991 18.7235 36.6886 19.0379C39.1999 19.4176 40.9823 20.5334 42.0836 22.2549C39.9592 23.6069 38.2797 25.6443 38.5667 29.1236C38.8217 32.284 40.6591 34.1331 42.9545 35.2228Z" fill="black"/></g><defs><clipPath id="qnr_ios_clip"><rect width="60" height="60" fill="white"/></clipPath></defs></svg></span>AppStore</a></li><li class="qn-rating-card"><span class="qn-rating-card__value"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.02l-5.88 3.09 1.12-6.55L2.48 8.92l6.58-.96L12 2z"/></svg> 4.5</span><a class="qn-rating-card__wrapp" href="https://play.google.com/store/apps/details?id=ua.net.consultant" target="_blank" rel="nofollow noopener"><span class="qn-rating-card__icon"><svg viewBox="0 0 58 61" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"><rect x="0.5" y="0.714355" width="56.8421" height="60" fill="url(#qnr_gp_pat)"/><defs><pattern id="qnr_gp_pat" patternContentUnits="objectBoundingBox" width="1" height="1"><use xlink:href="#qnr_gp_img" transform="matrix(0.015625 0 0 0.0148026 0 -0.00328948)"/></pattern><image id="qnr_gp_img" width="65" height="65" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABECAMAAAAGJsP6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACQ1BMVEUAAAA6zf87zPtF9WtI/0hI/0iA/4A8zf87zP87zf5G9mpH/0dI/0g8zP9F9mpI/0hJ/0k7zP88zP5G9W1I/0hI/0hH/0c7zP88zf5G9mxI/0hI/0hK/0pI/0hH/0dO/05F9G5I/0hH/0dA/0A6zP1I/0gA/wBH/0dK/0pI/0hK/0pI/0hI/0hF/0VF9G5I/0hE/0Q7zP5F83RI/0hJ/0lJ/0lJ/0lJ/0lE83RI/0hJ/0lK/0o6zP5G/0ZI/0hJ/0lE8nVI/0hV/1VI/0hV/1VI/0hF8ndG/0Y7zP5E8nZO/kX41QT/2QBN/kbq2Qj/1AD/1AD/2AD/1QD/1QD/vwD/1AD/1QBN/kf/1QD/1QBF8nnq2Qn/1AD/1QD/1AD/1AD/0wA7zP7/1ADq2Qn/1AD/1AA7zP9D8H7/1ABO7nj/1ABAyPrnR0v/pBD/1AA/yfzjSVD/MzP/oxD/1AD/1AD/1AD/1AD/2AD/MzP/oxD/0wD/1QA+yvzjSVH/oRD/1QD//wDjSFD/1QD/0wDiSVE9y/3/oBD/1QDhSlL/1gA+y/3hSlL/NTL/yAPfTFT/MzP/MjL/QEA9y/3bT1j/MzP/MzP/Ozs+y/3/MzP/NDT/NzfbUFr/MzP/MjL/NDT/MzM9yv3aUVr/MzP/MzPZUVvYUl09yv3WUl3/MzM8y/7SV2I8y/7RV2P/MDDPV2TSV2M7zP88y/7OWGU7zP/OWGU7zf/NWmc6zP88y/7IXmz/MzP/MTE7zP9I/0j/1AD/MzP///+x2EK9AAAAvHRSTlMAYc/PwlwCSP7p29ZVtNrFO9zr2/6qJOzq2vqZGPSIDdrqbwTs2AHIPrst/aIa2fUP79bsdwfhZtbLQjDwIfkV1e4J4wPV1Drx1tmNFN/o84gN5GYE11XfxjzT57Mk+pkX8vTo5VP00GrB3eDe08Lk4/XT6C/+rRr0z8c95ePP2AHi6m/i5c4Y4iXm48xK4eVmBOri84gN6/qZF+GzJMY8693XVd3c7NzH793w3CXb297x3LrXW9eD5cShNGVvedMAAAABYktHRMATYd/4AAAAB3RJTUUH5gUCBxAHv8mEswAAAopJREFUWMOd12dbE0EUBeDYUDSKothQbFgQG4piib3F3hAUsYC9izVq7GLBXrGgxAKK2Hu5d+evuck+SWZ3ZrN35nw/b/Y52cxufL4WLVu1bpPm007bdpDeHjv4tYGOAJDeCTGjsybQxQQgsytit6zuWkCPKAA9eyFi7+w+2kDsGhD75vTTBSCzf1TAAQMHaQKQawk42D9ED0gIOHSYHpAUMG+4FsAJ+SNG6gCQOyou4OicMRoAFIxNCDiucLw6YBNwQlGaMgAFEzkBJ01WBhwC5k1RBSBgF/KzpioCTgGnZU9XAyAwwy7gzMJZSoAo4OyiOSqARMC5fhUAAvMEATPmKwBSQXrquQEQXCAKuHDRYjIAQfEaliw1li1fQQVEweybWbmqmAg4BatvZnUJEbALpfG+mTVraQAEy5L9dQaf8vUkICk4+oaxYeMmCgAVZfK+mcrYF+IFWELpZkOWLVsJAGzbLv18KzsIAFTsdO0buyjA7j17XYF9BGD/AVZ10KV/6LA3YPaZi3Dk6DHvEWN9xkLHxf6Jk4T7IHyKWQmddtTPlJwl3EjhcyyeKptw/kIx5VYOX2RMJlRyh0IqoJrvm8Kl+K/gMu3nXH2FMYlQfpV4Ign9mMCdBB5AzTUm5voN8qlcc1Os37p9h3ys370n1O8/eEh/sNQK/UePnyg82mqfOvt1z1SezkL/eb3S+0Hkhb3+8pXaG0rktff0qQB732X6FECkgTK9O9DYQJreFWh8k6y/rVd/V+b6qad3AZreUaeXA4l+yHN6KdD8nj69DIj36z7o/Wtr/qgyvQhYffL0AtD0SW16Lp+j/S9fFafn8i16/d9Vp+fyw/z8n8rT8/n1+8/ff/r1/2yjiOMhW0i2AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA1LTAyVDA3OjE2OjA3KzAwOjAw76KQ+gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNS0wMlQwNzoxNjowNyswMDowMJ7/KEYAAAAASUVORK5CYII="/></defs></svg></span>Google <br> Play</a></li><li class="qn-rating-card"><span class="qn-rating-card__value"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.02l-5.88 3.09 1.12-6.55L2.48 8.92l6.58-.96L12 2z"/></svg> 4.9</span><a class="qn-rating-card__wrapp" href="https://g.co/kgs/iwAvb8g" target="_blank" rel="nofollow noopener"><span class="qn-rating-card__icon"><svg viewBox="0 0 60 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#qnr_gb_clip)"><path d="M53.4359 12.8955H5.09532C3.94674 12.8955 3.01562 13.8087 3.01562 14.9351V49.3548C3.01562 50.4812 3.94674 51.3944 5.09532 51.3944H53.4359C54.5845 51.3944 55.5156 50.4812 55.5156 49.3548V14.9351C55.5156 13.8087 54.5845 12.8955 53.4359 12.8955Z" fill="#4989F5"/><path d="M52.8272 12.6064H5.64203C4.18037 12.6064 3.04297 23.7003 3.04297 25.1338L28.883 51.3946H52.8272C54.2933 51.3906 55.4809 50.226 55.4849 48.7881V15.2123C55.4805 13.7747 54.2931 12.6104 52.8272 12.6064Z" fill="url(#qnr_gb_grad)"/><path d="M15 19.3427H30V0.0351562H17.2461L15 19.3427Z" fill="#3C4BA6"/><path d="M45 19.3427H30V0.0351562H42.7539L45 19.3427ZM55.5124 3.69513L55.531 3.76094C55.5265 3.73771 55.5175 3.71615 55.5124 3.69513Z" fill="#7BABF7"/><path d="M55.531 3.76045L55.5124 3.69464C55.0368 1.55899 53.1094 0.0360506 50.8804 0.034668H42.7539L44.9983 19.3427H59.9983L55.531 3.76045Z" fill="#3F51B5"/><path d="M4.48736 3.69531L4.46875 3.76112C4.47326 3.7379 4.48228 3.71633 4.48736 3.69531Z" fill="#7BABF7"/><path d="M4.47011 3.76045L4.48872 3.69464C4.96427 1.55899 6.89171 0.0360506 9.12068 0.034668H17.2477L15 19.3427H0L4.47011 3.76045Z" fill="#7BABF7"/><path fill-rule="evenodd" clip-rule="evenodd" d="M15.0267 19.3379C15.0267 23.3978 11.6707 26.6891 7.53093 26.6891C3.39115 26.6891 0.0351562 23.3978 0.0351562 19.3379H15.0267Z" fill="#709BE0"/><path fill-rule="evenodd" clip-rule="evenodd" d="M30.0189 19.3379C30.0189 23.3978 26.6629 26.6891 22.5231 26.6891C18.3833 26.6891 15.0273 23.3978 15.0273 19.3379H30.0189Z" fill="#3C4BA6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M45.0111 19.3379C45.0111 23.3978 41.6551 26.6891 37.5153 26.6891C33.3755 26.6891 30.0195 23.3978 30.0195 19.3379H45.0111Z" fill="#709BE0"/><path fill-rule="evenodd" clip-rule="evenodd" d="M59.9994 19.3379C59.9994 23.3978 56.6434 26.6891 52.5036 26.6891C48.3638 26.6891 45.0078 23.3978 45.0078 19.3379H59.9994Z" fill="#3C4BA6"/><path d="M52.505 39.2542C52.4785 38.9041 52.4345 38.5845 52.3719 38.1763H44.1952C44.1952 39.2979 44.1952 40.5218 44.1907 41.6439H48.9276C48.8269 42.1668 48.6219 42.6651 48.3244 43.1101C48.0268 43.5551 47.6425 43.9381 47.1935 44.237C47.1935 44.237 47.1935 44.2177 47.1902 44.2171C46.6104 44.5905 45.9572 44.8405 45.2729 44.951C44.5867 45.0741 43.8833 45.0711 43.1982 44.9422C42.5027 44.801 41.8441 44.5211 41.2635 44.1198C40.4064 43.5237 39.7454 42.6954 39.3614 41.7362C39.3321 41.6616 39.305 41.5863 39.2774 41.51V41.5017L39.2847 41.4962C38.912 40.4235 38.911 39.2601 39.2819 38.1868C39.5431 37.4339 39.973 36.748 40.54 36.1793C41.8701 34.83 43.8574 34.3225 45.6896 34.8642C46.3921 35.0755 47.0341 35.4461 47.5635 35.946L49.1616 34.3787C49.4435 34.0994 49.7362 33.8289 50.0075 33.5403C49.1971 32.799 48.246 32.2213 47.2082 31.8402C45.3196 31.1686 43.2535 31.1509 41.3531 31.7899C41.287 31.812 41.2212 31.8351 41.1558 31.859C39.1056 32.6149 37.419 34.0973 36.4291 36.0134C36.0795 36.6916 35.825 37.413 35.6723 38.1581C34.7671 42.5697 37.5119 46.9123 41.9435 48.0795C43.3922 48.46 44.9323 48.4506 46.3922 48.1254C47.7187 47.8317 48.9452 47.2066 49.9528 46.3109C51.0039 45.3625 51.7573 44.0988 52.152 42.7566C52.482 41.6192 52.6016 40.433 52.505 39.2542Z" fill="white"/></g><defs><linearGradient id="qnr_gb_grad" x1="3.04297" y1="18023.3" x2="55800.7" y2="18023.3" gradientUnits="userSpaceOnUse"><stop offset="0.03" stop-color="#4079D8"/><stop offset="1" stop-color="#4989F5"/></linearGradient><clipPath id="qnr_gb_clip"><rect width="60" height="51.4286" fill="white"/></clipPath></defs></svg></span>Google <br> Business</a></li></ul></div></section><section class="map-section">
+        <section class="qn-rating" aria-label="App ratings"><div class="qn-rating__inner"><ul class="qn-rating-list"><li class="qn-rating-card"><span class="qn-rating-card__value"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.02l-5.88 3.09 1.12-6.55L2.48 8.92l6.58-.96L12 2z"/></svg> 5.0</span><a class="qn-rating-card__wrapp" href="https://apps.apple.com/us/app/id1459241538" target="_blank" rel="nofollow noopener"><span class="qn-rating-card__icon"><svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#qnr_ios_clip)"><path d="M16.6667 60H43.3333C52.5383 60 60 52.5383 60 43.3333V16.6667C60 7.46167 52.5383 0 43.3333 0H16.6667C7.46167 0 0 7.46167 0 16.6667V43.3333C0 52.5383 7.46167 60 16.6667 60Z" fill="#ECEFF1"/><path d="M35.8521 11C35.9289 11 36.0057 11 36.0869 11C36.2753 13.3272 35.387 15.0661 34.3074 16.3254C33.2481 17.5759 31.7976 18.7888 29.4515 18.6048C29.295 16.3109 30.1848 14.701 31.2629 13.4446C32.2628 12.2737 34.0958 11.2319 35.8521 11Z" fill="black"/><path d="M42.9545 35.2228C42.9545 35.246 42.9545 35.2662 42.9545 35.288C42.2951 37.2848 41.3547 38.9962 40.207 40.5844C39.1593 42.0262 37.8754 43.9665 35.583 43.9665C33.6021 43.9665 32.2863 42.6928 30.2562 42.658C28.1086 42.6232 26.9276 43.7231 24.9641 43.9999C24.7395 43.9999 24.5149 43.9999 24.2946 43.9999C22.8528 43.7912 21.6892 42.6493 20.8415 41.6205C18.3418 38.5803 16.4102 34.6533 16.0508 29.6279C16.0508 29.1352 16.0508 28.6439 16.0508 28.1512C16.2029 24.5546 17.9505 21.6304 20.2734 20.2132C21.4993 19.4596 23.1846 18.8177 25.0612 19.1046C25.8654 19.2292 26.6871 19.5046 27.4073 19.777C28.0898 20.0393 28.9433 20.5044 29.7519 20.4798C30.2996 20.4638 30.8445 20.1784 31.3966 19.977C33.0138 19.393 34.5991 18.7235 36.6886 19.0379C39.1999 19.4176 40.9823 20.5334 42.0836 22.2549C39.9592 23.6069 38.2797 25.6443 38.5667 29.1236C38.8217 32.284 40.6591 34.1331 42.9545 35.2228Z" fill="black"/></g><defs><clipPath id="qnr_ios_clip"><rect width="60" height="60" fill="white"/></clipPath></defs></svg></span>AppStore</a></li><li class="qn-rating-card"><span class="qn-rating-card__value"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.02l-5.88 3.09 1.12-6.55L2.48 8.92l6.58-.96L12 2z"/></svg> 4.5</span><a class="qn-rating-card__wrapp" href="https://play.google.com/store/apps/details?id=ua.net.consultant" target="_blank" rel="nofollow noopener"><span class="qn-rating-card__icon"><svg viewBox="0 0 58 61" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"><rect x="0.5" y="0.714355" width="56.8421" height="60" fill="url(#qnr_gp_pat)"/><defs><pattern id="qnr_gp_pat" patternContentUnits="objectBoundingBox" width="1" height="1"><use xlink:href="#qnr_gp_img" transform="matrix(0.015625 0 0 0.0148026 0 -0.00328948)"/></pattern><image id="qnr_gp_img" width="65" height="65" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABECAMAAAAGJsP6AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACQ1BMVEUAAAA6zf87zPtF9WtI/0hI/0iA/4A8zf87zP87zf5G9mpH/0dI/0g8zP9F9mpI/0hJ/0k7zP88zP5G9W1I/0hI/0hH/0c7zP88zf5G9mxI/0hI/0hK/0pI/0hH/0dO/05F9G5I/0hH/0dA/0A6zP1I/0gA/wBH/0dK/0pI/0hK/0pI/0hI/0hF/0VF9G5I/0hE/0Q7zP5F83RI/0hJ/0lJ/0lJ/0lJ/0lE83RI/0hJ/0lK/0o6zP5G/0ZI/0hJ/0lE8nVI/0hV/1VI/0hV/1VI/0hF8ndG/0Y7zP5E8nZO/kX41QT/2QBN/kbq2Qj/1AD/1AD/2AD/1QD/1QD/vwD/1AD/1QBN/kf/1QD/1QBF8nnq2Qn/1AD/1QD/1AD/1AD/0wA7zP7/1ADq2Qn/1AD/1AA7zP9D8H7/1ABO7nj/1ABAyPrnR0v/pBD/1AA/yfzjSVD/MzP/oxD/1AD/1AD/1AD/1AD/2AD/MzP/oxD/0wD/1QA+yvzjSVH/oRD/1QD//wDjSFD/1QD/0wDiSVE9y/3/oBD/1QDhSlL/1gA+y/3hSlL/NTL/yAPfTFT/MzP/MjL/QEA9y/3bT1j/MzP/MzP/Ozs+y/3/MzP/NDT/NzfbUFr/MzP/MjL/NDT/MzM9yv3aUVr/MzP/MzPZUVvYUl09yv3WUl3/MzM8y/7SV2I8y/7RV2P/MDDPV2TSV2M7zP88y/7OWGU7zP/OWGU7zf/NWmc6zP88y/7IXmz/MzP/MTE7zP9I/0j/1AD/MzP///+x2EK9AAAAvHRSTlMAYc/PwlwCSP7p29ZVtNrFO9zr2/6qJOzq2vqZGPSIDdrqbwTs2AHIPrst/aIa2fUP79bsdwfhZtbLQjDwIfkV1e4J4wPV1Drx1tmNFN/o84gN5GYE11XfxjzT57Mk+pkX8vTo5VP00GrB3eDe08Lk4/XT6C/+rRr0z8c95ePP2AHi6m/i5c4Y4iXm48xK4eVmBOri84gN6/qZF+GzJMY8693XVd3c7NzH793w3CXb297x3LrXW9eD5cShNGVvedMAAAABYktHRMATYd/4AAAAB3RJTUUH5gUCBxAHv8mEswAAAopJREFUWMOd12dbE0EUBeDYUDSKothQbFgQG4piib3F3hAUsYC9izVq7GLBXrGgxAKK2Hu5d+evuck+SWZ3ZrN35nw/b/Y52cxufL4WLVu1bpPm007bdpDeHjv4tYGOAJDeCTGjsybQxQQgsytit6zuWkCPKAA9eyFi7+w+2kDsGhD75vTTBSCzf1TAAQMHaQKQawk42D9ED0gIOHSYHpAUMG+4FsAJ+SNG6gCQOyou4OicMRoAFIxNCDiucLw6YBNwQlGaMgAFEzkBJ01WBhwC5k1RBSBgF/KzpioCTgGnZU9XAyAwwy7gzMJZSoAo4OyiOSqARMC5fhUAAvMEATPmKwBSQXrquQEQXCAKuHDRYjIAQfEaliw1li1fQQVEweybWbmqmAg4BatvZnUJEbALpfG+mTVraQAEy5L9dQaf8vUkICk4+oaxYeMmCgAVZfK+mcrYF+IFWELpZkOWLVsJAGzbLv18KzsIAFTsdO0buyjA7j17XYF9BGD/AVZ10KV/6LA3YPaZi3Dk6DHvEWN9xkLHxf6Jk4T7IHyKWQmddtTPlJwl3EjhcyyeKptw/kIx5VYOX2RMJlRyh0IqoJrvm8Kl+K/gMu3nXH2FMYlQfpV4Ign9mMCdBB5AzTUm5voN8qlcc1Os37p9h3ys370n1O8/eEh/sNQK/UePnyg82mqfOvt1z1SezkL/eb3S+0Hkhb3+8pXaG0rktff0qQB732X6FECkgTK9O9DYQJreFWh8k6y/rVd/V+b6qad3AZreUaeXA4l+yHN6KdD8nj69DIj36z7o/Wtr/qgyvQhYffL0AtD0SW16Lp+j/S9fFafn8i16/d9Vp+fyw/z8n8rT8/n1+8/ff/r1/2yjiOMhW0i2AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIyLTA1LTAyVDA3OjE2OjA3KzAwOjAw76KQ+gAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMi0wNS0wMlQwNzoxNjowNyswMDowMJ7/KEYAAAAASUVORK5CYII="/></defs></svg></span>Google <br> Play</a></li><li class="qn-rating-card"><span class="qn-rating-card__value"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.02l-5.88 3.09 1.12-6.55L2.48 8.92l6.58-.96L12 2z"/></svg> 4.9</span><a class="qn-rating-card__wrapp" href="https://g.co/kgs/iwAvb8g" target="_blank" rel="nofollow noopener"><span class="qn-rating-card__icon"><svg viewBox="0 0 60 52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g clip-path="url(#qnr_gb_clip)"><path d="M53.4359 12.8955H5.09532C3.94674 12.8955 3.01562 13.8087 3.01562 14.9351V49.3548C3.01562 50.4812 3.94674 51.3944 5.09532 51.3944H53.4359C54.5845 51.3944 55.5156 50.4812 55.5156 49.3548V14.9351C55.5156 13.8087 54.5845 12.8955 53.4359 12.8955Z" fill="#4989F5"/><path d="M52.8272 12.6064H5.64203C4.18037 12.6064 3.04297 23.7003 3.04297 25.1338L28.883 51.3946H52.8272C54.2933 51.3906 55.4809 50.226 55.4849 48.7881V15.2123C55.4805 13.7747 54.2931 12.6104 52.8272 12.6064Z" fill="url(#qnr_gb_grad)"/><path d="M15 19.3427H30V0.0351562H17.2461L15 19.3427Z" fill="#3C4BA6"/><path d="M45 19.3427H30V0.0351562H42.7539L45 19.3427ZM55.5124 3.69513L55.531 3.76094C55.5265 3.73771 55.5175 3.71615 55.5124 3.69513Z" fill="#7BABF7"/><path d="M55.531 3.76045L55.5124 3.69464C55.0368 1.55899 53.1094 0.0360506 50.8804 0.034668H42.7539L44.9983 19.3427H59.9983L55.531 3.76045Z" fill="#3F51B5"/><path d="M4.48736 3.69531L4.46875 3.76112C4.47326 3.7379 4.48228 3.71633 4.48736 3.69531Z" fill="#7BABF7"/><path d="M4.47011 3.76045L4.48872 3.69464C4.96427 1.55899 6.89171 0.0360506 9.12068 0.034668H17.2477L15 19.3427H0L4.47011 3.76045Z" fill="#7BABF7"/><path fill-rule="evenodd" clip-rule="evenodd" d="M15.0267 19.3379C15.0267 23.3978 11.6707 26.6891 7.53093 26.6891C3.39115 26.6891 0.0351562 23.3978 0.0351562 19.3379H15.0267Z" fill="#709BE0"/><path fill-rule="evenodd" clip-rule="evenodd" d="M30.0189 19.3379C30.0189 23.3978 26.6629 26.6891 22.5231 26.6891C18.3833 26.6891 15.0273 23.3978 15.0273 19.3379H30.0189Z" fill="#3C4BA6"/><path fill-rule="evenodd" clip-rule="evenodd" d="M45.0111 19.3379C45.0111 23.3978 41.6551 26.6891 37.5153 26.6891C33.3755 26.6891 30.0195 23.3978 30.0195 19.3379H45.0111Z" fill="#709BE0"/><path fill-rule="evenodd" clip-rule="evenodd" d="M59.9994 19.3379C59.9994 23.3978 56.6434 26.6891 52.5036 26.6891C48.3638 26.6891 45.0078 23.3978 45.0078 19.3379H59.9994Z" fill="#3C4BA6"/><path d="M52.505 39.2542C52.4785 38.9041 52.4345 38.5845 52.3719 38.1763H44.1952C44.1952 39.2979 44.1952 40.5218 44.1907 41.6439H48.9276C48.8269 42.1668 48.6219 42.6651 48.3244 43.1101C48.0268 43.5551 47.6425 43.9381 47.1935 44.237C47.1935 44.237 47.1935 44.2177 47.1902 44.2171C46.6104 44.5905 45.9572 44.8405 45.2729 44.951C44.5867 45.0741 43.8833 45.0711 43.1982 44.9422C42.5027 44.801 41.8441 44.5211 41.2635 44.1198C40.4064 43.5237 39.7454 42.6954 39.3614 41.7362C39.3321 41.6616 39.305 41.5863 39.2774 41.51V41.5017L39.2847 41.4962C38.912 40.4235 38.911 39.2601 39.2819 38.1868C39.5431 37.4339 39.973 36.748 40.54 36.1793C41.8701 34.83 43.8574 34.3225 45.6896 34.8642C46.3921 35.0755 47.0341 35.4461 47.5635 35.946L49.1616 34.3787C49.4435 34.0994 49.7362 33.8289 50.0075 33.5403C49.1971 32.799 48.246 32.2213 47.2082 31.8402C45.3196 31.1686 43.2535 31.1509 41.3531 31.7899C41.287 31.812 41.2212 31.8351 41.1558 31.859C39.1056 32.6149 37.419 34.0973 36.4291 36.0134C36.0795 36.6916 35.825 37.413 35.6723 38.1581C34.7671 42.5697 37.5119 46.9123 41.9435 48.0795C43.3922 48.46 44.9323 48.4506 46.3922 48.1254C47.7187 47.8317 48.9452 47.2066 49.9528 46.3109C51.0039 45.3625 51.7573 44.0988 52.152 42.7566C52.482 41.6192 52.6016 40.433 52.505 39.2542Z" fill="white"/></g><defs><linearGradient id="qnr_gb_grad" x1="3.04297" y1="18023.3" x2="55800.7" y2="18023.3" gradientUnits="userSpaceOnUse"><stop offset="0.03" stop-color="#4079D8"/><stop offset="1" stop-color="#4989F5"/></linearGradient><clipPath id="qnr_gb_clip"><rect width="60" height="51.4286" fill="white"/></clipPath></defs></svg></span>Google <br> Business</a></li></ul><div class="qn-reviews"><div class="qn-reviews__head"><span class="qn-reviews__eyebrow">Reviews</span><h3 class="qn-reviews__title">From Real Users</h3></div><div class="qn-reviews__mask"><div class="qn-reviews__track" aria-label="Customer reviews"><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Ralph</span><span class="qn-rev__date">Feb 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">There were serious issues with terminating a rental agreement, including a conflict with the landlord. I had almost lost hope, but after reaching out here the CONSULTANT manager found me an experienced lawyer within 15 minutes, and we resolved everything in about a week. Highly recommend it for any conflict or rental problem.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Roman</span><span class="qn-rev__date">Jan 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">I submitted a legal question late in the evening and received a response by the next morning. The lawyer was professional, patient, and explained every step in great detail. They even provided sample documents that made it quick and easy to prepare the paperwork.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Angelina</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">This service is a game-changer. I needed urgent legal advice and got a full consultation the same day. The lawyer was polite and professional throughout.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">William</span><span class="qn-rev__date">Nov 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">Used the platform to sort out a real estate issue. The lawyer helped me avoid a costly mistake. Worth every cent. Great concept and execution!</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Vanessa</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">I found a professional immigration lawyer through this site who helped me with a visa issue. Everything was clearly explained and resolved fast.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Jennifer</span><span class="qn-rev__date">Nov 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">Very useful platform, especially for someone new to legal matters. The explanations were in plain English and helped me make the right decision.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Maxim</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">The platform helped me find a reliable lawyer for my business dispute. The process was quick, smooth, and entirely online, which saved me a lot of hassle.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Richard</span><span class="qn-rev__date">Jan 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">The lawyer provided to me by the consultant was professional, patient, and explained the legal steps I needed to take very clearly. I highly recommend the CONSULTANT app.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Viktor</span><span class="qn-rev__date">Feb 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">I liked that the service prices were clear and known in advance. There were no surprises, as often happens with in-person consultations.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Barbara</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">Good legal support and quick response time. I used the platform for a contract review and it worked really well.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Henry</span><span class="qn-rev__date">Nov 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">The consultant helped us structure agreements with landowners and utility providers. Their advice was practical, business-oriented, and fully compliant with U.S. regulations.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Konstantin</span><span class="qn-rev__date">Dec 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">A very convenient service. I did not have to go to an office, everything was handled through an online consultation, and the documents were sent to my email within an hour.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Ralph</span><span class="qn-rev__date">Feb 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">There were serious issues with terminating a rental agreement, including a conflict with the landlord. I had almost lost hope, but after reaching out here the CONSULTANT manager found me an experienced lawyer within 15 minutes, and we resolved everything in about a week. Highly recommend it for any conflict or rental problem.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Roman</span><span class="qn-rev__date">Jan 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">I submitted a legal question late in the evening and received a response by the next morning. The lawyer was professional, patient, and explained every step in great detail. They even provided sample documents that made it quick and easy to prepare the paperwork.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Angelina</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">This service is a game-changer. I needed urgent legal advice and got a full consultation the same day. The lawyer was polite and professional throughout.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">William</span><span class="qn-rev__date">Nov 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">Used the platform to sort out a real estate issue. The lawyer helped me avoid a costly mistake. Worth every cent. Great concept and execution!</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Vanessa</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">I found a professional immigration lawyer through this site who helped me with a visa issue. Everything was clearly explained and resolved fast.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Jennifer</span><span class="qn-rev__date">Nov 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">Very useful platform, especially for someone new to legal matters. The explanations were in plain English and helped me make the right decision.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Maxim</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">The platform helped me find a reliable lawyer for my business dispute. The process was quick, smooth, and entirely online, which saved me a lot of hassle.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Richard</span><span class="qn-rev__date">Jan 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">The lawyer provided to me by the consultant was professional, patient, and explained the legal steps I needed to take very clearly. I highly recommend the CONSULTANT app.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Viktor</span><span class="qn-rev__date">Feb 2026</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">I liked that the service prices were clear and known in advance. There were no surprises, as often happens with in-person consultations.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Barbara</span><span class="qn-rev__date">Oct 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">Good legal support and quick response time. I used the platform for a contract review and it worked really well.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Henry</span><span class="qn-rev__date">Nov 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">The consultant helped us structure agreements with landowners and utility providers. Their advice was practical, business-oriented, and fully compliant with U.S. regulations.</p></article><article class="qn-rev"><div class="qn-rev__top"><span class="qn-rev__name">Konstantin</span><span class="qn-rev__date">Dec 2025</span></div><div class="qn-rev__stars"><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span><span class="qn-rev__star on"><svg class="qn-rev__sv" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.95 5.98 6.6.96-4.78 4.66 1.13 6.57L12 17.98 6.1 20.13l1.13-6.57L2.45 8.94l6.6-.96L12 2z"/></svg></span></div><p class="qn-rev__text">A very convenient service. I did not have to go to an office, everything was handled through an online consultation, and the documents were sent to my email within an hour.</p></article></div></div></div></div></section><section class="map-section">
     <div class="map-section__background bg-image">
         <iframe src="../assets/embed.html" width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy" title="Map"></iframe>
     </div>
@@ -4061,17 +4236,47 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       var anchor=document.querySelector('.text-section .text-card');
       if(!anchor || document.querySelector('.qn-poffer')) return;
       var OK='<svg class="qn-ok" viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>';
+      /* icons for the order form (inlined; external svg files break on file://) */
+      var FLAG_US='<svg class="qn-order__flag" viewBox="0 0 24 16" preserveAspectRatio="none" aria-hidden="true"><rect width="24" height="16" fill="#fff"/><g fill="#b22234"><rect width="24" height="1.78"/><rect y="3.55" width="24" height="1.78"/><rect y="7.1" width="24" height="1.78"/><rect y="10.65" width="24" height="1.78"/><rect y="14.2" width="24" height="1.78"/></g><rect width="10" height="8.9" fill="#3c3b6e"/></svg>';
+      var IC_APPLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.74-1.517.03-2.01-.88-3.766-.88-1.756 0-2.302.85-3.74.91-1.44.06-2.59-1.49-3.54-2.83-1.987-2.96-3.5-8.36-1.46-12.01 1.014-1.81 2.83-2.96 4.81-2.99 1.45-.03 2.83.96 3.72.96.89 0 2.56-1.18 4.32-1.01.73.03 2.79.3 4.11 2.22-.105.07-2.455 1.42-2.43 4.25.03 3.38 2.99 4.51 3.02 4.52z"/></svg>';
+      var IC_PLAY='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3.6 2.3c-.3.3-.5.7-.5 1.3v16.8c0 .6.2 1 .5 1.3l.1.1L13 12.1v-.2z"/><path fill="currentColor" d="M16.3 15.3l-3.1-3.1v-.2l3.1-3.1 3.8 2.2c1 .6 1 1.5 0 2.1z"/></svg>';
+      var IC_MC='<svg viewBox="0 0 36 22" aria-hidden="true"><circle cx="14" cy="11" r="9" fill="#eb001b"/><circle cx="23" cy="11" r="9" fill="#f79e1b" fill-opacity=".92"/></svg>';
       var PLANS=[
-        {k:'Base',p:'$15',best:false,perks:['3 free consultations','5% off lawyer services','AI assistant 24/7']},
-        {k:'Pro',p:'$50',best:true,perks:['12 free consultations (4×)','10% off all lawyer services','Personal manager + priority']},
-        {k:'Premium',p:'$300',best:false,perks:['Unlimited consultations','20% off all lawyer services','VIP white-glove + TOP specialists']}
+        {k:'Base',best:false,
+          pm:'$15',py:'$162',
+          cm:'3 free brief consultations',cy:'36 free brief consultations',
+          sm:'Save up to $1,300',sy:'Save up to $1,300/mo',
+          perks:['Unlimited document templates','Enhanced 24/7 AI assistant','5% off lawyer services']},
+        {k:'Pro',best:true,
+          pm:'$50',py:'$540',
+          cm:'12 free consultations',cy:'144 free consultations',
+          sm:'Save up to $4,200',sy:'Save up to $4,200/mo',
+          perks:['Unlimited document templates','Registry checks','10% off + Customer Success Manager']},
+        {k:'Premium',best:false,
+          pm:'$300',py:'$3,240',
+          cm:'Unlimited brief consultations',cy:'Unlimited brief consultations',
+          sm:'Save up to $20,000',sy:'Save up to $20,000/mo',
+          perks:['Unlimited document templates','Registry checks','up to 20% off + VIP Account Manager']}
       ];
-      var plansHtml=PLANS.map(function(p){ return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'">'
-        +(p.best?'<span class="qn-pplan__tag">BEST VALUE</span>':'')
-        +'<div class="qn-pplan__name">'+p.k+'</div><div class="qn-pplan__price">'+p.p+'<span>/mo</span></div>'
-        +'<ul>'+p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('')+'</ul>'
-        +'<button class="qn-pplan__sel" type="button" data-plan="'+p.k+'" data-price="'+p.p+'">Choose '+p.k+'</button></div>'; }).join('');
-      var of=document.createElement('section'); of.className='qn-poffer'; of.hidden=true;
+      /* First <li> is the per-cycle consultations line (--mo/--yr spans). Price + savings render both cycle
+         variants; CSS shows the active one via .qn-poffer[data-cycle]. Monthly is the JS-off-safe default. */
+      var plansHtml=PLANS.map(function(p){
+        var consLi='<li>'+OK+'<span><span class="qn-pplan__cv qn-pplan__cv--mo">'+p.cm+'</span><span class="qn-pplan__cv qn-pplan__cv--yr">'+p.cy+'</span></span></li>';
+        var perksLi=p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('');
+        return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'">'
+          +(p.best?'<span class="qn-pplan__tag">BEST VALUE</span>':'')
+          +'<div class="qn-pplan__name">'+p.k+'</div>'
+          +'<div class="qn-pplan__price">'
+            +'<span class="qn-pplan__pv qn-pplan__pv--mo">'+p.pm+'<span class="qn-pplan__per">/mo</span></span>'
+            +'<span class="qn-pplan__pv qn-pplan__pv--yr">'+p.py+'<span class="qn-pplan__per">/yr</span></span>'
+          +'</div>'
+          +'<div class="qn-pplan__save">'
+            +'<span class="qn-pplan__sv qn-pplan__sv--mo">'+p.sm+'</span>'
+            +'<span class="qn-pplan__sv qn-pplan__sv--yr">'+p.sy+'</span>'
+          +'</div>'
+          +'<ul>'+consLi+perksLi+'</ul>'
+          +'<button class="qn-pplan__sel" type="button" data-plan="'+p.k+'" data-price-mo="'+p.pm+'" data-price-yr="'+p.py+'">Choose '+p.k+'</button></div>'; }).join('');
+      var of=document.createElement('section'); of.className='qn-poffer'; of.hidden=true; of.setAttribute('data-cycle','mo');
       of.innerHTML='<div class="qn-poffer__card">'
         +'<div class="qn-poffer__step" data-step="choice">'
           +'<div class="qn-poffer__h">Get your written answer from a verified lawyer</div>'
@@ -4082,21 +4287,54 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
               +'<div class="qn-popt__row"><b>Subscription</b><span class="qn-popt__price">from $15<small>/mo</small></span></div>'
               +'<ul><li>'+OK+'<span>3–12 free consultations</span></li><li>'+OK+'<span>Up to 20% off all lawyer services</span></li><li>'+OK+'<span>Personal manager &amp; priority replies</span></li></ul>'
               +'<span class="qn-popt__go">Choose a plan →</span></button>'
-            +'<button class="qn-popt qn-popt--one" type="button" data-pick="one" data-price="$15">'
-              +'<div class="qn-popt__row"><b>Just one consultation</b><span class="qn-popt__price">$15</span></div>'
+            +'<button class="qn-popt qn-popt--one" type="button" data-pick="one" data-price="$10">'
+              +'<div class="qn-popt__row"><b>Just one consultation</b><span class="qn-popt__price">$10</span></div>'
               +'<small>One question, one written answer — no discounts, no manager, no follow-ups.</small></button>'
           +'</div></div>'
         +'<div class="qn-poffer__step" data-step="plans" hidden>'
           +'<button class="qn-pback" type="button" data-back="choice">← Back</button>'
-          +'<div class="qn-poffer__h">Choose your plan</div><div class="qn-pplans">'+plansHtml+'</div></div>'
+          +'<div class="qn-poffer__h">Choose your plan</div>'
+          +'<div class="qn-pcycle" role="group" aria-label="Billing period">'
+            +'<button class="qn-pcycle__b is-on" type="button" data-cycle="mo" aria-pressed="true">Monthly</button>'
+            +'<button class="qn-pcycle__b" type="button" data-cycle="yr" aria-pressed="false">Annual<small>2 months free</small></button>'
+          +'</div>'
+          +'<div class="qn-pplans">'+plansHtml+'</div></div>'
         +'<div class="qn-poffer__step" data-step="pay" hidden>'
           +'<button class="qn-pback" type="button" data-back="pay">← Back</button>'
-          +'<div class="qn-poffer__h">Payment <span class="qn-pay__amt"></span></div>'
-          +'<div class="qn-ppay"><input class="qn-pay__num" inputmode="numeric" placeholder="Card number" maxlength="19" autocomplete="cc-number">'
-            +'<div class="qn-ppay__r"><input placeholder="MM / YY" maxlength="7" autocomplete="cc-exp"><input placeholder="CVC" maxlength="4" inputmode="numeric" autocomplete="cc-csc"></div>'
-            +'<input placeholder="Cardholder name" autocomplete="cc-name">'
-            +'<button class="qn-ppay__btn" type="button">Pay <span class="qn-pay__amt2"></span></button>'
-            +'<p class="qn-ppay__sec">Secured payment · cancel anytime</p></div></div>'
+          +'<div class="qn-order">'
+            +'<div class="qn-order__h">Complete your order</div>'
+            +'<div class="qn-order__grid2">'
+              +'<label class="qn-order__f"><input type="text" placeholder="Last name *" autocomplete="family-name"></label>'
+              +'<label class="qn-order__f"><input type="text" placeholder="First name *" autocomplete="given-name"></label>'
+            +'</div>'
+            +'<div class="qn-order__grid2">'
+              +'<label class="qn-order__f qn-order__f--phone"><span class="qn-order__cc">'+FLAG_US+' +1</span><input type="tel" inputmode="tel" placeholder="(555) 000-0000" autocomplete="tel"></label>'
+              +'<label class="qn-order__f"><input type="email" placeholder="Email" autocomplete="email"></label>'
+            +'</div>'
+            +'<div class="qn-order__f qn-order__f--sel qn-dd" data-value="">'
+              +'<button type="button" class="qn-dd__btn"><span class="qn-dd__val">Choose payment option</span></button>'
+              +'<ul class="qn-dd__list" hidden>'
+                +'<li class="qn-dd__opt" data-val="Pay in full">Pay in full</li>'
+                +'<li class="qn-dd__opt" data-val="Pay in 2 installments">Pay in 2 installments</li>'
+                +'<li class="qn-dd__opt" data-val="Pay in 4 installments">Pay in 4 installments</li>'
+              +'</ul></div>'
+            +'<label class="qn-order__f qn-order__f--cnt"><input type="text" maxlength="100" placeholder="Title"><span class="qn-order__cnt">0/100</span></label>'
+            +'<label class="qn-order__f qn-order__f--cnt"><textarea rows="3" maxlength="500" placeholder="Your question"></textarea><span class="qn-order__cnt">0/500</span></label>'
+            +'<button class="qn-order__btn qn-ppay__btn" type="button">Pay&nbsp;<span class="qn-pay__amt2"></span></button>'
+          +'</div>'
+          +'<div class="qn-order__foot">'
+            +'<div class="qn-order__app"><p>Pay conveniently in the mobile app — download right now!</p>'
+              +'<div class="qn-order__badges">'
+                +'<a class="qn-order__badge" href="#" rel="nofollow noopener">'+IC_APPLE+'<span><small>Download on the</small><b>App Store</b></span></a>'
+                +'<a class="qn-order__badge" href="#" rel="nofollow noopener">'+IC_PLAY+'<span><small>Get it on</small><b>Google Play</b></span></a>'
+              +'</div></div>'
+            +'<div class="qn-order__methods">'
+              +'<span class="qn-order__method" style="color:#1a1f71">VISA</span>'
+              +'<span class="qn-order__method">'+IC_MC+'Mastercard</span>'
+              +'<span class="qn-order__method">'+IC_APPLE+'Pay</span>'
+              +'<span class="qn-order__method">G\u00a0Pay</span>'
+            +'</div>'
+          +'</div></div>'
         +'<div class="qn-poffer__step qn-poffer__done" data-step="done" hidden>'
           +'<div class="qn-poffer__h">Payment successful</div><p>Your written answers are waiting in the Consultant app.</p>'
           +'<div class="qn-poffer__apps"><a href="#">App Store</a><a href="#">Google Play</a></div></div>'
@@ -4108,14 +4346,33 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
 
       var payBack='choice';
       function step(name){ [].forEach.call(of.querySelectorAll('.qn-poffer__step'),function(s){ s.hidden=s.getAttribute('data-step')!==name; }); }
-      function setAmt(price,sub){ var a=price+(sub?'/mo':''); var e1=of.querySelector('.qn-pay__amt'),e2=of.querySelector('.qn-pay__amt2'); if(e1)e1.textContent=a; if(e2)e2.textContent=a; }
+      function setAmt(price,period){ var a=price+(period||''); var e1=of.querySelector('.qn-pay__amt'),e2=of.querySelector('.qn-pay__amt2'); if(e1)e1.textContent=a; if(e2)e2.textContent=a; }
       of.addEventListener('click',function(e){
-        var t=e.target.closest && e.target.closest('[data-pick],[data-back],[data-plan],.qn-ppay__btn'); if(!t) return;
-        if(t.hasAttribute('data-pick')){ if(t.getAttribute('data-pick')==='sub'){ step('plans'); } else { payBack='choice'; setAmt(t.getAttribute('data-price'),false); step('pay'); } }
+        var t=e.target.closest && e.target.closest('[data-pick],[data-back],[data-plan],.qn-ppay__btn,.qn-pcycle__b'); if(!t) return;
+        if(t.classList.contains('qn-pcycle__b')){ var c=t.getAttribute('data-cycle'); of.setAttribute('data-cycle',c);
+          [].forEach.call(of.querySelectorAll('.qn-pcycle__b'),function(b){ var on=b===t; b.classList.toggle('is-on',on); b.setAttribute('aria-pressed',on?'true':'false'); }); return; }
+        if(t.hasAttribute('data-pick')){ if(t.getAttribute('data-pick')==='sub'){ step('plans'); } else { payBack='choice'; setAmt(t.getAttribute('data-price'),''); step('pay'); } }
         else if(t.hasAttribute('data-back')){ step(t.getAttribute('data-back')==='pay'?payBack:'choice'); }
-        else if(t.hasAttribute('data-plan')){ payBack='plans'; setAmt(t.getAttribute('data-price'),true); step('pay'); }
+        else if(t.hasAttribute('data-plan')){ payBack='plans'; var cyc=of.getAttribute('data-cycle')||'mo'; var pr=t.getAttribute(cyc==='yr'?'data-price-yr':'data-price-mo'); setAmt(pr,cyc==='yr'?'/yr':'/mo'); step('pay'); }
         else if(t.classList.contains('qn-ppay__btn')){ step('done'); chatBeep(); of.scrollIntoView({behavior:'smooth',block:'center'}); }
       });
+
+      /* custom dropdown(s) — open on click, pick sets the value, click-away closes */
+      function closeDD(){ [].forEach.call(of.querySelectorAll('.qn-dd__list'),function(l){ l.hidden=true; });
+        [].forEach.call(of.querySelectorAll('.qn-dd'),function(d){ d.classList.remove('is-open'); }); }
+      [].forEach.call(of.querySelectorAll('.qn-dd'),function(dd){
+        var btn=dd.querySelector('.qn-dd__btn'), list=dd.querySelector('.qn-dd__list'), val=dd.querySelector('.qn-dd__val');
+        btn.addEventListener('click',function(e){ e.stopPropagation(); var willOpen=list.hidden; closeDD(); if(willOpen){ list.hidden=false; dd.classList.add('is-open'); } });
+        [].forEach.call(dd.querySelectorAll('.qn-dd__opt'),function(op){
+          op.addEventListener('click',function(e){ e.stopPropagation();
+            val.textContent=op.getAttribute('data-val'); dd.classList.add('is-set'); dd.setAttribute('data-value',op.getAttribute('data-val'));
+            [].forEach.call(dd.querySelectorAll('.qn-dd__opt'),function(o){ o.classList.remove('is-on'); }); op.classList.add('is-on'); closeDD(); }); });
+      });
+      document.addEventListener('click',closeDD);
+      /* live char counters for Title (100) / Question (500) */
+      of.addEventListener('input',function(e){ var f=e.target;
+        if(f && f.parentNode && f.parentNode.classList && f.parentNode.classList.contains('qn-order__f--cnt')){
+          var c=f.parentNode.querySelector('.qn-order__cnt'); if(c) c.textContent=(f.value.length)+'/'+(f.getAttribute('maxlength')||''); } });
 
       var shown=false;
       function reveal(){ if(shown) return; shown=true; of.hidden=false; chatBeep();
@@ -4149,7 +4406,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
         hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
-        lawyer.insertBefore(hd, lawyer.firstChild);
+        /* best-answer card: lift the "★ Best answer" badge out of the answer-column bar and onto the header
+           row (it is right-aligned via CSS), so it sits on the SAME line as the "Answered by …" strip */
+        var bmk=c.querySelector('.qn-bestmark'); if(bmk) hd.appendChild(bmk);
+        c.insertBefore(hd, c.firstElementChild||c.firstChild);   /* full-width header — always first in card */
       }
       /* normalize role to: Attorney | Lawyer | Artificial intelligence */
       var jobEl=c.querySelector('.balance-card__job');
@@ -4183,7 +4443,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           if(bar) wp.insertBefore(bar, wp.firstChild);
           /* hide the bar when it has nothing visible (no bestmark = just a hidden rate element) */
           if(bar && !bar.querySelector('.qn-bestmark')){ bar.hidden=true; }
-          /* clip if text > 300 chars; expand = just remove qn-clip (no inner scroll) */
+          /* clip if text > 300 chars; expand = remove the clip + (desktop) flow the text around the card */
           var evalClip=function(){
             if(wp.querySelector('.qn-more')) return;
             var tlen=(ans.textContent||'').replace(/\s+/g,' ').trim().length;
@@ -4192,8 +4452,27 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
               var b=document.createElement('button'); b.type='button'; b.className='qn-more'; b.textContent='Read all \u2193'; wp.appendChild(b);
               b.addEventListener('click',function(){
                 var collapsed=ans.classList.contains('qn-clip');
-                if(collapsed){ ans.classList.remove('qn-clip'); ans.classList.add('qn-open'); b.textContent='Show less \u2191'; }
-                else { ans.classList.add('qn-clip'); ans.classList.remove('qn-open'); b.textContent='Read all \u2193'; }
+                if(collapsed){
+                  ans.classList.remove('qn-clip'); ans.classList.add('qn-open');
+                  /* Decide whether to FLOW the text around the card. Only do it when the answer is clearly
+                     taller than the card, so several FULL lines land below it. If the text barely exceeds
+                     the card, floating would dangle just a word or two under it (ugly) — keep the plain
+                     column instead. Measured here (qn-open applied, still grid) so it adapts to any width.
+                     Desktop only. */
+                  var lwr=c.querySelector('.qa-lawyer');
+                  var wide=window.matchMedia&&window.matchMedia('(min-width:992px)').matches;
+                  if(wide && lwr && ans.getBoundingClientRect().height > lwr.getBoundingClientRect().height + 120){
+                    /* float-wrap needs the lawyer card BEFORE the answer block in the DOM. Reorder lazily
+                       here (NOT at init — that disturbs the async AI/sx cards and wipes their clip). */
+                    var hd2=c.querySelector('.qn-abhead');
+                    if(lwr.parentNode===c) c.insertBefore(lwr, hd2?hd2.nextSibling:c.firstChild);
+                    c.classList.add('qn-flow');
+                  }
+                  b.textContent='Show less \u2191';
+                } else {
+                  ans.classList.add('qn-clip'); ans.classList.remove('qn-open');
+                  c.classList.remove('qn-flow'); b.textContent='Read all \u2193';
+                }
               });
             }
           };
@@ -4247,7 +4526,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       if(window.matchMedia && window.matchMedia('(min-width:992px)').matches){
         var body=document.body, phase='';
         function setPhase(p){ phase=p; body.classList.remove('qn-cx--launch','qn-cx--wide','qn-cx--dock'); body.classList.add('qn-cx--'+p); }
-        function toWide(){ if(phase!=='launch') return; clearTimeout(autoT); setPhase('wide');
+        function toWide(){ if(phase==='wide') return; clearTimeout(autoT); setPhase('wide');   /* from launch OR dock — re-expandable */
           if(qlog){ qlog.scrollTop=0; requestAnimationFrame(function(){ qlog.scrollTop=0; }); } }
         function toDock(){ if(phase==='dock') return; body.classList.add('qn-docking'); setPhase('dock');
           setTimeout(function(){ body.classList.remove('qn-docking'); }, 300); }
@@ -4275,8 +4554,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         lz.addEventListener('click', toWide);
         dim.addEventListener('click', toDock);
         if(cbtn) cbtn.addEventListener('click', toDock);
-        window.qnDeskOpen=function(){ if(phase==='launch') toWide();
-          else { var i=aside.querySelector('#qaInput'); if(i){ try{i.focus();}catch(e){} } } };
+        /* re-expand: focusing or typing in the input grows the docked chat back to the wide, focused state */
+        var qinput=aside.querySelector('#qaInput');
+        if(qinput){ qinput.addEventListener('focus', toWide); qinput.addEventListener('input', toWide); }
+        window.qnDeskOpen=function(){ toWide(); var i=aside.querySelector('#qaInput'); if(i){ try{i.focus();}catch(e){} } };
       } else {
         /* ----- MOBILE: the chat is an inline block under the hero; the sticky bar + every CTA just scroll to it ----- */
         document.body.classList.add('qn-cx','qn-cx--mob');

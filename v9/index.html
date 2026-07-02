@@ -1077,7 +1077,20 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .qn-profile[hidden]{ display:none; }
 .text-section .text-card .qn-profile b{ display:block; font-size:14.5px; color:#1b1f23; }
 .text-section .text-card .qn-profile small{ display:block; font-size:12.5px; color:#6b7177; margin:1px 0 10px; }
+.text-section .text-card .qn-profile__about{ margin:0 0 12px; padding:10px 0 0; border-top:1px solid #eceef1; }
+.text-section .text-card .qn-profile__at{ display:block; font-family:"Bicubik",sans-serif; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#1397d6; margin:0 0 5px; }
+.text-section .text-card .qn-profile__about p{ margin:0; font-size:13px; line-height:1.5; color:#454b52; }
 .text-section .text-card .qn-profile .qa-contact{ display:block !important; width:100%; }
+.text-section .text-card .qn-profile__go{ display:block; width:100%; box-sizing:border-box; margin:8px 0 0; text-align:center; text-decoration:none;
+  background:#1397d6; color:#fff; border-radius:3px; padding:11px 14px; font-family:"Avenir Next Cyr",sans-serif; font-weight:800; font-size:14px; }
+.text-section .text-card .qn-profile__go:hover{ background:#1180b8; }
+/* short "about" line + 3-dots trigger on the card (next to name/geo) */
+.text-section .text-card .qn-cardmore{ display:inline-flex; align-items:center; gap:6px; margin:2px 0 0; padding:0; border:0; background:none; cursor:pointer;
+  font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:600; color:inherit; opacity:.72; transition:opacity .15s ease; }
+.text-section .text-card .qn-cardmore:hover{ opacity:1; }
+.text-section .text-card .qn-cardmore__dots{ display:inline-flex; align-items:center; justify-content:center; width:22px; height:16px; border-radius:3px;
+  background:rgba(255,255,255,.16); font-size:15px; line-height:1; letter-spacing:1px; }
+.text-section .text-card .balance-card.start .qn-cardmore__dots{ background:rgba(0,0,0,.08); }
 /* best-answer: subtle card highlight + a "★ Best answer" mark in the bottom bar (no background, before the rating) */
 .text-section .text-card.qn-isbest{ box-shadow:0 10px 26px rgba(20,40,60,.10) !important; }
 .text-section .qa-cardbar .qn-bestmark{ display:inline-flex; align-items:center; gap:6px; margin-right:16px;
@@ -1682,8 +1695,10 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   border-radius:3px; padding:4px 9px; white-space:nowrap; flex:0 0 auto; }
 .qn-qcard__title{ font-size:16px; font-weight:700; line-height:1.25; letter-spacing:-.2px; color:#fff;
   margin:14px 0 0; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-.qn-qcard__div{ height:1px; background:rgba(255,255,255,.16); margin:16px 0 0; position:relative; }
-.qn-qcard__div::before{ content:""; position:absolute; left:0; top:0; width:46px; height:1px; background:#2f9fe0; }
+.qn-qcard__div{ height:1px; background:rgba(255,255,255,.16); margin:16px 0 0; position:relative; overflow:hidden; }
+/* fully grey by default; on card hover the blue fill sweeps across the line */
+.qn-qcard__div::before{ content:""; position:absolute; left:0; top:0; width:100%; height:1px; background:#2f9fe0; transform:scaleX(0); transform-origin:left center; transition:transform .45s cubic-bezier(.4,0,.2,1); }
+.qn-qcard:hover .qn-qcard__div::before{ transform:scaleX(1); }
 .qn-qcard__foot{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:13px; }
 .qn-qcard__foot > b{ font-size:14px; font-weight:700; letter-spacing:-.1px; }
 .qn-qcard__ans{ display:flex; align-items:center; gap:11px; }
@@ -1765,8 +1780,8 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-umodal__arrow{ display:block; color:rgba(255,255,255,.34); margin:1px 0; }
 .qn-umodal__arrow svg{ width:22px; height:30px; }
 .qn-umodal__p b{ color:rgba(255,255,255,.92); font-weight:800; }
-.qn-umodal__share{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-.qn-umodal__sh{ width:56px; height:56px; display:block; border:0; cursor:pointer; text-decoration:none; border-radius:11px;
+.qn-umodal__share{ display:flex; gap:11px; flex-wrap:wrap; justify-content:center; max-width:236px; margin:0 auto; }  /* 4 per row -> 2 rows for 7 tiles */
+.qn-umodal__sh{ width:50px; height:50px; padding:0; display:block; border:0; cursor:pointer; text-decoration:none; border-radius:11px; background:none;
   transition:transform .12s,filter .12s; box-shadow:0 6px 18px rgba(0,0,0,.32); }
 .qn-umodal__sh:hover{ transform:translateY(-2px); filter:brightness(1.06); }
 .qn-umodal__sh svg{ width:100%; height:100%; display:block; }
@@ -1937,6 +1952,19 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 }
 .article-section .categories-card__name::before,
 .article-section .categories-card__name::after{ content:none !important; display:none !important; }
+/* HOVER: blue line traces the card's perimeter (top+right, then bottom+left) — like the original RAW cards */
+.article-section .categories-card{ position:relative !important; }
+.article-section .categories-card .categories-card__trace{ position:absolute !important; inset:0 !important; z-index:7 !important; pointer-events:none !important; border-radius:3px !important; }
+.article-section .categories-card .categories-card__trace::before,
+.article-section .categories-card .categories-card__trace::after{ content:"" !important; position:absolute !important; box-sizing:border-box !important; width:0 !important; height:0 !important; border-radius:3px !important; }
+/* ::before draws TOP then RIGHT */
+.article-section .categories-card .categories-card__trace::before{ top:0 !important; left:0 !important; border-top:2px solid #1f9cdf !important; border-right:2px solid #1f9cdf !important;
+  transition:width .18s linear, height .18s linear .18s !important; }
+/* ::after draws BOTTOM then LEFT */
+.article-section .categories-card .categories-card__trace::after{ right:0 !important; bottom:0 !important; border-bottom:2px solid #1f9cdf !important; border-left:2px solid #1f9cdf !important;
+  transition:width .18s linear .36s, height .18s linear .18s !important; }
+.article-section .categories-card:hover .categories-card__trace::before{ width:100% !important; height:100% !important; }
+.article-section .categories-card:hover .categories-card__trace::after{ width:100% !important; height:100% !important; }
 /* ===== chat contacts — chosen redesign: discount full-width on TOP, then [phone | Call me back] 2-up ===== */
 .qn-contacts{ display:flex !important; flex-flow:row wrap !important; align-items:stretch !important; gap:8px !important; padding:12px 14px 14px !important;
   background:transparent !important; border-bottom:1px solid rgba(255,255,255,.07) !important; }
@@ -4313,6 +4341,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
      gplay() returns a copy with unique IDs so every badge keeps its logo. */
   var _gpN=0; function gplay(){ _gpN++; return GPLAY_SVG.replace(/_212_1714/g,'_gp'+_gpN); }
   var SHARE_SVG={"link": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#1397D6\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M33.0842 13.5602C32.2777 13.7016 31.3664 14.0686 30.6555 14.5384C30.4726 14.6592 30.0804 14.9785 29.7839 15.248C28.8222 16.1221 24.0712 20.942 23.7962 21.3226C23.2657 22.0568 22.9043 22.8437 22.7092 23.6893C22.5565 24.3512 22.5446 25.7076 22.6857 26.3666C22.9689 27.6892 23.6059 28.8533 24.5164 29.7122C24.8838 30.0587 25.5465 30.5392 25.6571 30.5392C25.6889 30.5392 25.9904 30.2578 26.3271 29.9139C27.0616 29.1635 27.1362 28.9961 27.0937 28.192L27.0684 27.7135L26.6724 27.3173C26.0437 26.6884 25.7627 25.9924 25.7662 25.0726C25.7684 24.521 25.8675 24.1309 26.142 23.5937C26.3135 23.2582 26.6076 22.9473 29.3196 20.2354C32.0317 17.5234 32.3426 17.2293 32.6781 17.0579C33.2238 16.779 33.6023 16.6854 34.1834 16.6854C34.5032 16.6854 34.8002 16.7187 35.0021 16.7772C36.0813 17.0897 36.9111 17.9195 37.2236 18.9986C37.346 19.4213 37.346 20.2132 37.2236 20.6359C36.9953 21.4244 36.9013 21.5418 34.8327 23.6233L32.9137 25.5545L33.0988 26.317C33.3385 27.3047 33.4285 28.2503 33.3572 29.0343C33.3282 29.3536 33.3136 29.6263 33.3247 29.6402C33.3597 29.684 38.959 24.0322 39.2104 23.6993C39.7678 22.9614 40.2121 22.0036 40.3987 21.1374C40.5338 20.5102 40.5338 19.1243 40.3987 18.4971C40.0879 17.0548 39.219 15.684 38.0392 14.7749C37.3686 14.2582 36.3762 13.7933 35.5567 13.6121C35.0003 13.489 33.6516 13.4607 33.0842 13.5602ZM28.1216 23.6341C27.3918 24.366 27.3169 24.522 27.3169 25.3115V25.8398L27.7019 26.222C28.3458 26.8616 28.6374 27.5651 28.6374 28.4793C28.6374 29.0607 28.5373 29.4832 28.2808 29.9846C28.1088 30.3208 27.8016 30.6444 24.8917 33.5543C21.9799 36.466 21.6583 36.7712 21.3219 36.9431C21.1186 37.0469 20.8096 37.1733 20.6353 37.2237C20.2126 37.3461 19.4206 37.3461 18.9979 37.2237C17.9187 36.9112 17.0889 36.0814 16.7764 35.0023C16.654 34.5796 16.654 33.7877 16.7764 33.365C17.0077 32.5663 17.079 32.4786 19.374 30.1695L21.5001 28.0304L21.3237 27.3143C21.0718 26.2919 21.0096 25.7065 21.0491 24.732L21.0824 23.9106L18.0555 26.9476C16.3908 28.618 14.921 30.1272 14.7895 30.3015C14.2319 31.0401 13.7879 31.9975 13.6013 32.8635C13.4662 33.4907 13.4662 34.8765 13.6013 35.5038C14.1235 37.9274 16.0726 39.8765 18.4964 40.3987C19.1236 40.5338 20.5095 40.5338 21.1368 40.3987C22.0008 40.2125 22.9543 39.7709 23.6988 39.2119C23.8731 39.081 25.4559 37.5337 27.2161 35.7733C30.0625 32.9268 30.4552 32.5141 30.7661 32.0427C31.3161 31.2087 31.5867 30.5256 31.756 29.5437C31.9192 28.5971 31.8783 27.7792 31.6184 26.7932C31.3318 25.7054 30.787 24.7697 29.9572 23.94C29.6447 23.6275 29.0057 23.1489 28.791 23.0665C28.7441 23.0485 28.4942 23.2604 28.1216 23.6341Z\" fill=\"white\"/>\n</svg>", "fb": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#0B84EE\"/>\n<path d=\"M29.2374 27.4925H34.2624L35.0513 22.3567H29.2364V19.5498C29.2364 17.4163 29.9293 15.5245 31.9129 15.5245H35.1004V11.0427C34.5404 10.9666 33.3559 10.8 31.1178 10.8C26.4444 10.8 23.7046 13.2831 23.7046 18.9401V22.3567H18.9004V27.4925H23.7046V41.6084C24.656 41.7523 25.6197 41.85 26.609 41.85C27.5032 41.85 28.3759 41.7677 29.2374 41.6505V27.4925Z\" fill=\"white\"/>\n</svg>", "in": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#2878B7\"/>\n<path d=\"M37.8008 28.0049V35.4511H33.442V28.459C33.442 26.7336 32.8064 25.5531 31.2627 25.5531C30.0822 25.5531 29.3557 26.3704 29.0833 27.0969C28.9925 27.3693 28.9017 27.7325 28.9017 28.1865V35.4511H24.5429C24.5429 35.4511 24.6337 23.6462 24.5429 22.4657H28.9017V24.2818C29.4465 23.3738 30.5362 22.1025 32.8064 22.1025C35.6214 22.1025 37.8008 24.0094 37.8008 28.0049ZM20.0026 16.2C18.5497 16.2 17.5508 17.1989 17.5508 18.4702C17.5508 19.7415 18.4589 20.7404 19.9118 20.7404C21.4555 20.7404 22.3636 19.7415 22.3636 18.4702C22.4544 17.1081 21.5463 16.2 20.0026 16.2ZM17.8232 35.4511H22.1819V22.4657H17.8232V35.4511Z\" fill=\"white\"/>\n</svg>", "x": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect x=\"0.5\" y=\"0.5\" width=\"53\" height=\"53\" rx=\"9.5\" stroke=\"white\" stroke-opacity=\"0.15\"/>\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"black\"/>\n<rect x=\"0.5\" y=\"0.5\" width=\"53\" height=\"53\" rx=\"9.5\" stroke=\"white\" stroke-opacity=\"0.5\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M14.1568 15.1068C14.7468 15.8509 23.9902 28.1007 24.0191 28.1768C24.0409 28.2342 23.4446 28.9368 22.6939 29.7382C21.9433 30.5396 19.6801 32.9514 17.6645 35.0977L14 39L15.1515 38.9956L16.3031 38.9913L20.6793 34.3049C23.0861 31.7273 25.076 29.6154 25.1012 29.6117C25.1264 29.608 26.7447 31.7178 28.6974 34.3L32.2479 38.9951L36.124 38.9975L40 39L36.3895 34.2384C29.8307 25.5887 29.4952 25.1417 29.4851 25.0405C29.4767 24.9569 32.8711 21.2941 37.7808 16.089L38.8079 15L37.6511 15.0053L36.4941 15.0107L32.4646 19.318C30.2483 21.6871 28.4066 23.616 28.372 23.6046C28.3372 23.593 26.8462 21.6524 25.0584 19.2918L21.808 15H17.94C14.8583 15 14.0893 15.0217 14.1568 15.1068ZM28.7988 26.9836C33.1027 32.6586 36.6241 37.3187 36.6241 37.3395C36.6241 37.3602 35.8451 37.3772 34.893 37.3772H33.1619L32.8349 36.969C32.2089 36.1873 17.5161 16.787 17.4868 16.7034C17.4678 16.6494 18.0877 16.6275 19.2154 16.6423L20.9736 16.6655L28.7988 26.9836Z\" fill=\"white\"/>\n</svg>", "tg": "<svg width=\"55\" height=\"54\" viewBox=\"0 0 55 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect x=\"0.5\" width=\"54\" height=\"54\" rx=\"10\" fill=\"#55ACE3\"/>\n<path d=\"M38.3004 17.013L34.2431 38.1945C34.2431 38.1945 33.6754 39.6631 32.1159 38.9588L22.7546 31.5259L22.7112 31.504C23.9757 30.3282 33.7811 21.1985 34.2097 20.7847C34.8731 20.1438 34.4612 19.7622 33.691 20.2464L19.2071 29.7715L13.6192 27.8245C13.6192 27.8245 12.7398 27.5006 12.6552 26.7962C12.5695 26.0908 13.6481 25.7092 13.6481 25.7092L36.4281 16.455C36.4281 16.455 38.3004 15.6032 38.3004 17.013Z\" fill=\"white\"/>\n</svg>"};   /* brand share tiles from raw/icon: {link,fb,in,x,tg} */
+  var ABOUT_CONSULTANT='Attorney with many years of experience. Expert in criminal, military and family law. Ranked among the top 10 lawyers in Ukraine. Leads a team of experienced lawyers.';
   /* ===== chat flows: "Call me back" (phone + country + countdown -> app panel) and "Get 20% off" (app panel) ===== */
   var CB_ARROW='<svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M3 11l18-8-8 18-2-7-8-3z"/></svg>';
   var CB_APPLE='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.74-1.517.03-2.01-.88-3.766-.88-1.756 0-2.302.85-3.74.91-1.44.06-2.59-1.49-3.54-2.83-1.987-2.96-3.5-8.36-1.46-12.01 1.014-1.81 2.83-2.96 4.81-2.99 1.45-.03 2.83.96 3.72.96.89 0 2.56-1.18 4.32-1.01.73.03 2.79.3 4.11 2.22-.105.07-2.455 1.42-2.43 4.25.03 3.38 2.99 4.51 3.02 4.52z"/></svg>';
@@ -4741,14 +4770,28 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var job=(c.querySelector('.balance-card__job')||{}).textContent||'';
         var geo=(c.querySelector('.balance-card__geo')||{}).textContent||'';
         var prof=document.createElement('div'); prof.className='qn-profile'; prof.hidden=true;
-        prof.innerHTML='<b>'+esc(nm.trim())+'</b><small>'+esc(job.trim())+(geo.trim()?' \u00b7 '+esc(geo.trim()):'')+'</small>';
+        prof.innerHTML='<b>'+esc(nm.trim())+'</b><small>'+esc(job.trim())+(geo.trim()?' \u00b7 '+esc(geo.trim()):'')+'</small>'
+          +'<div class="qn-profile__about"><span class="qn-profile__at">About the consultant</span>'
+          +'<p>'+ABOUT_CONSULTANT+'</p></div>';
         var cbtn=contact.cloneNode(true); cbtn.classList.remove('qn-hidden'); prof.appendChild(cbtn);
+        var pbtn=document.createElement('a'); pbtn.className='qn-profile__go'; pbtn.href='#profile'; pbtn.textContent='View profile \u2192';
+        prof.appendChild(pbtn);
         var host=c.querySelector('.qa-lawyer')||contact.parentNode||c; host.appendChild(prof);
+        function toggleProf(e){ if(e){ e.preventDefault(); e.stopPropagation(); } prof.hidden=!prof.hidden; }
         var ibtn=null; [].forEach.call(c.querySelectorAll('.balance-card p, .qa-lawyer p'),function(p){ if(p.textContent.trim()==='i') ibtn=p; });
         var iw = ibtn ? (ibtn.parentElement||ibtn) : null;
-        if(iw){ iw.classList.add('qn-i'); iw.style.cursor='pointer';
-          iw.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); prof.hidden=!prof.hidden; }); }
+        if(iw){ iw.classList.add('qn-i'); iw.style.cursor='pointer'; iw.addEventListener('click',toggleProf); }
         else { cbtn.style.display='block'; }
+        /* add a short "about" line + a 3-dots (⋯) trigger next to the name/info; ⋯ opens the same popover */
+        var infoBox=c.querySelector('.balance-card__box');
+        if(infoBox && !infoBox.querySelector('.qn-cardmore')){
+          var more=document.createElement('button'); more.type='button'; more.className='qn-cardmore'; more.setAttribute('aria-label','About the consultant');
+          more.innerHTML='<span class="qn-cardmore__txt">About the consultant</span><span class="qn-cardmore__dots" aria-hidden="true">\u22ef</span>';
+          more.addEventListener('click',toggleProf);
+          infoBox.appendChild(more);
+        }
+        /* close the popover on outside click */
+        document.addEventListener('click',function(ev){ if(!prof.hidden && !prof.contains(ev.target) && (!iw||!iw.contains(ev.target)) && (!infoBox||!infoBox.contains(ev.target))) prof.hidden=true; });
       }
       var ans=c.querySelector('.card-answer');
       if(ans){
@@ -5007,19 +5050,24 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     (function(){
       function shareTargets(){
         var url=encodeURIComponent(location.href), tt=encodeURIComponent(document.title||'Wrongful arrest \u2014 compensation');
-        return { fb:['Facebook','#1877f2',IC.fb,'https://www.facebook.com/sharer/sharer.php?u='+url],
-                 in:['LinkedIn','#0a66c2',IC.in,'https://www.linkedin.com/sharing/share-offsite?url='+url],
-                 tg:['Telegram','#2aabee',IC.tg,'https://t.me/share/url?url='+url+'&text='+tt],
-                 wa:['WhatsApp','#25d366',IC.wa,'https://api.whatsapp.com/send?text='+tt+'%20'+url],
-                 x:['X','#15181c',IC.x,'https://twitter.com/intent/tweet?url='+url+'&text='+tt] };
+        return { fb:['Facebook','#1877f2',0,'https://www.facebook.com/sharer/sharer.php?u='+url],
+                 x:['X','#15181c',0,'https://twitter.com/intent/tweet?url='+url+'&text='+tt],
+                 in:['LinkedIn','#0a66c2',0,'https://www.linkedin.com/sharing/share-offsite?url='+url],
+                 tg:['Telegram','#2aabee',0,'https://t.me/share/url?url='+url+'&text='+tt],
+                 wa:['WhatsApp','#25d366',0,'https://api.whatsapp.com/send?text='+tt+'%20'+url],
+                 rd:['Reddit','#ff4500',0,'https://www.reddit.com/submit?url='+url+'&title='+tt],
+                 more:['More','#1f9cdf',0,''] };
       }
       function askFree(){ setTimeout(openChat, 140); }
-      /* real brand icons (self-contained rounded squares) — FB + Telegram lifted from the site sprite, LinkedIn + X matched to the same style */
+      /* self-contained brand icons (rounded squares) for the share row */
       var SIC={
         fb:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#1877F2"/><g transform="translate(5.8,5.4) scale(1.8)" fill="#fff"><path d="M15.12 5.32H17V2.14C16.67 2.1 15.56 2 14.27 2c-2.69 0-4.53 1.65-4.53 4.7v2.6H6.61v3.56h3.13V22h3.84v-9.13h3.21l.49-3.56h-3.7V7.06c0-1.03.28-1.74 1.54-1.74z"/></g></svg>',
         tg:'<svg viewBox="0 0 55 54" fill="none" aria-hidden="true"><rect x=".5" width="54" height="54" rx="10" fill="#55ACE3"/><path d="M38.3004 17.013L34.2431 38.1945C34.2431 38.1945 33.6754 39.6631 32.1159 38.9588L22.7546 31.5259L22.7112 31.504C23.9757 30.3282 33.7811 21.1985 34.2097 20.7847C34.8731 20.1438 34.4612 19.7622 33.691 20.2464L19.2071 29.7715L13.6192 27.8245C13.6192 27.8245 12.7398 27.5006 12.6552 26.7962C12.5695 26.0908 13.6481 25.7092 13.6481 25.7092L36.4281 16.455C36.4281 16.455 38.3004 15.6032 38.3004 17.013Z" fill="#fff"/></svg>',
         in:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#0A66C2"/><g transform="translate(14,14) scale(1.08)" fill="#fff"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21H20.6v-5.4c0-1.3 0-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H13V9z"/></g></svg>',
-        x:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect x=".6" y=".6" width="52.8" height="52.8" rx="9.6" fill="#000" stroke="rgba(255,255,255,.18)"/><g transform="translate(15,15)" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></g></svg>'
+        x:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect x=".6" y=".6" width="52.8" height="52.8" rx="9.6" fill="#000" stroke="rgba(255,255,255,.18)"/><g transform="translate(15,15)" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></g></svg>',
+        wa:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#25D366"/><path d="M27 12c-8.3 0-15 6.7-15 15 0 2.65.7 5.2 2 7.45L12 42l7.75-2c2.15 1.18 4.6 1.8 7.25 1.8 8.3 0 15-6.7 15-15S35.3 12 27 12zm0 27.3c-2.35 0-4.65-.63-6.65-1.83l-.48-.28-4.6 1.2 1.23-4.48-.3-.5A12.2 12.2 0 0 1 14.7 27c0-6.8 5.5-12.3 12.3-12.3S39.3 20.2 39.3 27 33.8 39.3 27 39.3zm6.75-9.2c-.37-.18-2.18-1.08-2.52-1.2-.34-.13-.58-.18-.83.18-.24.37-.95 1.2-1.16 1.44-.21.25-.43.28-.8.1-.37-.18-1.56-.58-2.97-1.83-1.1-.98-1.84-2.19-2.05-2.56-.21-.37-.02-.57.16-.75.17-.16.37-.43.55-.64.18-.21.24-.37.37-.62.12-.25.06-.46-.03-.64-.1-.18-.83-2-1.14-2.74-.3-.72-.6-.62-.83-.63l-.7-.01c-.25 0-.64.09-.98.46-.34.37-1.28 1.25-1.28 3.05s1.31 3.54 1.5 3.78c.18.25 2.58 3.94 6.25 5.52.87.38 1.55.6 2.08.77.87.28 1.67.24 2.3.15.7-.11 2.18-.89 2.48-1.75.31-.86.31-1.6.22-1.75-.09-.16-.34-.25-.7-.43z" fill="#fff"/></svg>',
+        rd:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#FF4500"/><g fill="#fff"><circle cx="27" cy="30" r="12" opacity="0"/><path d="M42 27a3.3 3.3 0 0 0-5.6-2.36 16.3 16.3 0 0 0-8.6-2.72l1.46-6.9 4.8 1.02a2.35 2.35 0 1 0 .25-1.2l-5.36-1.14a.6.6 0 0 0-.71.46l-1.63 7.7c-3.3.1-6.28 1.1-8.5 2.72A3.3 3.3 0 1 0 14 32.7a6 6 0 0 0-.07.95c0 4.85 5.65 8.78 12.62 8.78S39.17 38.5 39.17 33.65c0-.32-.02-.63-.07-.94A3.3 3.3 0 0 0 42 27zM20.4 29.35a2.35 2.35 0 1 1 4.7 0 2.35 2.35 0 0 1-4.7 0zm12.9 6.1c-1.6 1.6-4.65 1.72-5.55 1.72-.9 0-3.95-.12-5.54-1.72a.6.6 0 0 1 .85-.85c1 1 3.15 1.37 4.69 1.37 1.55 0 3.7-.36 4.7-1.37a.6.6 0 1 1 .85.85zm-.35-3.74a2.35 2.35 0 1 1 0-4.7 2.35 2.35 0 0 1 0 4.7z"/></g></svg>',
+        more:'<svg viewBox="0 0 54 54" fill="none" aria-hidden="true"><rect width="54" height="54" rx="10" fill="#1f9cdf"/><path d="M27 17v20M17 27h20" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/></svg>'
       };
       function copyLink(el,done){ try{ navigator.clipboard&&navigator.clipboard.writeText(location.href); }catch(e){}
         el.classList.add('is-copied'); setTimeout(done, 460); }
@@ -5029,8 +5077,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         if(document.querySelector('.qn-umodal')) return;
         var T=shareTargets();
         var ARR='<svg viewBox="0 0 22 30" fill="none" aria-hidden="true"><path d="M11 1V27M3.5 19.5 11 27l7.5-7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        var tiles=['fb','in','tg','x'].map(function(k){ var s=T[k];
-          return '<a class="qn-umodal__sh" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+SHARE_SVG[k]+'</a>'; }).join('');
+        var tiles=['fb','x','in','tg','wa','rd','more'].map(function(k){ var s=T[k];
+          if(k==='more'){ return '<button class="qn-umodal__sh qn-umodal__sh--more" type="button" aria-label="More options">'+SIC[k]+'</button>'; }
+          return '<a class="qn-umodal__sh" href="'+s[3]+'" target="_blank" rel="noopener" aria-label="'+s[0]+'">'+SIC[k]+'</a>'; }).join('');
         var ov=document.createElement('div'); ov.className='qn-umodal';
         ov.innerHTML='<div class="qn-umodal__card" role="dialog" aria-modal="true" aria-label="Share this page to get a free consultation">'
           +'<button class="qn-umodal__x" type="button" aria-label="Close">\u00d7</button>'
@@ -5047,7 +5096,13 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
         ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
         ov.querySelector('.qn-umodal__x').addEventListener('click',close);
+        var moreBtn=ov.querySelector('.qn-umodal__sh--more');
+        if(moreBtn) moreBtn.addEventListener('click',function(){
+          if(navigator.share){ navigator.share({title:document.title,url:location.href}).catch(function(){}); }
+          else { try{ navigator.clipboard&&navigator.clipboard.writeText(location.href); }catch(e){} }
+        });
         [].forEach.call(ov.querySelectorAll('.qn-umodal__sh'),function(el){
+          if(el===moreBtn) return;
           el.addEventListener('click',function(){ setTimeout(close,180); }); });   /* share opens in a new tab, then close */
         document.addEventListener('keydown',onkey);
       }
@@ -5080,13 +5135,22 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       vid.addEventListener('pause',function(){ if(vid.currentTime<=0.05) wrap.classList.remove('is-playing'); });
     })();
 
+    /* ----- "It could be interesting" cards: inject the perimeter-trace element for the hover animation ----- */
+    (function(){
+      [].forEach.call(document.querySelectorAll('.article-section .categories-card'),function(card){
+        if(card.querySelector('.categories-card__trace')) return;
+        var t=document.createElement('span'); t.className='categories-card__trace'; t.setAttribute('aria-hidden','true');
+        card.appendChild(t);
+      });
+    })();
+
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
       f.innerHTML='<div class="qn-legal__head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 19.3 5 15.4 5 11V6l7-3z" stroke-linejoin="round"/><path d="M9.3 11.8l1.8 1.8 3.7-3.9" stroke-linecap="round" stroke-linejoin="round"/></svg><h4>Legal disclaimer</h4></div>'+
-        '<p>Consultant is an online legal marketplace, <b>not a law firm</b>, where consumers can get answers to basic legal questions from independent specialists free of charge. Any information you submit through Consultant is not privileged and is shared on a strictly <b>non-confidential</b> basis.</p>'+
-        '<p>Using this website to ask questions or receive answers does <b>not create an attorney&ndash;client relationship</b> between you and Consultant, or between you and any specialist who receives your information or responds to your question, and it is not intended to create one. None of the answers on this platform constitute <b>legal advice</b>, which must be tailored to the specific circumstances of each case. You should not act on any information provided through Consultant without first consulting a licensed attorney admitted or authorized to practice in your jurisdiction. Consultant <b>accepts no liability</b> to any person who relies on information contained on or obtained through this site, and disclaims all liability with respect to such information.</p>'+
-        '<p>Consultant cannot guarantee the <b>accuracy, completeness, or timeliness</b> of the information on this website (including any legal information provided by a specialist through this service). While we strive to keep this information up to date, the owners and authors of this site make no representations, promises, or warranties about the accuracy, completeness, or adequacy of the information contained on or linked from this site.</p>';
+        '<p>Consultant is an online legal marketplace, not a law firm, where consumers can get answers to basic legal questions from independent specialists free of charge. Any information you submit through Consultant is not privileged and is shared on a strictly non-confidential basis.</p>'+
+        '<p>Using this website to ask questions or receive answers does not create an attorney&ndash;client relationship between you and Consultant, or between you and any specialist who receives your information or responds to your question, and it is not intended to create one. None of the answers on this platform constitute legal advice, which must be tailored to the specific circumstances of each case. You should not act on any information provided through Consultant without first consulting a licensed attorney admitted or authorized to practice in your jurisdiction. Consultant accepts no liability to any person who relies on information contained on or obtained through this site, and disclaims all liability with respect to such information.</p>'+
+        '<p>Consultant cannot guarantee the accuracy, completeness, or timeliness of the information on this website (including any legal information provided by a specialist through this service). While we strive to keep this information up to date, the owners and authors of this site make no representations, promises, or warranties about the accuracy, completeness, or adequacy of the information contained on or linked from this site.</p>';
       /* place the disclaimer right after the last answer card */
       var allc=document.querySelectorAll('.text-section .text-card');
       var last=allc.length?allc[allc.length-1]:null;

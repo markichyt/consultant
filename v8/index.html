@@ -1906,7 +1906,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* tile = frosted glass card, stacked: photo, then title box */
 .article-section .text-card__card.categories-card,
 .article-section .categories-card{
-  display:flex !important; flex-direction:column !important; height:100% !important;
+  display:flex !important; flex-direction:column !important; height:auto !important; align-self:start !important;
   background:rgba(23,27,34,.5) !important;
   -webkit-backdrop-filter:blur(14px) !important; backdrop-filter:blur(14px) !important;
   border:1px solid rgba(255,255,255,.13) !important;
@@ -1944,29 +1944,25 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .article-section .text-card__card.categories-card .categories-card__name,
 .article-section .categories-card__name{
   position:static !important; left:auto !important; right:auto !important; bottom:auto !important; top:auto !important;
-  display:flex !important; align-items:flex-start !important; flex:1 1 auto !important;
-  margin:0 !important; padding:14px 15px 15px !important; min-height:78px !important;
-  background:rgba(255,255,255,.045) !important; border-top:1px solid rgba(255,255,255,.1) !important; border-left:3px solid #1397d6 !important;
+  display:flex !important; align-items:center !important; flex:0 0 auto !important;
+  margin:0 !important; padding:16px 15px !important; min-height:64px !important;
+  background:rgba(255,255,255,.045) !important; border-top:1px solid rgba(255,255,255,.1) !important;
   color:#fff !important; font-family:"Avenir Next Cyr",sans-serif !important;
   font-size:15px !important; font-weight:700 !important; line-height:1.35 !important; letter-spacing:0 !important;
   text-shadow:none !important; text-transform:none !important; overflow-wrap:break-word !important; word-break:normal !important;
 }
 /* remove the static left accent bar on the title */
-.article-section .categories-card__name{ border-left:0 !important; }
-/* HOVER: one continuous blue line traces the card perimeter COUNTER-CLOCKWISE, in order:
-   left (top->bottom) -> bottom (left->right) -> right (bottom->top) -> top (right->left).
-   4 spans, each grows in turn with a staggered delay; each stays lit once drawn. */
-.article-section .categories-card{ position:relative !important; }
-.article-section .categories-card .categories-card__trace{ position:absolute !important; inset:0 !important; z-index:8 !important; pointer-events:none !important; }
-.article-section .categories-card .categories-card__trace i{ position:absolute !important; background:#1f9cdf !important; }
-.article-section .categories-card .categories-card__trace .t-l{ left:0 !important; top:0 !important; width:2px !important; height:0 !important; transition:height .2s linear 0s !important; }
-.article-section .categories-card .categories-card__trace .t-b{ left:0 !important; bottom:0 !important; height:2px !important; width:0 !important; transition:width .2s linear .2s !important; }
-.article-section .categories-card .categories-card__trace .t-r{ right:0 !important; bottom:0 !important; width:2px !important; height:0 !important; transition:height .2s linear .4s !important; }
-.article-section .categories-card .categories-card__trace .t-t{ right:0 !important; top:0 !important; height:2px !important; width:0 !important; transition:width .2s linear .6s !important; }
-.article-section .categories-card:hover .categories-card__trace .t-l{ height:100% !important; }
-.article-section .categories-card:hover .categories-card__trace .t-b{ width:100% !important; }
-.article-section .categories-card:hover .categories-card__trace .t-r{ height:100% !important; }
-.article-section .categories-card:hover .categories-card__trace .t-t{ width:100% !important; }
+.article-section .categories-card__name{ border-left:0 !important; position:relative !important; }
+/* HOVER: an L-shaped blue line draws on the TITLE box only — from its top-left corner
+   DOWN the left edge, then RIGHT along the bottom edge to the bottom-right corner (letter "L"). */
+.article-section .categories-card__name .categories-card__trace{ position:absolute !important; inset:0 !important; z-index:8 !important; pointer-events:none !important; }
+.article-section .categories-card__name .categories-card__trace i{ position:absolute !important; background:#1f9cdf !important; }
+/* left edge: grows top->bottom first */
+.article-section .categories-card__name .categories-card__trace .t-l{ left:0 !important; top:0 !important; width:2px !important; height:0 !important; transition:height .22s linear 0s !important; }
+/* bottom edge: then grows left->right */
+.article-section .categories-card__name .categories-card__trace .t-b{ left:0 !important; bottom:0 !important; height:2px !important; width:0 !important; transition:width .3s linear .22s !important; }
+.article-section .categories-card:hover .categories-card__name .categories-card__trace .t-l{ height:100% !important; }
+.article-section .categories-card:hover .categories-card__name .categories-card__trace .t-b{ width:100% !important; }
 /* ===== chat contacts — chosen redesign: discount full-width on TOP, then [phone | Call me back] 2-up ===== */
 .qn-contacts{ display:flex !important; flex-flow:row wrap !important; align-items:stretch !important; gap:8px !important; padding:12px 14px 14px !important;
   background:transparent !important; border-bottom:1px solid rgba(255,255,255,.07) !important; }
@@ -5150,13 +5146,13 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       vid.addEventListener('pause',function(){ if(vid.currentTime<=0.05) wrap.classList.remove('is-playing'); });
     })();
 
-    /* ----- "It could be interesting" cards: inject the 4-segment counter-clockwise perimeter trace ----- */
+    /* ----- "It could be interesting" cards: inject the L-shaped trace into the TITLE box (left + bottom) ----- */
     (function(){
-      [].forEach.call(document.querySelectorAll('.article-section .categories-card'),function(card){
-        if(card.querySelector('.categories-card__trace')) return;
+      [].forEach.call(document.querySelectorAll('.article-section .categories-card__name'),function(box){
+        if(box.querySelector('.categories-card__trace')) return;
         var t=document.createElement('span'); t.className='categories-card__trace'; t.setAttribute('aria-hidden','true');
-        t.innerHTML='<i class="t-l"></i><i class="t-b"></i><i class="t-r"></i><i class="t-t"></i>';
-        card.appendChild(t);
+        t.innerHTML='<i class="t-l"></i><i class="t-b"></i>';
+        box.appendChild(t);
       });
     })();
 

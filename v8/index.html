@@ -1077,7 +1077,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .qn-profile[hidden]{ display:none; }
 .text-section .text-card .qn-profile b{ display:block; font-size:14.5px; color:#1b1f23; }
 .text-section .text-card .qn-profile small{ display:block; font-size:12.5px; color:#6b7177; margin:1px 0 10px; }
-.text-section .text-card .qn-profile__about{ margin:0 0 12px; padding:10px 0 0; border-top:1px solid #eceef1; }
+.text-section .text-card .qn-profile__about{ margin:0 0 12px; padding:0; border-top:0; }
 .text-section .text-card .qn-profile__at{ display:block; font-family:"Bicubik",sans-serif; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:#1397d6; margin:0 0 5px; }
 .text-section .text-card .qn-profile__about p{ margin:0; font-size:13px; line-height:1.5; color:#454b52; }
 .text-section .text-card .qn-profile .qa-contact{ display:block !important; width:100%; }
@@ -4782,10 +4782,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var job=(c.querySelector('.balance-card__job')||{}).textContent||'';
         var geo=(c.querySelector('.balance-card__geo')||{}).textContent||'';
         var prof=document.createElement('div'); prof.className='qn-profile'; prof.hidden=true;
-        prof.innerHTML='<b>'+esc(nm.trim())+'</b><small>'+esc(job.trim())+(geo.trim()?' \u00b7 '+esc(geo.trim()):'')+'</small>'
-          +'<div class="qn-profile__about"><span class="qn-profile__at">About the consultant</span>'
+        prof.innerHTML='<div class="qn-profile__about"><span class="qn-profile__at">About the consultant</span>'
           +'<p>'+esc(aboutFor(nm, idx))+'</p></div>';
-        var cbtn=contact.cloneNode(true); cbtn.classList.remove('qn-hidden'); prof.appendChild(cbtn);
         var pbtn=document.createElement('a'); pbtn.className='qn-profile__go'; pbtn.href='#profile'; pbtn.textContent='View profile \u2192';
         prof.appendChild(pbtn);
         var host=c.querySelector('.qa-lawyer')||contact.parentNode||c; host.appendChild(prof);

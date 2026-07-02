@@ -1963,6 +1963,17 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .article-section .main-top__title{ color:rgba(255,255,255,.5) !important; }
 .article-section .main-top__subtitle{ color:#fff !important; }
 .article-section .categories-card__name{ color:#fff !important; }
+/* get-service: single-column layout (title on top, full-width tutorial video below) */
+.get-service__inner{ display:block !important; grid-template-columns:none !important; }
+.get-service .main-top{ max-width:none !important; }
+.qn-tutorial{ position:relative; width:100%; margin:clamp(20px,3vw,34px) 0 0; background:#000; border-radius:3px; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,.22); aspect-ratio:16/9; }
+.qn-tutorial__vid{ display:block; width:100%; height:100%; object-fit:cover; background:#000; }
+.qn-tutorial__play{ position:absolute; inset:0; margin:0; padding:0; border:0; cursor:pointer; background:rgba(0,0,0,.18);
+  display:grid; place-items:center; transition:background .18s ease, opacity .2s ease; }
+.qn-tutorial__play:hover{ background:rgba(0,0,0,.28); }
+.qn-tutorial__play svg{ width:clamp(56px,7vw,84px); height:auto; filter:drop-shadow(0 6px 18px rgba(0,0,0,.4)); transition:transform .15s ease; }
+.qn-tutorial__play:hover svg{ transform:scale(1.06); }
+.qn-tutorial.is-playing .qn-tutorial__play{ opacity:0; pointer-events:none; }
 </style>
 
 <script>(function(){var h=document.documentElement;h.className+=" qn-boot";setTimeout(function(){h.classList.remove("qn-boot");},2000);})();</script>
@@ -3110,26 +3121,18 @@ If officers reasonably relied on information that appeared accurate at the time,
         <div class="main-top bottom-line">
             <h2 class="main-top--title">
                 <span class="main-top__title">
-                    receive a service
-                </span>
-                <br>
-                <span class="main-top__subtitle">
-                    In the CONSULTANT mobile app
+                    How to ask a question<br>in the Consultant app?
                 </span>
             </h2>
         </div>
 
-        <div class="main-description">
-            <div class="main-description__title">
-                Secure Transaction
-            </div>
-
-            <p class="main-description__text">
-                As a Client, you are freed from all financial risks when collaborating with Contractors, as the payment amount is reserved by our service and is paid to the Contractor only after receiving confirmation from you about the completion of the stage. <br><br>If the service is not provided, the funds are returned to you. The service takes on all financial risks and acts as a guarantor and custodian of funds, and in case of disputes between the parties, acts as an independent Arbitrator.<br><br><strong>Your money is in safe hands!</strong>
-            </p>
+        <div class="qn-tutorial">
+          <video class="qn-tutorial__vid" src="../assets/tutorial.mp4" preload="metadata" playsinline controls
+                 poster="../assets/tutorial.mp4#t=0.1"></video>
+          <button class="qn-tutorial__play" type="button" aria-label="Play video">
+            <svg viewBox="0 0 68 68" aria-hidden="true"><circle cx="34" cy="34" r="34" fill="rgba(19,151,214,.92)"/><path d="M27 22l22 12-22 12z" fill="#fff"/></svg>
+          </button>
         </div>
-
-        <div class="yt-lazyload video" data-id="JEUuN8YhQPo" data-logo="3"><div class="yt-lazyload-wrap"><div class="yt-lazyload-content" style="--yt-lazyload-img: url(&quot;https://img.youtube.com/vi/JEUuN8YhQPo/maxresdefault.jpg&quot;);"><div class="yt-lazyload-playbtn"></div><a class="yt-lazyload-logo" target="_blank" rel="noreferrer" href="https://youtu.be/JEUuN8YhQPo"></a></div></div></div>
     </div>
 </div>
     </section>
@@ -5019,6 +5022,18 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         if(shareBar) shareBar.style.display='none';
       }
     })();
+
+    /* ----- tutorial video (get-service block): play on click of the custom play button ----- */
+    (function(){
+      var wrap=document.querySelector('.qn-tutorial'); if(!wrap) return;
+      var vid=wrap.querySelector('.qn-tutorial__vid'), btn=wrap.querySelector('.qn-tutorial__play');
+      if(!vid||!btn) return;
+      function start(){ wrap.classList.add('is-playing'); try{ var p=vid.play(); if(p&&p.catch) p.catch(function(){}); }catch(e){} }
+      btn.addEventListener('click',start);
+      vid.addEventListener('play',function(){ wrap.classList.add('is-playing'); });
+      vid.addEventListener('pause',function(){ if(vid.currentTime<=0.05) wrap.classList.remove('is-playing'); });
+    })();
+
     /* general legal disclaimer at the very bottom */
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';

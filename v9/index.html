@@ -1951,21 +1951,17 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   font-size:15px !important; font-weight:700 !important; line-height:1.35 !important; letter-spacing:0 !important;
   text-shadow:none !important; text-transform:none !important; overflow-wrap:break-word !important; word-break:normal !important;
 }
+/* ORIGINAL RAW hover: the title's blue LEFT bar "unfolds" into a BOTTOM underline that sweeps left->right.
+   The title box keeps a static left border; these two bars animate the accent on hover. */
+.article-section .categories-card__name{ position:relative !important; border-left:0 !important; overflow:visible !important; }
 .article-section .categories-card__name::before,
-.article-section .categories-card__name::after{ content:none !important; display:none !important; }
-/* HOVER: blue line traces the card's perimeter (top+right, then bottom+left) — like the original RAW cards */
-.article-section .categories-card{ position:relative !important; }
-.article-section .categories-card .categories-card__trace{ position:absolute !important; inset:0 !important; z-index:7 !important; pointer-events:none !important; border-radius:3px !important; }
-.article-section .categories-card .categories-card__trace::before,
-.article-section .categories-card .categories-card__trace::after{ content:"" !important; position:absolute !important; box-sizing:border-box !important; width:0 !important; height:0 !important; border-radius:3px !important; }
-/* ::before draws TOP then RIGHT */
-.article-section .categories-card .categories-card__trace::before{ top:0 !important; left:0 !important; border-top:2px solid #1f9cdf !important; border-right:2px solid #1f9cdf !important;
-  transition:width .18s linear, height .18s linear .18s !important; }
-/* ::after draws BOTTOM then LEFT */
-.article-section .categories-card .categories-card__trace::after{ right:0 !important; bottom:0 !important; border-bottom:2px solid #1f9cdf !important; border-left:2px solid #1f9cdf !important;
-  transition:width .18s linear .36s, height .18s linear .18s !important; }
-.article-section .categories-card:hover .categories-card__trace::before{ width:100% !important; height:100% !important; }
-.article-section .categories-card:hover .categories-card__trace::after{ width:100% !important; height:100% !important; }
+.article-section .categories-card__name::after{ content:"" !important; display:block !important; position:absolute !important; left:0 !important; bottom:0 !important; background:#1397d6 !important; transition:all .4s linear !important; z-index:2 !important; }
+/* left vertical bar (present by default) -> collapses to 0 on hover */
+.article-section .categories-card__name::after{ top:0 !important; bottom:auto !important; width:3px !important; height:100% !important; }
+/* bottom underline (0 wide by default) -> grows to full width on hover */
+.article-section .categories-card__name::before{ height:3px !important; width:0 !important; }
+.article-section .categories-card:hover .categories-card__name::after{ height:0 !important; }
+.article-section .categories-card:hover .categories-card__name::before{ width:100% !important; }
 /* ===== chat contacts — chosen redesign: discount full-width on TOP, then [phone | Call me back] 2-up ===== */
 .qn-contacts{ display:flex !important; flex-flow:row wrap !important; align-items:stretch !important; gap:8px !important; padding:12px 14px 14px !important;
   background:transparent !important; border-bottom:1px solid rgba(255,255,255,.07) !important; }
@@ -5136,15 +5132,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       btn.addEventListener('click',start);
       vid.addEventListener('play',function(){ wrap.classList.add('is-playing'); });
       vid.addEventListener('pause',function(){ if(vid.currentTime<=0.05) wrap.classList.remove('is-playing'); });
-    })();
-
-    /* ----- "It could be interesting" cards: inject the perimeter-trace element for the hover animation ----- */
-    (function(){
-      [].forEach.call(document.querySelectorAll('.article-section .categories-card'),function(card){
-        if(card.querySelector('.categories-card__trace')) return;
-        var t=document.createElement('span'); t.className='categories-card__trace'; t.setAttribute('aria-hidden','true');
-        card.appendChild(t);
-      });
     })();
 
     /* general legal disclaimer at the very bottom */

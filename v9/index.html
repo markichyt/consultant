@@ -1268,9 +1268,12 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-hero{ position:relative; padding:calc(var(--header-height,108px) + 30px) 0 34px; min-width:0;
   font-family:"Avenir Next Cyr",sans-serif; color:#fff; }
 .qn-hero > *{ position:relative; z-index:1; }
-/* full-bleed dark band: centre on the viewport (left:50% + -50vw) so it always spans edge-to-edge
-   regardless of the content column's left offset — no JS repositioning needed, no white sliver. */
-.qn-hero__band{ position:absolute; top:0; bottom:0; left:50%; width:100vw; margin-left:-50vw; z-index:0; background:#0a0d11; }
+/* full-bleed dark band. The containing block is the OFFSET .qn-hero (inside the centered .text-section
+   column), NOT the viewport, so left:50%+-50vw mis-centres and 100vw includes the scrollbar (overflow).
+   CSS default therefore OVER-COVERS: pin to both edges of the containing block and bleed 100vw past each
+   side. Any surplus is hidden by the ancestor's overflow-x:clip — it can never UNDER-cover, so no white
+   shows before JS runs. relayout() then pins it precisely to the real viewport (see JS). */
+.qn-hero__band{ position:absolute; top:0; bottom:0; left:-100vw; right:-100vw; width:auto; z-index:0; background:#0a0d11; }
 /* breadcrumbs */
 .qn-bc{ display:flex; flex-wrap:nowrap; gap:7px; align-items:center; font-size:13px; color:rgba(255,255,255,.55); margin:0 0 24px; min-width:0; }
 .qn-bc a{ color:rgba(255,255,255,.55); text-decoration:none; } .qn-bc a:hover{ color:#fff; }
@@ -4588,8 +4591,20 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
   var T_RATIO=1.07, L_RATIO=1.55;     /* must match .qn-title / .qn-lead line-heights */
   function relayout(){
     var w=document.documentElement.clientWidth||window.innerWidth;
-    /* 1) full-bleed dark band is handled purely in CSS now (left:50% + -50vw), so no JS
-       repositioning — that old approach left an ~8px white sliver when the column was offset. */
+    /* 1) full-bleed dark band — pin precisely to the real viewport. The band is absolute inside the
+       OFFSET .qn-hero, so its left:0 would sit at the hero's left edge (inset from the viewport),
+       leaving white. getBoundingClientRect().left is the hero's distance from the viewport's left,
+       so left = -hero.left drags the band back to true viewport x=0. width = clientWidth spans the
+       viewport EXCLUDING the scrollbar gutter, so the right edge lands exactly at the content edge
+       (no white on the right) without creating horizontal overflow. right is cleared so width wins. */
+    var hero=document.getElementById('qnHero');
+    var band=hero&&hero.querySelector('.qn-hero__band');
+    if(hero&&band){
+      var hr=hero.getBoundingClientRect();
+      band.style.left=(-hr.left)+'px';
+      band.style.right='auto';
+      band.style.width=w+'px';   /* w = documentElement.clientWidth: excludes scrollbar */
+    }
     /* 2) adaptive title — same box height at every length, font scales to fit */
     var title=document.getElementById('qnTitle'), tbox=document.getElementById('qnTitleBox');
     if(title&&tbox){

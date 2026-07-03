@@ -1554,7 +1554,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   .qn-pdots__d.is-on{ background:#1f9cdf; transform:scale(1.35); }
 }
 @media(min-width:681px){ .qn-pdots{ display:none; } }
-.qn-pplan{ position:relative; border:1px solid rgba(255,255,255,.12); border-radius:3px; padding:18px; background:rgba(255,255,255,.04); display:flex; flex-direction:column;
+.qn-pplan{ position:relative; border:1px solid rgba(255,255,255,.12); border-radius:3px; padding:16px 14px; background:rgba(255,255,255,.04); display:flex; flex-direction:column;
   transition:transform .2s cubic-bezier(.2,.8,.2,1), border-color .2s ease, background .2s ease, box-shadow .2s ease; }
 .qn-pplan:hover{ transform:translateY(-5px); border-color:rgba(31,156,223,.6); background:rgba(255,255,255,.08); box-shadow:0 16px 34px rgba(0,0,0,.34); }
 .qn-pplan--best{ border:2px solid #1f9cdf; background:rgba(31,156,223,.08); }
@@ -1568,7 +1568,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* price — bright white (was greyed by the generic span rule) */
 .qn-pplan__price{ font-size:27px; font-weight:800; color:#fff; margin:6px 0 0; }
 .qn-pplan__pv{ color:#fff; }
-.qn-pplan ul{ list-style:none; margin:14px 0 0; padding:0; flex:0 0 auto; }
+.qn-pplan ul{ list-style:none; margin:11px 0 0; padding:0; flex:0 0 auto; }
 .qn-pplan li{ display:flex; gap:8px; align-items:flex-start; font-size:13.5px; color:rgba(255,255,255,.72); margin:0 0 7px; }
 .qn-pplan li .qn-ok{ width:15px; height:15px; flex:0 0 15px; margin-top:2px; } .qn-pplan li .qn-ok path{ stroke:#3ddc84; }
 .qn-pplan__sel{ width:100%; margin-top:16px; border:0; border-radius:3px; padding:12px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; background:rgba(255,255,255,.1); color:#fff; }
@@ -1610,20 +1610,21 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* ===== prominent "up to X% off all services" badge (yellow accent) ===== */
 /* brighter yellow "off all services" pill — solid readable badge like the app */
 /* full-width badge; icon is an inline coin so wrapped text ("off all services") flows as one sentence */
-.qn-pplan__disc2{ display:block; margin:12px 0 0; padding:9px 13px; border-radius:3px; font-size:13px; font-weight:800; letter-spacing:.01em; line-height:1.5; background:rgba(255,206,46,.2); color:#ffd257; }
+.qn-pplan__disc2{ display:block; margin:10px 0 0; padding:8px 11px; border-radius:3px; font-size:12.5px; font-weight:800; letter-spacing:.01em; line-height:1.45; background:rgba(255,206,46,.2); color:#ffd257; }
 .qn-pplan__disc2 .qn-psave__ic{ display:inline-flex; vertical-align:-4px; margin:0 6px 0 0; width:19px; height:19px; color:#ffd257; }
 .qn-pplan__disc2 .qn-psave__ic svg{ width:19px; height:19px; }
 .qn-pplan__disc2 .qn-hl{ color:#ffe28a; font-weight:900; }
-/* ===== savings breakdown: total + per-item — text flows normally, coin is an inline lead-in ===== */
-.qn-psave{ margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.1); }
-.qn-psave__t{ display:block; font-size:14px; font-weight:800; color:#4be58c; margin:0 0 12px; line-height:1.4; }
+/* ===== savings breakdown: total + per-item — tighter, text-first ===== */
+.qn-psave{ margin-top:11px; padding-top:11px; border-top:1px solid rgba(255,255,255,.1); }
+.qn-psave__t{ display:block; font-size:14px; font-weight:800; color:#4be58c; margin:0 0 9px; line-height:1.35; }
 .qn-psave__t .qn-psave__ic{ display:inline-flex; vertical-align:-4px; margin:0 6px 0 0; width:18px; height:18px; }
 .qn-psave__t .qn-psave__ic svg{ width:18px; height:18px; }
-.qn-psave__t .qn-pplan__cv{ display:inline; }
 .qn-psave__t .qn-psave__ic{ color:#4be58c; }
 .qn-psave__t .qn-hl{ color:#7bffb3; font-weight:900; }
-.qn-psave__i{ display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:rgba(255,255,255,.72); line-height:1.4; margin:0 0 9px; }
+/* per-item savings lines: NO icon, just the text — cleaner and more compact */
+.qn-psave__i{ display:block; font-size:12.5px; color:rgba(255,255,255,.72); line-height:1.4; margin:0 0 6px; }
 .qn-psave__i:last-child{ margin-bottom:0; }
+.qn-psave__i .qn-psave__ic{ display:none; }
 /* the important number inside each savings line — bright white so it pops */
 .qn-psave__i .qn-hl{ color:#fff; font-weight:800; }
 .qn-psave__ic{ flex:0 0 16px; width:16px; height:16px; display:grid; place-items:center; color:#7fcdf2; margin-top:1px; }
@@ -2081,7 +2082,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* custom PNG artwork — larger, no tinted box (the images are full illustrations, not line icons) */
 .qn-benefit__i{ flex:0 0 auto; display:grid; place-items:center; }
 .qn-benefit__i svg{ width:24px; height:24px; display:block; }
-.qn-benefit__img{ display:block; width:clamp(58px,6vw,72px); height:clamp(58px,6vw,72px);
+.qn-benefit__img{ display:block; width:clamp(64px,6.5vw,80px); height:clamp(64px,6.5vw,80px);
   object-fit:contain; border-radius:3px; }
 .qn-benefit__t{ min-width:0; }
 .qn-benefit__t b{ display:block; font-family:"Avenir Next Cyr",sans-serif; font-size:clamp(15px,1.5vw,17px); font-weight:800; color:#13171b; line-height:1.25; margin:2px 0 4px; }
@@ -3252,10 +3253,10 @@ If officers reasonably relied on information that appeared accurate at the time,
             </button>
           </div>
           <ul class="qn-benefits">
-            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-1.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>3,500+ verified lawyers</b><span>Every specialist passes a multi-step check &mdash; licence, background and expertise verification.</span></div></li>
-            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-2.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Cheaper than an in-person visit</b><span>Get a written answer at a clear, fixed price &mdash; no travel, no waiting-room, no surprise bills.</span></div></li>
-            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-3.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Answers 24/7, fast</b><span>Ask any time, day or night. A verified lawyer replies quickly &mdash; no appointment needed.</span></div></li>
-            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-4.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Pick your lawyer in minutes</b><span>Answers come from several lawyers, so you can compare and instantly choose the best one for you.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/benn-1.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Instant answers, 24/7</b><span>Ask any time, day or night &mdash; verified lawyers reply within minutes, no appointment needed.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/benn-2.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Multiple expert opinions</b><span>Several lawyers weigh in, so you see different angles and solution paths for your case &mdash; not just one view.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/benn-3.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Matched to the right specialist</b><span>We connect you with the lawyer best suited to your exact problem and put you in direct touch.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/benn-4.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Private &amp; secure</b><span>Every conversation stays in a closed, encrypted chat &mdash; your details remain fully confidential.</span></div></li>
           </ul>
         </div>
     </div>

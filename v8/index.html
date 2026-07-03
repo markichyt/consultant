@@ -1608,13 +1608,10 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-pcycle__b small{ font-size:10px; font-weight:800; letter-spacing:.02em; color:#3ddc84; white-space:nowrap; }
 .qn-pcycle__b.is-on small{ color:#d6f5e4; }
 /* ===== name + "-10%" annual discount badge ===== */
-.qn-pplan__hd{ display:flex; align-items:center; gap:8px; }
-.qn-pplan__disc{ display:none; background:#e6484d; color:#fff; font-size:11px; font-weight:800; letter-spacing:.02em; padding:2px 7px; border-radius:3px; }
+.qn-pplan__hd{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+/* red discount badge — now carries both the % and the annual $ saved, only in yearly mode */
+.qn-pplan__disc{ display:none; background:#e6484d; color:#fff; font-size:11px; font-weight:800; letter-spacing:.02em; padding:3px 8px; border-radius:3px; white-space:nowrap; }
 .qn-poffer[data-cycle="yr"] .qn-pplan__disc{ display:inline-block; }
-/* annual money-saved badge — sits under the price, only in yearly mode */
-.qn-pplan__yrsave{ display:none; align-self:flex-start; margin:8px 0 0; background:rgba(75,229,140,.16); color:#7bffb3;
-  font-size:12px; font-weight:800; letter-spacing:.01em; padding:5px 10px; border-radius:3px; border:1px solid rgba(75,229,140,.32); white-space:nowrap; }
-.qn-poffer[data-cycle="yr"] .qn-pplan__yrsave{ display:inline-block; }
 /* ===== prominent "up to X% off all services" badge (yellow accent) ===== */
 /* brighter yellow "off all services" pill — solid readable badge like the app */
 /* full-width badge; icon is an inline coin so wrapped text ("off all services") flows as one sentence */
@@ -4694,12 +4691,11 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var perksLi=p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('');
         return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'" data-tier="'+p.k+'">'
           +(p.best?'<span class="qn-pplan__tag">BEST VALUE</span>':'')
-          +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-'+p.disc+'</span></div>'
+          +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-'+p.disc+' or -'+p.yrSave+'/year</span></div>'
           +'<div class="qn-pplan__price">'
             +'<span class="qn-pplan__pv qn-pplan__pv--mo">'+p.pm+'<span class="qn-pplan__per">/mo</span></span>'
-            +'<span class="qn-pplan__pv qn-pplan__pv--yr">'+p.py+'<span class="qn-pplan__per">/yr</span></span>'
+            +'<span class="qn-pplan__pv qn-pplan__pv--yr">'+p.py+'<span class="qn-pplan__per">/year</span></span>'
           +'</div>'
-          +'<span class="qn-pplan__yrsave">You save '+p.yrSave+'/yr with annual</span>'
           +'<ul>'+consLi+perksLi+'</ul>'
           +'<div class="qn-pplan__disc2"><span class="qn-psave__ic">'+SAVE_IC.pct+'</span>Up to <b class="qn-hl">'+p.disc+'</b> off all services</div>'
           +'<div class="qn-psave">'
@@ -4768,7 +4764,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           +'<button class="qn-pback" type="button" data-back="done-sub">← Back</button>'
           +'<div class="qn-order">'
             +'<div class="qn-order__h">Ask your question</div>'
-            +'<div class="qn-pnote qn-pnote--order">You\u2019ll be able to view the written answer only in the Consultant app.</div>'
+            +'<div class="qn-pnote qn-pnote--order">You\u2019ll get the written answer by email and in the Consultant app.</div>'
             +'<div class="qn-order__f qn-order__f--sel qn-dd qn-dd--city" data-value="" data-req>'
               +'<input class="qn-dd__inp" type="text" placeholder="City *" autocomplete="off" spellcheck="false">'
               +'<ul class="qn-dd__list" hidden></ul></div>'
@@ -4929,8 +4925,14 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       var lawyer=c.querySelector('.qa-lawyer');
       if(lawyer && !lawyer.querySelector('.qn-abhead')){
         var m=AMETAS[idx]||AMETAS[0];
-        var nparts=m.name.split(' ');
-        var shortN=nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0];
+        /* read the real respondent name straight from THIS card so the header can never drift out
+           of sync with the card (e.g. "Answered by Karen" over the "Assistant Grok AI" card). */
+        var nmEl=c.querySelector('.balance-card__name');
+        var fullN=(nmEl?nmEl.textContent:'').replace(/\s+/g,' ').trim() || m.name;
+        var nparts=fullN.split(' ');
+        /* short form: first name (+ a trailing initial like "R." if present); AI names stay whole */
+        var isAI=/\b(AI|GPT|Grok|Assistant|Bot)\b/i.test(fullN);
+        var shortN=isAI?fullN:(nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0]);
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
         hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';

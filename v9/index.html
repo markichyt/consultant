@@ -1609,12 +1609,17 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-poffer[data-cycle="yr"] .qn-pplan__yrsave{ display:inline-block; }
 /* ===== prominent "up to X% off all services" badge (yellow accent) ===== */
 /* brighter yellow "off all services" pill — solid readable badge like the app */
-.qn-pplan__disc2{ display:inline-flex; align-items:center; gap:7px; margin:12px 0 0; padding:8px 13px; border-radius:3px; font-size:13px; font-weight:800; letter-spacing:.01em; background:rgba(255,206,46,.2); color:#ffd257; }
-.qn-pplan__disc2 .qn-psave__ic{ color:#ffd257; }
+/* full-width badge; icon is an inline coin so wrapped text ("off all services") flows as one sentence */
+.qn-pplan__disc2{ display:block; margin:12px 0 0; padding:9px 13px; border-radius:3px; font-size:13px; font-weight:800; letter-spacing:.01em; line-height:1.5; background:rgba(255,206,46,.2); color:#ffd257; }
+.qn-pplan__disc2 .qn-psave__ic{ display:inline-flex; vertical-align:-4px; margin:0 6px 0 0; width:19px; height:19px; color:#ffd257; }
+.qn-pplan__disc2 .qn-psave__ic svg{ width:19px; height:19px; }
 .qn-pplan__disc2 .qn-hl{ color:#ffe28a; font-weight:900; }
-/* ===== savings breakdown: total + per-item, each with an icon ===== */
+/* ===== savings breakdown: total + per-item — text flows normally, coin is an inline lead-in ===== */
 .qn-psave{ margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.1); }
-.qn-psave__t{ display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#4be58c; margin:0 0 12px; line-height:1.3; }
+.qn-psave__t{ display:block; font-size:14px; font-weight:800; color:#4be58c; margin:0 0 12px; line-height:1.4; }
+.qn-psave__t .qn-psave__ic{ display:inline-flex; vertical-align:-4px; margin:0 6px 0 0; width:18px; height:18px; }
+.qn-psave__t .qn-psave__ic svg{ width:18px; height:18px; }
+.qn-psave__t .qn-pplan__cv{ display:inline; }
 .qn-psave__t .qn-psave__ic{ color:#4be58c; }
 .qn-psave__t .qn-hl{ color:#7bffb3; font-weight:900; }
 .qn-psave__i{ display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:rgba(255,255,255,.72); line-height:1.4; margin:0 0 9px; }
@@ -4390,7 +4395,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     copy:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><path d="M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8" stroke-linecap="round"/></svg>',
     link:'<svg viewBox="0 0 24 24" fill="none" stroke="#1b1f23" stroke-width="1.9" aria-hidden="true"><path d="M9 7H7a5 5 0 0 0 0 10h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8" stroke-linecap="round"/></svg>',
     share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke-linecap="round"/></svg>',
-    pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="19" y1="5" x2="5" y2="19" stroke-linecap="round"/><circle cx="6.5" cy="6.5" r="2.6"/><circle cx="17.5" cy="17.5" r="2.6"/></svg>',
+    pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5.6" opacity=".5"/><path d="M12 8.2v7.6M13.8 9.5c-.4-.5-1.05-.85-1.8-.85-1.05 0-1.9.62-1.9 1.45 0 1.95 3.9 1.05 3.9 3 0 .83-.85 1.45-1.9 1.45-.85 0-1.5-.35-1.9-.9"/></svg>',
     check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     mini:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg>'
   };
@@ -4632,7 +4637,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         total:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 9.5h13"/><path d="M16.5 12.5h2.5"/></svg>',
         consult:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-4 4V5z"/></svg>',
         tpl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4"/><path d="M10 12.5h5M10 16h5"/></svg>',
-        pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.6"/><circle cx="17.5" cy="17.5" r="2.6"/></svg>'
+        pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5.6" opacity=".5"/><path d="M12 8.2v7.6M13.8 9.5c-.4-.5-1.05-.85-1.8-.85-1.05 0-1.9.62-1.9 1.45 0 1.95 3.9 1.05 3.9 3 0 .83-.85 1.45-1.9 1.45-.85 0-1.5-.35-1.9-.9"/></svg>'
       };
       var PLANS=[
         {k:'Base',best:false,pm:'$15',py:'$162',disc:'5%',yrSave:'$18',

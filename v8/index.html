@@ -1477,38 +1477,33 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 @keyframes qn-onp{ 70%{ box-shadow:0 0 0 6px rgba(61,220,132,0);} 100%{ box-shadow:0 0 0 0 rgba(61,220,132,0);} }
 
 /* ===== PAGE offer: choice (subscription vs 1 consultation) -> plans -> card form, in the LEFT content ===== */
+/* Once the offer is revealed we want it to hold the focus: generous top/bottom breathing room
+   (~30vh above, ~50vh below) so the user has to scroll a long way to lose it from view.
+   The big margins only apply once .is-live is set (i.e. the offer is actually shown). */
 .qn-poffer{ margin:clamp(58px,7.5vw,96px) 0; font-family:"Avenir Next Cyr",sans-serif; animation:qn-offin .4s ease; }
+.qn-poffer.is-live{ margin:30vh 0 50vh; }
 .qn-poffer[hidden]{ display:none; }
-/* ===== FOCUS / SPOTLIGHT (v9): gently highlight the offer — NOT a modal.
-   The dim sits at a LOW z-index (below the chat @9991), so the chat always stays on top,
-   and the offer is lifted just above the dim (still below the chat). Light dim, no blur. ===== */
-.qn-spotdim{ position:fixed; inset:0; z-index:5; background:rgba(8,11,16,.42);
-  opacity:0; pointer-events:none; transition:opacity .35s ease; }
-body.qn-spot .qn-spotdim{ opacity:1; pointer-events:auto; }
-/* the offer sits just above the dim while focused (z-index 6 << chat 9991), with breathing room */
-.qn-poffer.qn-spot-on{ position:relative; z-index:6; padding:clamp(36px,6vw,88px) 0; }
-.qn-poffer.qn-spot-on .qn-poffer__card{ box-shadow:0 24px 70px rgba(0,0,0,.45), 0 0 0 1px rgba(31,156,223,.22); }
 @media(max-width:991px){
-  .qn-spotdim{ display:none !important; }
-  /* mobile: no dim — just extra breathing room around the offer (from the viewport, not the chat) */
-  .qn-poffer{ margin:clamp(40px,10vw,64px) 0 clamp(48px,14vw,90px); }
+  .qn-poffer.is-live{ margin:22vh 0 40vh; }
 }
-/* ===== TRUST block under the offer ===== */
-.qn-trust{ max-width:900px; margin:20px auto 0; }
-.qn-poffer.qn-spot-on .qn-trust{ margin-top:24px; }
-.qn-trust__stars{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin:0 0 16px; text-align:center; }
-.qn-trust__rate{ display:inline-flex; align-items:center; gap:6px; font-family:"Bicubik",sans-serif; font-size:22px; color:#fff; }
-.qn-trust__rate svg{ width:22px; height:22px; }
-.qn-trust__rtxt{ font-size:14px; color:rgba(255,255,255,.62); }
-.qn-trust__rtxt b{ color:#fff; font-weight:800; }
-.qn-trust__grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.qn-trust__i{ display:flex; gap:11px; align-items:flex-start; background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.08); border-radius:3px; padding:14px 15px; }
-.qn-trust__ic{ flex:0 0 34px; width:34px; height:34px; border-radius:3px; display:grid; place-items:center; background:rgba(31,156,223,.12); }
-.qn-trust__ic svg{ width:19px; height:19px; }
-.qn-trust__i div{ min-width:0; }
-.qn-trust__i b{ display:block; font-size:14px; font-weight:800; color:#fff; margin:1px 0 3px; }
-.qn-trust__i span{ display:block; font-size:12.5px; line-height:1.45; color:rgba(255,255,255,.6); }
-@media(max-width:680px){ .qn-trust__grid{ grid-template-columns:1fr; } }
+/* ===== TRUST bar: single row of proof stats pinned right under the offer ===== */
+.qn-trust{ display:flex; align-items:stretch; justify-content:center; flex-wrap:nowrap;
+  gap:0; max-width:960px; margin:22px auto 0;
+  background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.08); border-radius:3px;
+  padding:16px 8px; font-family:"Avenir Next Cyr",sans-serif; }
+.qn-trust__i{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center;
+  text-align:center; gap:3px; padding:2px 14px; border-right:1px solid rgba(255,255,255,.08); }
+.qn-trust__i:last-child{ border-right:0; }
+.qn-trust__v{ font-family:"Bicubik",sans-serif; font-size:clamp(18px,2vw,24px); color:#fff; line-height:1;
+  display:inline-flex; align-items:center; gap:5px; white-space:nowrap; }
+.qn-trust__v svg{ width:clamp(15px,1.7vw,19px); height:clamp(15px,1.7vw,19px); }
+.qn-trust__l{ font-size:12px; color:rgba(255,255,255,.55); line-height:1.25; }
+@media(max-width:640px){
+  .qn-trust{ flex-wrap:wrap; gap:0; padding:6px; }
+  .qn-trust__i{ flex:1 1 50%; border-right:1px solid rgba(255,255,255,.08); border-bottom:1px solid rgba(255,255,255,.08); padding:12px 10px; }
+  .qn-trust__i:nth-child(2n){ border-right:0; }
+  .qn-trust__i:nth-last-child(-n+2){ border-bottom:0; }
+}
 .qn-poffer__card{ background:#1b1e22; border:1px solid rgba(255,255,255,.08); border-radius:3px; box-shadow:0 22px 54px rgba(0,0,0,.3); padding:clamp(20px,2.4vw,34px); color:#fff; }
 .qn-poffer__h{ font-family:"Bicubik",sans-serif; font-size:clamp(18px,2.1vw,23px); color:#fff; text-transform:uppercase; letter-spacing:.01em; margin:0 0 8px; line-height:1.2; text-wrap:balance; }
 .qn-poffer__sh{ font-size:14px; color:rgba(255,255,255,.55); margin:0 0 12px; }
@@ -4403,19 +4398,13 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
   var _gpN=0; function gplay(){ _gpN++; return GPLAY_SVG.replace(/_212_1714/g,'_gp'+_gpN); }
   var SHARE_SVG={"link": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#1397D6\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M33.0842 13.5602C32.2777 13.7016 31.3664 14.0686 30.6555 14.5384C30.4726 14.6592 30.0804 14.9785 29.7839 15.248C28.8222 16.1221 24.0712 20.942 23.7962 21.3226C23.2657 22.0568 22.9043 22.8437 22.7092 23.6893C22.5565 24.3512 22.5446 25.7076 22.6857 26.3666C22.9689 27.6892 23.6059 28.8533 24.5164 29.7122C24.8838 30.0587 25.5465 30.5392 25.6571 30.5392C25.6889 30.5392 25.9904 30.2578 26.3271 29.9139C27.0616 29.1635 27.1362 28.9961 27.0937 28.192L27.0684 27.7135L26.6724 27.3173C26.0437 26.6884 25.7627 25.9924 25.7662 25.0726C25.7684 24.521 25.8675 24.1309 26.142 23.5937C26.3135 23.2582 26.6076 22.9473 29.3196 20.2354C32.0317 17.5234 32.3426 17.2293 32.6781 17.0579C33.2238 16.779 33.6023 16.6854 34.1834 16.6854C34.5032 16.6854 34.8002 16.7187 35.0021 16.7772C36.0813 17.0897 36.9111 17.9195 37.2236 18.9986C37.346 19.4213 37.346 20.2132 37.2236 20.6359C36.9953 21.4244 36.9013 21.5418 34.8327 23.6233L32.9137 25.5545L33.0988 26.317C33.3385 27.3047 33.4285 28.2503 33.3572 29.0343C33.3282 29.3536 33.3136 29.6263 33.3247 29.6402C33.3597 29.684 38.959 24.0322 39.2104 23.6993C39.7678 22.9614 40.2121 22.0036 40.3987 21.1374C40.5338 20.5102 40.5338 19.1243 40.3987 18.4971C40.0879 17.0548 39.219 15.684 38.0392 14.7749C37.3686 14.2582 36.3762 13.7933 35.5567 13.6121C35.0003 13.489 33.6516 13.4607 33.0842 13.5602ZM28.1216 23.6341C27.3918 24.366 27.3169 24.522 27.3169 25.3115V25.8398L27.7019 26.222C28.3458 26.8616 28.6374 27.5651 28.6374 28.4793C28.6374 29.0607 28.5373 29.4832 28.2808 29.9846C28.1088 30.3208 27.8016 30.6444 24.8917 33.5543C21.9799 36.466 21.6583 36.7712 21.3219 36.9431C21.1186 37.0469 20.8096 37.1733 20.6353 37.2237C20.2126 37.3461 19.4206 37.3461 18.9979 37.2237C17.9187 36.9112 17.0889 36.0814 16.7764 35.0023C16.654 34.5796 16.654 33.7877 16.7764 33.365C17.0077 32.5663 17.079 32.4786 19.374 30.1695L21.5001 28.0304L21.3237 27.3143C21.0718 26.2919 21.0096 25.7065 21.0491 24.732L21.0824 23.9106L18.0555 26.9476C16.3908 28.618 14.921 30.1272 14.7895 30.3015C14.2319 31.0401 13.7879 31.9975 13.6013 32.8635C13.4662 33.4907 13.4662 34.8765 13.6013 35.5038C14.1235 37.9274 16.0726 39.8765 18.4964 40.3987C19.1236 40.5338 20.5095 40.5338 21.1368 40.3987C22.0008 40.2125 22.9543 39.7709 23.6988 39.2119C23.8731 39.081 25.4559 37.5337 27.2161 35.7733C30.0625 32.9268 30.4552 32.5141 30.7661 32.0427C31.3161 31.2087 31.5867 30.5256 31.756 29.5437C31.9192 28.5971 31.8783 27.7792 31.6184 26.7932C31.3318 25.7054 30.787 24.7697 29.9572 23.94C29.6447 23.6275 29.0057 23.1489 28.791 23.0665C28.7441 23.0485 28.4942 23.2604 28.1216 23.6341Z\" fill=\"white\"/>\n</svg>", "fb": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#0B84EE\"/>\n<path d=\"M29.2374 27.4925H34.2624L35.0513 22.3567H29.2364V19.5498C29.2364 17.4163 29.9293 15.5245 31.9129 15.5245H35.1004V11.0427C34.5404 10.9666 33.3559 10.8 31.1178 10.8C26.4444 10.8 23.7046 13.2831 23.7046 18.9401V22.3567H18.9004V27.4925H23.7046V41.6084C24.656 41.7523 25.6197 41.85 26.609 41.85C27.5032 41.85 28.3759 41.7677 29.2374 41.6505V27.4925Z\" fill=\"white\"/>\n</svg>", "in": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#2878B7\"/>\n<path d=\"M37.8008 28.0049V35.4511H33.442V28.459C33.442 26.7336 32.8064 25.5531 31.2627 25.5531C30.0822 25.5531 29.3557 26.3704 29.0833 27.0969C28.9925 27.3693 28.9017 27.7325 28.9017 28.1865V35.4511H24.5429C24.5429 35.4511 24.6337 23.6462 24.5429 22.4657H28.9017V24.2818C29.4465 23.3738 30.5362 22.1025 32.8064 22.1025C35.6214 22.1025 37.8008 24.0094 37.8008 28.0049ZM20.0026 16.2C18.5497 16.2 17.5508 17.1989 17.5508 18.4702C17.5508 19.7415 18.4589 20.7404 19.9118 20.7404C21.4555 20.7404 22.3636 19.7415 22.3636 18.4702C22.4544 17.1081 21.5463 16.2 20.0026 16.2ZM17.8232 35.4511H22.1819V22.4657H17.8232V35.4511Z\" fill=\"white\"/>\n</svg>", "x": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect x=\"0.5\" y=\"0.5\" width=\"53\" height=\"53\" rx=\"9.5\" stroke=\"white\" stroke-opacity=\"0.15\"/>\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"black\"/>\n<rect x=\"0.5\" y=\"0.5\" width=\"53\" height=\"53\" rx=\"9.5\" stroke=\"white\" stroke-opacity=\"0.5\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M14.1568 15.1068C14.7468 15.8509 23.9902 28.1007 24.0191 28.1768C24.0409 28.2342 23.4446 28.9368 22.6939 29.7382C21.9433 30.5396 19.6801 32.9514 17.6645 35.0977L14 39L15.1515 38.9956L16.3031 38.9913L20.6793 34.3049C23.0861 31.7273 25.076 29.6154 25.1012 29.6117C25.1264 29.608 26.7447 31.7178 28.6974 34.3L32.2479 38.9951L36.124 38.9975L40 39L36.3895 34.2384C29.8307 25.5887 29.4952 25.1417 29.4851 25.0405C29.4767 24.9569 32.8711 21.2941 37.7808 16.089L38.8079 15L37.6511 15.0053L36.4941 15.0107L32.4646 19.318C30.2483 21.6871 28.4066 23.616 28.372 23.6046C28.3372 23.593 26.8462 21.6524 25.0584 19.2918L21.808 15H17.94C14.8583 15 14.0893 15.0217 14.1568 15.1068ZM28.7988 26.9836C33.1027 32.6586 36.6241 37.3187 36.6241 37.3395C36.6241 37.3602 35.8451 37.3772 34.893 37.3772H33.1619L32.8349 36.969C32.2089 36.1873 17.5161 16.787 17.4868 16.7034C17.4678 16.6494 18.0877 16.6275 19.2154 16.6423L20.9736 16.6655L28.7988 26.9836Z\" fill=\"white\"/>\n</svg>", "tg": "<svg width=\"55\" height=\"54\" viewBox=\"0 0 55 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect x=\"0.5\" width=\"54\" height=\"54\" rx=\"10\" fill=\"#55ACE3\"/>\n<path d=\"M38.3004 17.013L34.2431 38.1945C34.2431 38.1945 33.6754 39.6631 32.1159 38.9588L22.7546 31.5259L22.7112 31.504C23.9757 30.3282 33.7811 21.1985 34.2097 20.7847C34.8731 20.1438 34.4612 19.7622 33.691 20.2464L19.2071 29.7715L13.6192 27.8245C13.6192 27.8245 12.7398 27.5006 12.6552 26.7962C12.5695 26.0908 13.6481 25.7092 13.6481 25.7092L36.4281 16.455C36.4281 16.455 38.3004 15.6032 38.3004 17.013Z\" fill=\"white\"/>\n</svg>"};   /* brand share tiles from raw/icon: {link,fb,in,x,tg} */
   var QN_VARIANT="v8";   /* "v8" | "v9" — used to gate variant-only features */
-  /* trust block under the offer (v9) — reassurance so people are confident to buy */
+  /* proof-bar under the offer — a single row of trust stats (answered / purchases / verified / rating) */
   var TRUST_HTML=''
     +'<div class="qn-trust">'
-      +'<div class="qn-trust__stars">'
-        +'<span class="qn-trust__rate"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.9 6 6.6 1-4.8 4.6 1.1 6.6L12 17.8 6.2 20.9l1.1-6.6L2.5 9.7l6.6-1L12 2z"/></svg>4.9</span>'
-        +'<span class="qn-trust__rtxt">Average rating &middot; <b>12,000+</b> answered questions</span>'
-      +'</div>'
-      +'<div class="qn-trust__grid">'
-        +'<div class="qn-trust__i"><span class="qn-trust__ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9cdf" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></span><div><b>Secure payment</b><span>Funds are held safely and released only after you confirm.</span></div></div>'
-        +'<div class="qn-trust__i"><span class="qn-trust__ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9cdf" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 1 2.3 5.6"/><path d="M4 12H2m2 0V9"/><path d="M12 8v4l3 2"/></svg></span><div><b>Cancel anytime</b><span>No hidden fees. Cancel your subscription in one tap.</span></div></div>'
-        +'<div class="qn-trust__i"><span class="qn-trust__ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9cdf" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 11.5l2 2 3.5-3.5"/></svg></span><div><b>3,500+ verified lawyers</b><span>Every specialist passes a multi-step licence &amp; background check.</span></div></div>'
-        +'<div class="qn-trust__i"><span class="qn-trust__ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1f9cdf" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M22 4L12 14l-3-3"/></svg></span><div><b>Money-back guarantee</b><span>If your answer doesn&rsquo;t help, we&rsquo;ll refund you.</span></div></div>'
-      +'</div>'
+      +'<div class="qn-trust__i"><span class="qn-trust__v">50,000+</span><span class="qn-trust__l">Answered questions</span></div>'
+      +'<div class="qn-trust__i"><span class="qn-trust__v">30,000+</span><span class="qn-trust__l">Consultations bought</span></div>'
+      +'<div class="qn-trust__i"><span class="qn-trust__v">3,500</span><span class="qn-trust__l">Verified specialists</span></div>'
+      +'<div class="qn-trust__i"><span class="qn-trust__v"><svg viewBox="0 0 24 24" fill="#FFD337" aria-hidden="true"><path d="M12 2l2.9 6 6.6 1-4.8 4.6 1.1 6.6L12 17.8 6.2 20.9l1.1-6.6L2.5 9.7l6.6-1L12 2z"/></svg>4.9</span><span class="qn-trust__l">Rating &middot; 11,000 reviews</span></div>'
     +'</div>';
   /* short, distinct "about" bios per lawyer (by name); ABOUT_FALLBACK varies by card index */
   var ABOUT_BY_NAME={
@@ -4686,7 +4675,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
             +'<div class="qn-pplan__cvb qn-pplan__cvb--yr">'+saveBlock(p.saveYr)+'</div>'
           +'</div>'
           +'<button class="qn-pplan__sel" type="button" data-plan="'+p.k+'" data-price-mo="'+p.pm+'" data-price-yr="'+p.py+'">Choose '+p.k+'</button></div>'; }).join('');
-      var FOCUS = (QN_VARIANT==='v9');   /* v9-only: spotlight focus + trust block */
       var of=document.createElement('section'); of.className='qn-poffer'; of.hidden=true; of.setAttribute('data-cycle','mo');
       of.innerHTML='<div class="qn-poffer__card">'
         +'<div class="qn-poffer__step" data-step="choice">'
@@ -4759,7 +4747,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
             +'<button class="qn-done__how" type="button" data-see-tutorial>See how to ask a question in the app →</button>'
           +'</div></div>'
         +'</div>'
-        + (FOCUS ? TRUST_HTML : '');
+        + TRUST_HTML;
       /* desktop: offer in the left content column (chat is on the right). mobile: right under the inline chat. */
       var mAside=document.querySelector('.text-section .qa-aside');
       if(mAside && !(window.matchMedia&&window.matchMedia('(min-width:992px)').matches)){ mAside.insertAdjacentElement('afterend', of); }
@@ -4820,32 +4808,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         };
       })();
 
-      /* focus mode (v9): spotlight the offer — dim the rest of the page, scroll it into view with
-         breathing room; releasing the focus on outside-click or scroll-away. Desktop = full spotlight,
-         mobile = just extra spacing (no dim). */
-      var dim=null;
-      function isDesk(){ return window.matchMedia && window.matchMedia('(min-width:992px)').matches; }
-      function focusOn(){
-        if(!FOCUS || !isDesk()) return;
-        if(!dim){ dim=document.createElement('div'); dim.className='qn-spotdim'; document.body.appendChild(dim);
-          dim.addEventListener('click', focusOff); }
-        document.body.classList.add('qn-spot'); of.classList.add('qn-spot-on');
-      }
-      function focusOff(){ document.body.classList.remove('qn-spot'); of.classList.remove('qn-spot-on'); }
-      /* release focus when the user clicks anything outside the offer, or scrolls it out of view */
-      document.addEventListener('click', function(e){ if(document.body.classList.contains('qn-spot') && !of.contains(e.target)) focusOff(); }, true);
-      var lastY=0;
-      window.addEventListener('scroll', function(){
-        if(!document.body.classList.contains('qn-spot')) { lastY=window.scrollY; return; }
-        var r=of.getBoundingClientRect(); var off = r.bottom<80 || r.top>window.innerHeight-80;
-        if(off) focusOff(); lastY=window.scrollY;
-      }, {passive:true});
-
       var shown=false;
-      function reveal(){ if(shown) return; shown=true; of.hidden=false; chatBeep();
-        var center=function(){ try{ of.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} };
-        if(FOCUS && isDesk()){ setTimeout(function(){ center(); focusOn(); }, 200); }
-        else if(!isDesk()){ setTimeout(center, 160); }
+      function reveal(){ if(shown) return; shown=true; of.hidden=false; of.classList.add('is-live'); chatBeep();
+        /* scroll the offer into view once it's live — the big top/bottom margins keep it in focus */
+        setTimeout(function(){ try{ of.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }, 180);
       }
       window.qnRevealOffer=reveal;   /* the ask-funnel opens this offer window at the end of the chat flow */
       function hook(f){ if(!f) return; f.addEventListener('submit',function(){ var i=f.querySelector('input'); var v=i?(i.value||'').trim():''; if(v) setTimeout(reveal,1000); }, true); }

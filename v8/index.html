@@ -1592,6 +1592,14 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-done__how{ border:1px solid rgba(31,156,223,.6); background:rgba(31,156,223,.1); color:#8fd6f5; border-radius:3px;
   padding:13px 24px; font:inherit; font-weight:800; font-size:14.5px; cursor:pointer; transition:background .15s ease, transform .1s ease; }
 .qn-done__how:hover{ background:rgba(31,156,223,.2); transform:translateY(-1px); color:#bfe6fb; }
+/* primary "ask a question now" CTA on the subscription done-screen */
+.qn-done__ask{ border:0; background:#1f9cdf; color:#fff; border-radius:3px; padding:14px 26px; margin:0 0 12px;
+  font:inherit; font-weight:800; font-size:14.5px; cursor:pointer; transition:background .15s ease, transform .1s ease; }
+.qn-done__ask:hover{ background:#1789c5; transform:translateY(-1px); }
+/* two .qn-done blocks live in one step (sub first, one second); data-done swaps which one shows */
+.qn-poffer__done .qn-done--one{ display:none; }                         /* default (sub): hide the one-question copy */
+.qn-poffer__done[data-done="one"] > .qn-done:not(.qn-done--one){ display:none; }  /* on the one-question done: hide the sub copy */
+.qn-poffer__done[data-done="one"] .qn-done--one{ display:flex; }
 /* ===== monthly/annual billing toggle (one instance, above .qn-pplans) ===== */
 .qn-pcycle{ display:inline-flex; gap:2px; padding:2px; margin:2px 0 16px; border:1px solid rgba(255,255,255,.14); border-radius:3px; background:rgba(255,255,255,.04); vertical-align:middle; }
 .qn-pcycle__b{ display:inline-flex; align-items:center; gap:6px; border:0; border-radius:2px; padding:7px 15px; font:inherit; font-family:"Avenir Next Cyr",sans-serif; font-size:13px; font-weight:700; line-height:1; cursor:pointer; background:transparent; color:rgba(255,255,255,.6); transition:background .15s ease,color .15s ease; }
@@ -1953,6 +1961,19 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* live char counters for Title (100) / Question (500) */
 .qn-order__f--cnt input, .qn-order__f--cnt textarea{ padding-right:54px; }
 .qn-order__cnt{ position:absolute; right:2px; bottom:9px; font-size:11px; color:rgba(255,255,255,.4); pointer-events:none; }
+/* ===== two pay forms in one step: the one-question-only fields (city/title/question) hide on the sub flow ===== */
+.qn-pf--one{ display:flex; }
+[data-step="pay"][data-flow="sub"] .qn-pf--one{ display:none; }
+/* required-field validation: red underline on invalid, error message under the form */
+.qn-order__f.is-invalid{ border-bottom-color:#ff6b6b; }
+.qn-order__f.is-invalid input::placeholder, .qn-order__f.is-invalid textarea::placeholder{ color:#ff9a9a; }
+.qn-order__err{ margin:2px 0 12px; padding:9px 12px; border-radius:3px; background:rgba(255,107,107,.14);
+  border:1px solid rgba(255,107,107,.4); color:#ff9a9a; font-size:13px; font-weight:700; }
+.qn-order__err[hidden]{ display:none; }
+/* City = type-to-filter: a bare text input, list is populated live by JS */
+.qn-dd--city .qn-dd__inp{ width:100%; background:transparent; border:0; outline:none; color:#fff; font:inherit; font-size:14px; padding:9px 22px 9px 2px; }
+.qn-dd--city .qn-dd__inp::placeholder{ color:rgba(255,255,255,.5); }
+.qn-dd__none{ padding:10px 12px; color:rgba(255,255,255,.5); font-size:13.5px; }
 /* ===== "It could be interesting" article tiles: frosted-glass cards, clear photo, shield in a
    visible circle, title in its own readable box BELOW the photo (never on the photo) ===== */
 /* ===== GLASS TILES v2 — clear photo on top, shield in a visible circle, TITLE in a frosted box BELOW ===== */
@@ -4407,6 +4428,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
      gplay() returns a copy with unique IDs so every badge keeps its logo. */
   var _gpN=0; function gplay(){ _gpN++; return GPLAY_SVG.replace(/_212_1714/g,'_gp'+_gpN); }
   var SHARE_SVG={"link": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#1397D6\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M33.0842 13.5602C32.2777 13.7016 31.3664 14.0686 30.6555 14.5384C30.4726 14.6592 30.0804 14.9785 29.7839 15.248C28.8222 16.1221 24.0712 20.942 23.7962 21.3226C23.2657 22.0568 22.9043 22.8437 22.7092 23.6893C22.5565 24.3512 22.5446 25.7076 22.6857 26.3666C22.9689 27.6892 23.6059 28.8533 24.5164 29.7122C24.8838 30.0587 25.5465 30.5392 25.6571 30.5392C25.6889 30.5392 25.9904 30.2578 26.3271 29.9139C27.0616 29.1635 27.1362 28.9961 27.0937 28.192L27.0684 27.7135L26.6724 27.3173C26.0437 26.6884 25.7627 25.9924 25.7662 25.0726C25.7684 24.521 25.8675 24.1309 26.142 23.5937C26.3135 23.2582 26.6076 22.9473 29.3196 20.2354C32.0317 17.5234 32.3426 17.2293 32.6781 17.0579C33.2238 16.779 33.6023 16.6854 34.1834 16.6854C34.5032 16.6854 34.8002 16.7187 35.0021 16.7772C36.0813 17.0897 36.9111 17.9195 37.2236 18.9986C37.346 19.4213 37.346 20.2132 37.2236 20.6359C36.9953 21.4244 36.9013 21.5418 34.8327 23.6233L32.9137 25.5545L33.0988 26.317C33.3385 27.3047 33.4285 28.2503 33.3572 29.0343C33.3282 29.3536 33.3136 29.6263 33.3247 29.6402C33.3597 29.684 38.959 24.0322 39.2104 23.6993C39.7678 22.9614 40.2121 22.0036 40.3987 21.1374C40.5338 20.5102 40.5338 19.1243 40.3987 18.4971C40.0879 17.0548 39.219 15.684 38.0392 14.7749C37.3686 14.2582 36.3762 13.7933 35.5567 13.6121C35.0003 13.489 33.6516 13.4607 33.0842 13.5602ZM28.1216 23.6341C27.3918 24.366 27.3169 24.522 27.3169 25.3115V25.8398L27.7019 26.222C28.3458 26.8616 28.6374 27.5651 28.6374 28.4793C28.6374 29.0607 28.5373 29.4832 28.2808 29.9846C28.1088 30.3208 27.8016 30.6444 24.8917 33.5543C21.9799 36.466 21.6583 36.7712 21.3219 36.9431C21.1186 37.0469 20.8096 37.1733 20.6353 37.2237C20.2126 37.3461 19.4206 37.3461 18.9979 37.2237C17.9187 36.9112 17.0889 36.0814 16.7764 35.0023C16.654 34.5796 16.654 33.7877 16.7764 33.365C17.0077 32.5663 17.079 32.4786 19.374 30.1695L21.5001 28.0304L21.3237 27.3143C21.0718 26.2919 21.0096 25.7065 21.0491 24.732L21.0824 23.9106L18.0555 26.9476C16.3908 28.618 14.921 30.1272 14.7895 30.3015C14.2319 31.0401 13.7879 31.9975 13.6013 32.8635C13.4662 33.4907 13.4662 34.8765 13.6013 35.5038C14.1235 37.9274 16.0726 39.8765 18.4964 40.3987C19.1236 40.5338 20.5095 40.5338 21.1368 40.3987C22.0008 40.2125 22.9543 39.7709 23.6988 39.2119C23.8731 39.081 25.4559 37.5337 27.2161 35.7733C30.0625 32.9268 30.4552 32.5141 30.7661 32.0427C31.3161 31.2087 31.5867 30.5256 31.756 29.5437C31.9192 28.5971 31.8783 27.7792 31.6184 26.7932C31.3318 25.7054 30.787 24.7697 29.9572 23.94C29.6447 23.6275 29.0057 23.1489 28.791 23.0665C28.7441 23.0485 28.4942 23.2604 28.1216 23.6341Z\" fill=\"white\"/>\n</svg>", "fb": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#0B84EE\"/>\n<path d=\"M29.2374 27.4925H34.2624L35.0513 22.3567H29.2364V19.5498C29.2364 17.4163 29.9293 15.5245 31.9129 15.5245H35.1004V11.0427C34.5404 10.9666 33.3559 10.8 31.1178 10.8C26.4444 10.8 23.7046 13.2831 23.7046 18.9401V22.3567H18.9004V27.4925H23.7046V41.6084C24.656 41.7523 25.6197 41.85 26.609 41.85C27.5032 41.85 28.3759 41.7677 29.2374 41.6505V27.4925Z\" fill=\"white\"/>\n</svg>", "in": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"#2878B7\"/>\n<path d=\"M37.8008 28.0049V35.4511H33.442V28.459C33.442 26.7336 32.8064 25.5531 31.2627 25.5531C30.0822 25.5531 29.3557 26.3704 29.0833 27.0969C28.9925 27.3693 28.9017 27.7325 28.9017 28.1865V35.4511H24.5429C24.5429 35.4511 24.6337 23.6462 24.5429 22.4657H28.9017V24.2818C29.4465 23.3738 30.5362 22.1025 32.8064 22.1025C35.6214 22.1025 37.8008 24.0094 37.8008 28.0049ZM20.0026 16.2C18.5497 16.2 17.5508 17.1989 17.5508 18.4702C17.5508 19.7415 18.4589 20.7404 19.9118 20.7404C21.4555 20.7404 22.3636 19.7415 22.3636 18.4702C22.4544 17.1081 21.5463 16.2 20.0026 16.2ZM17.8232 35.4511H22.1819V22.4657H17.8232V35.4511Z\" fill=\"white\"/>\n</svg>", "x": "<svg width=\"54\" height=\"54\" viewBox=\"0 0 54 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect x=\"0.5\" y=\"0.5\" width=\"53\" height=\"53\" rx=\"9.5\" stroke=\"white\" stroke-opacity=\"0.15\"/>\n<rect width=\"54\" height=\"54\" rx=\"10\" fill=\"black\"/>\n<rect x=\"0.5\" y=\"0.5\" width=\"53\" height=\"53\" rx=\"9.5\" stroke=\"white\" stroke-opacity=\"0.5\"/>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M14.1568 15.1068C14.7468 15.8509 23.9902 28.1007 24.0191 28.1768C24.0409 28.2342 23.4446 28.9368 22.6939 29.7382C21.9433 30.5396 19.6801 32.9514 17.6645 35.0977L14 39L15.1515 38.9956L16.3031 38.9913L20.6793 34.3049C23.0861 31.7273 25.076 29.6154 25.1012 29.6117C25.1264 29.608 26.7447 31.7178 28.6974 34.3L32.2479 38.9951L36.124 38.9975L40 39L36.3895 34.2384C29.8307 25.5887 29.4952 25.1417 29.4851 25.0405C29.4767 24.9569 32.8711 21.2941 37.7808 16.089L38.8079 15L37.6511 15.0053L36.4941 15.0107L32.4646 19.318C30.2483 21.6871 28.4066 23.616 28.372 23.6046C28.3372 23.593 26.8462 21.6524 25.0584 19.2918L21.808 15H17.94C14.8583 15 14.0893 15.0217 14.1568 15.1068ZM28.7988 26.9836C33.1027 32.6586 36.6241 37.3187 36.6241 37.3395C36.6241 37.3602 35.8451 37.3772 34.893 37.3772H33.1619L32.8349 36.969C32.2089 36.1873 17.5161 16.787 17.4868 16.7034C17.4678 16.6494 18.0877 16.6275 19.2154 16.6423L20.9736 16.6655L28.7988 26.9836Z\" fill=\"white\"/>\n</svg>", "tg": "<svg width=\"55\" height=\"54\" viewBox=\"0 0 55 54\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<rect x=\"0.5\" width=\"54\" height=\"54\" rx=\"10\" fill=\"#55ACE3\"/>\n<path d=\"M38.3004 17.013L34.2431 38.1945C34.2431 38.1945 33.6754 39.6631 32.1159 38.9588L22.7546 31.5259L22.7112 31.504C23.9757 30.3282 33.7811 21.1985 34.2097 20.7847C34.8731 20.1438 34.4612 19.7622 33.691 20.2464L19.2071 29.7715L13.6192 27.8245C13.6192 27.8245 12.7398 27.5006 12.6552 26.7962C12.5695 26.0908 13.6481 25.7092 13.6481 25.7092L36.4281 16.455C36.4281 16.455 38.3004 15.6032 38.3004 17.013Z\" fill=\"white\"/>\n</svg>"};   /* brand share tiles from raw/icon: {link,fb,in,x,tg} */
+  /* top US cities for the "City" type-to-filter dropdown (format "City, ST" per the design system) */
+  var CITIES=['New York, NY','Los Angeles, CA','Chicago, IL','Houston, TX','Phoenix, AZ','Philadelphia, PA','San Antonio, TX','San Diego, CA','Dallas, TX','San Jose, CA','Austin, TX','Jacksonville, FL','Fort Worth, TX','Columbus, OH','Charlotte, NC','San Francisco, CA','Indianapolis, IN','Seattle, WA','Denver, CO','Washington, DC','Boston, MA','El Paso, TX','Nashville, TN','Detroit, MI','Oklahoma City, OK','Portland, OR','Las Vegas, NV','Memphis, TN','Louisville, KY','Baltimore, MD','Milwaukee, WI','Albuquerque, NM','Tucson, AZ','Fresno, CA','Mesa, AZ','Sacramento, CA','Atlanta, GA','Kansas City, MO','Colorado Springs, CO','Omaha, NE','Raleigh, NC','Miami, FL','Long Beach, CA','Virginia Beach, VA','Oakland, CA','Minneapolis, MN','Tulsa, OK','Tampa, FL','Arlington, TX','New Orleans, LA','Wichita, KS','Cleveland, OH','Bakersfield, CA','Aurora, CO','Anaheim, CA','Honolulu, HI','Santa Ana, CA','Riverside, CA','Corpus Christi, TX','Lexington, KY','Henderson, NV','Stockton, CA','Saint Paul, MN','Cincinnati, OH','Pittsburgh, PA','Greensboro, NC','Anchorage, AK','Plano, TX','Orlando, FL','Irvine, CA','Newark, NJ','Durham, NC','Chula Vista, CA','Toledo, OH','Fort Wayne, IN','St. Louis, MO','Jersey City, NJ','Chandler, AZ','Madison, WI','Lubbock, TX','Buffalo, NY','Reno, NV','Richmond, VA','Salt Lake City, UT','Boise, ID','Birmingham, AL'];
   var QN_VARIANT="v8";   /* "v8" | "v9" — used to gate variant-only features */
   /* proof-bar under the offer — a single row of trust stats (answered / purchases / verified / rating) */
   var TRUST_HTML=''
@@ -4711,48 +4734,64 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           +'<div class="qn-pnote">You can use the subscription features only in the Consultant app.</div>'
           +'<div class="qn-pplans">'+plansHtml+'</div>'
           +'<div class="qn-pdots" aria-hidden="true">'+PLANS.map(function(_,i){ return '<span class="qn-pdots__d'+(i===0?' is-on':'')+'"></span>'; }).join('')+'</div></div>'
-        +'<div class="qn-poffer__step" data-step="pay" hidden>'
+        +'<div class="qn-poffer__step" data-step="pay" data-flow="one" hidden>'
           +'<button class="qn-pback" type="button" data-back="pay">← Back</button>'
           +'<div class="qn-order">'
             +'<div class="qn-order__h">Complete your order</div>'
             +'<div class="qn-pnote qn-pnote--order">You\u2019ll be able to view your answers only in the Consultant app.</div>'
             +'<div class="qn-order__grid2">'
-              +'<label class="qn-order__f"><input type="text" placeholder="Last name *" autocomplete="family-name"></label>'
-              +'<label class="qn-order__f"><input type="text" placeholder="First name *" autocomplete="given-name"></label>'
+              +'<label class="qn-order__f" data-req><input type="text" placeholder="Last name *" autocomplete="family-name"></label>'
+              +'<label class="qn-order__f" data-req><input type="text" placeholder="First name *" autocomplete="given-name"></label>'
             +'</div>'
             +'<div class="qn-order__grid2">'
-              +'<label class="qn-order__f qn-order__f--phone"><span class="qn-order__cc">'+FLAG_US+' +1</span><input type="tel" inputmode="tel" placeholder="(555) 000-0000" autocomplete="tel"></label>'
-              +'<label class="qn-order__f"><input type="email" placeholder="Email" autocomplete="email"></label>'
+              +'<label class="qn-order__f qn-order__f--phone" data-req><span class="qn-order__cc">'+FLAG_US+' +1</span><input type="tel" inputmode="tel" placeholder="(555) 000-0000 *" autocomplete="tel"></label>'
+              +'<label class="qn-order__f" data-req><input type="email" placeholder="Email *" autocomplete="email"></label>'
             +'</div>'
-            +'<div class="qn-order__f qn-order__f--sel qn-dd" data-value="">'
-              +'<button type="button" class="qn-dd__btn"><span class="qn-dd__val">Choose payment option</span></button>'
+            +'<div class="qn-order__f qn-order__f--sel qn-dd" data-value="" data-req>'
+              +'<button type="button" class="qn-dd__btn"><span class="qn-dd__val">Choose payment option *</span></button>'
               +'<ul class="qn-dd__list" hidden>'
                 +'<li class="qn-dd__opt" data-val="Pay in full">Pay in full</li>'
                 +'<li class="qn-dd__opt" data-val="Pay in 2 installments">Pay in 2 installments</li>'
                 +'<li class="qn-dd__opt" data-val="Pay in 4 installments">Pay in 4 installments</li>'
               +'</ul></div>'
-            +'<label class="qn-order__f qn-order__f--cnt"><input type="text" maxlength="100" placeholder="Title"><span class="qn-order__cnt">0/100</span></label>'
-            +'<label class="qn-order__f qn-order__f--cnt"><textarea rows="3" maxlength="500" placeholder="Your question"></textarea><span class="qn-order__cnt">0/500</span></label>'
-            +'<button class="qn-order__btn qn-ppay__btn" type="button">Pay&nbsp;<span class="qn-pay__amt2"></span></button>'
-          +'</div>'
-          +'<div class="qn-order__foot">'
-            +'<div class="qn-order__app"><p>Pay conveniently in the mobile app — download right now!</p>'
-              +'<div class="qn-order__badges">'
-                +'<a class="qn-storebadge" href="#" rel="nofollow noopener" aria-label="Download on the App Store">'+APPSTORE_SVG+'</a>'
-                +'<a class="qn-storebadge" href="#" rel="nofollow noopener" aria-label="Get it on Google Play">'+gplay()+'</a>'
-              +'</div></div>'
-            +'<div class="qn-order__methods">'
-              +'<span class="qn-order__method" style="color:#1a1f71">VISA</span>'
-              +'<span class="qn-order__method">'+IC_MC+'Mastercard</span>'
-              +'<span class="qn-order__method">'+IC_APPLE+'Pay</span>'
-              +'<span class="qn-order__method">G\u00a0Pay</span>'
-            +'</div>'
+            /* one-question only: city (type-to-filter), title, question */
+            +'<div class="qn-order__f qn-order__f--sel qn-dd qn-dd--city qn-pf--one" data-value="" data-req>'
+              +'<input class="qn-dd__inp" type="text" placeholder="City *" autocomplete="off" spellcheck="false">'
+              +'<ul class="qn-dd__list" hidden></ul></div>'
+            +'<label class="qn-order__f qn-order__f--cnt qn-pf--one" data-req><input type="text" maxlength="100" placeholder="Title *"><span class="qn-order__cnt">0/100</span></label>'
+            +'<label class="qn-order__f qn-order__f--cnt qn-pf--one" data-req><textarea rows="3" maxlength="500" placeholder="Your question *"></textarea><span class="qn-order__cnt">0/500</span></label>'
+            +'<div class="qn-order__err" hidden></div>'
+            +'<button class="qn-order__btn qn-ppay__btn" type="button">Pay</button>'
           +'</div></div>'
-        +'<div class="qn-poffer__step qn-poffer__done" data-step="done" hidden>'
+        /* ask-a-question step (reached from the subscription "done" screen — we already have name/phone/email) */
+        +'<div class="qn-poffer__step" data-step="askq" hidden>'
+          +'<button class="qn-pback" type="button" data-back="done-sub">← Back</button>'
+          +'<div class="qn-order">'
+            +'<div class="qn-order__h">Ask your question</div>'
+            +'<div class="qn-pnote qn-pnote--order">You\u2019ll be able to view the written answer only in the Consultant app.</div>'
+            +'<div class="qn-order__f qn-order__f--sel qn-dd qn-dd--city" data-value="" data-req>'
+              +'<input class="qn-dd__inp" type="text" placeholder="City *" autocomplete="off" spellcheck="false">'
+              +'<ul class="qn-dd__list" hidden></ul></div>'
+            +'<label class="qn-order__f qn-order__f--cnt" data-req><input type="text" maxlength="100" placeholder="Title *"><span class="qn-order__cnt">0/100</span></label>'
+            +'<label class="qn-order__f qn-order__f--cnt" data-req><textarea rows="3" maxlength="500" placeholder="Your question *"></textarea><span class="qn-order__cnt">0/500</span></label>'
+            +'<div class="qn-order__err" hidden></div>'
+            +'<button class="qn-order__btn qn-askq__btn" type="button">Ask a question</button>'
+          +'</div></div>'
+        /* subscription "done": thanks + download + ask-a-question CTA + tutorial link */
+        +'<div class="qn-poffer__step qn-poffer__done" data-step="done" data-done="sub" hidden>'
           +'<div class="qn-done">'
             +'<div class="qn-done__check"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
-            +'<div class="qn-poffer__h">Thank you! Payment successful</div>'
-            +'<p class="qn-done__p">Thank you for trusting Consultant. Your written answers are waiting for you in our mobile app &mdash; please download it to view them and to ask new questions anytime.</p>'
+            +'<div class="qn-poffer__h qn-done--sub">Thank you! Your subscription is active</div>'
+            +'<p class="qn-done__p qn-done--sub">Download the Consultant app to use your subscription, ask questions and read the lawyers&rsquo; written answers &mdash; everything lives in the app.</p>'
+            +'<div class="qn-poffer__apps qn-done--sub"><a class="qn-storebadge" href="#" aria-label="Download on the App Store">'+APPSTORE_SVG+'</a><a class="qn-storebadge" href="#" aria-label="Get it on Google Play">'+gplay()+'</a></div>'
+            +'<button class="qn-done__ask qn-done--sub" type="button" data-ask-now>Want to ask a question right now? →</button>'
+            +'<button class="qn-done__how qn-done--sub" type="button" data-see-tutorial>See how to ask a question in the app →</button>'
+          +'</div>'
+        /* one-question "done": thanks + answer by email + download + tutorial link */
+          +'<div class="qn-done qn-done--one">'
+            +'<div class="qn-done__check"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+            +'<div class="qn-poffer__h">Thank you for your question!</div>'
+            +'<p class="qn-done__p">A verified lawyer&rsquo;s written answer will be sent to your email. You can also download the Consultant app to read the answer there and ask new questions anytime.</p>'
             +'<div class="qn-poffer__apps"><a class="qn-storebadge" href="#" aria-label="Download on the App Store">'+APPSTORE_SVG+'</a><a class="qn-storebadge" href="#" aria-label="Get it on Google Play">'+gplay()+'</a></div>'
             +'<button class="qn-done__how" type="button" data-see-tutorial>See how to ask a question in the app →</button>'
           +'</div></div>'
@@ -4763,32 +4802,76 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       if(mAside && !(window.matchMedia&&window.matchMedia('(min-width:992px)').matches)){ mAside.insertAdjacentElement('afterend', of); }
       else { anchor.parentNode.insertBefore(of, anchor); }
 
-      var payBack='choice';
+      var payBack='choice', flow='one';   /* flow: 'sub' | 'one' — which order the pay/done screens serve */
       function step(name){ [].forEach.call(of.querySelectorAll('.qn-poffer__step'),function(s){ s.hidden=s.getAttribute('data-step')!==name; });
         if(name==='plans') requestAnimationFrame(function(){ try{ centerBest(); }catch(e){} }); }
-      function setAmt(price,period){ var a=price+(period||''); var e1=of.querySelector('.qn-pay__amt'),e2=of.querySelector('.qn-pay__amt2'); if(e1)e1.textContent=a; if(e2)e2.textContent=a; }
+      /* the pay screen shows/hides the one-question-only fields via data-flow */
+      function setFlow(f){ flow=f; var pay=of.querySelector('[data-step="pay"]'); if(pay) pay.setAttribute('data-flow',f); }
+      /* the single done screen swaps between the subscription and the one-question copy via data-done */
+      function done(kind){ var d=of.querySelector('[data-step="done"]'); if(d) d.setAttribute('data-done',kind);
+        step('done'); chatBeep(); of.scrollIntoView({behavior:'smooth',block:'center'}); }
       of.addEventListener('click',function(e){
-        var t=e.target.closest && e.target.closest('[data-pick],[data-back],[data-plan],.qn-ppay__btn,.qn-pcycle__b,[data-see-tutorial]'); if(!t) return;
+        var t=e.target.closest && e.target.closest('[data-pick],[data-back],[data-plan],.qn-ppay__btn,.qn-askq__btn,.qn-pcycle__b,[data-see-tutorial],[data-ask-now]'); if(!t) return;
         if(t.hasAttribute('data-see-tutorial')){ var tut=document.querySelector('.qn-tutorial');
           if(tut){ tut.scrollIntoView({behavior:'smooth',block:'center'}); } return; }
+        if(t.hasAttribute('data-ask-now')){ step('askq'); of.scrollIntoView({behavior:'smooth',block:'center'}); return; }
         if(t.classList.contains('qn-pcycle__b')){ var c=t.getAttribute('data-cycle'); of.setAttribute('data-cycle',c);
           [].forEach.call(of.querySelectorAll('.qn-pcycle__b'),function(b){ var on=b===t; b.classList.toggle('is-on',on); b.setAttribute('aria-pressed',on?'true':'false'); }); return; }
-        if(t.hasAttribute('data-pick')){ if(t.getAttribute('data-pick')==='sub'){ step('plans'); } else { payBack='choice'; setAmt(t.getAttribute('data-price'),''); step('pay'); } }
-        else if(t.hasAttribute('data-back')){ step(t.getAttribute('data-back')==='pay'?payBack:'choice'); }
-        else if(t.hasAttribute('data-plan')){ payBack='plans'; var cyc=of.getAttribute('data-cycle')||'mo'; var pr=t.getAttribute(cyc==='yr'?'data-price-yr':'data-price-mo'); setAmt(pr,cyc==='yr'?'/yr':'/mo'); step('pay'); }
-        else if(t.classList.contains('qn-ppay__btn')){ step('done'); chatBeep(); of.scrollIntoView({behavior:'smooth',block:'center'}); }
+        if(t.hasAttribute('data-pick')){ if(t.getAttribute('data-pick')==='sub'){ step('plans'); } else { payBack='choice'; setFlow('one'); step('pay'); } }
+        else if(t.hasAttribute('data-back')){ var b=t.getAttribute('data-back'); step(b==='pay'?payBack:(b==='done-sub'?'done':'choice')); }
+        else if(t.hasAttribute('data-plan')){ payBack='plans'; setFlow('sub'); step('pay'); }
+        else if(t.classList.contains('qn-ppay__btn')){ if(!validate(t.closest('[data-step]'))) return; done(flow); }
+        else if(t.classList.contains('qn-askq__btn')){ if(!validate(t.closest('[data-step]'))) return; done('one'); }
       });
 
-      /* custom dropdown(s) — open on click, pick sets the value, click-away closes */
+      /* ---- required-field validation: every visible [data-req] in the active step must be filled ---- */
+      function fieldFilled(f){
+        if(f.classList.contains('qn-dd')) return !!(f.getAttribute('data-value')||'').trim();
+        var el=f.querySelector('input,textarea,select'); return !!(el && (el.value||'').trim());
+      }
+      function validate(stepEl){ if(!stepEl) return true; var bad=0, first=null;
+        var reqs=stepEl.querySelectorAll('[data-req]');
+        [].forEach.call(reqs,function(f){ if(f.offsetParent===null) return; /* skip hidden (other-flow) fields */
+          var ok=fieldFilled(f); f.classList.toggle('is-invalid',!ok); if(!ok){ bad++; if(!first) first=f; } });
+        var err=stepEl.querySelector('.qn-order__err');
+        if(bad){ if(err){ err.textContent='Please fill in all required fields ('+bad+' left).'; err.hidden=false; }
+          if(first){ var inp=first.querySelector('input,textarea'); if(inp){ try{ inp.focus(); }catch(e){} } } return false; }
+        if(err){ err.hidden=true; } return true; }
+      /* clear a field's invalid state as soon as the user fixes it */
+      of.addEventListener('input',function(e){ var f=e.target.closest && e.target.closest('[data-req]'); if(f && fieldFilled(f)) f.classList.remove('is-invalid'); },true);
+
+      /* ---- payment-option dropdown: click to open, pick to set (unchanged) ---- */
       function closeDD(){ [].forEach.call(of.querySelectorAll('.qn-dd__list'),function(l){ l.hidden=true; });
         [].forEach.call(of.querySelectorAll('.qn-dd'),function(d){ d.classList.remove('is-open'); }); }
-      [].forEach.call(of.querySelectorAll('.qn-dd'),function(dd){
+      [].forEach.call(of.querySelectorAll('.qn-dd:not(.qn-dd--city)'),function(dd){
         var btn=dd.querySelector('.qn-dd__btn'), list=dd.querySelector('.qn-dd__list'), val=dd.querySelector('.qn-dd__val');
         btn.addEventListener('click',function(e){ e.stopPropagation(); var willOpen=list.hidden; closeDD(); if(willOpen){ list.hidden=false; dd.classList.add('is-open'); } });
         [].forEach.call(dd.querySelectorAll('.qn-dd__opt'),function(op){
           op.addEventListener('click',function(e){ e.stopPropagation();
             val.textContent=op.getAttribute('data-val'); dd.classList.add('is-set'); dd.setAttribute('data-value',op.getAttribute('data-val'));
+            dd.classList.remove('is-invalid');
             [].forEach.call(dd.querySelectorAll('.qn-dd__opt'),function(o){ o.classList.remove('is-on'); }); op.classList.add('is-on'); closeDD(); }); });
+      });
+
+      /* ---- City: type-to-filter dropdown. List only appears after the user types; a value is only set
+              by picking from the list — typing free text (or Enter) never commits an unlisted city. ---- */
+      [].forEach.call(of.querySelectorAll('.qn-dd--city'),function(dd){
+        var inp=dd.querySelector('.qn-dd__inp'), list=dd.querySelector('.qn-dd__list');
+        function render(q){ q=(q||'').trim().toLowerCase(); list.innerHTML='';
+          if(!q){ list.hidden=true; dd.classList.remove('is-open'); return; }
+          var hits=CITIES.filter(function(c){ return c.toLowerCase().indexOf(q)===0; });
+          if(!hits.length) hits=CITIES.filter(function(c){ return c.toLowerCase().indexOf(q)!==-1; });
+          if(!hits.length){ list.innerHTML='<li class="qn-dd__none">No matching city</li>'; list.hidden=false; dd.classList.add('is-open'); return; }
+          hits.slice(0,8).forEach(function(c){ var li=document.createElement('li'); li.className='qn-dd__opt'; li.setAttribute('data-val',c); li.textContent=c; list.appendChild(li); });
+          list.hidden=false; dd.classList.add('is-open'); }
+        function commit(c){ inp.value=c; dd.setAttribute('data-value',c); dd.classList.add('is-set'); dd.classList.remove('is-invalid'); list.hidden=true; dd.classList.remove('is-open'); }
+        inp.addEventListener('input',function(){ dd.setAttribute('data-value',''); dd.classList.remove('is-set'); render(inp.value); });
+        inp.addEventListener('focus',function(){ if(inp.value && !dd.getAttribute('data-value')) render(inp.value); });
+        /* Enter must NOT accept free text — pick the top hit if any, else keep the field unfilled */
+        inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); var first=list.querySelector('.qn-dd__opt'); if(first) commit(first.getAttribute('data-val')); } });
+        list.addEventListener('click',function(e){ var op=e.target.closest('.qn-dd__opt'); if(op) commit(op.getAttribute('data-val')); });
+        /* if the user leaves the field with unlisted/partial text, clear it — only listed cities count */
+        inp.addEventListener('blur',function(){ setTimeout(function(){ if(!dd.getAttribute('data-value')){ inp.value=''; } list.hidden=true; dd.classList.remove('is-open'); },140); });
       });
       document.addEventListener('click',closeDD);
       /* live char counters for Title (100) / Question (500) */

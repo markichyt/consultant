@@ -2072,10 +2072,12 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-svcrow{ display:flex; gap:clamp(22px,3vw,44px); align-items:stretch; margin:clamp(20px,3vw,34px) 0 0; }
 .qn-svcrow .qn-tutorial{ flex:1 1 60%; max-width:60%; margin:0; align-self:flex-start; }
 .qn-benefits{ flex:1 1 40%; max-width:40%; margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:clamp(14px,1.6vw,20px); justify-content:center; }
-.qn-benefit{ display:flex; gap:14px; align-items:flex-start; }
-.qn-benefit__i{ flex:0 0 46px; width:46px; height:46px; border-radius:3px; display:grid; place-items:center;
-  background:rgba(19,151,214,.1); border:1px solid rgba(19,151,214,.16); }
+.qn-benefit{ display:flex; gap:16px; align-items:flex-start; }
+/* custom PNG artwork — larger, no tinted box (the images are full illustrations, not line icons) */
+.qn-benefit__i{ flex:0 0 auto; display:grid; place-items:center; }
 .qn-benefit__i svg{ width:24px; height:24px; display:block; }
+.qn-benefit__img{ display:block; width:clamp(58px,6vw,72px); height:clamp(58px,6vw,72px);
+  object-fit:contain; border-radius:3px; }
 .qn-benefit__t{ min-width:0; }
 .qn-benefit__t b{ display:block; font-family:"Avenir Next Cyr",sans-serif; font-size:clamp(15px,1.5vw,17px); font-weight:800; color:#13171b; line-height:1.25; margin:2px 0 4px; }
 .qn-benefit__t span{ display:block; font-family:"Avenir Next Cyr",sans-serif; font-size:clamp(13px,1.35vw,14.5px); line-height:1.5; color:#5b636b; }
@@ -3245,10 +3247,10 @@ If officers reasonably relied on information that appeared accurate at the time,
             </button>
           </div>
           <ul class="qn-benefits">
-            <li class="qn-benefit"><span class="qn-benefit__i"><svg viewBox="0 0 24 24" fill="none" stroke="#1397d6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span><div class="qn-benefit__t"><b>3,500+ verified lawyers</b><span>Every specialist passes a multi-step check &mdash; licence, background and expertise verification.</span></div></li>
-            <li class="qn-benefit"><span class="qn-benefit__i"><svg viewBox="0 0 24 24" fill="none" stroke="#1397d6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M15 9.2c-.6-.9-1.7-1.4-3-1.4-1.7 0-3 .9-3 2.1 0 2.7 6 1.5 6 4.2 0 1.3-1.4 2.1-3 2.1-1.3 0-2.4-.5-3-1.4"/></svg></span><div class="qn-benefit__t"><b>Cheaper than an in-person visit</b><span>Get a written answer at a clear, fixed price &mdash; no travel, no waiting-room, no surprise bills.</span></div></li>
-            <li class="qn-benefit"><span class="qn-benefit__i"><svg viewBox="0 0 24 24" fill="none" stroke="#1397d6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><div class="qn-benefit__t"><b>Answers 24/7, fast</b><span>Ask any time, day or night. A verified lawyer replies quickly &mdash; no appointment needed.</span></div></li>
-            <li class="qn-benefit"><span class="qn-benefit__i"><svg viewBox="0 0 24 24" fill="none" stroke="#1397d6" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/><path d="M14 4l6 0M14 8l4 0"/></svg></span><div class="qn-benefit__t"><b>Pick your lawyer in minutes</b><span>Answers come from several lawyers, so you can compare and instantly choose the best one for you.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-1.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>3,500+ verified lawyers</b><span>Every specialist passes a multi-step check &mdash; licence, background and expertise verification.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-2.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Cheaper than an in-person visit</b><span>Get a written answer at a clear, fixed price &mdash; no travel, no waiting-room, no surprise bills.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-3.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Answers 24/7, fast</b><span>Ask any time, day or night. A verified lawyer replies quickly &mdash; no appointment needed.</span></div></li>
+            <li class="qn-benefit"><span class="qn-benefit__i"><img class="qn-benefit__img" src="../assets/ben-4.png" alt="" loading="lazy"></span><div class="qn-benefit__t"><b>Pick your lawyer in minutes</b><span>Answers come from several lawyers, so you can compare and instantly choose the best one for you.</span></div></li>
           </ul>
         </div>
     </div>
@@ -4521,9 +4523,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
   /* build the dark "contacts" panel (phones + messengers + Call me back) */
   function mkContacts(inputEl){
     /* REAL numbers shown by default — backend supplies this list; the frame adapts to its length */
-    var phones=[['+17193410795','#2f8fd6',IC.call]];
+    var phones=[['+16469348113','#2f8fd6',IC.call]];
     /* demo pool: ?phones=N (1..4) previews how the frame re-lays-out as numbers are added */
-    var POOL=[['+17193410795','#2f8fd6',IC.call],['+380730044470','#f3a02e',IC.bubble],
+    var POOL=[['+16469348113','#2f8fd6',IC.call],['+380730044470','#f3a02e',IC.bubble],
               ['+380970044470','#2f8fd6',IC.spark],['+380660044470','#e6484d',IC.drop]];
     var pn=parseInt((location.search.match(/[?&]phones=(\d+)/)||[])[1],10);
     if(pn>=1 && pn<=POOL.length) phones=POOL.slice(0,pn);

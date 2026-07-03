@@ -1533,8 +1533,14 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-pplan--best{ border:2px solid #1f9cdf; background:rgba(31,156,223,.08); }
 .qn-pplan--best:hover{ border-color:#1f9cdf; background:rgba(31,156,223,.15); }
 .qn-pplan__tag{ position:absolute; top:-11px; left:50%; transform:translateX(-50%); background:#1f9cdf; color:#fff; font-size:10px; font-weight:800; letter-spacing:.04em; padding:4px 11px; border-radius:3px; white-space:nowrap; }
-.qn-pplan__name{ font-family:"Bicubik",sans-serif; font-size:14px; text-transform:uppercase; color:#fff; letter-spacing:.04em; }
-.qn-pplan__price{ font-size:26px; font-weight:800; color:#fff; margin:6px 0 0; } .qn-pplan__price span{ font-size:13px; color:rgba(255,255,255,.5); font-weight:600; }
+.qn-pplan__name{ font-family:"Bicubik",sans-serif; font-size:15px; text-transform:uppercase; color:#fff; letter-spacing:.04em; }
+/* per-tier name colour (matches the app: Base neutral, Pro blue, Premium gold) */
+.qn-pplan[data-tier="Base"] .qn-pplan__name{ color:#e9edf1; }
+.qn-pplan[data-tier="Pro"] .qn-pplan__name{ color:#2ea3e6; }
+.qn-pplan[data-tier="Premium"] .qn-pplan__name{ color:#e7c65b; }
+/* price — bright white (was greyed by the generic span rule) */
+.qn-pplan__price{ font-size:27px; font-weight:800; color:#fff; margin:6px 0 0; }
+.qn-pplan__pv{ color:#fff; }
 .qn-pplan ul{ list-style:none; margin:14px 0 0; padding:0; flex:0 0 auto; }
 .qn-pplan li{ display:flex; gap:8px; align-items:flex-start; font-size:13.5px; color:rgba(255,255,255,.72); margin:0 0 7px; }
 .qn-pplan li .qn-ok{ width:15px; height:15px; flex:0 0 15px; margin-top:2px; } .qn-pplan li .qn-ok path{ stroke:#3ddc84; }
@@ -1570,6 +1576,10 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-pplan__hd{ display:flex; align-items:center; gap:8px; }
 .qn-pplan__disc{ display:none; background:#e6484d; color:#fff; font-size:11px; font-weight:800; letter-spacing:.02em; padding:2px 7px; border-radius:3px; }
 .qn-poffer[data-cycle="yr"] .qn-pplan__disc{ display:inline-block; }
+/* annual money-saved badge — sits under the price, only in yearly mode */
+.qn-pplan__yrsave{ display:none; align-self:flex-start; margin:8px 0 0; background:rgba(75,229,140,.16); color:#7bffb3;
+  font-size:12px; font-weight:800; letter-spacing:.01em; padding:5px 10px; border-radius:3px; border:1px solid rgba(75,229,140,.32); white-space:nowrap; }
+.qn-poffer[data-cycle="yr"] .qn-pplan__yrsave{ display:inline-block; }
 /* ===== prominent "up to X% off all services" badge (yellow accent) ===== */
 /* brighter yellow "off all services" pill — solid readable badge like the app */
 .qn-pplan__disc2{ display:inline-flex; align-items:center; gap:7px; margin:12px 0 0; padding:8px 13px; border-radius:3px; font-size:13px; font-weight:800; letter-spacing:.01em; background:rgba(255,206,46,.2); color:#ffd257; }
@@ -4587,21 +4597,21 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         pct:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.6"/><circle cx="17.5" cy="17.5" r="2.6"/></svg>'
       };
       var PLANS=[
-        {k:'Base',best:false,pm:'$15',py:'$162',disc:'5%',
+        {k:'Base',best:false,pm:'$15',py:'$162',disc:'5%',yrSave:'$18',
           cm:'Free brief consultations: <b class="qn-hl">3</b>',
           cy:'Free brief consultations: <b class="qn-hl">36</b>',
           perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Enhanced 24/7 AI Assistant'],
           saveTotalMo:'up to <b class="qn-hl">$1,300</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$1,300</b>/mo!',
           saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$150</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$150</b>'],['pct','Up to 5% off services — save up to <b class="qn-hl">$1,000</b>']],
           saveYr:[['consult','Free consultations — save up to <b class="qn-hl">$150</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$150</b>/mo'],['pct','5% off services — save up to <b class="qn-hl">$1,000</b>/mo']]},
-        {k:'Pro',best:true,pm:'$50',py:'$540',disc:'10%',
+        {k:'Pro',best:true,pm:'$50',py:'$540',disc:'10%',yrSave:'$60',
           cm:'Free brief consultations: <b class="qn-hl">12</b>',
           cy:'Free brief consultations: <b class="qn-hl">144</b>',
           perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Dedicated Customer Success Manager'],
           saveTotalMo:'up to <b class="qn-hl">$4,200</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$4,200</b>/mo!',
           saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$600</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$600</b>'],['pct','Up to 10% off services — save up to <b class="qn-hl">$3,000</b>']],
           saveYr:[['consult','Free consultations — save up to <b class="qn-hl">$600</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$600</b>/mo'],['pct','10% off services — save up to <b class="qn-hl">$3,000</b>/mo']]},
-        {k:'Premium',best:false,pm:'$300',py:'$3,240',disc:'20%',
+        {k:'Premium',best:false,pm:'$300',py:'$3,240',disc:'20%',yrSave:'$360',
           cm:'Free brief consultations: <b class="qn-hl">Unlimited</b>',
           cy:'Free brief consultations: <b class="qn-hl">Unlimited</b>',
           perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Dedicated VIP Account Manager','Premium access to top specialists'],
@@ -4615,13 +4625,14 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       var plansHtml=PLANS.map(function(p){
         var consLi='<li>'+OK+'<span><span class="qn-pplan__cv qn-pplan__cv--mo">'+p.cm+'</span><span class="qn-pplan__cv qn-pplan__cv--yr">'+p.cy+'</span></span></li>';
         var perksLi=p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('');
-        return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'">'
+        return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'" data-tier="'+p.k+'">'
           +(p.best?'<span class="qn-pplan__tag">BEST VALUE</span>':'')
           +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-'+p.disc+'</span></div>'
           +'<div class="qn-pplan__price">'
             +'<span class="qn-pplan__pv qn-pplan__pv--mo">'+p.pm+'<span class="qn-pplan__per">/mo</span></span>'
             +'<span class="qn-pplan__pv qn-pplan__pv--yr">'+p.py+'<span class="qn-pplan__per">/yr</span></span>'
           +'</div>'
+          +'<span class="qn-pplan__yrsave">You save '+p.yrSave+'/yr with annual</span>'
           +'<ul>'+consLi+perksLi+'</ul>'
           +'<div class="qn-pplan__disc2"><span class="qn-psave__ic">'+SAVE_IC.pct+'</span>Up to <b class="qn-hl">'+p.disc+'</b> off all services</div>'
           +'<div class="qn-psave">'

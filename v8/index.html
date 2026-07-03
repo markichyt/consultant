@@ -4931,9 +4931,11 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var nmEl=c.querySelector('.balance-card__name');
         var fullN=(nmEl?nmEl.textContent:'').replace(/\s+/g,' ').trim() || m.name;
         var nparts=fullN.split(' ');
-        /* short form: first name (+ a trailing initial like "R." if present); AI names stay whole */
-        var isAI=/\b(AI|GPT|Grok|Assistant|Bot)\b/i.test(fullN);
-        var shortN=isAI?fullN:(nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0]);
+        /* short form: first name (+ a trailing initial like "R." if present); AI names stay whole.
+           NOTE: use a distinct local name — isAI is already a function() in this scope; a `var isAI`
+           here would hoist and clobber it, breaking later isAI(c) calls (and the whole init after). */
+        var nameIsAI=/\b(AI|GPT|Grok|Assistant|Bot)\b/i.test(fullN);
+        var shortN=nameIsAI?fullN:(nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0]);
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
         hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';

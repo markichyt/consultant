@@ -1571,21 +1571,33 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-pplan__disc{ display:none; background:#e6484d; color:#fff; font-size:11px; font-weight:800; letter-spacing:.02em; padding:2px 7px; border-radius:3px; }
 .qn-poffer[data-cycle="yr"] .qn-pplan__disc{ display:inline-block; }
 /* ===== prominent "up to X% off all services" badge (yellow accent) ===== */
-.qn-pplan__disc2{ display:inline-flex; align-items:center; gap:7px; margin:12px 0 0; padding:7px 12px; border-radius:3px; font-size:12.5px; font-weight:800; letter-spacing:.01em; background:rgba(255,214,79,.13); color:#ffd64f; }
-.qn-pplan__disc2 .qn-psave__ic{ color:#ffd64f; }
+/* brighter yellow "off all services" pill — solid readable badge like the app */
+.qn-pplan__disc2{ display:inline-flex; align-items:center; gap:7px; margin:12px 0 0; padding:8px 13px; border-radius:3px; font-size:13px; font-weight:800; letter-spacing:.01em; background:rgba(255,206,46,.2); color:#ffd257; }
+.qn-pplan__disc2 .qn-psave__ic{ color:#ffd257; }
+.qn-pplan__disc2 .qn-hl{ color:#ffe28a; font-weight:900; }
 /* ===== savings breakdown: total + per-item, each with an icon ===== */
 .qn-psave{ margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,.1); }
-.qn-psave__t{ display:flex; align-items:center; gap:8px; font-size:13.5px; font-weight:800; color:#3ddc84; margin:0 0 11px; line-height:1.3; }
-.qn-psave__t .qn-psave__ic{ color:#3ddc84; }
-.qn-psave__i{ display:flex; align-items:flex-start; gap:8px; font-size:12px; color:rgba(255,255,255,.6); line-height:1.35; margin:0 0 8px; }
+.qn-psave__t{ display:flex; align-items:center; gap:8px; font-size:14px; font-weight:800; color:#4be58c; margin:0 0 12px; line-height:1.3; }
+.qn-psave__t .qn-psave__ic{ color:#4be58c; }
+.qn-psave__t .qn-hl{ color:#7bffb3; font-weight:900; }
+.qn-psave__i{ display:flex; align-items:flex-start; gap:8px; font-size:12.5px; color:rgba(255,255,255,.72); line-height:1.4; margin:0 0 9px; }
 .qn-psave__i:last-child{ margin-bottom:0; }
-.qn-psave__ic{ flex:0 0 16px; width:16px; height:16px; display:grid; place-items:center; color:rgba(255,255,255,.42); margin-top:1px; }
+/* the important number inside each savings line — bright white so it pops */
+.qn-psave__i .qn-hl{ color:#fff; font-weight:800; }
+.qn-psave__ic{ flex:0 0 16px; width:16px; height:16px; display:grid; place-items:center; color:#7fcdf2; margin-top:1px; }
 .qn-psave__ic svg{ width:15px; height:15px; display:block; }
+/* generic highlight in plan feature lists (Unlimited / counts) */
+.qn-pplan ul .qn-hl{ color:#fff; font-weight:800; }
 /* ===== per-cycle variant swap — monthly is the default (JS-off safe) ===== */
 .qn-pplan__pv,.qn-pplan__cv{ display:none; }
 .qn-pplan__pv--mo,.qn-pplan__cv--mo{ display:inline; }
 .qn-poffer[data-cycle="yr"] .qn-pplan__pv--mo,.qn-poffer[data-cycle="yr"] .qn-pplan__cv--mo{ display:none; }
 .qn-poffer[data-cycle="yr"] .qn-pplan__pv--yr,.qn-poffer[data-cycle="yr"] .qn-pplan__cv--yr{ display:inline; }
+/* block-level per-cycle wrappers (savings item lists) */
+.qn-pplan__cvb{ display:none; }
+.qn-pplan__cvb--mo{ display:block; }
+.qn-poffer[data-cycle="yr"] .qn-pplan__cvb--mo{ display:none; }
+.qn-poffer[data-cycle="yr"] .qn-pplan__cvb--yr{ display:block; }
 .qn-pplan__per{ font-size:13px; color:rgba(255,255,255,.5); font-weight:600; }
 /* ===== compact 4-perk list (override existing 3-perk sizing so 4 rows + savings never overflow) ===== */
 .qn-pplan ul{ margin:11px 0 13px; }
@@ -4576,37 +4588,47 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
       };
       var PLANS=[
         {k:'Base',best:false,pm:'$15',py:'$162',disc:'5%',
-          cm:'3 free consultations / mo',cy:'36 free consultations / yr',
-          perks:['Unlimited document templates','Enhanced 24/7 AI assistant'],
-          saveTotal:'from $60/mo',
-          save:[['consult','Consultations — save up to $30/mo'],['tpl','Unlimited templates — save from $18/mo'],['pct','5% off all services — save from $12/mo']]},
+          cm:'Free brief consultations: <b class="qn-hl">3</b>',
+          cy:'Free brief consultations: <b class="qn-hl">36</b>',
+          perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Enhanced 24/7 AI Assistant'],
+          saveTotalMo:'up to <b class="qn-hl">$1,300</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$1,300</b>/mo!',
+          saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$150</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$150</b>'],['pct','Up to 5% off services — save up to <b class="qn-hl">$1,000</b>']],
+          saveYr:[['consult','Free consultations — save up to <b class="qn-hl">$150</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$150</b>/mo'],['pct','5% off services — save up to <b class="qn-hl">$1,000</b>/mo']]},
         {k:'Pro',best:true,pm:'$50',py:'$540',disc:'10%',
-          cm:'12 free consultations / mo',cy:'144 free consultations / yr',
-          perks:['Unlimited document templates','Personal manager + priority'],
-          saveTotal:'from $185/mo',
-          save:[['consult','Consultations — save up to $120/mo'],['tpl','Unlimited templates — save from $18/mo'],['pct','10% off all services — save from $47/mo']]},
+          cm:'Free brief consultations: <b class="qn-hl">12</b>',
+          cy:'Free brief consultations: <b class="qn-hl">144</b>',
+          perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Dedicated Customer Success Manager'],
+          saveTotalMo:'up to <b class="qn-hl">$4,200</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$4,200</b>/mo!',
+          saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$600</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$600</b>'],['pct','Up to 10% off services — save up to <b class="qn-hl">$3,000</b>']],
+          saveYr:[['consult','Free consultations — save up to <b class="qn-hl">$600</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$600</b>/mo'],['pct','10% off services — save up to <b class="qn-hl">$3,000</b>/mo']]},
         {k:'Premium',best:false,pm:'$300',py:'$3,240',disc:'20%',
-          cm:'Unlimited consultations',cy:'Unlimited consultations',
-          perks:['Unlimited document templates','VIP white-glove + TOP specialists'],
-          saveTotal:'from $430/mo',
-          save:[['consult','Unlimited consultations — save up to $280/mo'],['tpl','Unlimited templates — save from $18/mo'],['pct','20% off all services — save from $132/mo']]}
+          cm:'Free brief consultations: <b class="qn-hl">Unlimited</b>',
+          cy:'Free brief consultations: <b class="qn-hl">Unlimited</b>',
+          perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Dedicated VIP Account Manager','Premium access to top specialists'],
+          saveTotalMo:'up to <b class="qn-hl">$20,000</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$20,000</b>/mo!',
+          saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$2,000</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$2,000</b>'],['pct','Maximum 20% off services — save up to <b class="qn-hl">$16,000</b>']],
+          saveYr:[['consult','Unlimited consultations — save up to <b class="qn-hl">$2,000</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$2,000</b>/mo'],['pct','Maximum 20% off services — save up to <b class="qn-hl">$16,000</b>/mo']]}
       ];
       /* First <li> is the per-cycle consultations line (--mo/--yr spans). Price + savings render both cycle
          variants; CSS shows the active one via .qn-poffer[data-cycle]. Monthly is the JS-off-safe default. */
+      function saveBlock(items){ return items.map(function(s){ return '<div class="qn-psave__i"><span class="qn-psave__ic">'+(SAVE_IC[s[0]]||'')+'</span><span>'+s[1]+'</span></div>'; }).join(''); }
       var plansHtml=PLANS.map(function(p){
         var consLi='<li>'+OK+'<span><span class="qn-pplan__cv qn-pplan__cv--mo">'+p.cm+'</span><span class="qn-pplan__cv qn-pplan__cv--yr">'+p.cy+'</span></span></li>';
         var perksLi=p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('');
-        var saveItems=p.save.map(function(s){ return '<div class="qn-psave__i"><span class="qn-psave__ic">'+(SAVE_IC[s[0]]||'')+'</span><span>'+s[1]+'</span></div>'; }).join('');
         return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'">'
           +(p.best?'<span class="qn-pplan__tag">BEST VALUE</span>':'')
-          +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-10%</span></div>'
+          +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-'+p.disc+'</span></div>'
           +'<div class="qn-pplan__price">'
             +'<span class="qn-pplan__pv qn-pplan__pv--mo">'+p.pm+'<span class="qn-pplan__per">/mo</span></span>'
             +'<span class="qn-pplan__pv qn-pplan__pv--yr">'+p.py+'<span class="qn-pplan__per">/yr</span></span>'
           +'</div>'
           +'<ul>'+consLi+perksLi+'</ul>'
-          +'<div class="qn-pplan__disc2"><span class="qn-psave__ic">'+SAVE_IC.pct+'</span>Up to '+p.disc+' off all services</div>'
-          +'<div class="qn-psave"><div class="qn-psave__t"><span class="qn-psave__ic">'+SAVE_IC.total+'</span>Total savings '+p.saveTotal+'</div>'+saveItems+'</div>'
+          +'<div class="qn-pplan__disc2"><span class="qn-psave__ic">'+SAVE_IC.pct+'</span>Up to <b class="qn-hl">'+p.disc+'</b> off all services</div>'
+          +'<div class="qn-psave">'
+            +'<div class="qn-psave__t"><span class="qn-psave__ic">'+SAVE_IC.total+'</span>Total savings of <span class="qn-pplan__cv qn-pplan__cv--mo">'+p.saveTotalMo+'</span><span class="qn-pplan__cv qn-pplan__cv--yr">'+p.saveTotalYr+'</span></div>'
+            +'<div class="qn-pplan__cvb qn-pplan__cvb--mo">'+saveBlock(p.saveMo)+'</div>'
+            +'<div class="qn-pplan__cvb qn-pplan__cvb--yr">'+saveBlock(p.saveYr)+'</div>'
+          +'</div>'
           +'<button class="qn-pplan__sel" type="button" data-plan="'+p.k+'" data-price-mo="'+p.pm+'" data-price-yr="'+p.py+'">Choose '+p.k+'</button></div>'; }).join('');
       var of=document.createElement('section'); of.className='qn-poffer'; of.hidden=true; of.setAttribute('data-cycle','mo');
       of.innerHTML='<div class="qn-poffer__card">'

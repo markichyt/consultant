@@ -1245,6 +1245,8 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-claim__main{ flex:1 1 380px; min-width:0; }
 .qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.4vw,28px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 10px; line-height:1.18; text-wrap:balance; }
 .qn-claim p{ margin:0; font-size:15px; line-height:1.45; color:rgba(255,255,255,.92); } .qn-claim .qn-star{ color:#FFD337; } .qn-claim p b{ color:#fff; font-weight:700; }
+.qn-claim__count{ margin:12px 0 0; font-size:13.5px; line-height:1.3; color:rgba(255,255,255,.82); }
+.qn-claim__count b{ color:#fff; font-weight:800; font-size:15px; font-variant-numeric:tabular-nums; }
 .qn-claim__btn{ flex:0 0 auto; align-self:center; white-space:nowrap; background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:15px 30px; font:inherit; font-weight:800; font-size:15.5px; cursor:pointer; box-shadow:0 10px 26px rgba(8,40,60,.18); transition:background .15s,transform .1s; }
 .qn-claim__btn:hover{ background:#eef7fc; transform:translateY(-1px); }
 @media(max-width:760px){ .qn-claim{ flex-direction:column; align-items:stretch; justify-content:flex-start; gap:16px; padding:24px 22px; }
@@ -1393,9 +1395,9 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-msg{ flex:0 0 48px; width:48px; border-radius:3px; display:grid; place-items:center; text-decoration:none; transition:filter .15s ease; }
 .qn-msg:hover{ filter:brightness(1.12); }
 .qn-msg svg{ width:22px; height:22px; fill:#fff; display:block; }
-.qn-callback{ flex:1 1 auto; width:auto; background:#1f9cdf; color:#fff; border:0; border-radius:3px;
+.qn-callback{ flex:1 1 auto; width:auto; background:#6b727b; color:#fff; border:0; border-radius:3px;
   padding:12px 14px; font:inherit; font-weight:700; font-size:14px; cursor:pointer; }
-.qn-callback:hover{ background:#1789c5; }
+.qn-callback:hover{ background:#565c64; }
 .qn-callback.is-dim{ opacity:.5; }
 /* old-chat layout: phone pill centered on its own row, then [Telegram] + blue Call me back */
 .qn-crow--phone{ justify-content:center; }
@@ -1468,7 +1470,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .qa-aside .qa-chat__log{ background:transparent !important; min-height:360px !important; }
 .text-section .qa-aside .qa-msg{ font-size:15px !important; line-height:1.5 !important; padding:11px 13px !important; border-radius:3px !important; }
 .text-section .qa-aside .qa-msg--bot{ background:rgba(255,255,255,.08) !important; color:#e6e7e9 !important; border:0 !important; }
-.text-section .qa-aside .qa-msg--user{ background:#1f9cdf !important; color:#fff !important; border:0 !important; }
+.text-section .qa-aside .qa-msg--user{ background:#6b727b !important; color:#fff !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--sys{ display:none !important; }
 .text-section .qa-aside .qa-typing{ background:rgba(255,255,255,.08) !important; border:0 !important; }
 .text-section .qa-aside .qa-typing span{ background:#8a8e94 !important; }
@@ -1859,10 +1861,21 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-umodal__arrow svg{ width:22px; height:30px; }
 .qn-umodal__p b{ color:rgba(255,255,255,.92); font-weight:800; }
 .qn-umodal__share{ display:flex; gap:11px; flex-wrap:wrap; justify-content:center; max-width:183px; margin:0 auto; }  /* 3 per row -> 2 rows for 6 tiles */
+/* social-proof: total number of people who already shared the page */
+.qn-umodal__count{ margin:15px 0 0; font-family:"Avenir Next Cyr",sans-serif; font-size:13px; color:rgba(255,255,255,.5); }
+.qn-umodal__count b{ color:#fff; font-weight:800; font-variant-numeric:tabular-nums; }
 .qn-umodal__sh{ width:50px; height:50px; padding:0; display:block; border:0; cursor:pointer; text-decoration:none; border-radius:11px; background:none;
   transition:transform .12s,filter .12s; box-shadow:0 6px 18px rgba(0,0,0,.32); }
 .qn-umodal__sh:hover{ transform:translateY(-2px); filter:brightness(1.06); }
 .qn-umodal__sh svg{ width:100%; height:100%; display:block; }
+/* after a share the panel turns into a scrollable question form (fields taken from the order screen) */
+.qn-umodal__panel.is-form{ align-items:stretch; justify-content:flex-start; text-align:left;
+  overflow-y:auto; gap:0; padding:clamp(24px,3.2vw,36px) clamp(22px,3.4vw,40px); }
+.qn-umodal__panel.is-form .qn-order{ width:100%; max-width:430px; margin:0 auto; }
+.qn-umodal__panel.is-form .qn-order__btn{ background:#1f9cdf; }
+.qn-umodal__panel.is-form .qn-order__btn:hover{ background:#1789c5; }
+.qn-umodal__panel.is-form::-webkit-scrollbar{ width:8px; }
+.qn-umodal__panel.is-form::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.16); border-radius:3px; }
 /* app-store badges (used by the "Get 20% off -> register" modal) */
 .qn-umodal__apps{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
 .qn-umodal__apps a{ display:block; line-height:0; transition:transform .12s,filter .12s; }
@@ -2086,12 +2099,13 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-contacts .qn-phone__i{ flex:0 0 22px !important; width:22px !important; height:22px !important; border-radius:50%; display:grid; place-items:center; background:rgba(31,156,223,.16) !important; color:#7fcdf2; }
 .qn-contacts .qn-phone__i svg{ width:12px !important; height:12px !important; display:block; fill:currentColor; stroke:currentColor; }
 .qn-contacts .qn-phone__n{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0; font-variant-numeric:tabular-nums; }
+/* Call me back — styled to match the phone chip (translucent white pill + circular blue-tinted icon) */
 .qn-contacts .qn-callback{ order:3 !important; flex:1 1 calc(50% - 4px) !important; box-sizing:border-box; height:40px; width:auto !important; display:inline-flex; align-items:center; justify-content:center; gap:7px;
-  border:1px solid #1f9cdf; border-radius:3px; padding:0 12px !important; font:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
-  background:#1f9cdf; color:#fff; transition:background .15s ease, transform .15s ease; }
-.qn-contacts .qn-callback__i{ flex:0 0 auto; display:grid; place-items:center; color:#fff; }
-.qn-contacts .qn-callback__i svg{ width:16px; height:16px; display:block; }
-.qn-contacts .qn-callback:hover{ background:#1789c5; border-color:#1789c5; transform:translateY(-1px); }
+  border:1px solid rgba(255,255,255,.09); border-radius:3px; padding:0 10px !important; font:inherit; font-size:12px; font-weight:600; letter-spacing:0; line-height:1; cursor:pointer;
+  background:rgba(255,255,255,.055); color:#eef4f8; transition:background .15s ease, border-color .15s ease, transform .15s ease; }
+.qn-contacts .qn-callback__i{ flex:0 0 22px; width:22px; height:22px; border-radius:50%; display:grid; place-items:center; background:rgba(31,156,223,.16); color:#7fcdf2; }
+.qn-contacts .qn-callback__i svg{ width:12px; height:12px; display:block; }
+.qn-contacts .qn-callback:hover{ background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.16); transform:translateY(-1px); }
 .qn-contacts .qn-callback.is-dim{ opacity:.5; }
 @media(max-width:320px){ .qn-contacts .qn-phones,.qn-contacts .qn-callback{ flex:1 1 100% !important; } }
 /* ===== watermark section titles ("IT COULD BE INTERESTING" / "RECEIVE A SERVICE"):
@@ -4716,7 +4730,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         {k:'Base',best:false,pm:'$15',py:'$162',disc:'5%',yrSave:'$18',
           cm:'Free brief consultations: <b class="qn-hl">3</b>',
           cy:'Free brief consultations: <b class="qn-hl">36</b>',
-          perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Enhanced 24/7 AI Assistant'],
+          perks:['Access to document templates: <b class="qn-hl">Limited</b>','Enhanced 24/7 AI Assistant'],
           saveTotalMo:'up to <b class="qn-hl">$1,300</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$1,300</b>/mo!',
           saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$150</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$150</b>'],['pct','Up to 5% off services — save up to <b class="qn-hl">$1,000</b>']],
           saveYr:[['consult','Free consultations — save up to <b class="qn-hl">$150</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$150</b>/mo'],['pct','5% off services — save up to <b class="qn-hl">$1,000</b>/mo']]},
@@ -4730,7 +4744,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         {k:'Premium',best:false,pm:'$300',py:'$3,240',disc:'20%',yrSave:'$360',
           cm:'Free brief consultations: <b class="qn-hl">Unlimited</b>',
           cy:'Free brief consultations: <b class="qn-hl">Unlimited</b>',
-          perks:['Access to document templates: <b class="qn-hl">Unlimited</b>','Dedicated VIP Account Manager','Premium access to top specialists'],
+          perks:['Access to document templates: <b class="qn-hl">Unlimited+</b>','Dedicated VIP Account Manager','Premium access to top specialists'],
           saveTotalMo:'up to <b class="qn-hl">$20,000</b>/mo!', saveTotalYr:'up to <b class="qn-hl">$20,000</b>/mo!',
           saveMo:[['consult','Free consultations — save up to <b class="qn-hl">$2,000</b>'],['tpl','Unlimited templates — save up to <b class="qn-hl">$2,000</b>'],['pct','Maximum 20% off services — save up to <b class="qn-hl">$16,000</b>']],
           saveYr:[['consult','Unlimited consultations — save up to <b class="qn-hl">$2,000</b>/mo'],['tpl','Unlimited templates — save up to <b class="qn-hl">$2,000</b>/mo'],['pct','Maximum 20% off services — save up to <b class="qn-hl">$16,000</b>/mo']]}
@@ -4743,7 +4757,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var perksLi=p.perks.map(function(x){return '<li>'+OK+'<span>'+x+'</span></li>';}).join('');
         return '<div class="qn-pplan'+(p.best?' qn-pplan--best':'')+'" data-tier="'+p.k+'">'
           +(p.best?'<span class="qn-pplan__tag">BEST VALUE</span>':'')
-          +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-'+p.disc+' or -'+p.yrSave+'/year</span></div>'
+          +'<div class="qn-pplan__hd"><div class="qn-pplan__name">'+p.k+'</div><span class="qn-pplan__disc">-10%</span></div>'
           +'<div class="qn-pplan__price">'
             +'<span class="qn-pplan__pv qn-pplan__pv--mo">'+p.pm+'<span class="qn-pplan__per">/mo</span></span>'
             +'<span class="qn-pplan__pv qn-pplan__pv--yr">'+p.py+'<span class="qn-pplan__per">/year</span></span>'
@@ -4777,7 +4791,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
           +'<div class="qn-poffer__h">Choose your plan</div>'
           +'<div class="qn-pcycle" role="group" aria-label="Billing period">'
             +'<button class="qn-pcycle__b is-on" type="button" data-cycle="mo" aria-pressed="true">Monthly</button>'
-            +'<button class="qn-pcycle__b" type="button" data-cycle="yr" aria-pressed="false">Annual<small>2 months free</small></button>'
+            +'<button class="qn-pcycle__b" type="button" data-cycle="yr" aria-pressed="false">Annual</button>'
           +'</div>'
           +'<div class="qn-pnote">You can use the subscription features only in the Consultant app.</div>'
           +'<div class="qn-pplans">'+plansHtml+'</div>'
@@ -5019,20 +5033,11 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var iw = ibtn ? (ibtn.parentElement||ibtn) : null;
         if(iw){ iw.classList.add('qn-i'); iw.style.cursor='pointer'; iw.addEventListener('click',toggleProf); }
         else { cbtn.style.display='block'; }
-        /* add a short "about" line + a 3-dots (⋯) trigger next to the name/info; ⋯ opens the same popover */
+        /* the "About the consultant" button was removed — the "i" button (above) is now the sole
+           trigger that opens the description popover */
         var infoBox=c.querySelector('.balance-card__box');
-        var bcard=c.querySelector('.balance-card');
-        var more=null;
-        /* append to the CARD (not the vertically-centred box) so it can be pinned to the card
-           bottom-left, level with the "i" button */
-        if(bcard && infoBox && !bcard.querySelector('.qn-cardmore')){
-          more=document.createElement('button'); more.type='button'; more.className='qn-cardmore'; more.setAttribute('aria-label','About the consultant');
-          more.innerHTML='<span class="qn-cardmore__txt">About the consultant</span><span class="qn-cardmore__dots" aria-hidden="true">\u22ef</span>';
-          more.addEventListener('click',toggleProf);
-          bcard.appendChild(more);
-        }
         /* close the popover on outside click */
-        document.addEventListener('click',function(ev){ if(!prof.hidden && !prof.contains(ev.target) && (!iw||!iw.contains(ev.target)) && (!infoBox||!infoBox.contains(ev.target)) && (!more||!more.contains(ev.target))) prof.hidden=true; });
+        document.addEventListener('click',function(ev){ if(!prof.hidden && !prof.contains(ev.target) && (!iw||!iw.contains(ev.target)) && (!infoBox||!infoBox.contains(ev.target))) prof.hidden=true; });
       }
       var ans=c.querySelector('.card-answer');
       if(ans){
@@ -5328,15 +5333,105 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
             +'<p class="qn-umodal__p">Share this article with friends and get a <b>free consultation</b> from a verified lawyer.</p>'
             +'<span class="qn-umodal__arrow">'+ARR+'</span>'
             +'<div class="qn-umodal__share">'+tiles+'</div>'
+            +'<div class="qn-umodal__count" aria-live="polite">Already shared by <b>280</b> people</div>'
           +'</div></div>';
         document.body.appendChild(ov);
+        /* animate the shared-count up to its target for a lively feel */
+        (function(){ var el=ov.querySelector('.qn-umodal__count b'); if(!el) return;
+          var target=280, n=target-90, step=Math.ceil(90/22);
+          var t=setInterval(function(){ n+=step; if(n>=target){ n=target; clearInterval(t); } el.textContent=n; },30); })();
         var hadOv=document.documentElement.style.overflow; document.documentElement.style.overflow='hidden';
         function close(){ ov.remove(); document.documentElement.style.overflow=hadOv; document.removeEventListener('keydown',onkey); }
         function onkey(e){ if(e.key==='Escape'||e.keyCode===27) close(); }
         ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
         ov.querySelector('.qn-umodal__x').addEventListener('click',close);
+
+        /* ----- after sharing: swap the panel to the question form (fields from the order screen) ----- */
+        var panel=ov.querySelector('.qn-umodal__panel');
+        var FLAG_US='<svg class="qn-order__flag" viewBox="0 0 24 16" preserveAspectRatio="none" aria-hidden="true"><rect width="24" height="16" fill="#fff"/><g fill="#b22234"><rect width="24" height="1.78"/><rect y="3.55" width="24" height="1.78"/><rect y="7.1" width="24" height="1.78"/><rect y="10.65" width="24" height="1.78"/><rect y="14.2" width="24" height="1.78"/></g><rect width="10" height="8.9" fill="#3c3b6e"/></svg>';
+        function askFormHTML(){
+          return '<div class="qn-order">'
+            +'<div class="qn-order__h">Complete your order</div>'
+            +'<div class="qn-pnote qn-pnote--order">Your answers will be available in the Consultant app or sent to your email.</div>'
+            +'<div class="qn-order__grid2">'
+              +'<label class="qn-order__f" data-req><input type="text" placeholder="Last name *" autocomplete="family-name"></label>'
+              +'<label class="qn-order__f" data-req><input type="text" placeholder="First name *" autocomplete="given-name"></label>'
+            +'</div>'
+            +'<div class="qn-order__grid2">'
+              +'<label class="qn-order__f qn-order__f--phone" data-req><span class="qn-order__cc">'+FLAG_US+' +1</span><input type="tel" inputmode="tel" placeholder="(555) 000-0000 *" autocomplete="tel"></label>'
+              +'<label class="qn-order__f" data-req><input type="email" placeholder="Email *" autocomplete="email"></label>'
+            +'</div>'
+            +'<div class="qn-order__f qn-order__f--sel qn-dd" data-value="" data-req>'
+              +'<button type="button" class="qn-dd__btn"><span class="qn-dd__val">Choose payment option *</span></button>'
+              +'<ul class="qn-dd__list" hidden>'
+                +'<li class="qn-dd__opt" data-val="Pay in full">Pay in full</li>'
+                +'<li class="qn-dd__opt" data-val="Pay in 2 installments">Pay in 2 installments</li>'
+                +'<li class="qn-dd__opt" data-val="Pay in 4 installments">Pay in 4 installments</li>'
+              +'</ul></div>'
+            +'<div class="qn-order__f qn-order__f--sel qn-dd qn-dd--city" data-value="" data-req>'
+              +'<input class="qn-dd__inp" type="text" placeholder="City *" autocomplete="off" spellcheck="false">'
+              +'<ul class="qn-dd__list" hidden></ul></div>'
+            +'<label class="qn-order__f qn-order__f--cnt" data-req><input type="text" maxlength="100" placeholder="Title *"><span class="qn-order__cnt">0/100</span></label>'
+            +'<label class="qn-order__f qn-order__f--cnt" data-req><textarea rows="3" maxlength="500" placeholder="Your question *"></textarea><span class="qn-order__cnt">0/500</span></label>'
+            +'<div class="qn-order__err" hidden></div>'
+            +'<button class="qn-order__btn qn-umask__btn" type="button">Ask a question</button>'
+          +'</div>';
+        }
+        function fieldFilled(f){ if(f.classList.contains('qn-dd')) return !!(f.getAttribute('data-value')||'').trim();
+          var el=f.querySelector('input,textarea,select'); return !!(el && (el.value||'').trim()); }
+        function wireForm(root){
+          function closeDD(){ [].forEach.call(root.querySelectorAll('.qn-dd__list'),function(l){ l.hidden=true; });
+            [].forEach.call(root.querySelectorAll('.qn-dd'),function(d){ d.classList.remove('is-open'); }); }
+          /* payment-option dropdown */
+          [].forEach.call(root.querySelectorAll('.qn-dd:not(.qn-dd--city)'),function(dd){
+            var btn=dd.querySelector('.qn-dd__btn'), list=dd.querySelector('.qn-dd__list'), val=dd.querySelector('.qn-dd__val');
+            btn.addEventListener('click',function(e){ e.stopPropagation(); var willOpen=list.hidden; closeDD(); if(willOpen){ list.hidden=false; dd.classList.add('is-open'); } });
+            [].forEach.call(dd.querySelectorAll('.qn-dd__opt'),function(op){ op.addEventListener('click',function(e){ e.stopPropagation();
+              val.textContent=op.getAttribute('data-val'); dd.classList.add('is-set'); dd.setAttribute('data-value',op.getAttribute('data-val')); dd.classList.remove('is-invalid');
+              [].forEach.call(dd.querySelectorAll('.qn-dd__opt'),function(o){ o.classList.remove('is-on'); }); op.classList.add('is-on'); closeDD(); }); });
+          });
+          /* city type-to-filter dropdown */
+          [].forEach.call(root.querySelectorAll('.qn-dd--city'),function(dd){
+            var inp=dd.querySelector('.qn-dd__inp'), list=dd.querySelector('.qn-dd__list');
+            function render(q){ q=(q||'').trim().toLowerCase(); list.innerHTML='';
+              if(!q){ list.hidden=true; dd.classList.remove('is-open'); return; }
+              var hits=CITIES.filter(function(c){ return c.toLowerCase().indexOf(q)===0; });
+              if(!hits.length) hits=CITIES.filter(function(c){ return c.toLowerCase().indexOf(q)!==-1; });
+              if(!hits.length){ list.innerHTML='<li class="qn-dd__none">No matching city</li>'; list.hidden=false; dd.classList.add('is-open'); return; }
+              hits.slice(0,8).forEach(function(c){ var li=document.createElement('li'); li.className='qn-dd__opt'; li.setAttribute('data-val',c); li.textContent=c; list.appendChild(li); });
+              list.hidden=false; dd.classList.add('is-open'); }
+            function commit(c){ inp.value=c; dd.setAttribute('data-value',c); dd.classList.add('is-set'); dd.classList.remove('is-invalid'); list.hidden=true; dd.classList.remove('is-open'); }
+            inp.addEventListener('input',function(){ dd.setAttribute('data-value',''); dd.classList.remove('is-set'); render(inp.value); });
+            inp.addEventListener('focus',function(){ if(inp.value && !dd.getAttribute('data-value')) render(inp.value); });
+            inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); var first=list.querySelector('.qn-dd__opt'); if(first) commit(first.getAttribute('data-val')); } });
+            list.addEventListener('click',function(e){ var op=e.target.closest('.qn-dd__opt'); if(op) commit(op.getAttribute('data-val')); });
+            inp.addEventListener('blur',function(){ setTimeout(function(){ if(!dd.getAttribute('data-value')){ inp.value=''; } list.hidden=true; dd.classList.remove('is-open'); },140); });
+          });
+          root.addEventListener('click',function(e){ if(!(e.target.closest&&e.target.closest('.qn-dd'))) closeDD(); });
+          /* live char counters + clear invalid on fix */
+          root.addEventListener('input',function(e){ var f=e.target;
+            if(f && f.parentNode && f.parentNode.classList && f.parentNode.classList.contains('qn-order__f--cnt')){
+              var c=f.parentNode.querySelector('.qn-order__cnt'); if(c) c.textContent=(f.value.length)+'/'+(f.getAttribute('maxlength')||''); }
+            var rf=e.target.closest && e.target.closest('[data-req]'); if(rf && fieldFilled(rf)) rf.classList.remove('is-invalid'); });
+          /* submit -> validate -> thank-you */
+          var submit=root.querySelector('.qn-umask__btn');
+          submit.addEventListener('click',function(){ var bad=0, first=null;
+            [].forEach.call(root.querySelectorAll('[data-req]'),function(f){ if(f.offsetParent===null) return; var ok=fieldFilled(f); f.classList.toggle('is-invalid',!ok); if(!ok){ bad++; if(!first) first=f; } });
+            var err=root.querySelector('.qn-order__err');
+            if(bad){ if(err){ err.textContent='Please fill in all required fields ('+bad+' left).'; err.hidden=false; } if(first){ var inp=first.querySelector('input,textarea'); if(inp){ try{ inp.focus(); }catch(e){} } } return; }
+            if(err) err.hidden=true; showDone(); });
+        }
+        function showDone(){ panel.classList.add('is-form');
+          panel.innerHTML='<div class="qn-order" style="margin:auto 0;text-align:center">'
+            +'<div class="qn-done__check" style="margin:0 auto 10px"><svg viewBox="0 0 24 24" fill="none" stroke="#3ddc84" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12.5l2.5 2.5L16 9" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+            +'<div class="qn-order__h" style="text-align:center;margin:0 0 10px">Thank you for your question!</div>'
+            +'<p class="qn-done__p" style="margin:0 auto 20px">Your written legal opinion will be sent to your email. You can also download the Consultant app to view your answer and ask new questions anytime.</p>'
+            +'<button class="qn-order__btn qn-umclose__btn" type="button">Close</button></div>';
+          var cb=panel.querySelector('.qn-umclose__btn'); if(cb) cb.addEventListener('click',close); }
+        var entered=false;
+        function enterForm(){ if(entered) return; entered=true; panel.classList.add('is-form'); panel.innerHTML=askFormHTML(); wireForm(panel); }
         [].forEach.call(ov.querySelectorAll('.qn-umodal__sh'),function(el){
-          el.addEventListener('click',function(){ setTimeout(close,180); }); });   /* share opens in a new tab, then close */
+          el.addEventListener('click',function(){ enterForm(); }); });   /* share opens in a new tab, then the question form is revealed */
         document.addEventListener('keydown',onkey);
       }
 
@@ -5345,8 +5440,11 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var cl=document.createElement('section'); cl.className='qn-claim';
         cl.innerHTML='<div class="qn-claim__main">'
           +'<h3>Want to ask a question for free?</h3>'
-          +'<p>Share this article &mdash; and ask your question right now.</p></div>'
+          +'<p>Share this article &mdash; and ask your question right now.</p>'
+          +'<div class="qn-claim__count" aria-live="polite"><b>280</b> people have already shared this page</div></div>'
           +'<button class="qn-claim__btn" type="button">Ask a question for free \u2192</button>';
+        (function(){ var el=cl.querySelector('.qn-claim__count b'); if(el){ var target=280, n=target-90, step=Math.ceil(90/22);
+          var t=setInterval(function(){ n+=step; if(n>=target){ n=target; clearInterval(t); } el.textContent=n; },30); } })();
         var shareBar=document.querySelector('.share-list.content-hero__share');
         var anchor=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
         if(anchor){ anchor.parentNode.insertBefore(cl, anchor); }
@@ -5396,7 +5494,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
       f.innerHTML='<div class="qn-legal__head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 19.3 5 15.4 5 11V6l7-3z" stroke-linejoin="round"/><path d="M9.3 11.8l1.8 1.8 3.7-3.9" stroke-linecap="round" stroke-linejoin="round"/></svg><h4>Legal disclaimer</h4></div>'+
-        '<p>Consultant is an online marketplace that connects people with independent licensed attorneys. We do not provide legal advice or legal services, and no attorney-client relationship is created through this platform.</p>'+
+        '<p>Consultant Legal Marketplace is an online marketplace that connects people with independent licensed attorneys. We do not provide legal advice or legal services, and no attorney-client relationship is created through this platform.</p>'+
         '<p>The answers you see are general information shared by verified specialists. They are not a substitute for personalized legal advice from a licensed attorney in your state. Laws vary by jurisdiction &mdash; please consult a qualified lawyer about your specific situation.</p>';
       /* place the disclaimer right after the last answer card */
       var allc=document.querySelectorAll('.text-section .text-card');

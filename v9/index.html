@@ -1243,9 +1243,6 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   width:120px !important; height:120px !important; box-sizing:border-box !important; flex:0 0 120px !important; overflow:hidden !important; }
 .text-section .text-card .balance-card.start .balance-card__image img,
 .text-section .text-card .balance-card.start .balance-card__image picture{ width:100% !important; height:100% !important; object-fit:cover !important; }
-/* AI-answer avatar: robot glyph on brand blue (replaces the human photo, JS adds .qn-airobot) */
-.text-section .text-card .balance-card.start .balance-card__image.qn-airobot{ background:#1397d6 !important; border-color:#1397d6 !important; display:grid !important; place-items:center !important; }
-.text-section .text-card .balance-card.start .balance-card__image.qn-airobot svg{ width:66% !important; height:66% !important; display:block !important; }
 .text-section .text-card .balance-card.start .balance-card__inner{ position:absolute !important; left:160px !important; right:48px !important; top:50% !important; transform:translateY(-50%) !important; margin:0 !important; z-index:2 !important; }
 .text-section .text-card .balance-card.start .balance-card__status{ color:#e7a017 !important; }
 .text-section .text-card .balance-card.start .balance-card__rating{ color:#000 !important; border-left-color:rgba(0,0,0,.16) !important; }
@@ -3049,7 +3046,7 @@ If officers reasonably relied on information that appeared accurate at the time,
     <div class="balance-card__top">
         <picture class="balance-card__image">
             
-            <img loading="lazy" src="../assets/kira.jpg" alt="Assistant Emily" width="120" height="120">
+            <img loading="lazy" src="../assets/Emily.jpg" alt="Assistant Emily" width="120" height="120">
         </picture>
         <div class="balance-card__inner">
             <a href="https://consultantlm.com/consultant/assistant-grok-ai-1" class="balance-card__name">Assistant Emily</a>
@@ -4726,22 +4723,6 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     }catch(e){}
 
     var cards=[].slice.call(document.querySelectorAll('.text-section .text-card'));
-
-    /* ----- AI-answer cards: replace the human-style photo with a clearly non-human robot avatar
-       (Google impersonation policy — an AI answer must not look like a real lawyer). The BASE/"start"
-       cards are the AI ones; real lawyers use the PRO card. These cards are sx-gen (async), so a
-       MutationObserver re-applies the robot if the native code re-renders the card. ----- */
-    (function(){
-      var AI_AVA="<svg viewBox=\"0 0 48 48\" fill=\"none\" aria-hidden=\"true\"><circle cx=\"24\" cy=\"6.4\" r=\"2.7\" fill=\"#fff\"/><rect x=\"22.7\" y=\"8.4\" width=\"2.6\" height=\"4.8\" rx=\"1.3\" fill=\"#fff\"/><rect x=\"6.6\" y=\"20\" width=\"3.4\" height=\"8.4\" rx=\"1.7\" fill=\"#fff\"/><rect x=\"38\" y=\"20\" width=\"3.4\" height=\"8.4\" rx=\"1.7\" fill=\"#fff\"/><rect x=\"10.5\" y=\"12.8\" width=\"27\" height=\"22.4\" rx=\"7\" fill=\"#fff\"/><circle cx=\"18.6\" cy=\"23.4\" r=\"3.2\" fill=\"#1397d6\"/><circle cx=\"29.4\" cy=\"23.4\" r=\"3.2\" fill=\"#1397d6\"/><rect x=\"17.4\" y=\"29.6\" width=\"13.2\" height=\"2.7\" rx=\"1.35\" fill=\"#1397d6\"/></svg>";
-      function robotify(el){ if(!el || el.querySelector('svg')) return; el.classList.add('qn-airobot'); el.innerHTML=AI_AVA; }
-      function applyRobots(){ [].forEach.call(document.querySelectorAll('.text-section .text-card .balance-card.start .balance-card__image'), robotify); }
-      applyRobots();
-      /* the "start" tier class is added to the AI cards asynchronously by the native code (an ATTRIBUTE
-         change, not childList) — watch attributes too, plus timeout fallbacks so it always lands. */
-      var root=document.querySelector('.text-section')||document.body;
-      try{ new MutationObserver(applyRobots).observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['class']}); }catch(e){}
-      [300,900,1800].forEach(function(ms){ setTimeout(applyRobots, ms); });
-    })();
 
     /* ----- BEST ANSWER: top-rated real LAWYER card -> raise to top + badge ----- */
     if(cards.length){

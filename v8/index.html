@@ -1272,8 +1272,6 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-claim__main{ flex:1 1 380px; min-width:0; }
 .qn-claim h3{ font-family:"Bicubik",sans-serif; font-weight:400; font-size:clamp(20px,2.4vw,28px); letter-spacing:.03em; text-transform:uppercase; margin:0 0 10px; line-height:1.18; text-wrap:balance; }
 .qn-claim p{ margin:0; font-size:15px; line-height:1.45; color:rgba(255,255,255,.92); } .qn-claim .qn-star{ color:#FFD337; } .qn-claim p b{ color:#fff; font-weight:700; }
-.qn-claim__count{ margin:12px 0 0; font-size:13.5px; line-height:1.3; color:rgba(255,255,255,.82); }
-.qn-claim__count b{ color:#fff; font-weight:800; font-size:15px; font-variant-numeric:tabular-nums; }
 .qn-claim__btn{ flex:0 0 auto; align-self:center; white-space:nowrap; background:#fff; color:#0f7cb3; border:0; border-radius:3px; padding:15px 30px; font:inherit; font-weight:800; font-size:15.5px; cursor:pointer; box-shadow:0 10px 26px rgba(8,40,60,.18); transition:background .15s,transform .1s; }
 .qn-claim__btn:hover{ background:#eef7fc; transform:translateY(-1px); }
 @media(max-width:760px){ .qn-claim{ flex-direction:column; align-items:stretch; justify-content:flex-start; gap:16px; padding:24px 22px; }
@@ -5494,11 +5492,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         var cl=document.createElement('section'); cl.className='qn-claim';
         cl.innerHTML='<div class="qn-claim__main">'
           +'<h3>Want to ask a question for free?</h3>'
-          +'<p>Share this article &mdash; and ask your question right now.</p>'
-          +'<div class="qn-claim__count" aria-live="polite"><b>280</b> people have already shared this page</div></div>'
+          +'<p>Share this article &mdash; and ask your question right now.</p></div>'
           +'<button class="qn-claim__btn" type="button">Ask a question for free \u2192</button>';
-        (function(){ var el=cl.querySelector('.qn-claim__count b'); if(el){ var target=280, n=target-90, step=Math.ceil(90/22);
-          var t=setInterval(function(){ n+=step; if(n>=target){ n=target; clearInterval(t); } el.textContent=n; },30); } })();
         var shareBar=document.querySelector('.share-list.content-hero__share');
         var anchor=document.querySelector('.qn-related')||document.querySelector('.sx-faq')||document.querySelector('.sx-paa');
         if(anchor){ anchor.parentNode.insertBefore(cl, anchor); }

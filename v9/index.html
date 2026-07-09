@@ -1041,7 +1041,7 @@ html.qn-boot .qn-answeredby2, html.qn-boot .text-section .text-card{ opacity:0 !
 @media(max-width:991px){  .qn-titlebox{ --tbh:148px; } .qn-leadbox{ --lbh:149px; } } /* 768-991  */
 @media(max-width:767px){  .qn-titlebox{ --tbh:122px; } }                              /* 560-767  */
 @media(max-width:600px){  .qn-answeredby2{ --abh:144px; } }                           /* column   */
-@media(max-width:559px){  .qn-titlebox{ --tbh:96px; }   .qn-leadbox{ --lbh:163px; } } /* <560     */
+@media(max-width:559px){  .qn-titlebox{ --tbh:96px; }   .qn-leadbox{ --lbh:250px; } } /* <560 (taller, readable lead) */
 html.qn-boot .qn-titlebox{ height:var(--tbh); overflow:hidden; }
 html.qn-boot .qn-leadbox{  height:var(--lbh); overflow:hidden; }
 html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh); overflow:hidden; }
@@ -1094,8 +1094,21 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .text-card .qn-cardmore__dots{ display:inline-flex; align-items:center; justify-content:center; width:22px; height:16px; border-radius:3px;
   background:rgba(255,255,255,.16); font-size:15px; line-height:1; letter-spacing:1px; }
 .text-section .text-card .balance-card.start .qn-cardmore__dots{ background:rgba(0,0,0,.08); }
-/* best-answer: subtle card highlight + a "★ Best answer" mark in the bottom bar (no background, before the rating) */
-.text-section .text-card.qn-isbest{ box-shadow:0 10px 26px rgba(20,40,60,.10) !important; }
+/* breathing room between the hero (question/answered-by/chips) and the first answer card —
+   the best-answer pill overhangs the card top, so without this it reads as glued to the header */
+.text-section .text-inner{ padding-top:clamp(24px,3vw,36px) !important; }
+/* best-answer: blue L-accent (stripe on the LEFT + BOTTOM) + a "notch" pill badge on the top edge */
+.text-section .text-card.qn-isbest{ position:relative !important; margin-top:15px !important; padding-top:26px !important;
+  border-left:4px solid #1397d6 !important; border-bottom:4px solid #1397d6 !important;
+  background:linear-gradient(#f4fbfe,#f4fbfe),#fff !important;
+  box-shadow:0 12px 30px rgba(19,151,214,.20) !important; border-radius:3px !important; }
+.text-section .text-card.qn-isbest .qn-bestband{ position:absolute; top:0; left:18px; transform:translateY(-50%); z-index:7;
+  display:inline-flex; align-items:center; gap:7px; padding:6px 13px; border-radius:3px;
+  background:#1397d6; color:#fff; box-shadow:0 4px 12px rgba(19,151,214,.4);
+  font-family:"Bicubik",sans-serif; font-size:12px; font-weight:400; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; }
+.text-section .text-card.qn-isbest .qn-bestband svg{ width:14px; height:14px; flex:0 0 14px; fill:#FFD337; }
+/* the pill already announces it -> drop the duplicate inline "BEST ANSWER" badge in the header */
+.text-section .text-card.qn-isbest .qn-abhead .qn-bestmark{ display:none !important; }
 .text-section .qa-cardbar .qn-bestmark{ display:inline-flex; align-items:center; gap:6px; margin-right:16px;
   font-family:"Bicubik",sans-serif; font-size:12px; font-weight:400; color:#b8860b; text-transform:uppercase; letter-spacing:.1em; white-space:nowrap; }
 .text-section .qa-cardbar .qn-bestmark svg{ width:14px; height:14px; fill:#FFD337; }
@@ -1162,6 +1175,11 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   .text-section .text-card .qn-wrap,
   .text-section .text-card > .sx-answrap{ order:0 !important; }
 }
+/* cap the card width ONLY on tablets (600–991px) so it doesn't balloon full-width with an empty
+   right half; phones (<600px) keep the full-width card */
+@media(max-width:991px) and (min-width:600px){
+  .text-section .text-card .qa-lawyer{ max-width:460px !important; }
+}
 /* --- card shell (361x200, radius 10, soft shadow) --- */
 .text-section .text-card .qa-lawyer .balance-card{ position:relative !important; height:200px !important; min-height:200px !important; max-height:200px !important;
   width:100% !important; max-width:100% !important; box-sizing:border-box !important; border-radius:3px !important; overflow:hidden !important;
@@ -1187,15 +1205,17 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 /* === PRO: dark card, photo on the right, name on the left === */
 .text-section .text-card .balance-card.pro{ background:#0b0e12 !important; }
 .text-section .text-card .balance-card.pro::before{ content:"" !important; position:absolute !important; inset:0 !important; z-index:3 !important; pointer-events:none !important;
-  background:linear-gradient(90deg, rgba(11,14,18,.95) 0%, rgba(11,14,18,.85) 34%, rgba(11,14,18,.35) 58%, rgba(11,14,18,0) 80%) !important; }
+  background:linear-gradient(90deg, rgba(11,14,18,.95) 0%, rgba(11,14,18,.82) 30%, rgba(11,14,18,.5) 52%, rgba(11,14,18,.2) 68%, rgba(11,14,18,0) 84%) !important; }
 .text-section .text-card .balance-card.pro .balance-card__bg{ display:block !important; position:absolute !important; inset:0 !important; z-index:0 !important; opacity:.42 !important; }
 .text-section .text-card .balance-card.pro .balance-card__bg img,
 .text-section .text-card .balance-card.pro .balance-card__bg source{ width:100% !important; height:100% !important; object-fit:cover !important; }
-.text-section .text-card .balance-card.pro .balance-card__user{ position:absolute !important; right:0 !important; top:0 !important; bottom:0 !important; left:auto !important; width:50% !important; height:100% !important; margin:0 !important; overflow:hidden !important; z-index:1 !important; }
+.text-section .text-card .balance-card.pro .balance-card__user{ position:absolute !important; right:0 !important; top:0 !important; bottom:0 !important; left:auto !important; width:58% !important; height:100% !important; margin:0 !important; overflow:hidden !important; z-index:1 !important;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 26%) !important; mask-image:linear-gradient(90deg, transparent 0%, #000 26%) !important; }
 .text-section .text-card .balance-card.pro .balance-card__user picture,
 .text-section .text-card .balance-card.pro .balance-card__user img{ width:100% !important; height:100% !important; max-height:none !important; object-fit:cover !important; object-position:center 12% !important; border-radius:0 !important; }
-/* soft feather on the photo's left edge only (no hard seam) — the full-card ::before does the main fade */
-.text-section .text-card .balance-card.pro .balance-card__user::after{ content:"" !important; position:absolute !important; inset:0 !important; background:linear-gradient(90deg, rgba(11,14,18,.55) 0%, rgba(11,14,18,0) 30%) !important; z-index:2 !important; }
+/* the photo's left edge is now feathered by a mask-image (fades into the dimmed bg flag), so no
+   extra darkening overlay is needed — this removes the residual vertical seam entirely */
+.text-section .text-card .balance-card.pro .balance-card__user::after{ content:none !important; }
 .text-section .text-card .balance-card.pro .balance-card__status{ color:#1397d6 !important; padding-top:6px !important; position:relative !important; }
 .text-section .text-card .balance-card.pro .balance-card__status::before{ content:"" !important; position:absolute !important; top:0 !important; left:0 !important; width:26px !important; height:2px !important; background:#1397d6 !important; }
 .text-section .text-card .balance-card.pro .balance-card__rating{ color:#fff !important; border-left-color:rgba(255,255,255,.25) !important; }
@@ -1214,6 +1234,13 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   width:88px !important; height:88px !important; margin:0 !important; border-radius:50% !important; overflow:hidden !important; z-index:2 !important; }
 .text-section .text-card .balance-card.start .balance-card__user picture,
 .text-section .text-card .balance-card.start .balance-card__user img{ width:100% !important; height:100% !important; max-height:none !important; object-fit:cover !important; border-radius:50% !important; }
+/* AI/start cards that use the native __top>__image layout (round photo drifts to the card bottom
+   because the native flex bottom-aligns it) — vertically center the avatar + name row */
+/* AI/start cards (native __top>__image layout): the round photo bottom-drifts because __top has
+   top-padding and doesn't fill the card. Pin the avatar + name absolutely, centered in the card. */
+.text-section .text-card .balance-card.start .balance-card__top{ padding:0 !important; }
+.text-section .text-card .balance-card.start .balance-card__image{ position:absolute !important; left:20px !important; top:50% !important; transform:translateY(-50%) !important; margin:0 !important; z-index:2 !important; }
+.text-section .text-card .balance-card.start .balance-card__inner{ position:absolute !important; left:158px !important; right:54px !important; top:50% !important; transform:translateY(-50%) !important; margin:0 !important; z-index:2 !important; }
 .text-section .text-card .balance-card.start .balance-card__status{ color:#e7a017 !important; }
 .text-section .text-card .balance-card.start .balance-card__rating{ color:#000 !important; border-left-color:rgba(0,0,0,.16) !important; }
 .text-section .text-card .balance-card.start .balance-card__box{ position:absolute !important; left:128px !important; right:54px !important; top:calc(50% + 9px) !important; bottom:auto !important; transform:translateY(-50%) !important;
@@ -1311,12 +1338,12 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-chip__stars{ color:#f0a82e; letter-spacing:1px; font-size:13px; }
 /* TABLET (600-880px): clean balanced 2x2 grid, equal centered cells (kills the ragged single row) */
 @media(max-width:880px) and (min-width:600px){
-  .qn-chips{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; max-width:520px; }
+  .qn-chips{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; max-width:100%; }
   .qn-chip{ width:auto; font-size:12.5px; } }
-/* PHONE (<=599px): single stacked column, content-sized & left-aligned (kills the 2+1+1 wrap, no empty side-bars) */
+/* PHONE (<=599px): full-width stacked chips, uniform width, content left-aligned (tidy even column) */
 @media(max-width:599px){
-  .qn-chips{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; max-width:100%; }
-  .qn-chip{ width:auto; font-size:12.5px; padding:8px 11px; } }
+  .qn-chips{ display:flex; flex-direction:column; align-items:stretch; gap:8px; max-width:100%; }
+  .qn-chip{ width:100%; justify-content:center; font-size:13px; padding:10px 13px; } }
 
 /* "Answered by N specialists" banner (screenshot 2 — light gradient card) */
 .qn-answeredby2{ display:flex; align-items:center; gap:20px; margin:0 0 24px; max-width:760px;
@@ -1472,6 +1499,11 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .text-section .qa-aside .qa-msg--bot{ background:rgba(255,255,255,.08) !important; color:#e6e7e9 !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--user{ background:#6b727b !important; color:#fff !important; border:0 !important; }
 .text-section .qa-aside .qa-msg--sys{ display:none !important; }
+/* subtle per-message timestamp (aesthetic, HH:MM) */
+.text-section .qa-aside .qa-time{ display:block; margin-top:6px; font-size:10.5px; line-height:1; font-weight:600; letter-spacing:.03em; }
+.text-section .qa-aside .qa-msg--user .qa-time{ text-align:right; color:rgba(255,255,255,.72); }
+.text-section .qa-aside .qa-msg--bot .qa-time,
+.text-section .qa-aside .qa-msg--match .qa-time{ text-align:left; color:rgba(255,255,255,.45); }
 .text-section .qa-aside .qa-typing{ background:rgba(255,255,255,.08) !important; border:0 !important; }
 .text-section .qa-aside .qa-typing span{ background:#8a8e94 !important; }
 /* input — white pill + blue send arrow */
@@ -1494,6 +1526,8 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-poffer[hidden]{ display:none; }
 @media(max-width:991px){
   .qn-poffer.is-live{ margin:22vh 0 40vh; }
+  /* mobile: the offer is inserted right after the chat -> no top gap from the chat */
+  .qn-poffer:not(.is-live){ margin-top:0; }
 }
 /* ===== TRUST bar: single row of proof stats pinned right under the offer.
    It sits on the page's LIGHT background, so it gets its own dark surface (matching the
@@ -2054,8 +2088,9 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   font-size:15px !important; font-weight:700 !important; line-height:1.35 !important; letter-spacing:0 !important;
   text-shadow:none !important; text-transform:none !important; overflow-wrap:break-word !important; word-break:normal !important;
 }
-/* remove the static left accent bar on the title */
+/* remove the static left accent bar on the title (it's a ::after pseudo, not a border) */
 .article-section .categories-card__name{ border-left:0 !important; position:relative !important; }
+.article-section .categories-card__name::after{ content:none !important; display:none !important; }
 /* HOVER: an L-shaped blue line draws on the TITLE box only — from its top-left corner
    DOWN the left edge, then RIGHT along the bottom edge to the bottom-right corner (letter "L"). */
 .article-section .categories-card__name .categories-card__trace{ position:absolute !important; inset:0 !important; z-index:8 !important; pointer-events:none !important; }
@@ -4667,9 +4702,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     /* 3) adaptive lead/description */
     var lead=document.getElementById('qnLead'), lbox=document.getElementById('qnLeadBox');
     if(lead&&lbox){
-      var lLines = w<560?7 : (w<992?6 : 5);
-      var lMax   = w<560?15 : (w<1200?16 : 17);
-      var lMin   = 12.5;
+      var lLines = w<560?10 : (w<992?6 : 5);
+      var lMax   = w<560?16 : (w<1200?16 : 17);
+      var lMin   = w<560?15 : 12.5;   /* keep the description readable on phones (no tiny shrink) */
       lbox.style.minHeight = Math.round(lLines*lMax*L_RATIO)+'px';
       fitText(lead, lMin, lMax, lLines, L_RATIO);
     }
@@ -4699,6 +4734,12 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         if(bbar && !bbar.querySelector('.qn-bestmark')){
           var bm=document.createElement('span'); bm.className='qn-bestmark'; bm.innerHTML=STAR+' Best answer';
           bbar.insertBefore(bm, bbar.firstChild);
+        }
+        /* spotlight band pinned to the top of the best-answer card */
+        if(!best.querySelector('.qn-bestband')){
+          var band=document.createElement('div'); band.className='qn-bestband';
+          band.innerHTML=STAR+' Best answer';
+          best.insertBefore(band, best.firstChild);
         }
       }
     }
@@ -4782,8 +4823,8 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
               +'<div class="qn-popt__row"><b>Subscription</b><span class="qn-popt__price">from $15<small>/mo</small></span></div>'
               +'<ul><li>'+OK+'<span>From 3 free consultations</span></li><li>'+OK+'<span>Up to 20% off all lawyer services</span></li><li>'+OK+'<span>Personal manager &amp; priority replies</span></li></ul>'
               +'<span class="qn-popt__go">Choose a plan →</span></button>'
-            +'<button class="qn-popt qn-popt--one" type="button" data-pick="one" data-price="$10">'
-              +'<div class="qn-popt__row"><b>Just one consultation</b><span class="qn-popt__price">$10</span></div>'
+            +'<button class="qn-popt qn-popt--one" type="button" data-pick="one" data-price="$50">'
+              +'<div class="qn-popt__row"><b>Just one consultation</b><span class="qn-popt__price">$50</span></div>'
               +'<small>One question, one written answer — no discounts, no manager, no follow-ups.</small></button>'
           +'</div></div>'
         +'<div class="qn-poffer__step" data-step="plans" hidden>'
@@ -5000,7 +5041,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
            NOTE: use a distinct local name — isAI is already a function() in this scope; a `var isAI`
            here would hoist and clobber it, breaking later isAI(c) calls (and the whole init after). */
         var nameIsAI=/\b(AI|GPT|Grok|Assistant|Bot)\b/i.test(fullN);
-        var shortN=nameIsAI?fullN:(nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0]);
+        var shortN;
+        if(nameIsAI){ /* drop the role prefix ("Assistant"/"AI"/…) -> just the given name, one word */
+          var _nm=fullN.replace(/^\s*(assistant|ai|gpt|grok|bot)\s+/i,'').trim(); shortN=(_nm||fullN).split(' ')[0]; }
+        else { shortN=(nparts.length>=2&&nparts[1].slice(-1)==='.'?nparts[0]+' '+nparts[1]:nparts[0]); }
         var rt=bar&&bar.querySelector('.qa-rate'); if(rt) rt.style.display='none';
         var hd=document.createElement('div'); hd.className='qn-abhead';
         hd.innerHTML='<span class="qn-ablbl">Answered by '+esc(shortN)+' in '+m.mins+' min'+(m.mins>1?'s':'')+'</span><span class="qn-adate">'+m.ago+'</span>';
@@ -5257,6 +5301,16 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
        chat onUser() (and the offer auto-reveal) don't fire mid-flow. */
     var fStep=null, fActive=false, fPhone='', fCity='';
     function fLog(){ return document.getElementById('qaLog'); }
+    /* aesthetic per-message timestamps: stamp every chat bubble in #qaLog (shared by the scripted
+       chat and the ask-funnel) with a small HH:MM label, via a MutationObserver so it works for
+       messages added by any code path. */
+    function qaNowHM(){ var d=new Date(); var h=d.getHours(), m=d.getMinutes(); return (h<10?'0':'')+h+':'+(m<10?'0':'')+m; }
+    function qaStamp(el){ if(!el||el.nodeType!==1) return; if(!/qa-msg--(user|bot|match)/.test(el.className||'')) return;
+      if(el.querySelector('.qa-time')) return; var t=document.createElement('span'); t.className='qa-time'; t.textContent=qaNowHM(); el.appendChild(t); }
+    (function(){ var log=document.getElementById('qaLog'); if(!log||log.__qaStamped) return; log.__qaStamped=true;
+      [].forEach.call(log.querySelectorAll('.qa-msg'), qaStamp);
+      new MutationObserver(function(muts){ muts.forEach(function(m){ [].forEach.call(m.addedNodes, qaStamp); }); }).observe(log,{childList:true});
+    })();
     function fAddU(v){ var L=fLog(); if(!L) return; var e=document.createElement('div'); e.className='qa-msg qa-msg--user'; e.textContent=v; L.appendChild(e); L.scrollTop=L.scrollHeight; }
     function fAddB(h){ var L=fLog(); if(!L) return; var e=document.createElement('div'); e.className='qa-msg qa-msg--bot'; e.innerHTML=h; L.appendChild(e); L.scrollTop=L.scrollHeight; }
     function fType(cb,ms){ var L=fLog(); if(!L){ cb(); return; } var d=document.createElement('div'); d.className='qa-typing'; d.innerHTML='<span></span><span></span><span></span>'; L.appendChild(d); L.scrollTop=L.scrollHeight; setTimeout(function(){ d.remove(); cb(); }, ms||900); }
@@ -5494,7 +5548,7 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     if(!document.querySelector('.qn-legal')){
       var f=document.createElement('div'); f.className='qn-legal';
       f.innerHTML='<div class="qn-legal__head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 8.3-7 9.5C8 19.3 5 15.4 5 11V6l7-3z" stroke-linejoin="round"/><path d="M9.3 11.8l1.8 1.8 3.7-3.9" stroke-linecap="round" stroke-linejoin="round"/></svg><h4>Legal disclaimer</h4></div>'+
-        '<p>Consultant Legal Marketplace is an online marketplace that connects people with independent licensed attorneys. We do not provide legal advice or legal services, and no attorney-client relationship is created through this platform.</p>'+
+        '<p>CONSULTANT Legal Marketplace is an online marketplace that connects people with independent licensed attorneys. We do not provide legal advice or legal services, and no attorney-client relationship is created through this platform.</p>'+
         '<p>The answers you see are general information shared by verified specialists. They are not a substitute for personalized legal advice from a licensed attorney in your state. Laws vary by jurisdiction &mdash; please consult a qualified lawyer about your specific situation.</p>';
       /* place the disclaimer right after the last answer card */
       var allc=document.querySelectorAll('.text-section .text-card');

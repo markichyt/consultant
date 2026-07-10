@@ -1560,7 +1560,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
   .qn-trust__i:nth-child(2n){ border-right:0; }
   .qn-trust__i:nth-last-child(-n+2){ border-bottom:0; }
 }
-.qn-poffer__card{ background:#1b1e22; border:1px solid rgba(255,255,255,.08); border-radius:3px; box-shadow:0 22px 54px rgba(0,0,0,.3); padding:clamp(20px,2.4vw,34px); color:#fff; }
+.qn-poffer__card{ background:#1b1e22; border:1px solid rgba(255,255,255,.08); border-radius:3px; box-shadow:0 22px 54px rgba(0,0,0,.3); padding:clamp(20px,2.4vw,34px); color:#fff; container-type:inline-size; container-name:poffer; }
 .qn-poffer__h{ font-family:"Bicubik",sans-serif; font-size:clamp(18px,2.1vw,23px); color:#fff; text-transform:uppercase; letter-spacing:.01em; margin:0 0 8px; line-height:1.2; text-wrap:balance; }
 .qn-poffer__sh{ font-size:14px; color:rgba(255,255,255,.55); margin:0 0 12px; }
 /* brand tagline in the offer/payment block */
@@ -1572,14 +1572,18 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
 .qn-pnote::before{ content:""; flex:0 0 auto; width:15px; height:15px; margin-top:1px; border-radius:50%;
   background:rgba(31,156,223,.18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fcdf2' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 8h.01M11 12h1v4h1'/%3E%3C/svg%3E") center/12px no-repeat; }
 .qn-pnote--order{ margin:-8px 0 18px; }
-.qn-poffer__opts{ display:grid; grid-template-columns:1.25fr 1fr; gap:16px; align-items:stretch; }
+.qn-poffer__opts{ display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1fr); gap:16px; align-items:stretch; }
 @media(max-width:680px){ .qn-poffer__opts{ grid-template-columns:1fr; } }
+/* stack to one column when the OFFER CARD itself is narrow (e.g. docked chat squeezes the
+   left column on wide monitors) — viewport media queries can't see that width */
+@container poffer (max-width:560px){ .qn-poffer__opts{ grid-template-columns:1fr; } }
 .qn-popt{ position:relative; text-align:left; border:0; cursor:pointer; border-radius:3px; font:inherit; display:flex; flex-direction:column; transition:transform .2s cubic-bezier(.2,.8,.2,1), filter .18s ease, background .18s ease, box-shadow .2s ease; }
 .qn-popt:hover{ transform:translateY(-3px); box-shadow:0 14px 30px rgba(0,0,0,.3); }
 .qn-popt--sub{ background:linear-gradient(135deg,#0f6fb0,#1f9cdf); color:#fff; padding:22px; }
 .qn-popt--sub:hover{ filter:brightness(1.04); }
 .qn-popt__tag{ position:absolute; top:-10px; left:20px; background:#13171b; color:#fff; font-size:10px; font-weight:800; letter-spacing:.05em; padding:4px 11px; border-radius:3px; }
-.qn-popt__row{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+.qn-popt__row{ display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:4px 12px; min-width:0; }
+.qn-popt__row b{ min-width:0; }
 .qn-popt b{ font-size:19px; } .qn-popt--sub b{ color:#fff; }
 .qn-popt__price{ font-weight:800; font-size:22px; white-space:nowrap; } .qn-popt__price small{ font-size:13px; opacity:.85; font-weight:600; }
 .qn-popt--sub ul{ list-style:none; margin:14px 0 16px; padding:0; }
@@ -1940,7 +1944,7 @@ html.qn-boot .qn-answeredby2[hidden]{ display:flex !important; height:var(--abh)
     width:auto !important; max-width:none !important; height:auto !important; max-height:none !important; margin:4px 0 18px !important;
     opacity:1 !important; pointer-events:auto !important; z-index:auto !important; border-radius:3px !important;
     scroll-margin-top:calc(var(--header-height,108px) + 10px) !important; }
-  .text-section .qa-aside .qa-chat__log{ min-height:220px !important; max-height:42vh !important; }
+  .text-section .qa-aside .qa-chat__log{ min-height:340px !important; max-height:60vh !important; }
   .text-section .qa-aside .qa-chat__head,
   .text-section .qa-aside .qn-contacts,
   .text-section .qa-aside .qa-chat__input{ flex:0 0 auto !important; }
@@ -4636,8 +4640,10 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
     pin.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.keyCode===13){ e.preventDefault(); submit(); } });
     /* "Get 20% off" -> the same app panel, in the chat */
     if(promo) promo.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation();
-      saveLog(); row.hidden=true; wrap.classList.add('qn-cb-on'); toBack();
-      qnAppPanel(log, 'Get up to 20% off in the app', 'Download the Consultant app and get up to 20% off all consultations and lawyer services.'); });
+      /* open the subscription chooser (qn-poffer) instead of an in-chat app panel */
+      if(window.qnOpenOffer){ window.qnOpenOffer(); }
+      else { saveLog(); row.hidden=true; wrap.classList.add('qn-cb-on'); toBack();
+        qnAppPanel(log, 'Get up to 20% off in the app', 'Download the Consultant app and get up to 20% off all consultations and lawyer services.'); } });
   }
   /* build the dark "contacts" panel (phones + messengers + Call me back) */
   function mkContacts(inputEl){
@@ -5013,6 +5019,9 @@ html.fc-lock,html.fc-lock body{overflow:hidden!important;height:100%!important;o
         setTimeout(function(){ try{ of.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }, 180);
       }
       window.qnRevealOffer=reveal;   /* the ask-funnel opens this offer window at the end of the chat flow */
+      /* direct entry (e.g. the "Get 20% off" contacts button): open the offer at the subscription choice */
+      window.qnOpenOffer=function(){ shown=true; of.hidden=false; of.classList.add('is-live'); step('choice');
+        try{ of.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} };
       function hook(f){ if(!f) return; f.addEventListener('submit',function(){ var i=f.querySelector('input'); var v=i?(i.value||'').trim():''; if(v) setTimeout(reveal,1000); }, true); }
       hook(document.querySelector('#qaForm')); hook(document.querySelector('#fcPanel .fc__form'));
     }
